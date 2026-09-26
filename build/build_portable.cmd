@@ -1,6 +1,6 @@
 @echo off
 rem Build a portable package with the App\Data layout:
-rem   SystemInformer-Portable\
+rem   build\output\SystemInformer-Portable\
 rem     App\SystemInformer\        - program files (from bin\Release64)
 rem     Data\                      - persistent settings (SystemInformer.exe.settings.json)
 rem     SystemInformerPortable.exe - launcher (built from tools\PortableLauncher)
@@ -16,10 +16,30 @@ if not exist "%MSBUILD%" (
     exit /b 1
 )
 
-set "OUTPUT=bin\portable\SystemInformer-Portable"
+set "OUTPUT=build\output\SystemInformer-Portable"
+
+rem Read the version of the built main executable and pass it to the
+rem launcher resources, so the launcher version always matches.
+if not exist "bin\Release64\SystemInformer.exe" (
+    echo Main executable not found: bin\Release64\SystemInformer.exe
+    exit /b 1
+)
+set "APPVER="
+for /f "usebackq delims=" %%v in (`powershell -NoProfile -Command "(Get-Item -LiteralPath 'bin\Release64\SystemInformer.exe').VersionInfo.FileVersion"`) do set "APPVER=%%v"
+if not defined APPVER (
+    echo Failed to read the version of bin\Release64\SystemInformer.exe
+    exit /b 1
+)
+for /f "tokens=1-4 delims=. " %%a in ("%APPVER%") do (
+    set "VMAJOR=%%a"
+    set "VMINOR=%%b"
+    set "VBUILD=%%c"
+    set "VREV=%%d"
+)
+echo Launcher version: %APPVER%
 
 rem Rebuild the launcher (static CRT, windowed subsystem).
-"%MSBUILD%" tools\PortableLauncher\PortableLauncher.vcxproj /p:Configuration=Release /p:Platform=x64 /m /v:m /nologo
+"%MSBUILD%" tools\PortableLauncher\PortableLauncher.vcxproj /p:Configuration=Release /p:Platform=x64 /p:ExternalPreprocessorOptions="PHAPP_VERSION_MAJOR=%VMAJOR%;PHAPP_VERSION_MINOR=%VMINOR%;PHAPP_VERSION_BUILD=%VBUILD%;PHAPP_VERSION_REVISION=%VREV%" /m /v:m /nologo
 if errorlevel 1 exit /b 1
 if not exist "tools\PortableLauncher\bin\Release64\SystemInformerPortable.exe" (
     echo Launcher exe not found after build.

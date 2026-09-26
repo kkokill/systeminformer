@@ -2,6 +2,7 @@
 //
 
 #include <winres.h>
+#include "../../SystemInformer/include/phappres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -17,12 +18,9 @@
 // Version
 //
 
-#define LAUNCHER_VERSION_NUMBER 4,0,26268,0
-#define LAUNCHER_VERSION_STRING "4.0.26268.0"
-
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION LAUNCHER_VERSION_NUMBER
- PRODUCTVERSION LAUNCHER_VERSION_NUMBER
+ FILEVERSION PHAPP_VERSION_NUMBER
+ PRODUCTVERSION PHAPP_VERSION_NUMBER
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x40004L
@@ -35,12 +33,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Winsider Seminars & Solutions, Inc."
             VALUE "FileDescription", "System Informer 便携版启动器"
-            VALUE "FileVersion", LAUNCHER_VERSION_STRING
+            VALUE "FileVersion", PHAPP_VERSION_STRING
             VALUE "InternalName", "SystemInformerPortable"
             VALUE "LegalCopyright", "Copyright (c) Winsider Seminars & Solutions, Inc.  All rights reserved."
             VALUE "OriginalFilename", "SystemInformerPortable.exe"
             VALUE "ProductName", "System Informer (Portable)"
-            VALUE "ProductVersion", LAUNCHER_VERSION_STRING
+            VALUE "ProductVersion", PHAPP_VERSION_STRING
         END
     END
     BLOCK "VarFileInfo"

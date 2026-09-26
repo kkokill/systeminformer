@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 
 #include "resource.h"
@@ -77,12 +77,12 @@ BEGIN
         BLOCK "080404B0"
         BEGIN
             VALUE "CompanyName", "Winsider Seminars & Solutions, Inc."
-            VALUE "FileDescription", "System Informer - Setup"
+            VALUE "FileDescription", "System Informer - 安装程序"
             VALUE "FileVersion", PHAPP_VERSION_STRING
-            VALUE "InternalName", "System Informer - Setup"
+            VALUE "InternalName", "System Informer - 安装程序"
             VALUE "LegalCopyright", "Copyright (c) Winsider Seminars & Solutions, Inc.  All rights reserved."
             VALUE "OriginalFilename", "System Informer - Setup"
-            VALUE "ProductName", "System Informer - Setup"
+            VALUE "ProductName", "System Informer - 安装程序"
             VALUE "ProductVersion", PHAPP_VERSION_STRING
             VALUE "Comments", PHAPP_VERSION_COMMIT
         END

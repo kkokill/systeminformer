@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -66,7 +66,7 @@ BEGIN
         BLOCK "080404B0"
         BEGIN
             VALUE "CompanyName", "Winsider Seminars & Solutions, Inc."
-            VALUE "FileDescription", "System Informer MCP broker"
+            VALUE "FileDescription", "System Informer MCP 中转"
             VALUE "FileVersion", PHAPP_VERSION_STRING
             VALUE "InternalName", "simcp"
             VALUE "LegalCopyright", "Copyright (c) Winsider Seminars & Solutions, Inc.  All rights reserved."

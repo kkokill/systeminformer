@@ -13,6 +13,7 @@
 *.exe
 *.sys
 *.dll
+tools/CustomSetupTool/CustomSetupTool/
 *.lib
 *.appx
 *.appxbundle

@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 
 #include "resource.h"
@@ -68,12 +68,12 @@ BEGIN
         BLOCK "080404B0"
         BEGIN
             VALUE "CompanyName", "Winsider Seminars & Solutions, Inc."
-            VALUE "FileDescription", "OnlineChecks"
+            VALUE "FileDescription", "在线检查"
             VALUE "FileVersion", PHAPP_VERSION_STRING
-            VALUE "InternalName", "OnlineChecks"
+            VALUE "InternalName", "在线检查"
             VALUE "LegalCopyright", "Copyright (c) Winsider Seminars & Solutions, Inc.  All rights reserved."
             VALUE "OriginalFilename", "OnlineChecks.dll"
-            VALUE "ProductName", "OnlineChecks"
+            VALUE "ProductName", "在线检查"
             VALUE "ProductVersion", PHAPP_VERSION_STRING
             VALUE "Comments", PHAPP_VERSION_COMMIT
         END

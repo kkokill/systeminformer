@@ -184,15 +184,15 @@ static VOID PhpPrintObjectInfo(
     }
     else if (objectType == PhListType)
     {
-        wprintf(L"\tCount: %u", ((PPH_LIST)object)->Count);
+        wprintf(L"\t计数: %u", ((PPH_LIST)object)->Count);
     }
     else if (objectType == PhPointerListType)
     {
-        wprintf(L"\tCount: %u", ((PPH_POINTER_LIST)object)->Count);
+        wprintf(L"\t计数: %u", ((PPH_POINTER_LIST)object)->Count);
     }
     else if (objectType == PhHashtableType)
     {
-        wprintf(L"\tCount: %u", ((PPH_HASHTABLE)object)->Count);
+        wprintf(L"\t计数: %u", ((PPH_HASHTABLE)object)->Count);
     }
     else if (objectType == PhProcessItemType)
     {
@@ -208,7 +208,7 @@ static VOID PhpPrintObjectInfo(
     }
     else if (objectType == PhThreadItemType)
     {
-        wprintf(L"\tTID: %lu", HandleToUlong(((PPH_THREAD_ITEM)object)->ThreadId));
+        wprintf(L"\t线程 ID: %lu", HandleToUlong(((PPH_THREAD_ITEM)object)->ThreadId));
     }
 
     wprintf(L"\n");
@@ -226,17 +226,17 @@ static VOID PhpDumpObjectInfo(
 
     __try
     {
-        wprintf(L"Type: %s\n", objectType->Name);
-        wprintf(L"Reference count: %ld\n", ObjectHeader->RefCount);
-        wprintf(L"Flags: %x\n", ObjectHeader->Flags);
+        wprintf(L"类型: %s\n", objectType->Name);
+        wprintf(L"引用计数: %ld\n", ObjectHeader->RefCount);
+        wprintf(L"标志: %x\n", ObjectHeader->Flags);
 
         if (objectType == PhObjectTypeObject)
         {
-            wprintf(L"Name: %s\n", ((PPH_OBJECT_TYPE)object)->Name);
-            wprintf(L"Number of objects: %lu\n", ((PPH_OBJECT_TYPE)object)->NumberOfObjects);
-            wprintf(L"Flags: %u\n", ((PPH_OBJECT_TYPE)object)->Flags);
-            wprintf(L"Type index: %u\n", ((PPH_OBJECT_TYPE)object)->TypeIndex);
-            wprintf(L"Free list count: %lu\n", ((PPH_OBJECT_TYPE)object)->FreeList.Count);
+            wprintf(L"名称: %s\n", ((PPH_OBJECT_TYPE)object)->Name);
+            wprintf(L"对象数量: %lu\n", ((PPH_OBJECT_TYPE)object)->NumberOfObjects);
+            wprintf(L"标志: %u\n", ((PPH_OBJECT_TYPE)object)->Flags);
+            wprintf(L"类型索引: %u\n", ((PPH_OBJECT_TYPE)object)->TypeIndex);
+            wprintf(L"空闲列表计数: %lu\n", ((PPH_OBJECT_TYPE)object)->FreeList.Count);
         }
         else if (objectType == PhStringType)
         {
@@ -253,7 +253,7 @@ static VOID PhpDumpObjectInfo(
     }
     __except (EXCEPTION_EXECUTE_HANDLER)
     {
-        wprintf(L"Error.\n");
+        wprintf(L"错误。\n");
     }
 }
 
@@ -264,16 +264,16 @@ VOID PhpPrintHashtableStatistics(
     ULONG i;
     ULONG expectedLookupMisses = 0;
 
-    wprintf(L"Count: %u\n", Hashtable->Count);
-    wprintf(L"Allocated buckets: %u\n", Hashtable->AllocatedBuckets);
-    wprintf(L"Allocated entries: %u\n", Hashtable->AllocatedEntries);
-    wprintf(L"Next free entry: %d\n", Hashtable->FreeEntry);
-    wprintf(L"Next usable entry: %d\n", Hashtable->NextEntry);
+    wprintf(L"计数: %u\n", Hashtable->Count);
+    wprintf(L"已分配存储桶: %u\n", Hashtable->AllocatedBuckets);
+    wprintf(L"已分配条目: %u\n", Hashtable->AllocatedEntries);
+    wprintf(L"下一个空闲条目: %d\n", Hashtable->FreeEntry);
+    wprintf(L"下一个可用条目: %d\n", Hashtable->NextEntry);
 
-    wprintf(L"Equal function: %s\n", PhpGetSymbolForAddress(Hashtable->EqualFunction));
-    wprintf(L"Hash function: %s\n", PhpGetSymbolForAddress(Hashtable->HashFunction));
+    wprintf(L"相等函数: %s\n", PhpGetSymbolForAddress(Hashtable->EqualFunction));
+    wprintf(L"哈希函数: %s\n", PhpGetSymbolForAddress(Hashtable->HashFunction));
 
-    wprintf(L"\nBuckets:\n");
+    wprintf(L"\n存储桶:\n");
 
     for (i = 0; i < Hashtable->AllocatedBuckets; i++)
     {
@@ -322,7 +322,7 @@ VOID PhpPrintHashtableStatistics(
         }
     }
 
-    wprintf(L"\nExpected lookup misses: %lu\n", expectedLookupMisses);
+    wprintf(L"\n预期查找未命中次数: %lu\n", expectedLookupMisses);
 }
 
 #ifdef DEBUG
@@ -411,7 +411,7 @@ static NTSTATUS PhpLeakEnumerationRoutine(
 
     if (ShowAllLeaks || HeapHandle == PhHeapHandle)
     {
-        wprintf(L"Leak at 0x%Ix (%Iu bytes). Stack trace:\n", (ULONG_PTR)BaseAddress, BlockSize);
+        wprintf(L"位于 0x%Ix 的泄漏 (%Iu 字节)。堆栈跟踪:\n", (ULONG_PTR)BaseAddress, BlockSize);
 
         for (i = 0; i < StackTraceDepth; i++)
         {
@@ -491,7 +491,7 @@ static NTSTATUS PhpRwLockTestThreadStart(
 
             if (ReadAcquire(&RwWritersActive) != 0)
             {
-                wprintf(L"[fail]: writers active in read zone!\n");
+                wprintf(L"[失败]: 读取区域中存在活动的写入者！\n");
                 NtWaitForSingleObject(NtCurrentProcess(), FALSE, NULL);
             }
 
@@ -517,7 +517,7 @@ static NTSTATUS PhpRwLockTestThreadStart(
 
                     if (ReadAcquire(&RwReadersActive) != 0)
                     {
-                        wprintf(L"[fail]: readers active in write zone!\n");
+                        wprintf(L"[失败]: 写入区域中存在活动的读取者！\n");
                         NtWaitForSingleObject(NtCurrentProcess(), FALSE, NULL);
                     }
 
@@ -562,7 +562,7 @@ static VOID PhpTestRwLock(
 
     PhStopStopwatch(&stopwatch);
 
-    wprintf(L"[null] %s: %ums\n", Context->Name, PhGetMillisecondsStopwatch(&stopwatch));
+    wprintf(L"[空测试] %s: %ums\n", Context->Name, PhGetMillisecondsStopwatch(&stopwatch));
 
     // Stress test
 
@@ -584,7 +584,7 @@ static VOID PhpTestRwLock(
     for (i = 0; i < RW_PROCESSORS; i++)
         NtClose(threadHandles[i]);
 
-    wprintf(L"[strs] %s: %ums\n", Context->Name, PhGetMillisecondsStopwatch(&stopwatch));
+    wprintf(L"[压力测试] %s: %ums\n", Context->Name, PhGetMillisecondsStopwatch(&stopwatch));
 }
 
 _Acquires_exclusive_lock_(*CriticalSection)
@@ -662,12 +662,12 @@ NTSTATUS PhpDebugConsoleThreadStart(
     PhDbgCreateObjectHook = PhpDebugCreateObjectHook;
 #endif
 
-    wprintf(L"Press Ctrl+C or type \"exit\" to close the debug console. Type \"help\" for a list of commands.\n");
+    wprintf(L"按 Ctrl+C 或输入 \"exit\" 以关闭调试控制台。输入 \"help\" 查看命令列表。\n");
 
     while (!exit)
     {
         static PCWSTR delims = L" \t";
-        static PCWSTR commandDebugOnly = L"This command is not available on non-debug builds.\n";
+        static PCWSTR commandDebugOnly = L"此命令在非调试版本上不可用。\n";
 
         WCHAR line[201];
         ULONG inputLength;
@@ -696,7 +696,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
         else if (PhEqualStringZ(command, L"help", TRUE))
         {
             wprintf(
-                L"Commands:\n"
+                L"命令:\n"
                 L"exit\n"
                 L"testperf\n"
                 L"testlocks\n"
@@ -751,7 +751,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
             PhStopStopwatch(&stopwatch);
             PhDereferenceObject(testString);
 
-            wprintf(L"Referencing: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
+            wprintf(L"引用计数: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
 
             // Critical section
 
@@ -769,7 +769,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
             PhStopStopwatch(&stopwatch);
             RtlDeleteCriticalSection(&testCriticalSection);
 
-            wprintf(L"Critical section: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
+            wprintf(L"临界区: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
 
             // Fast lock
 
@@ -787,7 +787,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
             PhStopStopwatch(&stopwatch);
             PhDeleteFastLock(&testFastLock);
 
-            wprintf(L"Fast lock: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
+            wprintf(L"快速锁: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
 
             // Queued lock
 
@@ -804,7 +804,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             PhStopStopwatch(&stopwatch);
 
-            wprintf(L"Queued lock: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
+            wprintf(L"排队锁: %ums\n", PhGetMillisecondsStopwatch(&stopwatch));
         }
         else if (PhEqualStringZ(command, L"testlocks", TRUE))
         {
@@ -854,8 +854,8 @@ NTSTATUS PhpDebugConsoleThreadStart(
         else if (PhEqualStringZ(command, L"stats", TRUE))
         {
 #ifdef DEBUG
-            wprintf(L"Object small free list count: %u\n", PhObjectSmallFreeList.Count);
-            wprintf(L"Statistics:\n");
+            wprintf(L"对象小型空闲列表计数: %u\n", PhObjectSmallFreeList.Count);
+            wprintf(L"统计信息:\n");
 #define PRINT_STATISTIC(Name) wprintf(TEXT(#Name) L": %u\n", PhLibStatisticsBlock.Name);
 
             PRINT_STATISTIC(BaseThreadsCreated);
@@ -940,10 +940,10 @@ NTSTATUS PhpDebugConsoleThreadStart(
             PhReleaseQueuedLockShared(&PhDbgObjectListLock);
 
             wprintf(L"\n");
-            wprintf(L"Total number: %lu\n", totalNumberOfObjects);
+            wprintf(L"总数量: %lu\n", totalNumberOfObjects);
             /*wprintf(L"Total size (excl. header): %s\n",
                 ((PPH_STRING)PH_AUTO(PhFormatSize(totalNumberOfBytes, 1)))->Buffer);*/
-            wprintf(L"Total overhead (header): %s\n",
+            wprintf(L"总开销 (头部): %s\n",
                 ((PPH_STRING)PH_AUTO(
                 PhFormatSize(PhAddObjectHeaderSize(0) * totalNumberOfObjects, 1)
                 ))->Buffer);
@@ -960,7 +960,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             if (!objectAddress)
             {
-                wprintf(L"Missing object address.\n");
+                wprintf(L"缺少对象地址。\n");
                 goto EndCommand;
             }
 
@@ -982,7 +982,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
                     PPH_STRING message;
 
                     message = PH_AUTO(PhGetNtMessage(GetExceptionCode()));
-                    wprintf(L"Error: %s\n", PhGetString(message));
+                    wprintf(L"错误: %s\n", PhGetString(message));
 
                     goto EndCommand;
                 }
@@ -997,7 +997,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
             }
             else
             {
-                wprintf(L"Invalid object address.\n");
+                wprintf(L"无效的对象地址。\n");
             }
 #else
             wprintf(commandDebugOnly);
@@ -1045,7 +1045,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             if (!ObjectListSnapshot)
             {
-                wprintf(L"No snapshot.\n");
+                wprintf(L"没有快照。\n");
                 goto EndCommand;
             }
 
@@ -1124,7 +1124,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             if (!NewObjectList)
             {
-                wprintf(L"Object creation hooking not active.\n");
+                wprintf(L"对象创建挂钩未激活。\n");
                 PhReleaseQueuedLockExclusive(&NewObjectListLock);
                 goto EndCommand;
             }
@@ -1173,16 +1173,16 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                 __try
                 {
-                    wprintf(L"Static count: %u\n", userAutoPool->StaticCount);
-                    wprintf(L"Dynamic count: %u\n", userAutoPool->DynamicCount);
-                    wprintf(L"Dynamic allocated: %u\n", userAutoPool->DynamicAllocated);
+                    wprintf(L"静态计数: %u\n", userAutoPool->StaticCount);
+                    wprintf(L"动态计数: %u\n", userAutoPool->DynamicCount);
+                    wprintf(L"动态已分配: %u\n", userAutoPool->DynamicAllocated);
 
-                    wprintf(L"Static objects:\n");
+                    wprintf(L"静态对象:\n");
 
                     for (i = 0; i < userAutoPool->StaticCount; i++)
                         PhpPrintObjectInfo(PhObjectToObjectHeader(userAutoPool->StaticObjects[i]), 0);
 
-                    wprintf(L"Dynamic objects:\n");
+                    wprintf(L"动态对象:\n");
 
                     for (i = 0; i < userAutoPool->DynamicCount; i++)
                         PhpPrintObjectInfo(PhObjectToObjectHeader(userAutoPool->DynamicObjects[i]), 0);
@@ -1208,10 +1208,10 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                 dbg = CONTAINING_RECORD(currentEntry, PHP_BASE_THREAD_DBG, ListEntry);
 
-                wprintf(L"Thread %u\n", HandleToUlong(dbg->ClientId.UniqueThread));
-                wprintf(L"\tStart Address: %s\n", PhpGetSymbolForAddress(dbg->StartAddress));
-                wprintf(L"\tParameter: %Ix\n", (ULONG_PTR)dbg->Parameter);
-                wprintf(L"\tCurrent auto-pool: %Ix\n", (ULONG_PTR)dbg->CurrentAutoPool);
+                wprintf(L"线程 %u\n", HandleToUlong(dbg->ClientId.UniqueThread));
+                wprintf(L"\t起始地址: %s\n", PhpGetSymbolForAddress(dbg->StartAddress));
+                wprintf(L"\t参数: %Ix\n", (ULONG_PTR)dbg->Parameter);
+                wprintf(L"\t当前自动池: %Ix\n", (ULONG_PTR)dbg->CurrentAutoPool);
 
                 currentEntry = currentEntry->Flink;
             }
@@ -1239,11 +1239,11 @@ NTSTATUS PhpDebugConsoleThreadStart(
                     if (providerThread->ThreadHandle)
                     {
                         PhGetThreadBasicInformation(providerThread->ThreadHandle, &basicInfo);
-                        wprintf(L"Thread %u\n", HandleToUlong(basicInfo.ClientId.UniqueThread));
+                        wprintf(L"线程 %u\n", HandleToUlong(basicInfo.ClientId.UniqueThread));
                     }
                     else
                     {
-                        wprintf(L"Thread not running\n");
+                        wprintf(L"线程未在运行\n");
                     }
 
                     PhAcquireQueuedLockExclusive(&providerThread->Lock);
@@ -1256,13 +1256,13 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                         registration = CONTAINING_RECORD(providerEntry, PH_PROVIDER_REGISTRATION, ListEntry);
 
-                        wprintf(L"\tProvider registration at %Ix\n", (ULONG_PTR)registration);
-                        wprintf(L"\t\tEnabled: %s\n", registration->Enabled ? L"Yes" : L"No");
-                        wprintf(L"\t\tFunction: %s\n", PhpGetSymbolForAddress(registration->Function));
+                        wprintf(L"\t位于 %Ix 的提供程序注册\n", (ULONG_PTR)registration);
+                        wprintf(L"\t\t已启用: %s\n", registration->Enabled ? L"是" : L"否");
+                        wprintf(L"\t\t函数: %s\n", PhpGetSymbolForAddress(registration->Function));
 
                         if (registration->Object)
                         {
-                            wprintf(L"\t\tObject:\n");
+                            wprintf(L"\t\t对象:\n");
                             PhpPrintObjectInfo(PhObjectToObjectHeader(registration->Object), 0);
                         }
 
@@ -1294,13 +1294,13 @@ NTSTATUS PhpDebugConsoleThreadStart(
                     PPH_WORK_QUEUE workQueue = PhDbgWorkQueueList->Items[i];
                     PLIST_ENTRY workQueueItemEntry;
 
-                    wprintf(L"Work queue at %s\n", PhpGetSymbolForAddress(workQueue));
-                    wprintf(L"Maximum threads: %lu\n", workQueue->MaximumThreads);
-                    wprintf(L"Minimum threads: %lu\n", workQueue->MinimumThreads);
-                    wprintf(L"No work timeout: %lu\n", workQueue->NoWorkTimeout);
+                    wprintf(L"位于 %s 的工作队列\n", PhpGetSymbolForAddress(workQueue));
+                    wprintf(L"最大线程数: %lu\n", workQueue->MaximumThreads);
+                    wprintf(L"最小线程数: %lu\n", workQueue->MinimumThreads);
+                    wprintf(L"无工作超时: %lu\n", workQueue->NoWorkTimeout);
 
-                    wprintf(L"Current threads: %lu\n", workQueue->CurrentThreads);
-                    wprintf(L"Busy count: %lu\n", workQueue->BusyCount);
+                    wprintf(L"当前线程数: %lu\n", workQueue->CurrentThreads);
+                    wprintf(L"忙碌计数: %lu\n", workQueue->BusyCount);
 
                     PhAcquireQueuedLockExclusive(&workQueue->QueueLock);
 
@@ -1313,9 +1313,9 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                         workQueueItem = CONTAINING_RECORD(workQueueItemEntry, PH_WORK_QUEUE_ITEM, ListEntry);
 
-                        wprintf(L"\tWork queue item at %Ix\n", (ULONG_PTR)workQueueItem);
-                        wprintf(L"\t\tFunction: %s\n", PhpGetSymbolForAddress(workQueueItem->Function));
-                        wprintf(L"\t\tContext: %Ix\n", (ULONG_PTR)workQueueItem->Context);
+                        wprintf(L"\t位于 %Ix 的工作队列项\n", (ULONG_PTR)workQueueItem);
+                        wprintf(L"\t\t函数: %s\n", PhpGetSymbolForAddress(workQueueItem->Function));
+                        wprintf(L"\t\t上下文: %Ix\n", (ULONG_PTR)workQueueItem->Context);
 
                         workQueueItemEntry = workQueueItemEntry->Blink;
                     }
@@ -1345,7 +1345,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
                 record = (PPH_PROCESS_RECORD)PhProcessRecordList->Items[i];
 
                 PhLargeIntegerToLocalSystemTime(&systemTime, &record->CreateTime);
-                wprintf(L"Records for %s %s:\n",
+                wprintf(L"%s %s 的记录:\n",
                     ((PPH_STRING)PH_AUTO(PhFormatDate(&systemTime, NULL)))->Buffer,
                     ((PPH_STRING)PH_AUTO(PhFormatTime(&systemTime, NULL)))->Buffer
                     );
@@ -1354,7 +1354,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                 do
                 {
-                    wprintf(L"\tRecord at %Ix: %s (%lu) (refs: %ld)\n", (ULONG_PTR)record, record->ProcessName->Buffer, HandleToUlong(record->ProcessId), record->RefCount);
+                    wprintf(L"\t位于 %Ix 的记录: %s (%lu) (引用数: %ld)\n", (ULONG_PTR)record, record->ProcessName->Buffer, HandleToUlong(record->ProcessId), record->RefCount);
 
                     if (record->FileName)
                         wprintf(L"\t\t%s\n", record->FileName->Buffer);
@@ -1409,12 +1409,12 @@ NTSTATUS PhpDebugConsoleThreadStart(
                     (imageNameFilter && PhMatchWildcards(imageNameFilter, process->ProcessName->Buffer, TRUE))
                     )
                 {
-                    wprintf(L"Process item at %Ix: %s (%u)\n", (ULONG_PTR)process, process->ProcessName->Buffer, HandleToUlong(process->ProcessId));
-                    wprintf(L"\tRecord at %Ix\n", (ULONG_PTR)process->Record);
-                    wprintf(L"\tQuery handle %Ix\n", (ULONG_PTR)process->QueryHandle);
-                    wprintf(L"\tFile name at %Ix: %s\n", (ULONG_PTR)process->FileName, PhGetStringOrDefault(process->FileName, L"(null)"));
-                    wprintf(L"\tCommand line at %Ix: %s\n", (ULONG_PTR)process->CommandLine, PhGetStringOrDefault(process->CommandLine, L"(null)"));
-                    wprintf(L"\tFlags: %u\n", process->Flags);
+                    wprintf(L"位于 %Ix 的进程项: %s (%u)\n", (ULONG_PTR)process, process->ProcessName->Buffer, HandleToUlong(process->ProcessId));
+                    wprintf(L"\t位于 %Ix 的记录\n", (ULONG_PTR)process->Record);
+                    wprintf(L"\t查询句柄: %Ix\n", (ULONG_PTR)process->QueryHandle);
+                    wprintf(L"\t位于 %Ix 的文件名: %s\n", (ULONG_PTR)process->FileName, PhGetStringOrDefault(process->FileName, L"(null)"));
+                    wprintf(L"\t位于 %Ix 的命令行: %s\n", (ULONG_PTR)process->CommandLine, PhGetStringOrDefault(process->CommandLine, L"(null)"));
+                    wprintf(L"\t标志: %u\n", process->Flags);
                     wprintf(L"\n");
                 }
             }
@@ -1500,7 +1500,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
                 wprintf(L"%Iu\t%.64s\n", stringEntry->Count, stringEntry->String->Buffer);
             }
 
-            wprintf(L"\nTotal unique strings: %u\n", list->Count);
+            wprintf(L"\n唯一字符串总数: %u\n", list->Count);
 
             // Cleanup
 
@@ -1526,7 +1526,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             if (!NT_SUCCESS(RtlSetHeapInformation(NULL, HeapSetDebuggingInformation, &debuggingInfo, sizeof(HEAP_DEBUGGING_INFORMATION))))
             {
-                wprintf(L"Unable to initialize heap debugging. Make sure that you are using Windows 7 or above.");
+                wprintf(L"无法初始化堆调试。请确保您正在使用 Windows 7 或更高版本。");
             }
         }
         else if (PhEqualStringZ(command, L"leakdetect", TRUE))
@@ -1538,7 +1538,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             if (!(NtCurrentPeb()->NtGlobalFlag & FLG_USER_STACK_TRACE_DB))
             {
-                wprintf(L"Warning: user-mode stack trace database is not enabled. Stack traces will not be displayed.\n");
+                wprintf(L"警告: 用户模式堆栈跟踪数据库未启用。将不会显示堆栈跟踪。\n");
             }
 
             ShowAllLeaks = FALSE;
@@ -1557,7 +1557,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
                 rtlDetectHeapLeaks();
                 InLeakDetection = FALSE;
 
-                wprintf(L"\nNumber of leaks: %lu (%lu displayed)\n", NumberOfLeaks, NumberOfLeaksShown);
+                wprintf(L"\n泄漏数量: %lu (已显示 %lu 个)\n", NumberOfLeaks, NumberOfLeaksShown);
             }
         }
         else if (PhEqualStringZ(command, L"mem", TRUE))
@@ -1596,7 +1596,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
                 if (numberOfBytes > 256)
                 {
-                    wprintf(L"Number of bytes must be 256 or smaller.\n");
+                    wprintf(L"字节数必须小于或等于 256。\n");
                     goto EndCommand;
                 }
 
@@ -1613,7 +1613,7 @@ NTSTATUS PhpDebugConsoleThreadStart(
                     }
                     __except (EXCEPTION_EXECUTE_HANDLER)
                     {
-                        wprintf(L"Error reading address near %Ix.\n", (ULONG_PTR)address);
+                        wprintf(L"读取 %Ix 附近的地址时出错。\n", (ULONG_PTR)address);
                         goto EndCommand;
                     }
 
@@ -1640,12 +1640,12 @@ NTSTATUS PhpDebugConsoleThreadStart(
 
             goto EndCommand;
 PrintMemUsage:
-            wprintf(L"Usage: mem address [numberOfBytes]\n");
-            wprintf(L"Example: mem 12345678 16\n");
+            wprintf(L"用法: mem address [numberOfBytes]\n");
+            wprintf(L"示例: mem 12345678 16\n");
         }
         else
         {
-            wprintf(L"Unrecognized command.\n");
+            wprintf(L"无法识别的命令。\n");
             goto EndCommand; // get rid of the compiler warning about the label being unreferenced
         }
 

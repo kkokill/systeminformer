@@ -16,47 +16,47 @@
 
 static CONST PH_KEY_VALUE_PAIR FwEventTypePairs[] =
 {
-    SIP(SREF(L"VPN Failure (Phase 1)"), FWPM_NET_EVENT_TYPE_IKEEXT_MM_FAILURE),
-    SIP(SREF(L"VPN Failure (Phase 2)"), FWPM_NET_EVENT_TYPE_IKEEXT_QM_FAILURE),
-    SIP(SREF(L"VPN Auth Failure"), FWPM_NET_EVENT_TYPE_IKEEXT_EM_FAILURE),
-    SIP(SREF(L"DROP"), FWPM_NET_EVENT_TYPE_CLASSIFY_DROP),
-    SIP(SREF(L"IPsec Integrity Block"), FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP),
-    SIP(SREF(L"Flood Protection"), FWPM_NET_EVENT_TYPE_IPSEC_DOSP_DROP),
-    SIP(SREF(L"Allowed"), FWPM_NET_EVENT_TYPE_CLASSIFY_ALLOW),
-    SIP(SREF(L"DROP (AppContainer)"), FWPM_NET_EVENT_TYPE_CAPABILITY_DROP),
-    SIP(SREF(L"Allowed (AppContainer)"), FWPM_NET_EVENT_TYPE_CAPABILITY_ALLOW),
-    SIP(SREF(L"DROP (MAC)"), FWPM_NET_EVENT_TYPE_CLASSIFY_DROP_MAC),
-    SIP(SREF(L"QoS Policy Packet"), FWPM_NET_EVENT_TYPE_LPM_PACKET_ARRIVAL),
-    SIP(SREF(L"Unknown"), FWPM_NET_EVENT_TYPE_MAX),
+    SIP(SREF(L"VPN 失败 (阶段 1)"), FWPM_NET_EVENT_TYPE_IKEEXT_MM_FAILURE),
+    SIP(SREF(L"VPN 失败 (阶段 2)"), FWPM_NET_EVENT_TYPE_IKEEXT_QM_FAILURE),
+    SIP(SREF(L"VPN 身份验证失败"), FWPM_NET_EVENT_TYPE_IKEEXT_EM_FAILURE),
+    SIP(SREF(L"丢弃"), FWPM_NET_EVENT_TYPE_CLASSIFY_DROP),
+    SIP(SREF(L"IPsec 完整性阻止"), FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP),
+    SIP(SREF(L"泛洪保护"), FWPM_NET_EVENT_TYPE_IPSEC_DOSP_DROP),
+    SIP(SREF(L"允许"), FWPM_NET_EVENT_TYPE_CLASSIFY_ALLOW),
+    SIP(SREF(L"丢弃 (AppContainer)"), FWPM_NET_EVENT_TYPE_CAPABILITY_DROP),
+    SIP(SREF(L"允许 (AppContainer)"), FWPM_NET_EVENT_TYPE_CAPABILITY_ALLOW),
+    SIP(SREF(L"丢弃 (MAC)"), FWPM_NET_EVENT_TYPE_CLASSIFY_DROP_MAC),
+    SIP(SREF(L"QoS 策略数据包"), FWPM_NET_EVENT_TYPE_LPM_PACKET_ARRIVAL),
+    SIP(SREF(L"未知"), FWPM_NET_EVENT_TYPE_MAX),
 };
 
 static CONST PH_KEY_VALUE_PAIR FwEventDirectionPairs[] =
 {
-    SIP(SREF(L"Unknown"), FW_EVENT_DIRECTION_NONE),
-    SIP(SREF(L"In"), FW_EVENT_DIRECTION_INBOUND),
-    SIP(SREF(L"Out"), FW_EVENT_DIRECTION_OUTBOUND),
-    SIP(SREF(L"FWD"), FW_EVENT_DIRECTION_FORWARD),
-    SIP(SREF(L"BI"), FW_EVENT_DIRECTION_BIDIRECTIONAL),
-    SIP(SREF(L"Unknown"), FW_EVENT_DIRECTION_MAX),
+    SIP(SREF(L"未知"), FW_EVENT_DIRECTION_NONE),
+    SIP(SREF(L"入站"), FW_EVENT_DIRECTION_INBOUND),
+    SIP(SREF(L"出站"), FW_EVENT_DIRECTION_OUTBOUND),
+    SIP(SREF(L"转发"), FW_EVENT_DIRECTION_FORWARD),
+    SIP(SREF(L"双向"), FW_EVENT_DIRECTION_BIDIRECTIONAL),
+    SIP(SREF(L"未知"), FW_EVENT_DIRECTION_MAX),
 };
 
 static CONST PH_KEY_VALUE_PAIR FwEventDirectionLoopbackPairs[] =
 {
-    SIP(SREF(L"Unknown"), FW_EVENT_DIRECTION_NONE),
-    SIP(SREF(L"Loopback [In]"), FW_EVENT_DIRECTION_INBOUND),
-    SIP(SREF(L"Loopback [Out]"), FW_EVENT_DIRECTION_OUTBOUND),
-    SIP(SREF(L"Loopback [Fwd]"), FW_EVENT_DIRECTION_FORWARD),
-    SIP(SREF(L"Loopback [Bi]"), FW_EVENT_DIRECTION_BIDIRECTIONAL),
-    SIP(SREF(L"Unknown"), FW_EVENT_DIRECTION_MAX),
+    SIP(SREF(L"未知"), FW_EVENT_DIRECTION_NONE),
+    SIP(SREF(L"环回 [入站]"), FW_EVENT_DIRECTION_INBOUND),
+    SIP(SREF(L"环回 [出站]"), FW_EVENT_DIRECTION_OUTBOUND),
+    SIP(SREF(L"环回 [转发]"), FW_EVENT_DIRECTION_FORWARD),
+    SIP(SREF(L"环回 [双向]"), FW_EVENT_DIRECTION_BIDIRECTIONAL),
+    SIP(SREF(L"未知"), FW_EVENT_DIRECTION_MAX),
 };
 
 BOOLEAN FwTreeNewCreated = FALSE;
 HWND FwTreeNewHandle = NULL;
 ULONG FwTreeNewSortColumn = FW_COLUMN_NAME;
 PH_SORT_ORDER FwTreeNewSortOrder = NoSortOrder;
-CONST PH_STRINGREF FwTreeEmptyText = PH_STRINGREF_INIT(L"Firewall monitoring requires System Informer to be restarted with administrative privileges.");
-CONST PH_STRINGREF FwTreePageText = PH_STRINGREF_INIT(L"Firewall");
-CONST PH_STRINGREF FwTreeBannerText = PH_STRINGREF_INIT(L"Search Firewall");
+CONST PH_STRINGREF FwTreeEmptyText = PH_STRINGREF_INIT(L"防火墙监视需要以管理员身份重新启动 System Informer。");
+CONST PH_STRINGREF FwTreePageText = PH_STRINGREF_INIT(L"防火墙");
+CONST PH_STRINGREF FwTreeBannerText = PH_STRINGREF_INIT(L"搜索防火墙");
 PPH_STRING FwTreeErrorText = NULL;
 LONG FwTreeIconHeightPadding = 0;
 LONG FwTreeLeftMarginPadding = 0;
@@ -171,7 +171,7 @@ BOOLEAN FwTabPageCallback(
                     {
                         EtFwStatusText = PhFormatString(
                             L"%s %s (%lu)",
-                            L"Unable to start the firewall event tracing session: ",
+                            L"无法启动防火墙事件跟踪会话： ",
                             statusMessage->Buffer,
                             EtFwStatus);
                         PhDereferenceObject(statusMessage);
@@ -180,7 +180,7 @@ BOOLEAN FwTabPageCallback(
                     {
                         EtFwStatusText = PhFormatString(
                             L"%s (%lu)",
-                            L"Unable to start the firewall event tracing session: ",
+                            L"无法启动防火墙事件跟踪会话： ",
                             EtFwStatus);
                     }
 
@@ -319,37 +319,37 @@ VOID InitializeFwTreeList(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
     TreeNew_SetCallback(TreeNewHandle, FwTreeNewCallback, NULL);
 
-    PhAddTreeNewColumnEx2(TreeNewHandle, FW_COLUMN_NAME, TRUE, L"Name", 140, PH_ALIGN_LEFT, FW_COLUMN_NAME, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
+    PhAddTreeNewColumnEx2(TreeNewHandle, FW_COLUMN_NAME, TRUE, L"名称", 140, PH_ALIGN_LEFT, FW_COLUMN_NAME, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
     PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_PROCESSID, TRUE, L"PID", 50, PH_ALIGN_RIGHT, FW_COLUMN_PROCESSID, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_ACTION, TRUE, L"Action", 100, PH_ALIGN_LEFT, FW_COLUMN_ACTION, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_DIRECTION, TRUE, L"Direction", 40, PH_ALIGN_LEFT, FW_COLUMN_DIRECTION, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_RULENAME, TRUE, L"Rule", 240, PH_ALIGN_LEFT, FW_COLUMN_RULENAME, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_RULEDESCRIPTION, TRUE, L"Description", 180, PH_ALIGN_LEFT, FW_COLUMN_RULEDESCRIPTION, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_FILTER_ORIGIN, TRUE, L"Filter origin", 80, PH_ALIGN_LEFT, FW_COLUMN_FILTER_ORIGIN, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_LOCALADDRESS, TRUE, L"Local address", 110, PH_ALIGN_RIGHT, FW_COLUMN_LOCALADDRESS, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_LOCALPORT, TRUE, L"Local port", 30, PH_ALIGN_LEFT, FW_COLUMN_LOCALPORT, DT_LEFT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALHOSTNAME, TRUE, L"Local hostname", 100, PH_ALIGN_LEFT, FW_COLUMN_LOCALHOSTNAME, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_REMOTEADDRESS, TRUE, L"Remote address", 110, PH_ALIGN_RIGHT, FW_COLUMN_REMOTEADDRESS, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_REMOTEPORT, TRUE, L"Remote port", 30, PH_ALIGN_LEFT, FW_COLUMN_REMOTEPORT, DT_LEFT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEHOSTNAME, TRUE, L"Remote hostname", 100, PH_ALIGN_LEFT, FW_COLUMN_REMOTEHOSTNAME, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PROTOCOL, TRUE, L"Protocol", 60, PH_ALIGN_LEFT, FW_COLUMN_PROTOCOL, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_TIMESTAMP, TRUE, L"Timestamp", 60, PH_ALIGN_LEFT, FW_COLUMN_TIMESTAMP, 0);
-   // PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PROCESSFILENAME, FALSE, L"File path", 100, PH_ALIGN_LEFT, FW_COLUMN_PROCESSFILENAME, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_USER, FALSE, L"Username", 100, PH_ALIGN_LEFT, FW_COLUMN_USER, 0);
-    //PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PACKAGE, FALSE, L"Package", 100, PH_ALIGN_LEFT, FW_COLUMN_PACKAGE, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, FW_COLUMN_COUNTRY, FALSE, L"Country", 80, PH_ALIGN_LEFT, FW_COLUMN_COUNTRY, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALADDRESSCLASS, FALSE, L"Local address class", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALADDRESSCLASS, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEADDRESSCLASS, FALSE, L"Remote address class", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTEADDRESSCLASS, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALADDRESSSSCOPE, FALSE, L"Local address scope", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALADDRESSSSCOPE, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEADDRESSSCOPE, FALSE, L"Remote address scope", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTEADDRESSSCOPE, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_ORIGINALNAME, FALSE, L"Original name", 100, PH_ALIGN_LEFT, FW_COLUMN_ORIGINALNAME, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALSERVICENAME, FALSE, L"Local port service", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALSERVICENAME, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTESERVICENAME, FALSE, L"Remote port service", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTESERVICENAME, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_INTERFACE_LUID, FALSE, L"Interface LUID", 80, PH_ALIGN_LEFT, FW_COLUMN_INTERFACE_LUID, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_COMPARTMENT_ID, FALSE, L"Compartment ID", 80, PH_ALIGN_LEFT, FW_COLUMN_COMPARTMENT_ID, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_POLICY_APP_ID, FALSE, L"Policy app ID", 100, PH_ALIGN_LEFT, FW_COLUMN_POLICY_APP_ID, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_SERVICE_SIDS, FALSE, L"Service SIDs", 100, PH_ALIGN_LEFT, FW_COLUMN_SERVICE_SIDS, 0);
-    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_FQBN_NAME, FALSE, L"FQBN name", 100, PH_ALIGN_LEFT, FW_COLUMN_FQBN_NAME, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_ACTION, TRUE, L"操作", 100, PH_ALIGN_LEFT, FW_COLUMN_ACTION, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_DIRECTION, TRUE, L"方向", 40, PH_ALIGN_LEFT, FW_COLUMN_DIRECTION, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_RULENAME, TRUE, L"规则", 240, PH_ALIGN_LEFT, FW_COLUMN_RULENAME, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_RULEDESCRIPTION, TRUE, L"描述", 180, PH_ALIGN_LEFT, FW_COLUMN_RULEDESCRIPTION, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_FILTER_ORIGIN, TRUE, L"筛选器来源", 80, PH_ALIGN_LEFT, FW_COLUMN_FILTER_ORIGIN, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_LOCALADDRESS, TRUE, L"本地地址", 110, PH_ALIGN_RIGHT, FW_COLUMN_LOCALADDRESS, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_LOCALPORT, TRUE, L"本地端口", 30, PH_ALIGN_LEFT, FW_COLUMN_LOCALPORT, DT_LEFT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALHOSTNAME, TRUE, L"本地主机名", 100, PH_ALIGN_LEFT, FW_COLUMN_LOCALHOSTNAME, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_REMOTEADDRESS, TRUE, L"远程地址", 110, PH_ALIGN_RIGHT, FW_COLUMN_REMOTEADDRESS, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, FW_COLUMN_REMOTEPORT, TRUE, L"远程端口", 30, PH_ALIGN_LEFT, FW_COLUMN_REMOTEPORT, DT_LEFT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEHOSTNAME, TRUE, L"远程主机名", 100, PH_ALIGN_LEFT, FW_COLUMN_REMOTEHOSTNAME, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PROTOCOL, TRUE, L"协议", 60, PH_ALIGN_LEFT, FW_COLUMN_PROTOCOL, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_TIMESTAMP, TRUE, L"时间戳", 60, PH_ALIGN_LEFT, FW_COLUMN_TIMESTAMP, 0);
+   // PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PROCESSFILENAME, FALSE, L"文件路径", 100, PH_ALIGN_LEFT, FW_COLUMN_PROCESSFILENAME, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_USER, FALSE, L"用户名", 100, PH_ALIGN_LEFT, FW_COLUMN_USER, 0);
+    //PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_PACKAGE, FALSE, L"包", 100, PH_ALIGN_LEFT, FW_COLUMN_PACKAGE, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, FW_COLUMN_COUNTRY, FALSE, L"国家/地区", 80, PH_ALIGN_LEFT, FW_COLUMN_COUNTRY, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALADDRESSCLASS, FALSE, L"本地地址类别", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALADDRESSCLASS, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEADDRESSCLASS, FALSE, L"远程地址类别", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTEADDRESSCLASS, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALADDRESSSSCOPE, FALSE, L"本地地址范围", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALADDRESSSSCOPE, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTEADDRESSSCOPE, FALSE, L"远程地址范围", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTEADDRESSSCOPE, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_ORIGINALNAME, FALSE, L"原始名称", 100, PH_ALIGN_LEFT, FW_COLUMN_ORIGINALNAME, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_LOCALSERVICENAME, FALSE, L"本地端口服务", 80, PH_ALIGN_LEFT, FW_COLUMN_LOCALSERVICENAME, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_REMOTESERVICENAME, FALSE, L"远程端口服务", 80, PH_ALIGN_LEFT, FW_COLUMN_REMOTESERVICENAME, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_INTERFACE_LUID, FALSE, L"接口 LUID", 80, PH_ALIGN_LEFT, FW_COLUMN_INTERFACE_LUID, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_COMPARTMENT_ID, FALSE, L"隔离区 ID", 80, PH_ALIGN_LEFT, FW_COLUMN_COMPARTMENT_ID, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_POLICY_APP_ID, FALSE, L"策略应用 ID", 100, PH_ALIGN_LEFT, FW_COLUMN_POLICY_APP_ID, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_SERVICE_SIDS, FALSE, L"服务 SID", 100, PH_ALIGN_LEFT, FW_COLUMN_SERVICE_SIDS, 0);
+    PhAddTreeNewColumn(TreeNewHandle, FW_COLUMN_FQBN_NAME, FALSE, L"FQBN 名称", 100, PH_ALIGN_LEFT, FW_COLUMN_FQBN_NAME, 0);
 
     PhInitializeTreeNewFilterSupport(&EtFwFilterSupport, TreeNewHandle, FwNodeList);
 
@@ -1326,7 +1326,7 @@ BOOLEAN NTAPI FwTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
                     }
                 }
                 break;
@@ -1356,7 +1356,7 @@ BOOLEAN NTAPI FwTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
                     }
                 }
                 break;
@@ -1995,7 +1995,7 @@ VOID EtFwHandleFwCommand(
                 }
                 else
                 {
-                    PhShowStatus(TreeWindowHandle, L"The process does not exist.", STATUS_INVALID_CID, 0);
+                    PhShowStatus(TreeWindowHandle, L"该进程不存在。", STATUS_INVALID_CID, 0);
                 }
             }
         }
@@ -2031,7 +2031,7 @@ VOID EtFwHandleFwCommand(
                         SETTING_PROGRAM_INSPECT_EXECUTABLES,
                         PhGetString(entry->ProcessFileName),
                         FALSE,
-                        L"Make sure the PE Viewer executable file is present."
+                        L"请确保 PE 查看器可执行文件存在。"
                         );
                 }
             }
@@ -2109,18 +2109,18 @@ VOID ShowFwContextMenu(
         PPH_EMENU_ITEM whoisMenu;
 
         menu = PhCreateEMenu();
-        PhInsertEMenuItem(menu, pingMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PING, L"&Ping", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, traceMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_TRACERT, L"&Traceroute", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, whoisMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_WHOIS, L"&Whois", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, pingMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PING, L"Ping", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, traceMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_TRACERT, L"路由跟踪", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, whoisMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_WHOIS, L"Whois", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_GOTOPROCESS, L"&Go to process", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_GOTOPROCESS, L"转到进程", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_OPENFILELOCATION, L"Open &file location\bEnter", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_OPENFILELOCATION, L"打开文件位置\bEnter", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_INSPECT, L"&Inspect", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PROPERTIES, L"P&roperties", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_INSPECT, L"检查", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PROPERTIES, L"属性", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_COPY, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
         InitializeFwMenu(menu, fwItems, numberOfFwItems);
         PhInsertCopyCellEMenuItem(menu, FW_ITEM_COMMAND_ID_COPY, TreeWindowHandle, ContextMenuEvent->Column);
         PhSetFlagsEMenuItem(menu, FW_ITEM_COMMAND_ID_GOTOPROCESS, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);

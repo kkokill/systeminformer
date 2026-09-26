@@ -25,7 +25,7 @@ VOID EtGpuMiniInformationInitializing(
 
     memset(&section, 0, sizeof(PH_MINIINFO_LIST_SECTION));
     section.Callback = EtpGpuMemoryListSectionCallback;
-    Pointers->CreateListSection(L"GPU Memory", 0, &section);
+    Pointers->CreateListSection(L"GPU 内存", 0, &section);
 }
 
 BOOLEAN EtpGpuListSectionCallback(
@@ -155,7 +155,7 @@ BOOLEAN EtpGpuMemoryListSectionCallback(
             FLOAT memUsagePercent = EtGpuDedicatedLimit ? ((FLOAT)EtGpuDedicatedUsage / (FLOAT)EtGpuDedicatedLimit * 100.0f) : 0.0f;
 
             // GPU Memory    XX.X%  X.XX GB / Y.YY GB
-            PhInitFormatS(&format[0], L"GPU Memory    ");
+            PhInitFormatS(&format[0], L"GPU 内存    ");
             PhInitFormatF(&format[1], memUsagePercent, 1);
             PhInitFormatC(&format[2], L'%');
             PhInitFormatS(&format[3], L"  ");

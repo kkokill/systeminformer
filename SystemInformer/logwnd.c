@@ -183,10 +183,10 @@ INT_PTR CALLBACK PhpLogDlgProc(
             PhSetListViewStyle(ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(ListViewHandle, L"explorer");
             PhSetExtendedListView(ListViewHandle);
-            PhListView_AddColumn(ListViewContext, 0, 0, 0, LVCFMT_LEFT, 140, L"Time");
-            PhListView_AddColumn(ListViewContext, 1, 1, 1, LVCFMT_LEFT, 140, L"Type");
-            PhListView_AddColumn(ListViewContext, 2, 2, 2, LVCFMT_LEFT, 260, L"Message");
-            PhListView_AddColumn(ListViewContext, 3, 3, 3, LVCFMT_LEFT, 200, L"Extra");
+            PhListView_AddColumn(ListViewContext, 0, 0, 0, LVCFMT_LEFT, 140, L"时间");
+            PhListView_AddColumn(ListViewContext, 1, 1, 1, LVCFMT_LEFT, 140, L"类型");
+            PhListView_AddColumn(ListViewContext, 2, 2, 2, LVCFMT_LEFT, 260, L"消息");
+            PhListView_AddColumn(ListViewContext, 3, 3, 3, LVCFMT_LEFT, 200, L"额外");
             PhLoadListViewColumnsFromSetting(SETTING_LOG_LIST_VIEW_COLUMNS, ListViewHandle);
 
             PhInitializeLayoutManager(&WindowLayoutManager, hwndDlg);
@@ -314,7 +314,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
                         }
 
                         if (!NT_SUCCESS(status))
-                            PhShowStatus(hwndDlg, L"Unable to create the file", status, 0);
+                            PhShowStatus(hwndDlg, L"无法创建文件。", status, 0);
                     }
 
                     PhFreeFileDialog(fileDialog);
@@ -418,7 +418,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
                         }
                         else
                         {
-                            PhShowStatus(hwndDlg, L"The process does not exist.", STATUS_INVALID_CID, 0);
+                            PhShowStatus(hwndDlg, L"进程不存在。", STATUS_INVALID_CID, 0);
                         }
                     }
                     else if (entry->Type >= PH_LOG_ENTRY_SERVICE_FIRST && entry->Type <= PH_LOG_ENTRY_SERVICE_LAST)
@@ -476,7 +476,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
                 if (PhGetSelectedListViewItemParams(ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&复制", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, ListViewHandle);
 
                     item = PhShowEMenu(

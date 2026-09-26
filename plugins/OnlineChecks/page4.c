@@ -48,8 +48,8 @@ VOID VirusTotalShowErrorDialog(
     config.dwFlags = TDF_USE_HICON_MAIN | TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED | TDF_ENABLE_HYPERLINKS;
     config.dwCommonButtons = TDCBF_CLOSE_BUTTON;
     config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(Context->DialogHandle));
-    config.pszWindowTitle = PhaFormatString(L"Uploading %s...", PhGetStringOrEmpty(Context->BaseFileName))->Buffer;
-    config.pszMainInstruction = PhaFormatString(L"Error uploading %s...", PhGetStringOrEmpty(Context->BaseFileName))->Buffer;
+    config.pszWindowTitle = PhaFormatString(L"正在上传 %s...", PhGetStringOrEmpty(Context->BaseFileName))->Buffer;
+    config.pszMainInstruction = PhaFormatString(L"上传 %s 时出错...", PhGetStringOrEmpty(Context->BaseFileName))->Buffer;
     config.pszContent = PhGetStringOrEmpty(Context->ErrorString);
 
     config.cxWidth = 200;

@@ -93,8 +93,8 @@ VOID PvInitializeLayoutTree(
     PhSetControlTheme(Context->TreeNewHandle, L"explorer");
     TreeNew_SetCallback(Context->TreeNewHandle, PvLayoutTreeNewCallback, Context);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_LAYOUT_TREE_COLUMN_NAME_NAME, TRUE, L"Name", 200, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_LAYOUT_TREE_COLUMN_NAME_VALUE, TRUE, L"Value", 800, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_LAYOUT_TREE_COLUMN_NAME_NAME, TRUE, L"名称", 200, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_LAYOUT_TREE_COLUMN_NAME_VALUE, TRUE, L"值", 800, PH_ALIGN_LEFT, 1, 0);
 
     //TreeNew_SetTriState(Context->TreeNewHandle, TRUE);
     //TreeNew_SetSort(Context->TreeNewHandle, PV_LAYOUT_TREE_COLUMN_NAME_NAME, NoSortOrder);
@@ -590,7 +590,7 @@ PPH_STRING PvLayoutGetRelativeTimeString(
     PhLargeIntegerToLocalSystemTime(&timeFields, &time);
     timeString = PH_AUTO(PvLayoutPeFormatDateTime(&timeFields));
 
-    return PhFormatString(L"%s (%s ago)", timeString->Buffer, timeRelativeString->Buffer);
+    return PhFormatString(L"%s (%s前)", timeString->Buffer, timeRelativeString->Buffer);
 }
 
 PWSTR PvLayoutNameFlagsToString(
@@ -599,20 +599,20 @@ PWSTR PvLayoutNameFlagsToString(
 {
     if (Flags == 0)
     {
-        return L"HLINK Name";
+        return L"HLINK 名称";
     }
 
     if (Flags & FILE_LAYOUT_NAME_ENTRY_PRIMARY)
     {
-        return L"NTFS Name";
+        return L"NTFS 名称";
     }
 
     if (Flags & FILE_LAYOUT_NAME_ENTRY_DOS)
     {
-        return L"DOS Name";
+        return L"DOS 名称";
     }
 
-    return L"UNKNOWN";
+    return L"未知";
 }
 
 PPH_STRING PvLayoutSteamFlagsToString(
@@ -625,15 +625,15 @@ PPH_STRING PvLayoutSteamFlagsToString(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (Flags & STREAM_LAYOUT_ENTRY_IMMOVABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"Immovable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不可移动, ");
     if (Flags & STREAM_LAYOUT_ENTRY_PINNED)
-        PhAppendStringBuilder2(&stringBuilder, L"Pinned, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已固定, ");
     if (Flags & STREAM_LAYOUT_ENTRY_RESIDENT)
-        PhAppendStringBuilder2(&stringBuilder, L"Resident, ");
+        PhAppendStringBuilder2(&stringBuilder, L"常驻, ");
     if (Flags & STREAM_LAYOUT_ENTRY_NO_CLUSTERS_ALLOCATED)
-        PhAppendStringBuilder2(&stringBuilder, L"No clusters allocated, ");
+        PhAppendStringBuilder2(&stringBuilder, L"未分配簇, ");
     if (Flags & STREAM_LAYOUT_ENTRY_HAS_INFORMATION)
-        PhAppendStringBuilder2(&stringBuilder, L"Has parsed information, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已解析信息, ");
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -684,8 +684,8 @@ VOID PvLayoutSetStatusMessage(
 
     statusMessage = PhGetStatusMessage(Status, 0);
     PhMoveReference(&Context->StatusMessage, PhConcatStrings2(
-        L"Unable to query file layout information:\n",
-        PhGetStringOrDefault(statusMessage, L"Unknown error.")
+        L"无法查询文件布局信息：\n",
+        PhGetStringOrDefault(statusMessage, L"未知错误。")
         ));
     TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
     PhClearReference(&statusMessage);
@@ -1098,23 +1098,23 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
             fileLayoutSteamEntry = PTR_ADD_OFFSET(fileLayoutEntry, fileLayoutEntry->FirstStreamOffset);
             fileLayoutInfoEntry = PTR_ADD_OFFSET(fileLayoutEntry, fileLayoutEntry->ExtraInfoOffset);
 
-            PvAddChildLayoutNode(Context, NULL, L"File reference number", PhFormatString(L"%llu (0x%llx)", fileLayoutEntry->FileReferenceNumber, fileLayoutEntry->FileReferenceNumber));
-            PvAddChildLayoutNode(Context, NULL, L"File attributes", PhFormatUInt64(fileLayoutEntry->FileAttributes, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"File entry flags", PhFormatUInt64(fileLayoutEntry->Flags, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"Creation time", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.CreationTime.QuadPart));
+            PvAddChildLayoutNode(Context, NULL, L"文件引用号", PhFormatString(L"%llu (0x%llx)", fileLayoutEntry->FileReferenceNumber, fileLayoutEntry->FileReferenceNumber));
+            PvAddChildLayoutNode(Context, NULL, L"文件属性", PhFormatUInt64(fileLayoutEntry->FileAttributes, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"文件条目标志", PhFormatUInt64(fileLayoutEntry->Flags, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"创建时间", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.CreationTime.QuadPart));
             //PvAddChildLayoutNode(Context, NULL, L"Access time", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.LastAccessTime.QuadPart));
-            PvAddChildLayoutNode(Context, NULL, L"Write time", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.LastWriteTime.QuadPart));
-            PvAddChildLayoutNode(Context, NULL, L"Change time", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.ChangeTime.QuadPart));
-            PvAddChildLayoutNode(Context, NULL, L"LastUsn", PhFormatUInt64(fileLayoutInfoEntry->Usn, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"OwnerId", PhFormatUInt64(fileLayoutInfoEntry->OwnerId, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"SecurityId", PhFormatUInt64(fileLayoutInfoEntry->SecurityId, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"StorageReserveId", PhFormatUInt64(fileLayoutInfoEntry->StorageReserveId, FALSE));
-            PvAddChildLayoutNode(Context, NULL, L"Attribute list size", PvLayoutFormatSize(fileMetadataOptimization.AttributeListSize));
-            PvAddChildLayoutNode(Context, NULL, L"Metadata space used", PvLayoutFormatSize(fileMetadataOptimization.MetadataSpaceUsed));
-            PvAddChildLayoutNode(Context, NULL, L"Metadata space allocated", PvLayoutFormatSize(fileMetadataOptimization.MetadataSpaceAllocated));
-            PvAddChildLayoutNode(Context, NULL, L"Number of file records", PhFormatUInt64(fileMetadataOptimization.NumberOfFileRecords, TRUE));
-            PvAddChildLayoutNode(Context, NULL, L"Number of resident attributes", PhFormatUInt64(fileMetadataOptimization.NumberOfResidentAttributes, TRUE));
-            PvAddChildLayoutNode(Context, NULL, L"Number of nonresident attributes", PhFormatUInt64(fileMetadataOptimization.NumberOfNonresidentAttributes, TRUE));
+            PvAddChildLayoutNode(Context, NULL, L"写入时间", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.LastWriteTime.QuadPart));
+            PvAddChildLayoutNode(Context, NULL, L"更改时间", PvLayoutGetRelativeTimeString(&fileLayoutInfoEntry->BasicInformation.ChangeTime.QuadPart));
+            PvAddChildLayoutNode(Context, NULL, L"最后 USN", PhFormatUInt64(fileLayoutInfoEntry->Usn, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"所有者 ID", PhFormatUInt64(fileLayoutInfoEntry->OwnerId, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"安全 ID", PhFormatUInt64(fileLayoutInfoEntry->SecurityId, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"存储保留 ID", PhFormatUInt64(fileLayoutInfoEntry->StorageReserveId, FALSE));
+            PvAddChildLayoutNode(Context, NULL, L"属性列表大小", PvLayoutFormatSize(fileMetadataOptimization.AttributeListSize));
+            PvAddChildLayoutNode(Context, NULL, L"已用元数据空间", PvLayoutFormatSize(fileMetadataOptimization.MetadataSpaceUsed));
+            PvAddChildLayoutNode(Context, NULL, L"已分配元数据空间", PvLayoutFormatSize(fileMetadataOptimization.MetadataSpaceAllocated));
+            PvAddChildLayoutNode(Context, NULL, L"文件记录数", PhFormatUInt64(fileMetadataOptimization.NumberOfFileRecords, TRUE));
+            PvAddChildLayoutNode(Context, NULL, L"常驻属性数", PhFormatUInt64(fileMetadataOptimization.NumberOfResidentAttributes, TRUE));
+            PvAddChildLayoutNode(Context, NULL, L"非常驻属性数", PhFormatUInt64(fileMetadataOptimization.NumberOfNonresidentAttributes, TRUE));
 
             if (fileLayoutEntry->FirstNameOffset)
             {
@@ -1130,10 +1130,10 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
                     else
                         layoutFileName = PhReferenceEmptyString();
 
-                    parentNode = PvAddChildLayoutNode(Context, NULL, L"Filename", NULL);
+                    parentNode = PvAddChildLayoutNode(Context, NULL, L"文件名", NULL);
                     PvAddChildLayoutNode(Context, parentNode, PvLayoutNameFlagsToString(fileLayoutNameEntry->Flags), layoutFileName);
                     //PvAddChildLayoutNode(Context, parentNode, L"Parent Name", PvLayoutGetParentIdName(fileHandle, fileLayoutNameEntry->ParentFileReferenceNumber));
-                    PvAddChildLayoutNode(Context, parentNode, L"Parent ID", PhFormatString(L"%llu (0x%llx)", fileLayoutNameEntry->ParentFileReferenceNumber, fileLayoutNameEntry->ParentFileReferenceNumber));
+                    PvAddChildLayoutNode(Context, parentNode, L"父 ID", PhFormatString(L"%llu (0x%llx)", fileLayoutNameEntry->ParentFileReferenceNumber, fileLayoutNameEntry->ParentFileReferenceNumber));
 
                     if (fileLayoutNameEntry->NextNameOffset == 0)
                         break;
@@ -1152,17 +1152,17 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
                     break;
                 }
 
-                parentNode = PvAddChildLayoutNode(Context, NULL, L"Stream", NULL);
+                parentNode = PvAddChildLayoutNode(Context, NULL, L"流", NULL);
 
                 if (fileLayoutSteamEntry->AttributeTypeCode == ATTRIBUTE_TYPECODE_DATA)
-                    PvAddChildLayoutNode(Context, parentNode, L"Name", PhCreateString(L"::$DATA"));
+                    PvAddChildLayoutNode(Context, parentNode, L"名称", PhCreateString(L"::$DATA"));
                 else
-                    PvAddChildLayoutNode(Context, parentNode, L"Name", PhCreateStringEx(fileLayoutSteamEntry->StreamIdentifier, fileLayoutSteamEntry->StreamIdentifierLength));
-                PvAddChildLayoutNode(Context, parentNode, L"Attributes", PhFormatUInt64(fileLayoutSteamEntry->AttributeFlags, FALSE));
-                PvAddChildLayoutNode(Context, parentNode, L"Attribute typecode", PhFormatString(L"0x%x", fileLayoutSteamEntry->AttributeTypeCode));
-                PvAddChildLayoutNode(Context, parentNode, L"Flags", PvLayoutSteamFlagsToString(fileLayoutSteamEntry->Flags));
-                PvAddChildLayoutNode(Context, parentNode, L"Size", PvLayoutFormatSize(fileLayoutSteamEntry->EndOfFile.QuadPart));
-                PvAddChildLayoutNode(Context, parentNode, L"Allocated Size", PvLayoutFormatSize(fileLayoutSteamEntry->AllocationSize.QuadPart));
+                    PvAddChildLayoutNode(Context, parentNode, L"名称", PhCreateStringEx(fileLayoutSteamEntry->StreamIdentifier, fileLayoutSteamEntry->StreamIdentifierLength));
+                PvAddChildLayoutNode(Context, parentNode, L"属性", PhFormatUInt64(fileLayoutSteamEntry->AttributeFlags, FALSE));
+                PvAddChildLayoutNode(Context, parentNode, L"属性类型码", PhFormatString(L"0x%x", fileLayoutSteamEntry->AttributeTypeCode));
+                PvAddChildLayoutNode(Context, parentNode, L"标志", PvLayoutSteamFlagsToString(fileLayoutSteamEntry->Flags));
+                PvAddChildLayoutNode(Context, parentNode, L"大小", PvLayoutFormatSize(fileLayoutSteamEntry->EndOfFile.QuadPart));
+                PvAddChildLayoutNode(Context, parentNode, L"分配大小", PvLayoutFormatSize(fileLayoutSteamEntry->AllocationSize.QuadPart));
 
                 if (fileLayoutSteamEntry->StreamInformationOffset)
                 {
@@ -1174,7 +1174,7 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
                     {
                         if (fileLayoutSteamEntry->AttributeTypeCode == ATTRIBUTE_TYPECODE_DATA)
                         {
-                            PvAddChildLayoutNode(Context, parentNode, L"Valid Data Length", PvLayoutFormatSize(streamInformationEntry->StreamInformation.DataStream.Vdl));
+                            PvAddChildLayoutNode(Context, parentNode, L"有效数据长度", PvLayoutFormatSize(streamInformationEntry->StreamInformation.DataStream.Vdl));
                         }
 
                         if (fileLayoutSteamEntry->AttributeTypeCode == ATTRIBUTE_TYPECODE_EA)
@@ -1186,9 +1186,9 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
 
                             for (i = PH_FIRST_FILE_EA(eainfo); i; i = PH_NEXT_FILE_EA(i))
                             {
-                                PPV_LAYOUT_NODE parentAttributeNode = PvAddChildLayoutNode(Context, parentNode, L"Extended Attributes", NULL);
-                                PvAddChildLayoutNode(Context, parentAttributeNode, L"Name", PhConvertUtf8ToUtf16Ex(i->EaName, i->EaNameLength));
-                                PvAddChildLayoutNode(Context, parentAttributeNode, L"Size", PvLayoutFormatSize(i->EaValueLength));
+                                PPV_LAYOUT_NODE parentAttributeNode = PvAddChildLayoutNode(Context, parentNode, L"扩展属性", NULL);
+                                PvAddChildLayoutNode(Context, parentAttributeNode, L"名称", PhConvertUtf8ToUtf16Ex(i->EaName, i->EaNameLength));
+                                PvAddChildLayoutNode(Context, parentAttributeNode, L"大小", PvLayoutFormatSize(i->EaValueLength));
                             }
                         }
                     }
@@ -1198,7 +1198,7 @@ NTSTATUS PvLayoutEnumerateFileLayouts(
                 {
                     PSTREAM_EXTENT_ENTRY streamExtentEntry = PTR_ADD_OFFSET(fileLayoutSteamEntry, fileLayoutSteamEntry->ExtentInformationOffset);
 
-                    PvAddChildLayoutNode(Context, parentNode, L"Extents", PhFormatUInt64(streamExtentEntry->ExtentInformation.RetrievalPointers.ExtentCount, FALSE));
+                    PvAddChildLayoutNode(Context, parentNode, L"盘区", PhFormatUInt64(streamExtentEntry->ExtentInformation.RetrievalPointers.ExtentCount, FALSE));
                     //PvAddChildLayoutNode(Context, parentNode, L"StartingVcn", PhFormatUInt64(streamExtentEntry->ExtentInformation.RetrievalPointers.StartingVcn.QuadPart, FALSE));
 
                     //for (ULONG i = 0; i < streamExtentEntry->ExtentInformation.RetrievalPointers.ExtentCount; i++)
@@ -1310,7 +1310,7 @@ INT_PTR CALLBACK PvpPeLayoutDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Layout (Ctrl+K)",
+                L"搜索布局 (Ctrl+K)",
                 PvpPeLayoutSearchControlCallback,
                 context
                 );
@@ -1384,7 +1384,7 @@ INT_PTR CALLBACK PvpPeLayoutDlgProc(
                     if (numberOfNodes != 0)
                     {
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"Copy", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
                         PhInsertCopyCellEMenuItem(menu, USHRT_MAX, context->TreeNewHandle, contextMenuEvent->Column);
 
                         selectedItem = PhShowEMenu(

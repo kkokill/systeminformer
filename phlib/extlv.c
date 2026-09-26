@@ -242,13 +242,13 @@ LRESULT CALLBACK PhpExtendedListViewWndProc(
                         break;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Size column to fit", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Size all columns to fit", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"自动调整此列大小", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"自动调整所有列大小", NULL, NULL), ULONG_MAX);
 
                     if (context->SortOrder != context->DefaultSortOrder || context->SortColumn != context->DefaultSortColumn)
                     {
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"Reset sort", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"重置排序", NULL, NULL), ULONG_MAX);
                     }
 
                     selectedItem = PhShowEMenu(

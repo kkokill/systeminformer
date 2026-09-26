@@ -1421,8 +1421,8 @@ INT_PTR CALLBACK PvpPeHashesDlgProc(
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PvConfigListViewFont(hwndDlg, context->ListViewHandle);
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"Hash");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"哈希");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(L"ImageHashesListViewColumns", context->ListViewHandle);
             PvConfigTreeBorders(context->ListViewHandle);
@@ -1432,12 +1432,12 @@ INT_PTR CALLBACK PvpPeHashesDlgProc(
             PhAddLayoutItem(&context->LayoutManager, context->ListViewHandle, NULL, PH_ANCHOR_ALL);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_FILEHASH, L"File hashes");
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_IMPORTHASH, L"Import hashes");
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_FUZZYHASH, L"Fuzzy hashes");
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_AUTHENTIHASH, L"Authenticode hashes");
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_WDACPAGEHASH, L"Page hashes (WDAC)");
-            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_PAGEHASH, L"Page hashes (Authenticode)");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_FILEHASH, L"文件哈希");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_IMPORTHASH, L"导入哈希");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_FUZZYHASH, L"模糊哈希");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_AUTHENTIHASH, L"Authenticode 哈希");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_WDACPAGEHASH, L"页哈希 (WDAC)");
+            PhAddListViewGroup(context->ListViewHandle, PV_HASHLIST_CATEGORY_PAGEHASH, L"页哈希 (Authenticode)");
 
             PhCreateThread2(PvPeFileHashThread, context);
 
@@ -1484,7 +1484,7 @@ INT_PTR CALLBACK PvpPeHashesDlgProc(
                     NMLVEMPTYMARKUP* listview = (NMLVEMPTYMARKUP*)lParam;
 
                     listview->dwFlags = EMF_CENTERED;
-                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), L"Generating hashes...", _TRUNCATE);
+                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), L"正在生成哈希...", _TRUNCATE);
 
                     SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
                     return TRUE;

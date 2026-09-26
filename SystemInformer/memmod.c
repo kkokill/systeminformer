@@ -480,7 +480,7 @@ NTSTATUS PhCheckProcessImagesForTampering(
         PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, value);
         PhPrintPointer(value, entry->VirtualAddress);
         PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, value);
-        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 5, L"Resolving symbols...");
+        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 5, L"正在解析符号...");
         PhpLimitedSymbolProviderQueueSymbolLookup(Context, entry->VirtualAddress);
     }
 
@@ -554,12 +554,12 @@ INT_PTR CALLBACK PhPageModifiedDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 50, L"Index");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"File");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"ImageBase");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"Offset");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 100, L"Address");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 100, L"Symbol");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 50, L"序号");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"文件");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"映像基址");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"偏移");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 100, L"地址");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 100, L"符号");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(SETTING_MEMORY_MODIFIED_LIST_VIEW_COLUMNS, context->ListViewHandle);
             PhLoadListViewSortColumnsFromSetting(SETTING_MEMORY_MODIFIED_LIST_VIEW_SORT, context->ListViewHandle);
@@ -601,7 +601,7 @@ INT_PTR CALLBACK PhPageModifiedDlgProc(
 
                 if (!NT_SUCCESS(status))
                 {
-                    PhShowStatus(context->ParentWindowHandle, L"Unable to perform the scan", status, 0);
+                    PhShowStatus(context->ParentWindowHandle, L"无法执行扫描。", status, 0);
                     EndDialog(WindowHandle, IDCANCEL);
                 }
             }
@@ -672,7 +672,7 @@ INT_PTR CALLBACK PhPageModifiedDlgProc(
 
                         if (!NT_SUCCESS(status))
                         {
-                            PhShowStatus(WindowHandle, L"Unable to perform the scan", status, 0);
+                            PhShowStatus(WindowHandle, L"无法执行扫描。", status, 0);
                         }
                     }
                 }
@@ -715,7 +715,7 @@ INT_PTR CALLBACK PhPageModifiedDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(
@@ -775,7 +775,7 @@ VOID PhShowImagePageModifiedDialog(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to open the process.", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法打开进程。", status, 0);
         return;
     }
 

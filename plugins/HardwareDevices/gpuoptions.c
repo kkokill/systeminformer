@@ -352,7 +352,7 @@ PPH_STRING GraphicsDeviceQueryInterfaceName(
 
     PhDereferenceObject(normalizedDeviceInterface);
 
-    return PhCreateString(L"Unknown device");
+    return PhCreateString(L"未知设备");
 }
 
 VOID FindGraphicsDevices(
@@ -879,13 +879,13 @@ INT_PTR CALLBACK GraphicsDeviceOptionsDlgProc(
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             ListView_SetExtendedListViewStyleEx(context->ListViewHandle, LVS_EX_CHECKBOXES, LVS_EX_CHECKBOXES);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"Graphics Devices");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"图形设备");
             PhSetExtendedListView(context->ListViewHandle);
             LoadGraphicsDeviceImages(context);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 0, L"Connected");
-            PhAddListViewGroup(context->ListViewHandle, 1, L"Disconnected");
+            PhAddListViewGroup(context->ListViewHandle, 0, L"已连接");
+            PhAddListViewGroup(context->ListViewHandle, 1, L"已断开");
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, context->ListViewHandle, NULL, PH_ANCHOR_ALL);

@@ -945,20 +945,20 @@ BOOLEAN NTAPI PhSipCpuGraphCallback(
 
                         // %.2f%% (K: %.2f%%, U: %.2f%%)%s\n%s
                         PhInitFormatF(&format[count++], (cpuKernel + cpuUser) * 100, PhMaxPrecisionUnit);
-                        PhInitFormatS(&format[count++], L"% (K: ");
+                        PhInitFormatS(&format[count++], L"%（内核：");
                         PhInitFormatF(&format[count++], cpuKernel * 100, PhMaxPrecisionUnit);
-                        PhInitFormatS(&format[count++], L"%, U: ");
+                        PhInitFormatS(&format[count++], L"%，用户：");
                         PhInitFormatF(&format[count++], cpuUser * 100, PhMaxPrecisionUnit);
-                        PhInitFormatS(&format[count++], L"%)");
+                        PhInitFormatS(&format[count++], L"%）");
                         PhInitFormatSR(&format[count++], PH_AUTO_T(PH_STRING, PhSipGetMaxCpuString(getTooltipText->Index))->sr);
                         PhInitFormatS(&format[count++], L"\nCPU ");
 
                         if (PhSystemProcessorInformation.SingleProcessorGroup)
                         {
                             PhInitFormatU(&format[count++], index);
-                            PhInitFormatS(&format[count++], L", Core ");
+                            PhInitFormatS(&format[count++], L"，内核 ");
                             PhInitFormatU(&format[count++], PhSipGetProcessorRelationshipIndex(RelationProcessorCore, index));
-                            PhInitFormatS(&format[count++], L", Socket ");
+                            PhInitFormatS(&format[count++], L"，插槽 ");
                             PhInitFormatU(&format[count++], PhSipGetProcessorRelationshipIndex(RelationProcessorPackage, index));
                         }
                         else
@@ -969,45 +969,45 @@ BOOLEAN NTAPI PhSipCpuGraphCallback(
                             if (NT_SUCCESS(PhGetProcessorNumberFromIndex(index, &processorNumber)))
                             {
                                 PhInitFormatU(&format[count++], processorNumber.Number);
-                                PhInitFormatS(&format[count++], L", Group ");
+                                PhInitFormatS(&format[count++], L"，组 ");
                                 PhInitFormatU(&format[count++], processorNumber.Group);
 
                                 if (PhGetNumaProcessorNode(&processorNumber, &processorNode))
                                 {
-                                    PhInitFormatS(&format[count++], L", Node ");
+                                    PhInitFormatS(&format[count++], L"，节点 ");
                                     PhInitFormatU(&format[count++], processorNode);
                                 }
                                 else
                                 {
-                                    PhInitFormatS(&format[count++], L", Node ");
+                                    PhInitFormatS(&format[count++], L"，节点 ");
                                     PhInitFormatU(&format[count++], 0);
                                 }
                             }
                             else
                             {
                                 PhInitFormatU(&format[count++], index);
-                                PhInitFormatS(&format[count++], L", Group ");
+                                PhInitFormatS(&format[count++], L"，组 ");
                                 PhInitFormatU(&format[count++], ULONG_MAX);
-                                PhInitFormatS(&format[count++], L", Node ");
+                                PhInitFormatS(&format[count++], L"，节点 ");
                                 PhInitFormatU(&format[count++], ULONG_MAX);
                             }
                         }
 
                         if (cpuType = PhGetHybridProcessorType(index))
                         {
-                            PhInitFormatS(&format[count++], L", ");
+                            PhInitFormatS(&format[count++], L"，");
                             PhInitFormatSR(&format[count++], *cpuType);
                             PhInitFormatS(&format[count++], L"\n");
 
                             if (PhIsCoreParked(index))
-                                PhInitFormatS(&format[count++], L"Parked\n");
+                                PhInitFormatS(&format[count++], L"已停放\n");
                         }
                         else
                         {
                             PhInitFormatS(&format[count++], L"\n");
 
                             if (PhIsCoreParked(index))
-                                PhInitFormatS(&format[count++], L"Parked\n");
+                                PhInitFormatS(&format[count++], L"已停放\n");
                         }
 
                         PhInitFormatSR(&format[count++], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -1067,7 +1067,7 @@ VOID PhSipUpdateCpuPanel(
     LARGE_INTEGER performanceCounterTicks;
     PH_FORMAT format[6];
     WCHAR formatBuffer[256];
-    WCHAR uptimeString[PH_TIMESPAN_STR_LEN_1] = { L"Unknown" };
+    WCHAR uptimeString[PH_TIMESPAN_STR_LEN_1] = { L"未知" };
 
     // Hardware
 
@@ -1076,21 +1076,21 @@ VOID PhSipUpdateCpuPanel(
         switch (PhGetVirtualStatus())
         {
         case PhVirtualStatusVirtualMachine:
-            PhSetWindowText(CpuVirtualizationLabel, L"Virtual machine");
+            PhSetWindowText(CpuVirtualizationLabel, L"虚拟机");
             break;
         case PhVirtualStatusEnabledHyperV:
         case PhVirtualStatusEnabledFirmware:
-            PhSetWindowText(CpuVirtualizationLabel, L"Enabled");
+            PhSetWindowText(CpuVirtualizationLabel, L"已启用");
             break;
         case PhVirtualStatusDisabledWithHyperV:
-            PhSetWindowText(CpuVirtualizationLabel, L"Disabled / Hyper-V");
+            PhSetWindowText(CpuVirtualizationLabel, L"已禁用 / Hyper-V");
             break;
         case PhVirtualStatusDisabled:
-            PhSetWindowText(CpuVirtualizationLabel, L"Disabled");
+            PhSetWindowText(CpuVirtualizationLabel, L"已禁用");
             break;
         case PhVirtualStatusNotCapable:
         default:
-            PhSetWindowText(CpuVirtualizationLabel, L"Not capable");
+            PhSetWindowText(CpuVirtualizationLabel, L"不支持");
             break;
         }
 
@@ -1315,9 +1315,9 @@ PPH_STRING PhSipGetMaxCpuString(
             // \n%s (%lu): %.2f%%
             PhInitFormatC(&format[0], L'\n');
             PhInitFormatSR(&format[1], maxProcessRecord->ProcessName->sr);
-            PhInitFormatS(&format[2], L" (");
+            PhInitFormatS(&format[2], L"（");
             PhInitFormatU(&format[3], HandleToUlong(maxProcessRecord->ProcessId));
-            PhInitFormatS(&format[4], L"): ");
+            PhInitFormatS(&format[4], L"）：");
             PhInitFormatF(&format[5], maxCpuUsage * 100, PhMaxPrecisionUnit);
             PhInitFormatC(&format[6], L'%');
 
@@ -1330,7 +1330,7 @@ PPH_STRING PhSipGetMaxCpuString(
             // \n%s: %.2f%%
             PhInitFormatC(&format[0], L'\n');
             PhInitFormatSR(&format[1], maxProcessRecord->ProcessName->sr);
-            PhInitFormatS(&format[2], L": ");
+            PhInitFormatS(&format[2], L"：");
             PhInitFormatF(&format[3], maxCpuUsage * 100, PhMaxPrecisionUnit);
             PhInitFormatC(&format[4], L'%');
 

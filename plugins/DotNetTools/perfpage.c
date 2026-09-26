@@ -203,50 +203,50 @@ VOID DotNetPerfAddListViewGroups(
     )
 {
     ListView_EnableGroupView(ListViewHandle, TRUE);
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_MEMORY, L".NET CLR Memory");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, L".NET CLR Exceptions");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_INTEROP, L".NET CLR Interop");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_MEMORY, L".NET CLR 内存");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, L".NET CLR 异常");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_INTEROP, L".NET CLR 互操作");
     PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_JIT, L".NET CLR Jit");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_LOADING, L".NET CLR Loading");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, L".NET CLR LocksAndThreads");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_REMOTING, L".NET CLR Remoting");
-    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_SECURITY, L".NET CLR Security");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_LOADING, L".NET CLR 加载");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, L".NET CLR 锁和线程");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_REMOTING, L".NET CLR 远程处理");
+    PhAddListViewGroup(ListViewHandle, DOTNET_CATEGORY_SECURITY, L".NET CLR 安全");
 
      // This counter displays the number of times the generation 0 objects (youngest; most recently allocated) are garbage collected (Gen 0 GC) since the start of the application.
     // Gen 0 GC occurs when the available memory in generation 0 is not sufficient to satisfy an allocation request.
     // This counter is incremented at the end of a Gen 0 GC. Higher generation GCs include all lower generation GCs.
     // This counter is explicitly incremented when a higher generation (Gen 1 or Gen 2) GC occurs. _Global_ counter value is not accurate and should be ignored.
     // This counter displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENZEROCOLLECTIONS, L"# Gen 0 Collections", UlongToPtr(DOTNET_INDEX_MEMORY_GENZEROCOLLECTIONS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENZEROCOLLECTIONS, L"Gen 0 回收次数", UlongToPtr(DOTNET_INDEX_MEMORY_GENZEROCOLLECTIONS));
 
     // This counter displays the number of times the generation 1 objects are garbage collected since the start of the application.
     // The counter is incremented at the end of a Gen 1 GC. Higher generation GCs include all lower generation GCs.
     // This counter is explicitly incremented when a higher generation (Gen 2) GC occurs. _Global_ counter value is not accurate and should be ignored.
     // This counter displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENONECOLLECTIONS, L"# Gen 1 Collections", UlongToPtr(DOTNET_INDEX_MEMORY_GENONECOLLECTIONS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENONECOLLECTIONS, L"Gen 1 回收次数", UlongToPtr(DOTNET_INDEX_MEMORY_GENONECOLLECTIONS));
 
     // This counter displays the number of times the generation 2 objects(older) are garbage collected since the start of the application.
     // The counter is incremented at the end of a Gen 2 GC(also called full GC)._Global_ counter value is not accurate and should be ignored.
     // This counter displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENTWOCOLLECTIONS, L"# Gen 2 Collections", UlongToPtr(DOTNET_INDEX_MEMORY_GENTWOCOLLECTIONS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENTWOCOLLECTIONS, L"Gen 2 回收次数", UlongToPtr(DOTNET_INDEX_MEMORY_GENTWOCOLLECTIONS));
 
     // This counter displays the bytes of memory that survive garbage collection(GC) and are promoted from generation 0 to generation 1;
     // objects that are promoted just because they are waiting to be finalized are not included in this counter.
     // This counter displays the value observed at the end of the last GC; its not a cumulative counter.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFROMGENZERO, L"Promoted Memory from Gen 0", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFROMGENZERO));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFROMGENZERO, L"从 Gen 0 提升的内存", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFROMGENZERO));
 
     // This counter displays the bytes of memory that survive garbage collection(GC) and are promoted from generation 1 to generation 2;
     // objects that are promoted just because they are waiting to be finalized are not included in this counter.
     // This counter displays the value observed at the end of the last GC; its not a cumulative counter.
     // This counter is reset to 0 if the last GC was a Gen 0 GC only.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFROMGENONE, L"Promoted Memory from Gen 1", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFROMGENONE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFROMGENONE, L"从 Gen 1 提升的内存", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFROMGENONE));
 
     // This counter displays the bytes of memory that are promoted from generation 0 to generation 1 just because they are waiting to be finalized.
     // This counter displays the value observed at the end of the last GC; its not a cumulative counter.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFINALFROMGENZERO, L"Promoted Finalization-Memory from Gen 0", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFINALFROMGENZERO));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROMOTEDFINALFROMGENZERO, L"从 Gen 0 提升的终结化内存", UlongToPtr(DOTNET_INDEX_MEMORY_PROMOTEDFINALFROMGENZERO));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROCESSID, L"Process ID", UlongToPtr(DOTNET_INDEX_MEMORY_PROCESSID));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_PROCESSID, L"进程 ID", UlongToPtr(DOTNET_INDEX_MEMORY_PROCESSID));
 
     // This counter displays the maximum bytes that can be allocated in generation 0 (Gen 0);
     // its does not indicate the current number of bytes allocated in Gen 0.
@@ -254,78 +254,78 @@ VOID DotNetPerfAddListViewGroups(
     // The Gen 0 size is tuned by the Garbage Collector and can change during the execution of the application.
     // At the end of a Gen 0 collection the size of the Gen 0 heap is infact 0 bytes; this counter displays the size(in bytes) of allocations that would trigger
     // the next Gen 0 GC.This counter is updated at the end of a GC; its not updated on every allocation.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENZEROHEAPSIZE, L"Gen 0 Heap Size", UlongToPtr(DOTNET_INDEX_MEMORY_GENZEROHEAPSIZE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENZEROHEAPSIZE, L"Gen 0 堆大小", UlongToPtr(DOTNET_INDEX_MEMORY_GENZEROHEAPSIZE));
 
     // This counter displays the current number of bytes in generation 1 (Gen 1);
     // this counter does not display the maximum size of Gen 1. Objects are not directly allocated in this generation;
     // they are promoted from previous Gen 0 GCs.This counter is updated at the end of a GC; its not updated on every allocation.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENONEHEAPSIZE, L"Gen 1 Heap Size", UlongToPtr(DOTNET_INDEX_MEMORY_GENONEHEAPSIZE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENONEHEAPSIZE, L"Gen 1 堆大小", UlongToPtr(DOTNET_INDEX_MEMORY_GENONEHEAPSIZE));
 
     // This counter displays the current number of bytes in generation 2 (Gen 2).
     // Objects are not directly allocated in this generation; they are promoted from Gen 1 during previous Gen 1 GCs.
     // This counter is updated at the end of a GC; its not updated on every allocation.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENTWOHEAPSIZE, L"Gen 2 Heap Size", UlongToPtr(DOTNET_INDEX_MEMORY_GENTWOHEAPSIZE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GENTWOHEAPSIZE, L"Gen 2 堆大小", UlongToPtr(DOTNET_INDEX_MEMORY_GENTWOHEAPSIZE));
 
     // This counter displays the current size of the Large Object Heap in bytes.
     // Objects greater than 20 KBytes are treated as large objects by the Garbage Collector and are directly allocated in a special heap; they are not promoted through the generations.
     // This counter is updated at the end of a GC; its not updated on every allocation.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_LOHSIZE, L"Large Object Heap Size", UlongToPtr(DOTNET_INDEX_MEMORY_LOHSIZE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_LOHSIZE, L"大对象堆大小", UlongToPtr(DOTNET_INDEX_MEMORY_LOHSIZE));
 
     // This counter displays the number of garbage collected objects that survive a collection because they are waiting to be finalized.
     // If these objects hold references to other objects then those objects also survive but are not counted by this counter; the "Promoted Finalization-Memory from Gen 0"
     // and "Promoted Finalization-Memory from Gen 1" counters represent all the memory that survived due to finalization.
     // This counter is not a cumulative counter; its updated at the end of every GC with count of the survivors during that particular GC only.
     // This counter was designed to indicate the extra overhead that the application might incur because of finalization.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_FINALSURVIVORS, L"Finalization Survivors", UlongToPtr(DOTNET_INDEX_MEMORY_FINALSURVIVORS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_FINALSURVIVORS, L"终结化幸存者", UlongToPtr(DOTNET_INDEX_MEMORY_FINALSURVIVORS));
 
     // This counter displays the current number of GC Handles in-use.
     // GCHandles are handles to resources external to the CLR and the managed environment.
     // Handles occupy small amounts of memory in the GCHeap but potentially expensive unmanaged resources.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GCHANDLES, L"# GC Handles", UlongToPtr(DOTNET_INDEX_MEMORY_GCHANDLES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GCHANDLES, L"GC 句柄数", UlongToPtr(DOTNET_INDEX_MEMORY_GCHANDLES));
 
     // This counter displays the peak number of times a garbage collection was performed because of an explicit call to GC.Collect.
     // Its a good practice to let the GC tune the frequency of its collections.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_INDUCEDGC, L"# Induced GC", UlongToPtr(DOTNET_INDEX_MEMORY_INDUCEDGC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_INDUCEDGC, L"强制 GC 次数", UlongToPtr(DOTNET_INDEX_MEMORY_INDUCEDGC));
 
     // % Time in GC is the percentage of elapsed time that was spent in performing a garbage collection(GC) since the last GC cycle.
     // This counter is usually an indicator of the work done by the Garbage Collector on behalf of the application to collect and compact memory.
     // This counter is updated only at the end of every GC and the counter value reflects the last observed value; its not an average.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TIMEINGC, L"% Time in GC", UlongToPtr(DOTNET_INDEX_MEMORY_TIMEINGC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TIMEINGC, L"GC 时间百分比", UlongToPtr(DOTNET_INDEX_MEMORY_TIMEINGC));
 
     // This counter is the sum of four other counters; Gen 0 Heap Size; Gen 1 Heap Size; Gen 2 Heap Size and the Large Object Heap Size.
     // This counter indicates the current memory allocated in bytes on the GC Heaps.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_BYTESINALLHEAPS, L"# Bytes in all Heaps", UlongToPtr(DOTNET_INDEX_MEMORY_BYTESINALLHEAPS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_BYTESINALLHEAPS, L"所有堆中的字节数", UlongToPtr(DOTNET_INDEX_MEMORY_BYTESINALLHEAPS));
 
     // This counter displays the amount of virtual memory(in bytes) currently committed by the Garbage Collector.
     // (Committed memory is the physical memory for which space has been reserved on the disk paging file).
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALCOMMITTED, L"# Total Committed Bytes", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALCOMMITTED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALCOMMITTED, L"总提交字节数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALCOMMITTED));
 
     // This counter displays the amount of virtual memory(in bytes) currently reserved by the Garbage Collector.
     // (Reserved memory is the virtual memory space reserved for the application but no disk or main memory pages have been used.)
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALRESERVED, L"# Total Reserved Bytes", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALRESERVED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALRESERVED, L"总保留字节数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALRESERVED));
 
     // This counter displays the number of pinned objects encountered in the last GC.
     // This counter tracks the pinned objects only in the heaps that were garbage collected e.g. A Gen 0 GC would cause enumeration of pinned objects in the generation 0 heap only.
     // A pinned object is one that the Garbage Collector cannot move in memory.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALPINNED, L"# of Pinned Objects", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALPINNED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALPINNED, L"固定对象数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALPINNED));
 
     // This counter displays the current number of sync blocks in use. Sync blocks are per-object data structures allocated for storing synchronization information.
     // Sync blocks hold weak references to managed objects and need to be scanned by the Garbage Collector.
     // Sync blocks are not limited to storing synchronization information and can also store COM interop metadata.
     // This counter was designed to indicate performance problems with heavy use of synchronization primitives.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALSINKS, L"# of Sink Blocks in use", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALSINKS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALSINKS, L"正在使用的同步块数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALSINKS));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALBYTESSINCESTART, L"Total Bytes Allocated (since start)", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALBYTESSINCESTART));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALBYTESSINCESTART, L"自启动以来分配的总字节数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALBYTESSINCESTART));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALLOHBYTESSINCESTART, L"Total Bytes Allocated for Large Objects (since start)", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALLOHBYTESSINCESTART));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_TOTALLOHBYTESSINCESTART, L"自启动以来为大对象分配的总字节数", UlongToPtr(DOTNET_INDEX_MEMORY_TOTALLOHBYTESSINCESTART));
 
     // This counter displays the bytes per second that are promoted from generation 0 (youngest) to generation 1;
     // objects that are promoted just because they are waiting to be finalized are not included in this counter.
     // Memory is promoted when it survives a garbage collection. This counter was designed as an indicator of relatively long-lived objects being created per sec.
     // This counter displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GC0PROMOTEDBYTESPERSEC, L"Gen 0 Promoted Bytes / sec", UlongToPtr(DOTNET_INDEX_MEMORY_GC0PROMOTEDBYTESPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GC0PROMOTEDBYTESPERSEC, L"Gen 0 提升字节数/秒", UlongToPtr(DOTNET_INDEX_MEMORY_GC0PROMOTEDBYTESPERSEC));
 
     // This counter displays the bytes per second that are promoted from generation 1 to generation 2 (oldest);
     // objects that are promoted just because they are waiting to be finalized are not included in this counter.
@@ -333,241 +333,241 @@ VOID DotNetPerfAddListViewGroups(
     // Nothing is promoted from generation 2 since it is the oldest.
     // This counter was designed as an indicator of very long-lived objects being created per sec.
     // This counter displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GC1PROMOTEDBYTESPERSEC, L"Gen 1 Promoted Bytes / sec", UlongToPtr(DOTNET_INDEX_MEMORY_GC1PROMOTEDBYTESPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_GC1PROMOTEDBYTESPERSEC, L"Gen 1 提升字节数/秒", UlongToPtr(DOTNET_INDEX_MEMORY_GC1PROMOTEDBYTESPERSEC));
 
     // This counter displays the bytes of memory that are promoted from generation 1 to generation 2 just because they are waiting to be finalized.
     // This counter displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_FINALPROMOTEDBYTESPERSEC, L"Promoted Finalization-Memory / sec", UlongToPtr(DOTNET_INDEX_MEMORY_FINALPROMOTEDBYTESPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_FINALPROMOTEDBYTESPERSEC, L"提升的终结化内存/秒", UlongToPtr(DOTNET_INDEX_MEMORY_FINALPROMOTEDBYTESPERSEC));
 
     // This counter displays the rate of bytes per second allocated on the GC Heap.
     // This counter is updated at the end of every GC; not at each allocation.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_ALLOCATEDBYTESPERSEC, L"Allocated Bytes / sec", UlongToPtr(DOTNET_INDEX_MEMORY_ALLOCATEDBYTESPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_MEMORY, DOTNET_INDEX_MEMORY_ALLOCATEDBYTESPERSEC, L"分配字节数/秒", UlongToPtr(DOTNET_INDEX_MEMORY_ALLOCATEDBYTESPERSEC));
 
     // This counter displays the total number of exceptions thrown since the start of the application.
     // These include both .NET exceptions and unmanaged exceptions that get converted into .NET exceptions e.g. null pointer reference exception in unmanaged code
     // would get re-thrown in managed code as a .NET System.NullReferenceException; this counter includes both handled and unhandled exceptions.Exceptions
     // that are re-thrown would get counted again. Exceptions should only occur in rare situations and not in the normal control flow of the program.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWNCOUNT, L"# of Exceptions Thrown", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWNCOUNT));
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FILTERSCOUNT, L"# of Filters Executed", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FILTERSCOUNT));
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FINALLYCOUNT, L"# of Finallys Executed", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FINALLYCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWNCOUNT, L"抛出的异常数", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWNCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FILTERSCOUNT, L"执行的过滤器数", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FILTERSCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FINALLYCOUNT, L"执行的 Finally 块数", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FINALLYCOUNT));
 
     // This counter displays the number of exceptions thrown per second.
     // These include both .NET exceptions and unmanaged exceptions that get converted into .NET exceptions.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWNPERSEC, L"# of Exceps Thrown / sec", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWNPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWNPERSEC, L"抛出异常数/秒", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWNPERSEC));
 
     // This counter displays the number of .NET exception filters executed per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FILTERSPERSEC, L"# of Filters Executed / sec", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FILTERSPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FILTERSPERSEC, L"执行的过滤器数/秒", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FILTERSPERSEC));
 
     // This counter displays the number of finally blocks executed per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FINALLYPERSEC, L"# of Finallys Executed / sec", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FINALLYPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_FINALLYPERSEC, L"执行的 Finally 块数/秒", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_FINALLYPERSEC));
 
     // This counter displays the number of stack frames traversed from the frame that threw the .NET exception to the frame that handled the exception per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWTOCATCHDEPTHPERSEC, L"Throw To Catch Depth / sec", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWTOCATCHDEPTHPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_EXCEPTIONS, DOTNET_INDEX_EXCEPTIONS_THROWTOCATCHDEPTHPERSEC, L"抛出到捕获深度/秒", UlongToPtr(DOTNET_INDEX_EXCEPTIONS_THROWTOCATCHDEPTHPERSEC));
 
     // This counter displays the current number of Com-Callable-Wrappers (CCWs).
     // A CCW is a proxy for the .NET managed object being referenced from unmanaged COM client(s).
     // This counter was designed to indicate the number of managed objects being referenced by unmanaged COM code.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_CCWCOUNT, L"# of CCWs", UlongToPtr(DOTNET_INDEX_INTEROP_CCWCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_CCWCOUNT, L"CCW 数", UlongToPtr(DOTNET_INDEX_INTEROP_CCWCOUNT));
 
     // This counter displays the current number of stubs created by the CLR.
     // Stubs are responsible for marshalling arguments and return values from managed to unmanaged code and vice versa; during a COM Interop call or PInvoke call.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_STUBCOUNT, L"# of Stubs", UlongToPtr(DOTNET_INDEX_INTEROP_STUBCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_STUBCOUNT, L"存根数", UlongToPtr(DOTNET_INDEX_INTEROP_STUBCOUNT));
 
     // This counter displays the total number of times arguments and return values have been marshaled from managed to unmanaged code
     // and vice versa since the start of the application. This counter is not incremented if the stubs are inlined.
     // (Stubs are responsible for marshalling arguments and return values). Stubs usually get inlined if the marshalling overhead is small.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_MARSHALCOUNT, L"# of Marshalling", UlongToPtr(DOTNET_INDEX_INTEROP_MARSHALCOUNT));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_MARSHALCOUNT, L"封送处理次数", UlongToPtr(DOTNET_INDEX_INTEROP_MARSHALCOUNT));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_TLBIMPORTPERSEC, L"# of TLB imports / sec", UlongToPtr(DOTNET_INDEX_INTEROP_TLBIMPORTPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_TLBIMPORTPERSEC, L"TLB 导入数/秒", UlongToPtr(DOTNET_INDEX_INTEROP_TLBIMPORTPERSEC));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_TLBEXPORTPERSEC, L"# of TLB exports / sec", UlongToPtr(DOTNET_INDEX_INTEROP_TLBEXPORTPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_INTEROP, DOTNET_INDEX_INTEROP_TLBEXPORTPERSEC, L"TLB 导出数/秒", UlongToPtr(DOTNET_INDEX_INTEROP_TLBEXPORTPERSEC));
 
     // This counter displays the total number of methods compiled Just-In-Time (JIT) by the CLR JIT compiler since the start of the application.
     // This counter does not include the pre-jitted methods.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILMETHODSJITTED, L"# of Methods Jitted", UlongToPtr(DOTNET_INDEX_JIT_ILMETHODSJITTED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILMETHODSJITTED, L"JIT 编译的方法数", UlongToPtr(DOTNET_INDEX_JIT_ILMETHODSJITTED));
 
     // This counter displays the total IL bytes jitted since the start of the application.
     // This counter is exactly equivalent to the "Total # of IL Bytes Jitted" counter.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILBYTESJITTED, L"# of IL Bytes Jitted", UlongToPtr(DOTNET_INDEX_JIT_ILBYTESJITTED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILBYTESJITTED, L"JIT 编译的 IL 字节数", UlongToPtr(DOTNET_INDEX_JIT_ILBYTESJITTED));
 
     // This counter displays the total IL bytes jitted since the start of the application.
     // This counter is exactly equivalent to the "# of IL Bytes Jitted" counter.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILTOTALBYTESJITTED, L"Total # of IL Bytes Jitted", UlongToPtr(DOTNET_INDEX_JIT_ILTOTALBYTESJITTED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILTOTALBYTESJITTED, L"JIT 编译的 IL 字节总数", UlongToPtr(DOTNET_INDEX_JIT_ILTOTALBYTESJITTED));
 
     // This counter displays the peak number of methods the JIT compiler has failed to JIT since the start of the application.
     // This failure can occur if the IL cannot be verified or if there was an internal error in the JIT compiler.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_FAILURES, L"Jit Failures", UlongToPtr(DOTNET_INDEX_JIT_FAILURES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_FAILURES, L"Jit 失败次数", UlongToPtr(DOTNET_INDEX_JIT_FAILURES));
 
     // This counter displays the percentage of elapsed time spent in JIT compilation since the last JIT compilation phase.
     // This counter is updated at the end of every JIT compilation phase. A JIT compilation phase is the phase when a method and its dependencies are being compiled.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_TIME, L"% Time in Jit", UlongToPtr(DOTNET_INDEX_JIT_TIME));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_TIME, L"Jit 时间百分比", UlongToPtr(DOTNET_INDEX_JIT_TIME));
 
     // This counter displays the rate at which IL bytes are jitted per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILBYTESJITTEDPERSEC, L"IL Bytes Jitted / sec", UlongToPtr(DOTNET_INDEX_JIT_ILBYTESJITTEDPERSEC));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_JIT, DOTNET_INDEX_JIT_ILBYTESJITTEDPERSEC, L"IL 字节 JIT 编译速率/秒", UlongToPtr(DOTNET_INDEX_JIT_ILBYTESJITTEDPERSEC));
 
     // This counter displays the current number of classes loaded in all Assemblies.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTLOADED, L"Current Classes Loaded", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTLOADED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTLOADED, L"当前已加载类数", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTLOADED));
 
     // This counter displays the cumulative number of classes loaded in all Assemblies since the start of this application.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALLOADED, L"Total Classes Loaded", UlongToPtr(DOTNET_INDEX_LOADING_TOTALLOADED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALLOADED, L"已加载类总数", UlongToPtr(DOTNET_INDEX_LOADING_TOTALLOADED));
 
     // This counter displays the current number of AppDomains loaded in this application.
     // AppDomains (application domains) provide a secure and versatile unit of processing that the CLR can use to provide isolation between applications running in the same process.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTAPPDOMAINS, L"Current Appdomains", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTAPPDOMAINS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTAPPDOMAINS, L"当前 Appdomain 数", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTAPPDOMAINS));
 
     // This counter displays the peak number of AppDomains loaded since the start of this application.
     // AppDomains (application domains) provide a secure and versatile unit of processing that the CLR can use to provide isolation between applications running in the same process.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALAPPDOMAINS, L"Total Appdomains", UlongToPtr(DOTNET_INDEX_LOADING_TOTALAPPDOMAINS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALAPPDOMAINS, L"Appdomain 总数", UlongToPtr(DOTNET_INDEX_LOADING_TOTALAPPDOMAINS));
 
     // This counter displays the current number of Assemblies loaded across all AppDomains in this application.
     // If the Assembly is loaded as domain - neutral from multiple AppDomains then this counter is incremented once only.
     // Assemblies can be loaded as domain - neutral when their code can be shared by all AppDomains or they can be loaded as domain - specific when their code is private to the AppDomain.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTASSEMBLIES, L"Current Assemblies", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTASSEMBLIES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CURRENTASSEMBLIES, L"当前程序集数", UlongToPtr(DOTNET_INDEX_LOADING_CURRENTASSEMBLIES));
 
     // This counter displays the total number of Assemblies loaded since the start of this application.
     // If the Assembly is loaded as domain - neutral from multiple AppDomains then this counter is incremented once only.
     // Assemblies can be loaded as domain - neutral when their code can be shared by all AppDomains or they can be loaded as domain - specific when their code is private to the AppDomain.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALASSEMBLIES, L"Total Assemblies", UlongToPtr(DOTNET_INDEX_LOADING_TOTALASSEMBLIES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALASSEMBLIES, L"程序集总数", UlongToPtr(DOTNET_INDEX_LOADING_TOTALASSEMBLIES));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_ASSEMBLYSEARCHLENGTH, L"Assembly Search Length", UlongToPtr(DOTNET_INDEX_LOADING_ASSEMBLYSEARCHLENGTH));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_ASSEMBLYSEARCHLENGTH, L"程序集搜索长度", UlongToPtr(DOTNET_INDEX_LOADING_ASSEMBLYSEARCHLENGTH));
 
     // This counter displays the peak number of classes that have failed to load since the start of the application.
     // These load failures could be due to many reasons like inadequate security or illegal format.Full details can be found in the profiling services help.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALLOADFAILURES, L"Total # of Load Failures", UlongToPtr(DOTNET_INDEX_LOADING_TOTALLOADFAILURES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALLOADFAILURES, L"加载失败总数", UlongToPtr(DOTNET_INDEX_LOADING_TOTALLOADFAILURES));
 
     // This counter displays the current size(in bytes) of the memory committed by the class loader across all AppDomains.
     // (Committed memory is the physical memory for which space has been reserved on the disk paging file.)
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_BYTESINLOADERHEAP, L"Bytes in Loader Heap", UlongToPtr(DOTNET_INDEX_LOADING_BYTESINLOADERHEAP));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_BYTESINLOADERHEAP, L"加载器堆中的字节数", UlongToPtr(DOTNET_INDEX_LOADING_BYTESINLOADERHEAP));
 
     // This counter displays the total number of AppDomains unloaded since the start of the application.
     //If an AppDomain is loaded and unloaded multiple times this counter would count each of those unloads as separate.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALAPPDOMAINSUNLOADED, L"Total Appdomains Unloaded", UlongToPtr(DOTNET_INDEX_LOADING_TOTALAPPDOMAINSUNLOADED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_TOTALAPPDOMAINSUNLOADED, L"已卸载 Appdomain 总数", UlongToPtr(DOTNET_INDEX_LOADING_TOTALAPPDOMAINSUNLOADED));
 
     // This counter displays the number of classes loaded per second in all Assemblies.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CLASSESLOADEDRATE, L"Rate of Classes Loaded", UlongToPtr(DOTNET_INDEX_LOADING_CLASSESLOADEDRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_CLASSESLOADEDRATE, L"类加载速率", UlongToPtr(DOTNET_INDEX_LOADING_CLASSESLOADEDRATE));
 
     // This counter displays the number of AppDomains loaded per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_APPDOMAINSRATE, L"Rate of Appdomains", UlongToPtr(DOTNET_INDEX_LOADING_APPDOMAINSRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_APPDOMAINSRATE, L"Appdomain 速率", UlongToPtr(DOTNET_INDEX_LOADING_APPDOMAINSRATE));
 
     // This counter displays the number of Assemblies loaded across all AppDomains per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_ASSEMBLIESRATE, L"Rate of Assemblies", UlongToPtr(DOTNET_INDEX_LOADING_ASSEMBLIESRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_ASSEMBLIESRATE, L"程序集速率", UlongToPtr(DOTNET_INDEX_LOADING_ASSEMBLIESRATE));
 
     // This counter displays the number of classes that failed to load per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_LOADFAILURESRATE, L"Rate of Load Failures", UlongToPtr(DOTNET_INDEX_LOADING_LOADFAILURESRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_LOADFAILURESRATE, L"加载失败速率", UlongToPtr(DOTNET_INDEX_LOADING_LOADFAILURESRATE));
 
     // This counter displays the number of AppDomains unloaded per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_APPDOMAINSUNLOADEDRATE, L"Rate of Appdomains Unloaded", UlongToPtr(DOTNET_INDEX_LOADING_APPDOMAINSUNLOADEDRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOADING, DOTNET_INDEX_LOADING_APPDOMAINSUNLOADEDRATE, L"Appdomain 卸载速率", UlongToPtr(DOTNET_INDEX_LOADING_APPDOMAINSUNLOADEDRATE));
 
     // This counter displays the total number of times threads in the CLR have attempted to acquire a managed lock unsuccessfully.
     // Managed locks can be acquired in many ways; by the "lock" statement in C# or by calling System.Monitor.Enter or by using MethodImplOptions.Synchronized custom attribute.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALLOCKS, L"Total # of Contentions", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALLOCKS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALLOCKS, L"锁争用总数", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALLOCKS));
 
     // This counter displays the total number of threads currently waiting to acquire some managed lock in the application.
     // This counter is not an average over time; it displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALQUEUELENGTH, L"Current Queue Length", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALQUEUELENGTH));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALQUEUELENGTH, L"当前队列长度", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALQUEUELENGTH));
 
     // This counter displays the total number of threads that waited to acquire some managed lock since the start of the application.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHPEAK, L"Queue Length Peak", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHPEAK));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHPEAK, L"队列长度峰值", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHPEAK));
 
     // This counter displays the number of current.NET thread objects in the application.
     // A.NET thread object is created either by new System.Threading.Thread or when an unmanaged thread enters the managed environment.
     // This counters maintains the count of both running and stopped threads. This counter is not an average over time; it just displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTLOGICAL, L"# of Current Logical Threads", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTLOGICAL));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTLOGICAL, L"当前逻辑线程数", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTLOGICAL));
 
     // This counter displays the number of native OS threads created and owned by the CLR to act as underlying threads for .NET thread objects.
     // This counters value does not include the threads used by the CLR in its internal operations; it is a subset of the threads in the OS process.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTPHYSICAL, L"# of Current Physical Threads", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTPHYSICAL));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTPHYSICAL, L"当前物理线程数", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTPHYSICAL));
 
     // This counter displays the number of threads that are currently recognized by the CLR; they have a corresponding .NET thread object associated with them.
     // These threads are not created by the CLR; they are created outside the CLR but have since run inside the CLR at least once.
     // Only unique threads are tracked; threads with same thread ID re-entering the CLR or recreated after thread exit are not counted twice.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTRECOGNIZED, L"# of Current Recognized Threads", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTRECOGNIZED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CURRENTRECOGNIZED, L"当前已识别线程数", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CURRENTRECOGNIZED));
 
     // This counter displays the total number of threads that have been recognized by the CLR since the start of this application;
     // these threads have a corresponding .NET thread object associated with them.
     // These threads are not created by the CLR; they are created outside the CLR but have since run inside the CLR at least once.
     // Only unique threads are tracked; threads with same thread ID re-entering the CLR or recreated after thread exit are not counted twice.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALRECOGNIZED, L"# of Total Recognized Threads", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALRECOGNIZED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_TOTALRECOGNIZED, L"已识别线程总数", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_TOTALRECOGNIZED));
 
     // Rate at which threads in the runtime attempt to acquire a managed lock unsuccessfully.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CONTENTIONRATE, L"Contention Rate / sec", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CONTENTIONRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_CONTENTIONRATE, L"争用速率/秒", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_CONTENTIONRATE));
 
     // This counter displays the number of threads per second waiting to acquire some lock in the application.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHRATE, L"Queue Length / sec", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHRATE, L"队列长度/秒", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_QUEUELENGTHRATE));
 
     // This counter displays the number of threads per second recognized by the CLR.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_RECOGNIZEDTHREADSRATE, L"Rate of Recognized Threads / sec", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_RECOGNIZEDTHREADSRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_LOCKSANDTHREADS, DOTNET_INDEX_LOCKSANDTHREADS_RECOGNIZEDTHREADSRATE, L"已识别线程速率/秒", UlongToPtr(DOTNET_INDEX_LOCKSANDTHREADS_RECOGNIZEDTHREADSRATE));
 
     // This counter displays the total number of remote procedure calls invoked since the start of this application.
     // A remote procedure call is a call on any object outside the callers AppDomain.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_TOTALREMOTECALLS, L"Total Remote Calls", UlongToPtr(DOTNET_INDEX_REMOTING_TOTALREMOTECALLS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_TOTALREMOTECALLS, L"远程调用总数", UlongToPtr(DOTNET_INDEX_REMOTING_TOTALREMOTECALLS));
 
     // This counter displays the total number of remoting channels registered across all AppDomains since the start of the application.
     // Channels are used to transport messages to and from remote objects.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CHANNELS, L"Channels", UlongToPtr(DOTNET_INDEX_REMOTING_CHANNELS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CHANNELS, L"通道数", UlongToPtr(DOTNET_INDEX_REMOTING_CHANNELS));
 
     // This counter displays the total number of remoting proxy objects created in this process since the start of the process.
     // Proxy object acts as a representative of the remote objects and ensures that all calls made on the proxy are forwarded to the correct remote object instance.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTPROXIES, L"Context Proxies", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTPROXIES));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTPROXIES, L"上下文代理数", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTPROXIES));
 
     // This counter displays the current number of context-bound classes loaded.
     // Classes that can be bound to a context are called context-bound classes; context-bound classes are marked with Context Attributes
     // which provide usage rules for synchronization; thread affinity; transactions etc.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTCLASSESLOADED, L"Context-Bound Classes Loaded", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTCLASSESLOADED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTCLASSESLOADED, L"已加载上下文绑定类数", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTCLASSESLOADED));
 
     // This counter displays the current number of remoting contexts in the application.
     // A context is a boundary containing a collection of objects with the same usage rules like synchronization; thread affinity; transactions etc.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTS, L"Contexts", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTS, L"上下文数", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTS));
 
     // Reserved for future use.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTSALLOCATED, L"# of context bound objects allocated", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTSALLOCATED));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_CONTEXTSALLOCATED, L"分配的上下文绑定对象数", UlongToPtr(DOTNET_INDEX_REMOTING_CONTEXTSALLOCATED));
 
     // This counter displays the number of remote procedure calls invoked per second.
     // A remote procedure call is a call on any object outside the callers AppDomain.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_REMOTECALLSRATE, L"Remote Calls / sec", UlongToPtr(DOTNET_INDEX_REMOTING_REMOTECALLSRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_REMOTECALLSRATE, L"远程调用速率/秒", UlongToPtr(DOTNET_INDEX_REMOTING_REMOTECALLSRATE));
 
     // This counter displays the number of context-bound objects allocated per second.
     // This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_OBJALLOCATIONRATE, L"Context-Bound Objects Alloc / sec", UlongToPtr(DOTNET_INDEX_REMOTING_OBJALLOCATIONRATE));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_REMOTING, DOTNET_INDEX_REMOTING_OBJALLOCATIONRATE, L"上下文绑定对象分配速率/秒", UlongToPtr(DOTNET_INDEX_REMOTING_OBJALLOCATIONRATE));
 
     // This counter displays the total number of runtime Code Access Security(CAS) checks performed since the start of the application.
     // Runtime CAS checks are performed when a caller makes a call to a callee demanding a particular permission;
     // the runtime check is made on every call by the caller; the check is done by examining the current thread stack of the caller.
     // This counter used together with "Stack Walk Depth" is indicative of performance penalty for security checks.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_TOTALRUNTIMECHECKS, L"Total Runtime Checks", UlongToPtr(DOTNET_INDEX_SECURITY_TOTALRUNTIMECHECKS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_TOTALRUNTIMECHECKS, L"运行时检查总数", UlongToPtr(DOTNET_INDEX_SECURITY_TOTALRUNTIMECHECKS));
 
     // This counter displays the total number of linktime Code Access Security(CAS) checks since the start of the application.
     // Linktime CAS checks are performed when a caller makes a call to a callee demanding a particular permission at JIT compile time; linktime check is performed once per caller.
     // This count is not indicative of serious performance issues; its indicative of the security system activity.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_LINKTIMECHECKS, L"# Link Time Checks", UlongToPtr(DOTNET_INDEX_SECURITY_LINKTIMECHECKS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_LINKTIMECHECKS, L"链接时检查次数", UlongToPtr(DOTNET_INDEX_SECURITY_LINKTIMECHECKS));
 
     // This counter displays the percentage of elapsed time spent in performing runtime Code Access Security(CAS) checks since the last such check.
     // CAS allows code to be trusted to varying degrees and enforces these varying levels of trust depending on code identity.
     // This counter is updated at the end of a runtime security check; it represents the last observed value; its not an average.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_TIMEINRTCHECKS, L"% Time in RT checks", UlongToPtr(DOTNET_INDEX_SECURITY_TIMEINRTCHECKS));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_TIMEINRTCHECKS, L"运行时检查时间百分比", UlongToPtr(DOTNET_INDEX_SECURITY_TIMEINRTCHECKS));
 
     // This counter displays the depth of the stack during that last runtime Code Access Security check.
     // Runtime Code Access Security check is performed by crawling the stack.
     // This counter is not an average; it just displays the last observed value.
-    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_STACKWALKDEPTH, L"Stack Walk Depth", UlongToPtr(DOTNET_INDEX_SECURITY_STACKWALKDEPTH));
+    PhAddListViewGroupItem(ListViewHandle, DOTNET_CATEGORY_SECURITY, DOTNET_INDEX_SECURITY_STACKWALKDEPTH, L"堆栈遍历深度", UlongToPtr(DOTNET_INDEX_SECURITY_STACKWALKDEPTH));
 
     // % Time Sig.Authenticating
     // Reserved for future use.
@@ -770,8 +770,8 @@ INT_PTR CALLBACK DotNetPerfPageDlgProc(
 
             PhSetListViewStyle(context->CountersListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->CountersListViewHandle, L"explorer");
-            PhAddListViewColumn(context->CountersListViewHandle, 0, 0, 0, LVCFMT_LEFT, 250, L"Counter");
-            PhAddListViewColumn(context->CountersListViewHandle, 1, 1, 1, LVCFMT_RIGHT, 140, L"Value");
+            PhAddListViewColumn(context->CountersListViewHandle, 0, 0, 0, LVCFMT_LEFT, 250, L"计数器");
+            PhAddListViewColumn(context->CountersListViewHandle, 1, 1, 1, LVCFMT_RIGHT, 140, L"值");
             PhSetExtendedListView(context->CountersListViewHandle);
 
             DotNetPerfAddListViewGroups(context->CountersListViewHandle);

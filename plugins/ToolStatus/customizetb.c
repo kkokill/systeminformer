@@ -14,16 +14,16 @@
 
 static CONST PCWSTR CustomizeTextOptionsStrings[] =
 {
-    L"No text labels",
-    L"Selective text",
-    L"Show text labels"
+    L"无文本标签",
+    L"选择性文本",
+    L"显示文本标签"
 };
 
 static CONST PCWSTR CustomizeSearchDisplayStrings[] =
 {
-    L"Always show",
-    L"Hide when inactive (Ctrl+K)",
-    // L"Auto-hide"
+    L"始终显示",
+    L"非活动时隐藏 (Ctrl+K)",
+    // L"自动隐藏"
 };
 
 BOOLEAN CustomizeToolbarItemExists(
@@ -917,8 +917,8 @@ INT_PTR CALLBACK CustomizeToolbarDialogProc(
                 {
                     DrawText(
                         bufferDc,
-                        L"Separator",
-                        sizeof(L"Separator") / sizeof(WCHAR),
+                        L"分隔符",
+                        sizeof(L"分隔符") / sizeof(WCHAR),
                         &bufferRect,
                         DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOCLIP
                         );

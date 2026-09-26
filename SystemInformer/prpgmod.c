@@ -26,7 +26,7 @@
 #include <settings.h>
 #include <verify.h>
 
-static CONST PH_STRINGREF EmptyModulesText = PH_STRINGREF_INIT(L"There are no modules to display.");
+static CONST PH_STRINGREF EmptyModulesText = PH_STRINGREF_INIT(L"没有可显示的模块。");
 
 _Function_class_(PH_CALLBACK_FUNCTION)
 static VOID NTAPI ModuleAddedHandler(
@@ -126,12 +126,12 @@ VOID PhShowModuleContextMenu(
         PH_PLUGIN_MENU_INFORMATION menuInfo;
 
         menu = PhCreateEMenu();
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_UNLOAD, L"&Unload\bDel", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_UNLOAD, L"卸载(&U)\bDel", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_OPENFILELOCATION, L"Open &file location\bCtrl+Enter", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_PROPERTIES, L"P&roperties", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_OPENFILELOCATION, L"打开文件位置(&F)\bCtrl+Enter", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_PROPERTIES, L"属性(&R)", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MODULE_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
         PhSetFlagsEMenuItem(menu, ID_MODULE_PROPERTIES, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
         PhpInitializeModuleMenu(menu, ProcessItem->ProcessId, modules, numberOfModules);
         PhInsertCopyCellEMenuItem(menu, ID_MODULE_COPY, Context->ListContext.TreeNewHandle, ContextMenu->Column);
@@ -581,9 +581,9 @@ VOID PhpProcessModulesSave(
 {
     static PH_FILETYPE_FILTER filters[] =
     {
-        { L"Text files (*.txt;*.log)", L"*.txt;*.log" },
-        { L"Comma-separated values (*.csv)", L"*.csv" },
-        { L"All files (*.*)", L"*.*" }
+        { L"文本文件 (*.txt;*.log)", L"*.txt;*.log" },
+        { L"CSV 文件 (*.csv)", L"*.csv" },
+        { L"所有文件 (*.*)", L"*.*" }
     };
     PVOID fileDialog = PhCreateSaveFileDialog();
     PH_FORMAT format[4];
@@ -591,8 +591,8 @@ VOID PhpProcessModulesSave(
 
     processItem = PhReferenceProcessItem(ModulesContext->Provider->ProcessId);
     PhInitFormatS(&format[0], L"System Informer (");
-    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"Unknown process") : L"Unknown process");
-    PhInitFormatS(&format[2], L") Modules");
+    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"未知进程") : L"未知进程");
+    PhInitFormatS(&format[2], L") 模块");
     PhInitFormatS(&format[3], L".txt");
     if (processItem) PhDereferenceObject(processItem);
 
@@ -655,7 +655,7 @@ VOID PhpProcessModulesSave(
         }
 
         if (!NT_SUCCESS(status))
-            PhShowStatus(ModulesContext->WindowHandle, L"Unable to create the file", status, 0);
+            PhShowStatus(ModulesContext->WindowHandle, L"无法创建文件", status, 0);
     }
 
     PhFreeFileDialog(fileDialog);
@@ -770,7 +770,7 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 modulesContext->SearchboxHandle,
-                L"Search Modules (Ctrl+K)",
+                L"搜索模块 (Ctrl+K)",
                 SETTING_SEARCH_MODULES_REGEX,
                 SETTING_SEARCH_MODULES_CASE_SENSITIVE,
                 PhpProcessModulesSearchControlCallback,
@@ -927,7 +927,7 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                             SETTING_FILE_BROWSE_EXECUTABLE,
                             PhGetString(fileNameWin32),
                             FALSE,
-                            L"Make sure the Explorer executable file is present."
+                            L"请确保 Explorer 可执行文件存在。"
                             );
                     }
                 }
@@ -945,7 +945,7 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                             SETTING_PROGRAM_INSPECT_EXECUTABLES,
                             PhGetString(fileNameWin32),
                             FALSE,
-                            L"Make sure the PE Viewer executable file is present."
+                            L"请确保 PE Viewer 可执行文件存在。"
                             );
                     }
                 }
@@ -986,30 +986,30 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                         break;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, dynamicItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_DYNAMIC_OPTION, L"Hide dynamic", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, mappedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_MAPPED_OPTION, L"Hide mapped", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, staticItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_STATIC_OPTION, L"Hide static", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, verifiedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_SIGNED_OPTION, L"Hide verified", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_SYSTEM_OPTION, L"Hide system", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, coherencyItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_LOWIMAGECOHERENCY_OPTION, L"Hide low image coherency", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, knowndllsItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_IMAGEKNOWNDLL_OPTION, L"Hide knowndlls images", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, dynamicItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_DYNAMIC_OPTION, L"隐藏动态", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, mappedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_MAPPED_OPTION, L"隐藏映射", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, staticItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_STATIC_OPTION, L"隐藏静态", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, verifiedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_SIGNED_OPTION, L"隐藏已验证", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_SYSTEM_OPTION, L"隐藏系统", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, coherencyItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_LOWIMAGECOHERENCY_OPTION, L"隐藏低映像一致性", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, knowndllsItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_IMAGEKNOWNDLL_OPTION, L"隐藏已知 DLL 映像", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, dotnetItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_DOTNET_OPTION, L"Highlight .NET modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, immersiveItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_IMMERSIVE_OPTION, L"Highlight immersive modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, relocatedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_RELOCATED_OPTION, L"Highlight relocated modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, untrustedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_UNSIGNED_OPTION, L"Highlight untrusted modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, systemHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_SYSTEM_OPTION, L"Highlight system modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, coherencyHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_LOWIMAGECOHERENCY_OPTION, L"Highlight low image coherency", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, knowndllsHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_IMAGEKNOWNDLL, L"Highlight knowndlls images", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, nativeModulesHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_NATIVE_MODULES, L"Highlight native modules", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, mappedModulesHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_MAPPED_MODULES, L"Highlight mapped modules", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, dotnetItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_DOTNET_OPTION, L"突出显示 .NET 模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, immersiveItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_IMMERSIVE_OPTION, L"突出显示沉浸式模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, relocatedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_RELOCATED_OPTION, L"突出显示已重定位模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, untrustedItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_UNSIGNED_OPTION, L"突出显示不受信任的模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, systemHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_SYSTEM_OPTION, L"突出显示系统模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, coherencyHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_LOWIMAGECOHERENCY_OPTION, L"突出显示低映像一致性", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, knowndllsHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_IMAGEKNOWNDLL, L"突出显示已知 DLL 映像", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, nativeModulesHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_NATIVE_MODULES, L"突出显示原生模块", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, mappedModulesHighlightItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_HIGHLIGHT_MAPPED_MODULES, L"突出显示映射模块", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, zeroPadItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_ZERO_PAD_ADDRESSES, L"Zero pad addresses", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, zeroPadItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_ZERO_PAD_ADDRESSES, L"地址零填充", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MODULE_FLAGS_LOAD_MODULE_OPTION, L"Load module...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MODULE_FLAGS_LOAD_MODULE_OPTION, L"加载模块...", NULL, NULL), ULONG_MAX);
                     //PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     //PhInsertEMenuItem(menu, stringsItem = PhCreateEMenuItem(0, PH_MODULE_FLAGS_MODULE_STRINGS_OPTION, L"Strings...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MODULE_FLAGS_SAVE_OPTION, L"Save...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MODULE_FLAGS_SAVE_OPTION, L"保存...", NULL, NULL), ULONG_MAX);
 
                     if (modulesContext->ListContext.HideDynamicModules)
                         dynamicItem->Flags |= PH_EMENU_CHECKED;
@@ -1061,9 +1061,9 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                         {
                             if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                                 hwndDlg,
-                                L"load",
-                                L"a module",
-                                L"Some programs may restrict access or ban your account when loading modules into the process.",
+                                L"加载",
+                                L"模块",
+                                L"某些程序在向进程加载模块时可能会限制访问或封禁您的账户。",
                                 FALSE
                                 ))
                             {
@@ -1206,7 +1206,7 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                 else
                 {
                     message = PhGetStatusMessage(status, 0);
-                    PhMoveReference(&modulesContext->ErrorMessage, PhFormatString(L"Unable to query module information:\n%s", PhGetStringOrDefault(message, L"Unknown error.")));
+                    PhMoveReference(&modulesContext->ErrorMessage, PhFormatString(L"无法查询模块信息:\n%s", PhGetStringOrDefault(message, L"未知错误。")));
                     PhClearReference(&message);
                     TreeNew_SetEmptyText(modulesContext->TreeNewHandle, &modulesContext->ErrorMessage->sr, 0);
                 }

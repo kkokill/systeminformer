@@ -127,12 +127,12 @@ VOID WeInitializeWindowTree(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
     TreeNew_SetCallback(TreeNewHandle, WepWindowTreeNewCallback, Context);
 
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_CLASS, TRUE, L"Class", 180, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_HANDLE, TRUE, L"Handle", 70, PH_ALIGN_LEFT, 1, 0);
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_TEXT, TRUE, L"Text", 220, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_PROCESS, TRUE, L"Process", 150, PH_ALIGN_LEFT, 3, 0);
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_THREAD, TRUE, L"Thread", 150, PH_ALIGN_LEFT, 4, 0);
-    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_MODULE, TRUE, L"Module", 150, PH_ALIGN_LEFT, 5, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_CLASS, TRUE, L"类名", 180, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_HANDLE, TRUE, L"句柄", 70, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_TEXT, TRUE, L"文本", 220, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_PROCESS, TRUE, L"进程", 150, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_THREAD, TRUE, L"线程", 150, PH_ALIGN_LEFT, 4, 0);
+    PhAddTreeNewColumn(TreeNewHandle, WEWNTLC_MODULE, TRUE, L"模块", 150, PH_ALIGN_LEFT, 5, 0);
 
     PhInitializeTreeNewFilterSupport(&Context->FilterSupport, Context->TreeNewHandle, Context->NodeList);
     Context->TreeFilterEntry = PhAddTreeNewFilter(&Context->FilterSupport, WeWindowTreeFilterCallback, Context);
@@ -322,8 +322,8 @@ PPH_STRING WeGetClientIdName(
     BOOLEAN processIsTerminated = FALSE;
     BOOLEAN threadIsTerminated = FALSE;
 
-    PhInitializeStringRef(&processNameStringRef, L"terminated process");
-    PhInitializeStringRef(&threadNameStringRef, L"terminated thread");
+    PhInitializeStringRef(&processNameStringRef, L"已终止的进程");
+    PhInitializeStringRef(&threadNameStringRef, L"已终止的线程");
 
     if (ClientId->UniqueProcess)
     {
@@ -403,12 +403,12 @@ PPH_STRING WeGetClientIdName(
         PH_FORMAT format[10];
 
         // L"%s%.*s (%lu): %s%.*s (%lu)"
-        PhInitFormatS(&format[0], processIsTerminated ? L"Terminated " : L"");
+        PhInitFormatS(&format[0], processIsTerminated ? L"已终止的 " : L"");
         PhInitFormatSR(&format[1], processNameStringRef);
         PhInitFormatS(&format[2], L" (");
         PhInitFormatU(&format[3], HandleToUlong(ClientId->UniqueProcess));
         PhInitFormatS(&format[4], L"): ");
-        PhInitFormatS(&format[5], threadIsTerminated ? L"Terminated " : L"");
+        PhInitFormatS(&format[5], threadIsTerminated ? L"已终止的 " : L"");
         PhInitFormatSR(&format[6], threadNameStringRef);
         PhInitFormatS(&format[7], L" (");
         PhInitFormatU(&format[8], HandleToUlong(ClientId->UniqueThread));
@@ -421,7 +421,7 @@ PPH_STRING WeGetClientIdName(
         PH_FORMAT format[5];
 
         // %s%.*s (%lu)"
-        PhInitFormatS(&format[0], threadIsTerminated ? L"Terminated " : L"");
+        PhInitFormatS(&format[0], threadIsTerminated ? L"已终止的 " : L"");
         PhInitFormatSR(&format[1], threadNameStringRef);
         PhInitFormatS(&format[2], L" (");
         PhInitFormatU(&format[3], HandleToUlong(ClientId->UniqueThread));
@@ -434,7 +434,7 @@ PPH_STRING WeGetClientIdName(
         PH_FORMAT format[5];
 
         // L"%s%.*s (%lu)"
-        PhInitFormatS(&format[0], processIsTerminated ? L"Terminated " : L"");
+        PhInitFormatS(&format[0], processIsTerminated ? L"已终止的 " : L"");
         PhInitFormatSR(&format[1], processNameStringRef);
         PhInitFormatS(&format[2], L" (");
         PhInitFormatU(&format[3], HandleToUlong(ClientId->UniqueProcess));
@@ -445,7 +445,7 @@ PPH_STRING WeGetClientIdName(
 
     //result = PhFormatString(
     //    ClientId->UniqueThread ? L"%s%.*s (%lu): %s%.*s (%lu)" : L"%s%.*s (%lu)",
-    //    processIsTerminated ? L"Terminated " : L"",
+    //    processIsTerminated ? L"已终止的 " : L"",
     //    processNameStringRef.Length / sizeof(WCHAR),
     //    processNameStringRef.Buffer,
     //    HandleToUlong(ClientId->UniqueProcess),

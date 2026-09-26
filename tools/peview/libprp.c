@@ -32,7 +32,7 @@ VOID PvLibProperties(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(NULL, L"Unable to load the archive file", status, 0);
+        PhShowStatus(NULL, L"无法加载归档文件", status, 0);
         return;
     }
 
@@ -82,10 +82,10 @@ INT_PTR CALLBACK PvpLibExportsDlgProc(
             PhSetListViewStyle(lvHandle, TRUE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
             PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 60, L"DLL");
-            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"Name");
-            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 40, L"Ordinal/Hint");
-            PhAddListViewColumn(lvHandle, 3, 3, 3, LVCFMT_LEFT, 40, L"Type");
-            PhAddListViewColumn(lvHandle, 4, 4, 4, LVCFMT_LEFT, 60, L"Name type");
+            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"名称");
+            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 40, L"序号/提示");
+            PhAddListViewColumn(lvHandle, 3, 3, 3, LVCFMT_LEFT, 40, L"类型");
+            PhAddListViewColumn(lvHandle, 4, 4, 4, LVCFMT_LEFT, 60, L"名称类型");
             PhSetExtendedListView(lvHandle);
             ExtendedListView_AddFallbackColumns(lvHandle, 4, fallbackColumns);
             PhLoadListViewColumnsFromSetting(L"LibListViewColumns", lvHandle);
@@ -116,16 +116,16 @@ INT_PTR CALLBACK PvpLibExportsDlgProc(
                     switch (importEntry.Type)
                     {
                     case IMPORT_OBJECT_CODE:
-                        type = L"Code";
+                        type = L"代码";
                         break;
                     case IMPORT_OBJECT_DATA:
-                        type = L"Data";
+                        type = L"数据";
                         break;
                     case IMPORT_OBJECT_CONST:
-                        type = L"Const";
+                        type = L"常量";
                         break;
                     default:
-                        type = L"Unknown";
+                        type = L"未知";
                         break;
                     }
 
@@ -134,19 +134,19 @@ INT_PTR CALLBACK PvpLibExportsDlgProc(
                     switch (importEntry.NameType)
                     {
                     case IMPORT_OBJECT_ORDINAL:
-                        type = L"Ordinal";
+                        type = L"序号";
                         break;
                     case IMPORT_OBJECT_NAME:
-                        type = L"Name";
+                        type = L"名称";
                         break;
                     case IMPORT_OBJECT_NAME_NO_PREFIX:
-                        type = L"Name, no prefix";
+                        type = L"名称，无前缀";
                         break;
                     case IMPORT_OBJECT_NAME_UNDECORATE:
-                        type = L"Name, undecorate";
+                        type = L"名称，未修饰";
                         break;
                     default:
-                        type = L"Unknown";
+                        type = L"未知";
                         break;
                     }
 

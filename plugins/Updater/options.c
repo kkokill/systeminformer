@@ -35,9 +35,9 @@ INT_PTR CALLBACK OptionsDlgProc(
                 Button_SetCheck(GetDlgItem(WindowHandle, IDC_AUTOCHECKBOX), BST_CHECKED);
 
                 comboBoxHandle = GetDlgItem(WindowHandle, IDC_UPDATE_INTERVAL);
-                ComboBox_AddString(comboBoxHandle, L"1 day");
-                ComboBox_AddString(comboBoxHandle, L"1 week");
-                ComboBox_AddString(comboBoxHandle, L"1 month");
+                ComboBox_AddString(comboBoxHandle, L"1 天");
+                ComboBox_AddString(comboBoxHandle, L"1 周");
+                ComboBox_AddString(comboBoxHandle, L"1 月");
 
                 updateInterval = PhGetIntegerSetting(SETTING_NAME_UPDATE_INTERVAL);
                 switch (updateInterval)
@@ -74,7 +74,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     timeRelativeString = PH_AUTO(PhFormatTimeSpanRelative(currentTime.QuadPart - lastTimeUpdateTicks.QuadPart));
 
                     PhSetDialogItemText(WindowHandle, IDC_TEXT, PhaFormatString(
-                        L"Last update check: %s (%s ago)",
+                        L"上次更新检查：%s（%s 前）",
                         PhGetStringOrEmpty(timeString),
                         PhGetStringOrEmpty(timeRelativeString)
                         )->Buffer);
@@ -91,7 +91,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     {
                         timeRelativeString = PH_AUTO(PhFormatTimeSpanRelative(time.QuadPart));
                         PhSetDialogItemText(WindowHandle, IDC_TEXT2, PhaFormatString(
-                            L"Next update check: %s (%s)",
+                            L"下次更新检查：%s（%s）",
                             PhGetStringOrEmpty(timeString),
                             PhGetStringOrEmpty(timeRelativeString)
                             )->Buffer);
@@ -99,7 +99,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     else
                     {
                         PhSetDialogItemText(WindowHandle, IDC_TEXT2, PhaFormatString(
-                            L"Next update check: %s",
+                            L"下次更新检查：%s",
                             PhGetStringOrEmpty(timeString)
                             )->Buffer);
                     }
@@ -135,6 +135,39 @@ INT_PTR CALLBACK OptionsDlgProc(
                     BOOLEAN autoCheck = Button_GetCheck(GET_WM_COMMAND_HWND(wParam, lParam)) == BST_CHECKED;
                     PhSetIntegerSetting(SETTING_NAME_AUTO_CHECK, autoCheck);
                     EnableWindow(GetDlgItem(WindowHandle, IDC_UPDATE_INTERVAL), autoCheck);
+
+                    if (autoCheck)
+                    {
+                        HWND comboBoxHandle;
+
+                        comboBoxHandle = GetDlgItem(WindowHandle, IDC_UPDATE_INTERVAL);
+
+                        if (ComboBox_GetCount(comboBoxHandle) == 0)
+                        {
+                            ComboBox_AddString(comboBoxHandle, L"1 天");
+                            ComboBox_AddString(comboBoxHandle, L"1 周");
+                            ComboBox_AddString(comboBoxHandle, L"1 月");
+                        }
+
+                        if (ComboBox_GetCurSel(comboBoxHandle) == CB_ERR)
+                        {
+                            ULONG updateInterval = PhGetIntegerSetting(SETTING_NAME_UPDATE_INTERVAL);
+
+                            switch (updateInterval)
+                            {
+                            case 7:
+                                ComboBox_SetCurSel(comboBoxHandle, 1);
+                                break;
+                            case 30:
+                                ComboBox_SetCurSel(comboBoxHandle, 2);
+                                break;
+                            case 1:
+                            default:
+                                ComboBox_SetCurSel(comboBoxHandle, 0);
+                                break;
+                            }
+                        }
+                    }
                 }
                 break;
             case IDC_UPDATE_INTERVAL:
@@ -586,10 +619,10 @@ INT_PTR CALLBACK TextDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, FALSE); // TRUE, TRUE (tooltips)
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"Date");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Author");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"Comments");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"Commit");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"日期");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"作者");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"提交信息");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"提交");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhLoadListViewColumnsFromSetting(SETTING_NAME_CHANGELOG_COLUMNS, context->ListViewHandle);
@@ -707,7 +740,7 @@ INT_PTR CALLBACK TextDlgProc(
                     NMLVEMPTYMARKUP* listview = (NMLVEMPTYMARKUP*)lParam;
 
                     listview->dwFlags = EMF_CENTERED;
-                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), L"Querying changelog...", _TRUNCATE);
+                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), L"正在查询变更日志...", _TRUNCATE);
 
                     SetWindowLongPtr(WindowHandle, DWLP_MSGRESULT, TRUE);
                     return TRUE;
@@ -860,9 +893,9 @@ INT_PTR CALLBACK TextDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"View on Github", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"在 Github 上查看", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, 2, context->ListViewHandle);
 
                     item = PhShowEMenu(

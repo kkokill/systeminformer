@@ -1154,13 +1154,13 @@ UpdateExit:
 
 static CONST PH_KEY_VALUE_PAIR PhModuleTypePairs[] =
 {
-    SIP(SREF(L"Unknown"), PH_MODULE_TYPE_UNKNOWN),
+    SIP(SREF(L"未知"), PH_MODULE_TYPE_UNKNOWN),
     SIP(SREF(L"DLL"), PH_MODULE_TYPE_MODULE),
-    SIP(SREF(L"Mapped file"), PH_MODULE_TYPE_MAPPED_FILE),
+    SIP(SREF(L"映射文件"), PH_MODULE_TYPE_MAPPED_FILE),
     SIP(SREF(L"WOW64 DLL"), PH_MODULE_TYPE_WOW64_MODULE),
-    SIP(SREF(L"Kernel module"), PH_MODULE_TYPE_KERNEL_MODULE),
-    SIP(SREF(L"Mapped image"), PH_MODULE_TYPE_MAPPED_IMAGE),
-    SIP(SREF(L"Enclave module"), PH_MODULE_TYPE_ENCLAVE_MODULE),
+    SIP(SREF(L"内核模块"), PH_MODULE_TYPE_KERNEL_MODULE),
+    SIP(SREF(L"映射映像"), PH_MODULE_TYPE_MAPPED_IMAGE),
+    SIP(SREF(L" enclave 模块"), PH_MODULE_TYPE_ENCLAVE_MODULE),
 };
 
 PCPH_STRINGREF PhGetModuleTypeName(
@@ -1184,17 +1184,17 @@ PCPH_STRINGREF PhGetModuleTypeName(
 
 static CONST PH_KEY_VALUE_PAIR PhModuleLoadReasonTypePairs[] =
 {
-    SIP(SREF(L"Static dependency"), LoadReasonStaticDependency),
-    SIP(SREF(L"Static forwarder dependency"), LoadReasonStaticForwarderDependency),
-    SIP(SREF(L"Dynamic forwarder dependency"), LoadReasonDynamicForwarderDependency),
-    SIP(SREF(L"Delay load dependency"), LoadReasonDelayloadDependency),
-    SIP(SREF(L"Dynamic"), LoadReasonDynamicLoad),
-    SIP(SREF(L"As image"), LoadReasonAsImageLoad),
-    SIP(SREF(L"As data"), LoadReasonAsDataLoad),
-    SIP(SREF(L"Enclave primary"), LoadReasonEnclavePrimary),
-    SIP(SREF(L"Enclave dependency"), LoadReasonEnclaveDependency),
-    SIP(SREF(L"Patch image"), LoadReasonPatchImage),
-    SIP(SREF(L"Unknown"), LoadReasonUnknown),
+    SIP(SREF(L"静态依赖"), LoadReasonStaticDependency),
+    SIP(SREF(L"静态转发器依赖"), LoadReasonStaticForwarderDependency),
+    SIP(SREF(L"动态转发器依赖"), LoadReasonDynamicForwarderDependency),
+    SIP(SREF(L"延迟加载依赖"), LoadReasonDelayloadDependency),
+    SIP(SREF(L"动态"), LoadReasonDynamicLoad),
+    SIP(SREF(L"作为映像"), LoadReasonAsImageLoad),
+    SIP(SREF(L"作为数据"), LoadReasonAsDataLoad),
+    SIP(SREF(L" enclave 主模块"), LoadReasonEnclavePrimary),
+    SIP(SREF(L" enclave 依赖"), LoadReasonEnclaveDependency),
+    SIP(SREF(L"补丁映像"), LoadReasonPatchImage),
+    SIP(SREF(L"未知"), LoadReasonUnknown),
 };
 
 PCPH_STRINGREF PhGetModuleLoadReasonTypeName(
@@ -1218,7 +1218,7 @@ PCPH_STRINGREF PhGetModuleLoadReasonTypeName(
 
 static CONST PH_KEY_VALUE_PAIR PhModuleEnclaveTypePairs[] =
 {
-    SIP(SREF(L"Unknown"), 0),
+    SIP(SREF(L"未知"), 0),
     SIP(SREF(L"SGX"), ENCLAVE_TYPE_SGX),
     SIP(SREF(L"SGX2"), ENCLAVE_TYPE_SGX2),
     SIP(SREF(L"VBS"), ENCLAVE_TYPE_VBS)

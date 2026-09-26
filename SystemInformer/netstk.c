@@ -93,7 +93,7 @@ VOID PhShowNetworkStackDialog(
     else
     {
         PhDereferenceObject(networkStackContext.SymbolProvider);
-        PhShowError(ParentWindowHandle, L"%s", L"Unable to open the process.");
+        PhShowError(ParentWindowHandle, L"%s", L"无法打开进程。");
         return;
     }
 
@@ -146,7 +146,7 @@ INT_PTR CALLBACK PhpNetworkStackDlgProc(
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             context->ListViewHandle = lvHandle = GetDlgItem(hwndDlg, IDC_LIST);
-            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"Name");
+            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"名称");
             PhSetListViewStyle(lvHandle, FALSE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
 

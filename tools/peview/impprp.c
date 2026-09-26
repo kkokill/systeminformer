@@ -13,8 +13,8 @@
 #include <peview.h>
 #include "colmgr.h"
 
-static PH_STRINGREF EmptyImportsText = PH_STRINGREF_INIT(L"There are no imports to display.");
-static PH_STRINGREF LoadingImportsText = PH_STRINGREF_INIT(L"Loading imports from image...");
+static PH_STRINGREF EmptyImportsText = PH_STRINGREF_INIT(L"没有要显示的导入。");
+static PH_STRINGREF LoadingImportsText = PH_STRINGREF_INIT(L"正在从映像加载导入...");
 
 typedef enum _PV_IMPORT_TREE_COLUMN_ITEM
 {
@@ -467,7 +467,7 @@ INT_PTR CALLBACK PvPeImportsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Imports (Ctrl+K)",
+                L"搜索导入 (Ctrl+K)",
                 PvpPeImportsSearchControlCallback,
                 context
                 );
@@ -554,7 +554,7 @@ INT_PTR CALLBACK PvPeImportsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1074,11 +1074,11 @@ VOID PvInitializeImportTree(
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_INDEX, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_RVA, TRUE, L"RVA", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_RVA, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_DLL, TRUE, L"DLL", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_DLL, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_NAME, TRUE, L"Name", 250, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_NAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_HINT, TRUE, L"Hint", 50, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_HINT, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_ORDINAL, TRUE, L"Ordinal", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_ORDINAL, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_ORDINALNAME, TRUE, L"Ordinal name", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_ORDINALNAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_SYMBOL, TRUE, L"Undecorated name", 150, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_SYMBOL, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_NAME, TRUE, L"名称", 250, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_NAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_HINT, TRUE, L"提示", 50, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_HINT, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_ORDINAL, TRUE, L"序号", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_ORDINAL, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_ORDINALNAME, TRUE, L"序号名称", 80, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_ORDINALNAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_SYMBOL, TRUE, L"未修饰名称", 150, PH_ALIGN_LEFT, PV_IMPORT_TREE_COLUMN_ITEM_SYMBOL, 0, 0);
 
     TreeNew_SetRedraw(TreeNewHandle, TRUE);
     TreeNew_SetSort(TreeNewHandle, PV_IMPORT_TREE_COLUMN_ITEM_INDEX, AscendingSortOrder);
@@ -1118,7 +1118,7 @@ BOOLEAN PvImportTreeFilterCallback(
     }
     else
     {
-        static PH_STRINGREF ImportNameSr = PH_STRINGREF_INIT(L"(unnamed)");
+        static PH_STRINGREF ImportNameSr = PH_STRINGREF_INIT(L"(未命名)");
 
         if (PvSearchControlMatch(context->SearchMatchHandle, &ImportNameSr))
             return TRUE;

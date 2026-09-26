@@ -81,7 +81,7 @@ PCWSTR AtpAccessText(
     _In_ PCAT_TOOL Tool
     )
 {
-    return PhGetIntegerSetting(Tool->AccessSetting) == AT_ACCESS_ALLOWED ? L"Allowed" : L"Denied";
+    return PhGetIntegerSetting(Tool->AccessSetting) == AT_ACCESS_ALLOWED ? L"允许" : L"拒绝";
 }
 
 PCWSTR AtpAuthorizationText(
@@ -91,11 +91,11 @@ PCWSTR AtpAuthorizationText(
     switch (PhGetIntegerSetting(Tool->ConfirmSetting))
     {
     case AT_CONFIRM_ALWAYS:
-        return L"Always ask";
+        return L"始终询问";
     case AT_CONFIRM_DELEGATE:
-        return L"Delegate to client";
+        return L"委托给客户端";
     default:
-        return L"Not required";
+        return L"无需授权";
     }
 }
 
@@ -111,25 +111,25 @@ VOID AtpUpdateStatus(
     {
     case AtServerRunning:
         text = PhFormatString(
-            L"Server running. Pipe: %s%s%u",
+            L"服务器运行中。管道: %s%s%u",
             elevated ? SIMCP_PIPE_PROTECTED_PREFIX : L"",
             SIMCP_PIPE_NAME_PREFIX,
             NtCurrentPeb()->SessionId
             );
         break;
     case AtServerFailedPipeExists:
-        text = PhCreateString(L"Not started: the pipe already exists (another instance in this session).");
+        text = PhCreateString(L"未启动：管道已存在（此会话中的另一个实例）。");
         break;
     case AtServerFailed:
         {
             PPH_STRING message = PhGetStatusMessage(status, 0);
 
-            text = PhFormatString(L"Not started: %s", PhGetStringOrDefault(message, L"unknown error"));
+            text = PhFormatString(L"未启动：%s", PhGetStringOrDefault(message, L"未知错误"));
             PhClearReference(&message);
         }
         break;
     default:
-        text = PhCreateString(L"Server stopped.");
+        text = PhCreateString(L"服务器已停止。");
         break;
     }
 
@@ -223,8 +223,8 @@ VOID AtpAppendAccessItems(
 {
     ULONG access = AtpGetCommonValue(Tools, TRUE);
 
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_ALLOWED, L"Allowed", access == AT_ACCESS_ALLOWED), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_DENIED, L"Denied", access == AT_ACCESS_DENIED), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_ALLOWED, L"允许", access == AT_ACCESS_ALLOWED), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_DENIED, L"拒绝", access == AT_ACCESS_DENIED), ULONG_MAX);
 }
 
 VOID AtpAppendAuthorizationItems(
@@ -234,9 +234,9 @@ VOID AtpAppendAuthorizationItems(
 {
     ULONG confirm = AtpGetCommonValue(Tools, FALSE);
 
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_ALWAYS, L"Always ask", confirm == AT_CONFIRM_ALWAYS), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_DELEGATE, L"Delegate to client", confirm == AT_CONFIRM_DELEGATE), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_NONE, L"Not required", confirm == AT_CONFIRM_NONE), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_ALWAYS, L"始终询问", confirm == AT_CONFIRM_ALWAYS), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_DELEGATE, L"委托给客户端", confirm == AT_CONFIRM_DELEGATE), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_NONE, L"无需授权", confirm == AT_CONFIRM_NONE), ULONG_MAX);
 }
 
 VOID AtpApplyMenuChoice(
@@ -263,15 +263,15 @@ VOID AtpApplyMenuChoice(
             BOOLEAN proceed;
 
             if (gated == 1)
-                object = PhCreateString(L"the authorization for this tool");
+                object = PhCreateString(L"此工具的授权");
             else
-                object = PhFormatString(L"the authorization for %u tools", gated);
+                object = PhFormatString(L"%u 个工具的授权", gated);
 
             proceed = PhShowConfirmMessage(
                 Context->WindowHandle,
-                L"remove",
+                L"移除",
                 PhGetString(object),
-                L"Connected agents will be able to use it without anyone being asked.",
+                L"已连接的代理将能够在无人询问的情况下使用它。",
                 TRUE
                 );
 
@@ -377,14 +377,14 @@ VOID AtpShowContextMenu(
     }
 
     menu = PhCreateEMenu();
-    access = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"Access", NULL, NULL);
-    authorization = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"Authorization", NULL, NULL);
+    access = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"访问", NULL, NULL);
+    authorization = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"授权", NULL, NULL);
     AtpAppendAccessItems(access, tools);
     AtpAppendAuthorizationItems(authorization, tools);
     PhInsertEMenuItem(menu, access, ULONG_MAX);
     PhInsertEMenuItem(menu, authorization, ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, AT_MENU_RESET, selection ? L"Reset to defaults" : L"Reset all to defaults", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, AT_MENU_RESET, selection ? L"恢复默认设置" : L"全部恢复默认设置", NULL, NULL), ULONG_MAX);
 
     item = PhShowEMenu(
         menu,
@@ -614,9 +614,9 @@ INT_PTR CALLBACK AtOptionsDlgProc(
             TreeNew_SetExtendedFlags(treeNew, TN_FLAG_ITEM_DRAG_SELECT, TN_FLAG_ITEM_DRAG_SELECT);
             TreeNew_SetTriState(treeNew, TRUE);
             TreeNew_SetSort(treeNew, AT_COLUMN_TOOL, NoSortOrder);
-            PhAddTreeNewColumn(treeNew, AT_COLUMN_TOOL, TRUE, L"Tool", 240, PH_ALIGN_LEFT, 0, 0);
-            PhAddTreeNewColumn(treeNew, AT_COLUMN_ACCESS, TRUE, L"Access", 70, PH_ALIGN_LEFT, 1, 0);
-            PhAddTreeNewColumn(treeNew, AT_COLUMN_AUTHORIZATION, TRUE, L"Authorization", 120, PH_ALIGN_LEFT, 2, 0);
+            PhAddTreeNewColumn(treeNew, AT_COLUMN_TOOL, TRUE, L"工具", 240, PH_ALIGN_LEFT, 0, 0);
+            PhAddTreeNewColumn(treeNew, AT_COLUMN_ACCESS, TRUE, L"访问", 70, PH_ALIGN_LEFT, 1, 0);
+            PhAddTreeNewColumn(treeNew, AT_COLUMN_AUTHORIZATION, TRUE, L"授权", 120, PH_ALIGN_LEFT, 2, 0);
 
             columns = PhGetStringSetting(SETTING_NAME_TOOLS_LISTVIEW_COLUMNS);
             PhCmLoadSettings(treeNew, &columns->sr);
@@ -626,7 +626,7 @@ INT_PTR CALLBACK AtOptionsDlgProc(
             PhAddTreeNewFilter(&context->FilterSupport, AtpToolsFilterCallback, context);
             TreeNew_NodesStructured(treeNew);
 
-            PhCreateSearchControl(WindowHandle, context->SearchHandle, L"Search tools", AtpToolsSearchControlCallback, context);
+            PhCreateSearchControl(WindowHandle, context->SearchHandle, L"搜索工具", AtpToolsSearchControlCallback, context);
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_STATUS), NULL, PH_ANCHOR_LEFT | PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -770,17 +770,17 @@ PAT_AGENT_NODE AtpCreateAgentNode(
     if (Connection->UserName)
         node->UserText = PhReferenceObject(Connection->UserName);
     else
-        node->UserText = PhCreateString(L"unknown");
+        node->UserText = PhCreateString(L"未知");
 
     if (Connection->ClientName)
         node->ClientText = PhFormatString(L"%s %s", PhGetString(Connection->ClientName), PhGetStringOrEmpty(Connection->ClientVersion));
     else
-        node->ClientText = PhCreateString(L"(not identified)");
+        node->ClientText = PhCreateString(L"（未识别）");
 
     if (Connection->LauncherImageName)
         node->LauncherText = PhReferenceObject(Connection->LauncherImageName);
     else
-        node->LauncherText = PhCreateString(L"unknown");
+        node->LauncherText = PhCreateString(L"未知");
 
     PhLargeIntegerToLocalSystemTime(&systemTime, &Connection->ConnectTime);
     node->ConnectedText = PhFormatDateTime(&systemTime);
@@ -788,10 +788,10 @@ PAT_AGENT_NODE AtpCreateAgentNode(
     switch (ReadAcquire((PLONG)&Connection->Approval))
     {
     case AtApprovalPending:
-        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L" (awaiting approval)"));
+        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L"（等待批准）"));
         break;
     case AtApprovalDenied:
-        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L" (denied)"));
+        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L"（已拒绝）"));
         break;
     }
 
@@ -814,7 +814,7 @@ PAT_AGENT_NODE AtpCreateAgentNode(
             PhAppendStringBuilder2(&grants, AtActionInfo[i].AuditName);
 
             if (Connection->SessionPolicy[i] == AtSessionDelegate)
-                PhAppendStringBuilder2(&grants, L" (client)");
+                PhAppendStringBuilder2(&grants, L"（客户端）");
         }
     }
 
@@ -828,12 +828,12 @@ PAT_AGENT_NODE AtpCreateAgentNode(
             PhAppendStringBuilder2(&grants, (PWSTR)AtConsentClassDescription(i));
 
             if (Connection->ClassPolicy[i] == AtSessionDelegate)
-                PhAppendStringBuilder2(&grants, L" (client)");
+                PhAppendStringBuilder2(&grants, L"（客户端）");
         }
     }
 
     if (grants.String->Length == 0)
-        PhAppendStringBuilder2(&grants, L"none");
+        PhAppendStringBuilder2(&grants, L"无");
 
     node->GrantsText = PhFinalStringBuilderString(&grants);
 
@@ -1114,7 +1114,7 @@ INT_PTR CALLBACK AtAgentsDlgProc(
     {
     case WM_INITDIALOG:
         {
-            static CONST PH_STRINGREF emptyText = PH_STRINGREF_INIT(L"No agents connected.");
+            static CONST PH_STRINGREF emptyText = PH_STRINGREF_INIT(L"没有已连接的代理。");
             HWND treeNew;
             HWND configTarget;
             PPH_STRING columns;
@@ -1129,12 +1129,12 @@ INT_PTR CALLBACK AtAgentsDlgProc(
             TreeNew_SetTriState(treeNew, TRUE);
             TreeNew_SetSort(treeNew, AT_AGENT_COLUMN_ID, NoSortOrder);
             PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_ID, TRUE, L"Id", 30, PH_ALIGN_LEFT, 0, 0);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_USER, TRUE, L"User", 90, PH_ALIGN_LEFT, 1, DT_PATH_ELLIPSIS);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CLIENT, TRUE, L"Client", 110, PH_ALIGN_LEFT, 2, 0);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_LAUNCHER, TRUE, L"Launcher", 140, PH_ALIGN_LEFT, 3, DT_PATH_ELLIPSIS);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CONNECTED, TRUE, L"Connected", 100, PH_ALIGN_LEFT, 4, 0);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CALLS, TRUE, L"Calls", 40, PH_ALIGN_LEFT, 5, 0);
-            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_GRANTS, TRUE, L"Session grants", 140, PH_ALIGN_LEFT, 6, 0);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_USER, TRUE, L"用户", 90, PH_ALIGN_LEFT, 1, DT_PATH_ELLIPSIS);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CLIENT, TRUE, L"客户端", 110, PH_ALIGN_LEFT, 2, 0);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_LAUNCHER, TRUE, L"启动器", 140, PH_ALIGN_LEFT, 3, DT_PATH_ELLIPSIS);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CONNECTED, TRUE, L"已连接", 100, PH_ALIGN_LEFT, 4, 0);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_CALLS, TRUE, L"调用数", 40, PH_ALIGN_LEFT, 5, 0);
+            PhAddTreeNewColumn(treeNew, AT_AGENT_COLUMN_GRANTS, TRUE, L"会话授权", 140, PH_ALIGN_LEFT, 6, 0);
 
             columns = PhGetStringSetting(SETTING_NAME_AGENTS_LISTVIEW_COLUMNS);
             PhCmLoadSettings(treeNew, &columns->sr);

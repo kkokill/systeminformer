@@ -63,24 +63,24 @@ VOID PhInitializeMemoryList(
     TreeNew_SetCallback(TreeNewHandle, PhpMemoryTreeNewCallback, Context);
 
     // Default columns
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_BASEADDRESS, TRUE, L"Base address", 120, PH_ALIGN_LEFT | (enableMonospaceFont ? PH_ALIGN_MONOSPACE_FONT : 0), -2, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_TYPE, TRUE, L"Type", 90, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SIZE, TRUE, L"Size", 80, PH_ALIGN_RIGHT, 1, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_PROTECTION, TRUE, L"Protection", 60, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_USE, TRUE, L"Use", 200, PH_ALIGN_LEFT, 3, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_TOTALWS, TRUE, L"Total WS", 80, PH_ALIGN_RIGHT, 4, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_PRIVATEWS, TRUE, L"Private WS", 80, PH_ALIGN_RIGHT, 5, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SHAREABLEWS, TRUE, L"Shareable WS", 80, PH_ALIGN_RIGHT, 6, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SHAREDWS, TRUE, L"Shared WS", 80, PH_ALIGN_RIGHT, 7, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_LOCKEDWS, TRUE, L"Locked WS", 80, PH_ALIGN_RIGHT, 8, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_BASEADDRESS, TRUE, L"基址", 120, PH_ALIGN_LEFT | (enableMonospaceFont ? PH_ALIGN_MONOSPACE_FONT : 0), -2, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_TYPE, TRUE, L"类型", 90, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SIZE, TRUE, L"大小", 80, PH_ALIGN_RIGHT, 1, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_PROTECTION, TRUE, L"保护", 60, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_USE, TRUE, L"用途", 200, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_TOTALWS, TRUE, L"总工作集", 80, PH_ALIGN_RIGHT, 4, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_PRIVATEWS, TRUE, L"专用工作集", 80, PH_ALIGN_RIGHT, 5, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SHAREABLEWS, TRUE, L"可共享工作集", 80, PH_ALIGN_RIGHT, 6, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_SHAREDWS, TRUE, L"共享工作集", 80, PH_ALIGN_RIGHT, 7, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_LOCKEDWS, TRUE, L"锁定工作集", 80, PH_ALIGN_RIGHT, 8, DT_RIGHT, TRUE);
     // Customizable columns
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_COMMITTED, FALSE, L"Committed", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_PRIVATE, FALSE, L"Private", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_SIGNING_LEVEL, FALSE, L"Signing level", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_ORIGINAL_PROTECTION, FALSE, L"Original protection", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_ORIGINAL_PAGES, FALSE, L"Original pages", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_REGIONTYPE, FALSE, L"Region type", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_PRIORITY, FALSE, L"Priority", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_COMMITTED, FALSE, L"提交", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHMMTLC_PRIVATE, FALSE, L"专用", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_SIGNING_LEVEL, FALSE, L"签名级别", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_ORIGINAL_PROTECTION, FALSE, L"原始保护", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_ORIGINAL_PAGES, FALSE, L"原始页", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_REGIONTYPE, FALSE, L"区域类型", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHMMTLC_PRIORITY, FALSE, L"优先级", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     PhCmInitializeManager(&Context->Cm, TreeNewHandle, PHMMTLC_MAXIMUM, PhpMemoryTreeNewPostSortFunction);
     PhInitializeTreeNewFilterSupport(&Context->AllocationTreeFilterSupport, TreeNewHandle, Context->AllocationBaseNodeList);
@@ -558,61 +558,61 @@ PPH_STRING PhGetMemoryRegionUseText(
         return PhCreateString(L"HYPERVISOR_SHARED_DATA");
     case PebRegion:
     case Peb32Region:
-        return PhFormatString(L"PEB%s", type == Peb32Region ? L" 32-bit" : L"");
+        return PhFormatString(L"PEB%s", type == Peb32Region ? L" 32 位" : L"");
     case TebRegion:
     case Teb32Region:
-        return PhFormatString(L"TEB%s (thread %lu)",
-            type == Teb32Region ? L" 32-bit" : L"", HandleToUlong(MemoryItem->u.Teb.ThreadId));
+        return PhFormatString(L"TEB%s (线程 %lu)",
+            type == Teb32Region ? L" 32 位" : L"", HandleToUlong(MemoryItem->u.Teb.ThreadId));
     case StackRegion:
     case Stack32Region:
-        return PhFormatString(L"Stack%s (thread %lu)",
-            type == Stack32Region ? L" 32-bit" : L"", HandleToUlong(MemoryItem->u.Stack.ThreadId));
+        return PhFormatString(L"栈%s (线程 %lu)",
+            type == Stack32Region ? L" 32 位" : L"", HandleToUlong(MemoryItem->u.Stack.ThreadId));
     case HeapRegion:
     case Heap32Region:
         return PhFormatString(L"%s%s (ID %lu)",
-            MemoryItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.Heap.Class) : L"Heap",
-            type == Heap32Region ? L" 32-bit" : L"", (ULONG)MemoryItem->u.Heap.Index + 1);
+            MemoryItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.Heap.Class) : L"堆",
+            type == Heap32Region ? L" 32 位" : L"", (ULONG)MemoryItem->u.Heap.Index + 1);
     case HeapSegmentRegion:
     case HeapSegment32Region:
-        return PhFormatString(L"%s Segment%s (ID %lu)",
-            MemoryItem->u.HeapSegment.HeapItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.HeapSegment.HeapItem->u.Heap.Class) : L"Heap",
-            type == HeapSegment32Region ? L" 32-bit" : L"", (ULONG)MemoryItem->u.HeapSegment.HeapItem->u.Heap.Index + 1);
+        return PhFormatString(L"%s 段%s (ID %lu)",
+            MemoryItem->u.HeapSegment.HeapItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.HeapSegment.HeapItem->u.Heap.Class) : L"堆",
+            type == HeapSegment32Region ? L" 32 位" : L"", (ULONG)MemoryItem->u.HeapSegment.HeapItem->u.Heap.Index + 1);
     case CfgBitmapRegion:
     case CfgBitmap32Region:
-        return PhFormatString(L"CFG Bitmap%s",
-            type == CfgBitmap32Region ? L" 32-bit" : L"");
+        return PhFormatString(L"CFG 位图%s",
+            type == CfgBitmap32Region ? L" 32 位" : L"");
     case ApiSetMapRegion:
         return PhFormatString(L"ApiSetMap");
     case ReadOnlySharedMemoryRegion:
-        return PhFormatString(L"CSR shared memory");
+        return PhFormatString(L"CSR 共享内存");
     case CodePageDataRegion:
-        return PhFormatString(L"CodePage data");
+        return PhFormatString(L"代码页数据");
     case GdiSharedHandleTableRegion:
-        return PhFormatString(L"GDI shared handle table");
+        return PhFormatString(L"GDI 共享句柄表");
     case ShimDataRegion:
-        return PhFormatString(L"Shim data");
+        return PhFormatString(L"Shim 数据");
     case ActivationContextDataRegion:
         switch (MemoryItem->u.ActivationContextData.Type)
         {
         case ProcessActivationContext:
-            return PhFormatString(L"Process activation context data");
+            return PhFormatString(L"进程激活上下文数据");
         case SystemActivationContext:
-            return PhFormatString(L"System activation context data");
+            return PhFormatString(L"系统激活上下文数据");
         default:
-            return PhFormatString(L"Activation context data");
+            return PhFormatString(L"激活上下文数据");
         }
     case WerRegistrationDataRegion:
-        return PhFormatString(L"WER registration data");
+        return PhFormatString(L"WER 注册数据");
     case SiloSharedDataRegion:
-        return PhFormatString(L"Silo shared data");
+        return PhFormatString(L"Silo 共享数据");
     case TelemetryCoverageRegion:
-        return PhFormatString(L"Telemetry coverage map");
+        return PhFormatString(L"遥测覆盖映射");
     case ProcessParametersRegion:
         return PhFormatString(L"USER_PROCESS_PARAMETERS");
     case LeapSecondDataRegion:
         return PhFormatString(L"LEAP_SECOND_DATA");
     case DesktopHeapRegion:
-        return PhFormatString(L"Desktop heap");
+        return PhFormatString(L"桌面堆");
     default:
         return NULL;
     }
@@ -916,9 +916,9 @@ BOOLEAN NTAPI PhpMemoryTreeNewCallback(
                     if (FlagOn(memoryItem->State, MEM_FREE))
                     {
                         if (memoryItem->RegionType == UnusableRegion)
-                            PhInitializeStringRef(&getCellText->Text, L"Free (Unusable)");
+                            PhInitializeStringRef(&getCellText->Text, L"空闲 (不可用)");
                         else
-                            PhInitializeStringRef(&getCellText->Text, L"Free");
+                            PhInitializeStringRef(&getCellText->Text, L"空闲");
                     }
                     else if (node->IsAllocationBase)
                     {

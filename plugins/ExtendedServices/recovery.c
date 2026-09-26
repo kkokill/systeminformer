@@ -27,11 +27,11 @@ typedef struct _SERVICE_RECOVERY_CONTEXT
 
 static CONST PH_KEY_VALUE_PAIR ServiceActionPairs[] =
 {
-    SIP(L"Take no action", SC_ACTION_NONE),
-    SIP(L"Restart the service", SC_ACTION_RESTART),
-    SIP(L"Restart the computer", SC_ACTION_REBOOT),
-    SIP(L"Run a program", SC_ACTION_RUN_COMMAND),
-    SIP(L"Own restart", SC_ACTION_OWN_RESTART),
+    SIP(L"不执行任何操作", SC_ACTION_NONE),
+    SIP(L"重新启动服务", SC_ACTION_RESTART),
+    SIP(L"重新启动该计算机", SC_ACTION_REBOOT),
+    SIP(L"运行程序", SC_ACTION_RUN_COMMAND),
+    SIP(L"自行重启", SC_ACTION_OWN_RESTART),
 };
 
 INT_PTR CALLBACK RestartComputerDlgProc(
@@ -305,9 +305,9 @@ INT_PTR CALLBACK EspServiceRecoveryDlgProc(
                 {
                     PhShowWarning2(
                         WindowHandle,
-                        L"Unable to query service recovery information.",
-                        L"The service has %lu failure actions configured, but this program only supports editing 3. "
-                        L"If you save the recovery information using this program, the additional failure actions will be lost.",
+                        L"无法查询服务恢复信息。",
+                        L"该服务已配置 %lu 个失败操作，但本程序仅支持编辑 3 个。"
+                        L"如果使用本程序保存恢复信息，额外的失败操作将会丢失。",
                         context->NumberOfActions
                         );
                 }
@@ -323,9 +323,9 @@ INT_PTR CALLBACK EspServiceRecoveryDlgProc(
 
                 PhShowWarning2(
                     WindowHandle,
-                    L"Unable to query service recovery information.",
+                    L"无法查询服务恢复信息。",
                     L"%s",
-                    PhGetStringOrDefault(errorMessage, L"Unknown error.")
+                    PhGetStringOrDefault(errorMessage, L"未知错误。")
                     );
 
                 PhClearReference(&errorMessage);
@@ -375,8 +375,8 @@ INT_PTR CALLBACK EspServiceRecoveryDlgProc(
                 {
                     static PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Executable files (*.exe;*.cmd;*.bat)", L"*.exe;*.cmd;*.bat" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"可执行文件 (*.exe;*.cmd;*.bat)", L"*.exe;*.cmd;*.bat" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING fileName;
@@ -568,7 +568,7 @@ ErrorCase:
 
                         if (PhShowContinueStatus(
                             WindowHandle,
-                            L"Unable to change service recovery information.",
+                            L"无法更改服务恢复信息。",
                             status,
                             0))
                         {
@@ -683,7 +683,7 @@ INT_PTR CALLBACK RestartComputerDlgProc(
                         if (!GetComputerName(computerName, &bufferSize))
                         {
                             PhFree(computerName);
-                            computerName = L"(unknown)";
+                            computerName = L"（未知）";
                             allocated = FALSE;
                         }
                     }
@@ -691,9 +691,9 @@ INT_PTR CALLBACK RestartComputerDlgProc(
                     // This message is exactly the same as the one in the Services console,
                     // except the double spaces are replaced by single spaces.
                     message = PhaFormatString(
-                        L"Your computer is connected to the computer named %s. "
-                        L"The %s service on %s has ended unexpectedly. "
-                        L"%s will restart automatically, and then you can reestablish the connection.",
+                        L"您的计算机已连接到名为 %s 的计算机。"
+                        L"%s 服务在 %s 上意外终止。"
+                        L"%s 将自动重新启动，之后您可以重新建立连接。",
                         computerName,
                         context->ServiceItem->Name->Buffer,
                         computerName,

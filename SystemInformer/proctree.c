@@ -118,122 +118,122 @@ VOID PhInitializeProcessTreeList(
     TreeNew_SetMaxId(hwnd, PHPRTLC_MAXIMUM - 1);
 
     // Default columns
-    PhAddTreeNewColumn(hwnd, PHPRTLC_NAME, TRUE, L"Name", 200, PH_ALIGN_LEFT, (PhGetIntegerSetting(SETTING_PROCESS_TREE_LIST_NAME_DEFAULT) ? TN_COLUMN_FIXED : 0), 0); // HACK (dmex)
+    PhAddTreeNewColumn(hwnd, PHPRTLC_NAME, TRUE, L"名称", 200, PH_ALIGN_LEFT, (PhGetIntegerSetting(SETTING_PROCESS_TREE_LIST_NAME_DEFAULT) ? TN_COLUMN_FIXED : 0), 0); // HACK (dmex)
     PhAddTreeNewColumn(hwnd, PHPRTLC_PID, TRUE, L"PID", 50, PH_ALIGN_RIGHT, 0, DT_RIGHT);
     PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPU, TRUE, L"CPU", 45, PH_ALIGN_RIGHT, 1, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOTOTALRATE, TRUE, L"I/O total rate", 70, PH_ALIGN_RIGHT, 2, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEBYTES, TRUE, L"Private bytes", 70, PH_ALIGN_RIGHT, 3, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_USERNAME, TRUE, L"User name", 140, PH_ALIGN_LEFT, 4, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_DESCRIPTION, TRUE, L"Description", 180, PH_ALIGN_LEFT, 5, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOTOTALRATE, TRUE, L"I/O 总速率", 70, PH_ALIGN_RIGHT, 2, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEBYTES, TRUE, L"私有字节", 70, PH_ALIGN_RIGHT, 3, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_USERNAME, TRUE, L"用户名", 140, PH_ALIGN_LEFT, 4, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_DESCRIPTION, TRUE, L"描述", 180, PH_ALIGN_LEFT, 5, 0);
 
     // Customizable columns (1)
-    PhAddTreeNewColumn(hwnd, PHPRTLC_COMPANYNAME, FALSE, L"Company name", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_VERSION, FALSE, L"Version", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_FILENAME, FALSE, L"File name", 180, PH_ALIGN_LEFT, ULONG_MAX, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_COMMANDLINE, FALSE, L"Command line", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKPRIVATEBYTES, FALSE, L"Peak private bytes", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_WORKINGSET, FALSE, L"Working set", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKWORKINGSET, FALSE, L"Peak working set", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEWS, FALSE, L"Private WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SHAREDWS, FALSE, L"Shared WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SHAREABLEWS, FALSE, L"Shareable WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_VIRTUALSIZE, FALSE, L"Virtual size", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKVIRTUALSIZE, FALSE, L"Peak virtual size", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEFAULTS, FALSE, L"Page faults", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_SESSIONID, FALSE, L"Session ID", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIORITYCLASS, FALSE, L"Priority class", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_BASEPRIORITY, FALSE, L"Base priority", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_COMPANYNAME, FALSE, L"公司名称", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_VERSION, FALSE, L"版本", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_FILENAME, FALSE, L"文件名", 180, PH_ALIGN_LEFT, ULONG_MAX, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_COMMANDLINE, FALSE, L"命令行", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKPRIVATEBYTES, FALSE, L"峰值私有字节", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_WORKINGSET, FALSE, L"工作集", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKWORKINGSET, FALSE, L"峰值工作集", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEWS, FALSE, L"私有 WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SHAREDWS, FALSE, L"共享 WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SHAREABLEWS, FALSE, L"可共享 WS", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_VIRTUALSIZE, FALSE, L"虚拟大小", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKVIRTUALSIZE, FALSE, L"峰值虚拟大小", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEFAULTS, FALSE, L"页面错误", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_SESSIONID, FALSE, L"会话 ID", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIORITYCLASS, FALSE, L"优先级类", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_BASEPRIORITY, FALSE, L"基本优先级", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
 
     // Customizable columns (2)
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_THREADS, FALSE, L"Threads", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_HANDLES, FALSE, L"Handles", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_GDIHANDLES, FALSE, L"GDI handles", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_USERHANDLES, FALSE, L"USER handles", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IORORATE, FALSE, L"I/O read+other rate", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRATE, FALSE, L"I/O write rate", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_INTEGRITY, FALSE, L"Integrity", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOPRIORITY, FALSE, L"I/O priority", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEPRIORITY, FALSE, L"Page priority", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_STARTTIME, FALSE, L"Start time", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_TOTALCPUTIME, FALSE, L"Total CPU time", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_KERNELCPUTIME, FALSE, L"Kernel CPU time", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_USERCPUTIME, FALSE, L"User CPU time", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_VERIFICATIONSTATUS, FALSE, L"Verification status", 70, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_VERIFIEDSIGNER, FALSE, L"Verified signer", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_THREADS, FALSE, L"线程", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_HANDLES, FALSE, L"句柄", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_GDIHANDLES, FALSE, L"GDI 句柄", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_USERHANDLES, FALSE, L"USER 句柄", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IORORATE, FALSE, L"I/O 读+其他速率", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRATE, FALSE, L"I/O 写速率", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_INTEGRITY, FALSE, L"完整性", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOPRIORITY, FALSE, L"I/O 优先级", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEPRIORITY, FALSE, L"页面优先级", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_STARTTIME, FALSE, L"启动时间", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_TOTALCPUTIME, FALSE, L"总 CPU 时间", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_KERNELCPUTIME, FALSE, L"内核 CPU 时间", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_USERCPUTIME, FALSE, L"用户 CPU 时间", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_VERIFICATIONSTATUS, FALSE, L"验证状态", 70, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_VERIFIEDSIGNER, FALSE, L"已验证签名者", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
     PhAddTreeNewColumnEx(hwnd, PHPRTLC_ASLR, FALSE, L"ASLR", 50, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_RELATIVESTARTTIME, FALSE, L"Relative start time", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_BITS, FALSE, L"Bits", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ELEVATION, FALSE, L"Elevation", 60, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_WINDOWTITLE, FALSE, L"Window title", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_WINDOWSTATUS, FALSE, L"Window status", 60, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CYCLES, FALSE, L"Cycles", 110, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CYCLESDELTA, FALSE, L"Cycles delta", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_CPUHISTORY, FALSE, L"CPU history", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_PRIVATEBYTESHISTORY, FALSE, L"Private bytes history", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_IOHISTORY, FALSE, L"I/O history", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_RELATIVESTARTTIME, FALSE, L"相对启动时间", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_BITS, FALSE, L"位数", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ELEVATION, FALSE, L"提升", 60, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_WINDOWTITLE, FALSE, L"窗口标题", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_WINDOWSTATUS, FALSE, L"窗口状态", 60, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CYCLES, FALSE, L"周期", 110, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CYCLESDELTA, FALSE, L"周期增量", 90, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_CPUHISTORY, FALSE, L"CPU 历史记录", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_PRIVATEBYTESHISTORY, FALSE, L"私有字节历史记录", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_IOHISTORY, FALSE, L"I/O 历史记录", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
     PhAddTreeNewColumn(hwnd, PHPRTLC_DEP, FALSE, L"DEP", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_VIRTUALIZED, FALSE, L"Virtualized", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CONTEXTSWITCHES, FALSE, L"Context switches", 100, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CONTEXTSWITCHESDELTA, FALSE, L"Context switches delta", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEFAULTSDELTA, FALSE, L"Page faults delta", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_VIRTUALIZED, FALSE, L"虚拟化", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CONTEXTSWITCHES, FALSE, L"上下文切换", 100, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CONTEXTSWITCHESDELTA, FALSE, L"上下文切换增量", 80, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEFAULTSDELTA, FALSE, L"页面错误增量", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
 
     // I/O group columns
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADS, FALSE, L"I/O reads", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITES, FALSE, L"I/O writes", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHER, FALSE, L"I/O other", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADBYTES, FALSE, L"I/O read bytes", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITEBYTES, FALSE, L"I/O write bytes", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHERBYTES, FALSE, L"I/O other bytes", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADSDELTA, FALSE, L"I/O reads delta", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITESDELTA, FALSE, L"I/O writes delta", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHERDELTA, FALSE, L"I/O other delta", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADS, FALSE, L"I/O 读取", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITES, FALSE, L"I/O 写入", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHER, FALSE, L"I/O 其他", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADBYTES, FALSE, L"I/O 读字节", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITEBYTES, FALSE, L"I/O 写字节", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHERBYTES, FALSE, L"I/O 其他字节", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOREADSDELTA, FALSE, L"I/O 读取增量", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOWRITESDELTA, FALSE, L"I/O 写入增量", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IOOTHERDELTA, FALSE, L"I/O 其他增量", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
 
     // Customizable columns (3)
-    PhAddTreeNewColumn(hwnd, PHPRTLC_OSCONTEXT, FALSE, L"OS context", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEDPOOL, FALSE, L"Paged pool", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKPAGEDPOOL, FALSE, L"Peak paged pool", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_NONPAGEDPOOL, FALSE, L"Non-paged pool", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKNONPAGEDPOOL, FALSE, L"Peak non-paged pool", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_MINIMUMWORKINGSET, FALSE, L"Minimum working set", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_MAXIMUMWORKINGSET, FALSE, L"Maximum working set", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEBYTESDELTA, FALSE, L"Private bytes delta", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_SUBSYSTEM, FALSE, L"Subsystem", 110, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_PACKAGENAME, FALSE, L"Package name", 160, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_APPID, FALSE, L"App ID", 160, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_DPIAWARENESS, FALSE, L"DPI awareness", 110, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_OSCONTEXT, FALSE, L"OS 上下文", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PAGEDPOOL, FALSE, L"分页池", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKPAGEDPOOL, FALSE, L"峰值分页池", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_NONPAGEDPOOL, FALSE, L"非分页池", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PEAKNONPAGEDPOOL, FALSE, L"峰值非分页池", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_MINIMUMWORKINGSET, FALSE, L"最小工作集", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_MAXIMUMWORKINGSET, FALSE, L"最大工作集", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIVATEBYTESDELTA, FALSE, L"私有字节增量", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_SUBSYSTEM, FALSE, L"子系统", 110, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_PACKAGENAME, FALSE, L"包名称", 160, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_APPID, FALSE, L"应用 ID", 160, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_DPIAWARENESS, FALSE, L"DPI 感知", 110, PH_ALIGN_LEFT, ULONG_MAX, 0);
     PhAddTreeNewColumnEx(hwnd, PHPRTLC_CFGUARD, FALSE, L"CF Guard", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_TIMESTAMP, FALSE, L"Time stamp", 140, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_FILEMODIFIEDTIME, FALSE, L"File modified time", 140, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_FILESIZE, FALSE, L"File size", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SUBPROCESSCOUNT, FALSE, L"Subprocesses", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_JOBOBJECTID, FALSE, L"Job Object ID", 50, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PROTECTION, FALSE, L"Protection", 105, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_DESKTOP, FALSE, L"Desktop", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CRITICAL, FALSE, L"Critical", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PIDHEX, FALSE, L"PID (Hex)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUCORECYCLES, FALSE, L"CPU (relative)", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_TIMESTAMP, FALSE, L"时间戳", 140, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_FILEMODIFIEDTIME, FALSE, L"文件修改时间", 140, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_FILESIZE, FALSE, L"文件大小", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_SUBPROCESSCOUNT, FALSE, L"子进程", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_JOBOBJECTID, FALSE, L"作业对象 ID", 50, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PROTECTION, FALSE, L"保护", 105, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_DESKTOP, FALSE, L"桌面", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CRITICAL, FALSE, L"关键", 80, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PIDHEX, FALSE, L"PID (十六进制)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUCORECYCLES, FALSE, L"CPU (相对)", 45, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
     PhAddTreeNewColumnEx(hwnd, PHPRTLC_CET, FALSE, L"CET", 45, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IMAGE_COHERENCY, FALSE, L"Image coherency", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ERRORMODE, FALSE, L"Error mode", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CODEPAGE, FALSE, L"Code page", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_TIMELINE, FALSE, L"Timeline", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_POWERTHROTTLING, FALSE, L"Power throttling", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ARCHITECTURE, FALSE, L"Architecture", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_PARENTPID, FALSE, L"Parent PID", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_PARENTCONSOLEPID, FALSE, L"Parent console PID", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_COMMITSIZE, FALSE, L"Shared commit", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIORITYBOOST, FALSE, L"Priority boost", 45, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUAVERAGE, FALSE, L"CPU (average)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUKERNEL, FALSE, L"CPU (kernel)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUUSER, FALSE, L"CPU (user)", 50, PH_ALIGN_LEFT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_GRANTEDACCESS, FALSE, L"Granted access (symbolic)", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_TLSBITMAPDELTA, FALSE, L"Thread local storage", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHPRTLC_REFERENCEDELTA, FALSE, L"References", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_IMAGE_COHERENCY, FALSE, L"映像一致性", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ERRORMODE, FALSE, L"错误模式", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CODEPAGE, FALSE, L"代码页", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx2(hwnd, PHPRTLC_TIMELINE, FALSE, L"时间线", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_POWERTHROTTLING, FALSE, L"电源节流", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_ARCHITECTURE, FALSE, L"架构", 70, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_PARENTPID, FALSE, L"父 PID", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_PARENTCONSOLEPID, FALSE, L"父控制台 PID", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_COMMITSIZE, FALSE, L"共享提交", 70, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_PRIORITYBOOST, FALSE, L"优先级提升", 45, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUAVERAGE, FALSE, L"CPU (平均)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUKERNEL, FALSE, L"CPU (内核)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_CPUUSER, FALSE, L"CPU (用户)", 50, PH_ALIGN_LEFT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_GRANTEDACCESS, FALSE, L"授予访问权限 (符号)", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_TLSBITMAPDELTA, FALSE, L"线程本地存储", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHPRTLC_REFERENCEDELTA, FALSE, L"引用", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
     PhAddTreeNewColumn(hwnd, PHPRTLC_LXSSPID, FALSE, L"PID (LXSS)", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_START_KEY, FALSE, L"Start key", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_MITIGATION_POLICIES, FALSE, L"Mitigation policies", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_SERVICES, FALSE, L"Services", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHPRTLC_SHORT_USERNAME, FALSE, L"Short user name", 140, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_START_KEY, FALSE, L"启动键", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_MITIGATION_POLICIES, FALSE, L"缓解策略", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_SERVICES, FALSE, L"服务", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHPRTLC_SHORT_USERNAME, FALSE, L"短用户名", 140, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     PhCmInitializeManager(&ProcessTreeListCm, hwnd, PHPRTLC_MAXIMUM, PhpProcessTreeNewPostSortFunction);
     PhInitializeTreeNewFilterSupport(&FilterSupport, hwnd, ProcessNodeList);
@@ -1529,22 +1529,22 @@ static VOID PhpUpdateProcessNodeErrorMode(
 
                 if (errorMode & SEM_FAILCRITICALERRORS)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"Fail critical, ");
+                    PhAppendStringBuilder2(&stringBuilder, L"失败关键, ");
                 }
 
                 if (errorMode & SEM_NOGPFAULTERRORBOX)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"GP faults, ");
+                    PhAppendStringBuilder2(&stringBuilder, L"GP 错误, ");
                 }
 
                 if (errorMode & SEM_NOALIGNMENTFAULTEXCEPT)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"Alignment faults, ");
+                    PhAppendStringBuilder2(&stringBuilder, L"对齐错误, ");
                 }
 
                 if (errorMode & SEM_NOOPENFILEERRORBOX)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"Openfile faults, ");
+                    PhAppendStringBuilder2(&stringBuilder, L"打开文件错误, ");
                 }
 
                 if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
@@ -3723,7 +3723,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     if (PhEnableProcessQueryStage2)
                         getCellText->Text = PhVerifyResultToStringRef(processItem->VerifyResult);
                     else
-                        PhInitializeStringRef(&getCellText->Text, L"Image digital signature support disabled.");
+                        PhInitializeStringRef(&getCellText->Text, L"映像数字签名支持已禁用。");
                 }
                 break;
             case PHPRTLC_VERIFIEDSIGNER:
@@ -3731,7 +3731,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     if (PhEnableProcessQueryStage2)
                         getCellText->Text = PhGetStringRef(processItem->VerifySignerName);
                     else
-                        PhInitializeStringRef(&getCellText->Text, L"Image digital signature support disabled.");
+                        PhInitializeStringRef(&getCellText->Text, L"映像数字签名支持已禁用。");
                 }
                 break;
             case PHPRTLC_ASLR:
@@ -3771,7 +3771,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                             if (processItem->CreateTime.QuadPart < currentTime.QuadPart)
                             {
                                 startTimeString = PhFormatTimeSpanRelative(currentTime.QuadPart - processItem->CreateTime.QuadPart);
-                                PhMoveReference(&node->RelativeStartTimeText, PhConcatStringRefZ(&startTimeString->sr, L" ago"));
+                                PhMoveReference(&node->RelativeStartTimeText, PhConcatStringRefZ(&startTimeString->sr, L"前"));
                                 PhDereferenceObject(startTimeString);
                             }
                             else
@@ -3817,7 +3817,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (node->WindowHandle)
                     {
-                        PhInitializeStringRef(&getCellText->Text, node->WindowHung ? L"Not responding" : L"Running");
+                        PhInitializeStringRef(&getCellText->Text, node->WindowHung ? L"无响应" : L"正在运行");
                     }
                 }
                 break;
@@ -3858,19 +3858,19 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_ENABLED))
                     {
                         if (FlagOn(node->DepStatus, PH_PROCESS_DEP_PERMANENT))
-                            PhAppendStringBuilder2(&sb, L"DEP (permanent), ");
+                            PhAppendStringBuilder2(&sb, L"DEP (永久), ");
                         else
                             PhAppendStringBuilder2(&sb, L"DEP, ");
                     }
 
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_ATL_THUNK_EMULATION_DISABLED))
-                        PhAppendStringBuilder2(&sb, L"ATL emulation, ");
+                        PhAppendStringBuilder2(&sb, L"ATL 模拟, ");
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_EXECUTE_ENABLED))
-                        PhAppendStringBuilder2(&sb, L"Execute enabled, ");
+                        PhAppendStringBuilder2(&sb, L"已启用执行, ");
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_IMAGE_ENABLED))
-                        PhAppendStringBuilder2(&sb, L"Image enabled, ");
+                        PhAppendStringBuilder2(&sb, L"已启用映像, ");
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_DISABLE_EXCEPTION_CHAIN))
-                        PhAppendStringBuilder2(&sb, L"Chain disabled, ");
+                        PhAppendStringBuilder2(&sb, L"已禁用链, ");
 
                     if (PhEndsWithString2(sb.String, L", ", FALSE))
                         PhRemoveEndStringBuilder(&sb, 2);
@@ -3884,7 +3884,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     PhpUpdateProcessNodeToken(node);
 
                     if (node->VirtualizationEnabled)
-                        PhInitializeStringRef(&getCellText->Text, L"Virtualized");
+                        PhInitializeStringRef(&getCellText->Text, L"已虚拟化");
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }
@@ -4177,13 +4177,13 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     case 0:
                         break;
                     case IMAGE_SUBSYSTEM_NATIVE:
-                        PhInitializeStringRef(&getCellText->Text, L"Native");
+                        PhInitializeStringRef(&getCellText->Text, L"原生");
                         break;
                     case IMAGE_SUBSYSTEM_WINDOWS_GUI:
                         PhInitializeStringRef(&getCellText->Text, L"Windows");
                         break;
                     case IMAGE_SUBSYSTEM_WINDOWS_CUI:
-                        PhInitializeStringRef(&getCellText->Text, L"Console");
+                        PhInitializeStringRef(&getCellText->Text, L"控制台");
                         break;
                     case IMAGE_SUBSYSTEM_OS2_CUI:
                         PhInitializeStringRef(&getCellText->Text, L"OS/2");
@@ -4192,7 +4192,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                         PhInitializeStringRef(&getCellText->Text, L"POSIX");
                         break;
                     default:
-                        PhInitializeStringRef(&getCellText->Text, L"Unknown");
+                        PhInitializeStringRef(&getCellText->Text, L"未知");
                         break;
                     }
                 }
@@ -4215,19 +4215,19 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     switch (node->DpiAwareness)
                     {
                     case PH_PROCESS_DPI_AWARENESS_UNAWARE + 1:
-                        PhInitializeStringRef(&getCellText->Text, L"Unaware");
+                        PhInitializeStringRef(&getCellText->Text, L"未感知");
                         break;
                     case PH_PROCESS_DPI_AWARENESS_SYSTEM_DPI_AWARE + 1:
-                        PhInitializeStringRef(&getCellText->Text, L"System aware");
+                        PhInitializeStringRef(&getCellText->Text, L"系统感知");
                         break;
                     case PH_PROCESS_DPI_AWARENESS_PER_MONITOR_DPI_AWARE + 1:
-                        PhInitializeStringRef(&getCellText->Text, L"Per-monitor aware");
+                        PhInitializeStringRef(&getCellText->Text, L"按监视器感知");
                         break;
                     case PH_PROCESS_DPI_AWARENESS_PER_MONITOR_AWARE_V2 + 1:
-                        PhInitializeStringRef(&getCellText->Text, L"Per-monitor V2");
+                        PhInitializeStringRef(&getCellText->Text, L"按监视器 V2");
                         break;
                     case PH_PROCESS_DPI_AWARENESS_UNAWARE_GDISCALED + 1:
-                        PhInitializeStringRef(&getCellText->Text, L"Unaware (GDI scaled)");
+                        PhInitializeStringRef(&getCellText->Text, L"未感知 (GDI 缩放)");
                         break;
                     }
                 }
@@ -4330,7 +4330,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (node->BreakOnTerminationEnabled)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Critical");
+                        PhInitializeStringRef(&getCellText->Text, L"关键");
                     }
                 }
                 break;
@@ -4386,13 +4386,13 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (!PhEnableImageCoherencySupport)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Image coherency support is disabled.");
+                        PhInitializeStringRef(&getCellText->Text, L"映像一致性支持已禁用。");
                         break;
                     }
 
                     if (processItem->ImageCoherencyStatus == STATUS_PENDING)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Scanning....");
+                        PhInitializeStringRef(&getCellText->Text, L"正在扫描....");
                         break;
                     }
 
@@ -4450,7 +4450,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (node->PowerThrottling)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                 }
                 break;
@@ -4554,7 +4554,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (node->PriorityBoost)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                 }
                 break;
@@ -6123,9 +6123,9 @@ BOOLEAN PhSelectAndEnsureVisibleProcessNodes(
     {
         PhShowInformation2(
             PhMainWndHandle,
-            L"Unable to perform the operation.",
+            L"无法执行该操作。",
             L"%s",
-            L"This node cannot be displayed because it is currently hidden by your active filter settings or preferences."
+            L"该节点当前被正在生效的筛选设置或首选项隐藏，因此无法显示。"
             );
         return FALSE;
     }

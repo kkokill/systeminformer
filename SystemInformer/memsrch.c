@@ -642,7 +642,7 @@ VOID PhShowMemoryStringDialog(
         ProcessItem->ProcessId
         )))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to open the process", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法打开进程", status, 0);
         return;
     }
 
@@ -753,7 +753,7 @@ INT_PTR CALLBACK PhpMemoryStringDlgProc(
 
                     if (minimumLength < 4)
                     {
-                        PhShowError2(hwndDlg, L"Unable to search for strings.", L"%s", L"The minimum length must be at least 4.");
+                        PhShowError2(hwndDlg, L"无法搜索字符串。", L"%s", L"最小长度必须至少为 4。");
                         break;
                     }
 
@@ -766,7 +766,7 @@ INT_PTR CALLBACK PhpMemoryStringDlgProc(
 
                     if (!context->Private && !context->Image && !context->Mapped)
                     {
-                        PhShowError2(hwndDlg, L"Unable to search for strings.", L"%s", L"At least one memory type (Private, Image, or Mapped) must be selected.");
+                        PhShowError2(hwndDlg, L"无法搜索字符串。", L"%s", L"必须至少选择一种内存类型（Private、Image 或 Mapped）。");
                         break;
                     }
 
@@ -959,7 +959,7 @@ HRESULT CALLBACK PhpMemoryStringTaskDialogCallback(
 
                 if (!NT_SUCCESS(status))
                 {
-                    PhShowStatus(hwndDlg, L"Unable to create the search thread", status, 0);
+                    PhShowStatus(hwndDlg, L"无法创建搜索线程", status, 0);
                     SendMessage(hwndDlg, TDM_CLICK_BUTTON, IDCANCEL, 0);
                 }
             }
@@ -1002,7 +1002,7 @@ HRESULT CALLBACK PhpMemoryStringTaskDialogCallback(
             }
 
             numberText = PhFormatUInt64(context->ResultCount, TRUE);
-            progressText = PhFormatString(L"%s strings found...", numberText->Buffer);
+            progressText = PhFormatString(L"已找到 %s 个字符串...", numberText->Buffer);
 
             SendMessage(hwndDlg, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)progressText->Buffer);
 
@@ -1036,7 +1036,7 @@ BOOLEAN PhpShowMemoryStringProgressDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.hwndParent = Context->ParentWindowHandle;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Searching memory strings...";
+    config.pszMainInstruction = L"正在搜索内存字符串...";
     config.pszContent = L" ";
     config.cxWidth = 200;
 

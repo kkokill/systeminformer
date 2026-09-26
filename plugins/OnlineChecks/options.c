@@ -32,7 +32,7 @@ static VOID OptionsRefreshKeyStatus(
     PhDereferenceObject(key);
 
     PhSetDialogItemText(WindowHandle, LabelId,
-        *Configured ? L"Set - using your key" : L"Unset - optional");
+        *Configured ? L"已设置 - 使用您的密钥" : L"未设置 - 可选");
     InvalidateRect(GetDlgItem(WindowHandle, LabelId), NULL, TRUE);
 }
 
@@ -213,12 +213,12 @@ INT_PTR CALLBACK OptionsGeoLiteDlgProc(
 
             if (id == IDC_APIKEYIDBTN)
             {
-                PhSetDialogItemText(WindowHandle, IDC_KEYTEXT_L, L"Paste the license key here:");
+                PhSetDialogItemText(WindowHandle, IDC_KEYTEXT_L, L"在此处粘贴许可证密钥：");
                 PhSetDialogItemText(WindowHandle, IDC_KEY_EDIT, PhaGetStringSetting(SETTING_NAME_HYBRIDANALYSIS_DEFAULT_PAT)->Buffer);
             }
             else
             {
-                PhSetDialogItemText(WindowHandle, IDC_KEYTEXT_L, L"Paste the license key here:");
+                PhSetDialogItemText(WindowHandle, IDC_KEYTEXT_L, L"在此处粘贴许可证密钥：");
                 PhSetDialogItemText(WindowHandle, IDC_KEY_EDIT, PhaGetStringSetting(SETTING_NAME_VIRUSTOTAL_DEFAULT_PAT)->Buffer);
             }
 

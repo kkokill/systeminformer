@@ -359,7 +359,7 @@ VOID PhpShowPluginErrorMessage(
             &stringBuilder,
             L"%s: %s (0x%lx)\n\n",
             baseName->Buffer,
-            PhGetStringOrDefault(loadError->ErrorMessage, L"An unknown error occurred."),
+            PhGetStringOrDefault(loadError->ErrorMessage, L"发生未知错误。"),
             loadError->Status
             );
 
@@ -373,7 +373,7 @@ VOID PhpShowPluginErrorMessage(
         NULL,
         TD_CLOSE_BUTTON,
         TD_ERROR_ICON,
-        L"Unable to load the following plugin(s)",
+        L"无法加载以下插件。",
         L"%s",
         PhGetString(PhFinalStringBuilderString(&stringBuilder))
         ))

@@ -741,30 +741,30 @@ BOOLEAN NetworkToolsQueryWhois(
 
     if (WSAStartup(WINSOCK_VERSION, &winsockStartup) != ERROR_SUCCESS)
     {
-        *Response = PhCreateString(L"Windows sockets could not be started.\n");
+        *Response = PhCreateString(L"无法启动 Windows 套接字。\n");
         return FALSE;
     }
 
     PhInitializeStringBuilder(&stringBuilder, 0x100);
 
     if (Progress)
-        Progress(L"Connecting to whois.iana.org...", Context);
+        Progress(L"正在连接到 whois.iana.org...", Context);
 
     if (!WhoisQueryServer(L"whois.iana.org", IPPORT_WHOIS, (PWSTR)Address, Ipv6Support, &whoisResponse))
     {
-        PhAppendFormatStringBuilder(&stringBuilder, L"Connection to whois.iana.org failed.\n");
+        PhAppendFormatStringBuilder(&stringBuilder, L"连接到 whois.iana.org 失败。\n");
         goto CleanupExit;
     }
 
     if (!WhoisExtractServerUrl(whoisResponse, &whoisServerName))
     {
-        PhAppendFormatStringBuilder(&stringBuilder, L"Error parsing whois.iana.org response:\n%s\n", whoisResponse->Buffer);
+        PhAppendFormatStringBuilder(&stringBuilder, L"解析 whois.iana.org 响应时出错：\n%s\n", whoisResponse->Buffer);
         goto CleanupExit;
     }
 
     if (Progress)
     {
-        PPH_STRING message = PhFormatString(L"Connecting to %s...", PhGetStringOrEmpty(whoisServerName));
+        PPH_STRING message = PhFormatString(L"正在连接到 %s...", PhGetStringOrEmpty(whoisServerName));
 
         Progress(PhGetString(message), Context);
         PhDereferenceObject(message);
@@ -820,7 +820,7 @@ BOOLEAN NetworkToolsQueryWhois(
     }
     else
     {
-        PhAppendFormatStringBuilder(&stringBuilder, L"Connection to %s failed.\n", PhGetStringOrEmpty(whoisServerName));
+        PhAppendFormatStringBuilder(&stringBuilder, L"连接到 %s 失败。\n", PhGetStringOrEmpty(whoisServerName));
         goto CleanupExit;
     }
 
@@ -989,7 +989,7 @@ INT_PTR CALLBACK WhoisDlgProc(
             WhoisSetTextFont(context);
             WhoisParseAddressString(context);
 
-            PhSetWindowText(WindowHandle, PhaFormatString(L"Whois %s...", context->RemoteAddressString)->Buffer);
+            PhSetWindowText(WindowHandle, PhaFormatString(L"Whois 查询 %s...", context->RemoteAddressString)->Buffer);
 
             //SendMessage(context->RichEditHandle, EM_SETBKGNDCOLOR, RGB(0, 0, 0), 0);
             SendMessage(context->RichEditHandle, EM_SETEVENTMASK, 0, SendMessage(context->RichEditHandle, EM_GETEVENTMASK, 0, 0) | ENM_LINK);
@@ -1133,9 +1133,9 @@ INT_PTR CALLBACK WhoisDlgProc(
             point.y = GET_Y_LPARAM(lParam);
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"&Copy", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"复制(&C)", NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 11, L"&Select all", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 11, L"全选(&S)", NULL, NULL), ULONG_MAX);
 
             memset(&range, 0, sizeof(CHARRANGE));
             SendMessage(context->RichEditHandle, EM_EXGETSEL, 0, (LPARAM)&range);
@@ -1205,7 +1205,7 @@ NTSTATUS NetworkWhoisDialogThreadStart(
 
     if (!dllhandle)
     {
-        PhShowStatus(context->ParentWindowHandle, L"Unable to display the whois window.", 0, ERROR_MOD_NOT_FOUND);
+        PhShowStatus(context->ParentWindowHandle, L"无法显示 Whois 窗口。", 0, ERROR_MOD_NOT_FOUND);
         PhDereferenceObject(context);
         return STATUS_SUCCESS;
     }

@@ -752,7 +752,7 @@ VOID AtpListProcesses(
                     Result,
                     "invalid_arguments",
                     STATUS_INVALID_PARAMETER,
-                    L"started_after must be an ISO 8601 time such as 2026-09-08T01:02:03Z, as returned in start_time."
+                    L"started_after 必须是 ISO 8601 格式的时间（例如 2026-09-08T01:02:03Z），与 start_time 字段返回的格式一致。"
                     );
                 PhDereferenceObject(startedAfter);
                 PhClearReference(&filter.NameContains);
@@ -789,7 +789,7 @@ VOID AtpListProcesses(
     PhEnumProcessItems(&processItems, &numberOfProcessItems);
     if (!NT_SUCCESS(RtlSizeTMult(numberOfProcessItems, sizeof(BOOLEAN), &matchedSize)))
     {
-        AtSetToolError(Result, "failed", STATUS_INTEGER_OVERFLOW, L"There are too many processes to filter.");
+        AtSetToolError(Result, "failed", STATUS_INTEGER_OVERFLOW, L"进程过多，无法进行筛选。");
         PhFree(processItems);
         return;
     }
@@ -889,7 +889,7 @@ VOID AtpGetProcess(
                 PhAddJsonArrayObject(results, AtCreateBatchError(
                     processId,
                     "not_found",
-                    L"No process with this pid is in the provider cache."
+                    L"提供程序缓存中没有此 pid 对应的进程。"
                     ));
                 continue;
             }
@@ -954,7 +954,7 @@ VOID AtpGetProcessEnvironment(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Reading the environment block");
+        AtSetToolStatusError(Result, status, L"读取环境块");
         return;
     }
 
@@ -1140,7 +1140,7 @@ VOID AtpControlProcess(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"The operation");
+        AtSetToolStatusError(Result, status, L"该操作");
         return;
     }
 
@@ -1318,7 +1318,7 @@ VOID AtpGetProcessToken(
     if (!PH_IS_REAL_PROCESS_ID(target.ProcessItem->ProcessId) ||
         !NT_SUCCESS(status = PhOpenProcess(&processHandle, PROCESS_QUERY_LIMITED_INFORMATION, target.ProcessItem->ProcessId)))
     {
-        AtSetToolStatusError(Result, PH_IS_REAL_PROCESS_ID(target.ProcessItem->ProcessId) ? status : STATUS_INVALID_CID, L"Opening the process");
+        AtSetToolStatusError(Result, PH_IS_REAL_PROCESS_ID(target.ProcessItem->ProcessId) ? status : STATUS_INVALID_CID, L"打开进程");
         AtDeleteTarget(&target);
         return;
     }
@@ -1328,7 +1328,7 @@ VOID AtpGetProcessToken(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the process token");
+        AtSetToolStatusError(Result, status, L"打开进程令牌");
         AtDeleteTarget(&target);
         return;
     }
@@ -1809,8 +1809,8 @@ VOID AtpGetProcessJob(
             PPH_STRING message;
 
             message = PhFormatString(
-                L"The process is in a job, but opening one has no user-mode route: it comes from the "
-                L"System Informer driver, which is not available to this instance (access level: %s).",
+                L"该进程位于作业中，但打开作业没有用户态途径：它依赖于 System Informer 驱动程序，"
+                L"而该驱动程序对此实例不可用（访问级别：%s）。",
                 AtKphLevelString(KsiLevel())
                 );
 
@@ -1824,7 +1824,7 @@ VOID AtpGetProcessJob(
             PPH_STRING message = PhGetStatusMessage(status, 0);
 
             PhAddJsonObject(structured, "error", status == STATUS_ACCESS_DENIED ? "access_denied" : "failed");
-            AtJsonAddStringZ(structured, "message", PhGetStringOrDefault(message, L"unknown error"));
+            AtJsonAddStringZ(structured, "message", PhGetStringOrDefault(message, L"未知错误"));
             PhClearReference(&message);
         }
         else
@@ -1899,8 +1899,8 @@ VOID AtpGetProcessKsiState(
             Result,
             "failed",
             STATUS_NOT_SUPPORTED,
-            L"This is the System Informer driver's own view of a process and there is no user-mode "
-            L"equivalent; the driver is not available to this instance (access level: %s).",
+            L"这是 System Informer 驱动程序对进程的专属视图，没有用户态等价功能；"
+            L"该驱动程序对此实例不可用（访问级别：%s）。",
             AtKphLevelString(KsiLevel())
             );
         AtSetToolHint(Result, AT_HINT_NEEDS_DRIVER);
@@ -1920,7 +1920,7 @@ VOID AtpGetProcessKsiState(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Querying the driver for the process state");
+        AtSetToolStatusError(Result, status, L"向驱动程序查询进程状态");
         AtDeleteTarget(&target);
         return;
     }
@@ -2104,7 +2104,7 @@ VOID AtpListHiddenProcesses(
     if (!AtpParseZombieMethod(methodName, &method))
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"method must be brute_force, process_handles, registry, etw_guid or ntdll.");
+            L"method 必须为 brute_force、process_handles、registry、etw_guid 或 ntdll。");
         PhClearReference(&methodName);
         return;
     }
@@ -2120,7 +2120,7 @@ VOID AtpListHiddenProcesses(
     {
         PPH_STRING operation;
 
-        operation = PhFormatString(L"The %s scan",
+        operation = PhFormatString(L"%s 扫描",
             PhGetStringOrDefault(methodName, L"brute_force"));
         AtSetToolStatusError(Result, status, PhGetString(operation));
         PhDereferenceObject(operation);
@@ -2133,7 +2133,7 @@ VOID AtpListHiddenProcesses(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Reading the process list");
+        AtSetToolStatusError(Result, status, L"读取进程列表");
         goto CleanupExit;
     }
 
@@ -2265,7 +2265,7 @@ VOID AtProcessInvokeTool(
         AtpGetProcessKsiState(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具未实现。");
         break;
     }
 }

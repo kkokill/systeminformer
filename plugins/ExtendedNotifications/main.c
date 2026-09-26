@@ -92,8 +92,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Extended Notifications";
-            info->Description = L"Filters notifications.";
+            info->DisplayName = L"扩展通知";
+            info->Description = L"过滤通知。";
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),
@@ -328,28 +328,28 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"Notifications - Processes",
+        L"通知 - 进程",
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_PROCESSES),
         ProcessesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"Notifications - Services",
+        L"通知 - 服务",
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_SERVICES),
         ServicesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"Notifications - Devices",
+        L"通知 - 设备",
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_DEVICES),
         DevicesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"Notifications - Logging",
+        L"通知 - 日志记录",
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_LOGGING),
         LoggingDlgProc,
@@ -450,7 +450,7 @@ PPH_STRING FormatFilterEntry(
     _In_ PFILTER_ENTRY Entry
     )
 {
-    return PhConcatStrings2(Entry->Type == FilterInclude ? L"[Include] " : L"[Exclude] ", Entry->Filter->Buffer);
+    return PhConcatStrings2(Entry->Type == FilterInclude ? L"[包含] " : L"[排除] ", Entry->Filter->Buffer);
 }
 
 VOID AddEntriesToListBox(
@@ -1000,8 +1000,8 @@ INT_PTR CALLBACK LoggingDlgProc(
                 {
                     static PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Log files (*.txt;*.log)", L"*.txt;*.log" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"日志文件 (*.txt;*.log)", L"*.txt;*.log" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING fileName;

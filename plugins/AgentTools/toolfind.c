@@ -96,7 +96,7 @@ VOID AtpFindHandles(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"Give at least one of name_contains, type_name or pid; this searches every handle on the machine."
+            L"需要至少提供 name_contains、type_name 或 pid 之一；此操作会搜索系统上的每个句柄。"
             );
         PhClearReference(&context.NameContains);
         PhClearReference(&context.TypeName);
@@ -108,7 +108,7 @@ VOID AtpFindHandles(
 
     if (!NT_SUCCESS(status = PhEnumHandlesEx(&handles)))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the handles");
+        AtSetToolStatusError(Result, status, L"枚举句柄");
         PhClearReference(&context.NameContains);
         PhClearReference(&context.TypeName);
         return;
@@ -410,7 +410,7 @@ VOID AtpFindModules(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"Give at least one of name_contains, unsigned_only or pid; this walks the modules of every process."
+            L"需要至少提供 name_contains、unsigned_only 或 pid 之一；此操作会遍历每个进程的模块。"
             );
         PhClearReference(&context.NameContains);
         return;
@@ -627,7 +627,7 @@ VOID AtpGetFileUsers(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         return;
     }
 
@@ -651,7 +651,7 @@ VOID AtpGetFileUsers(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhDereferenceObject(path);
         return;
     }
@@ -905,7 +905,7 @@ VOID AtpListObjectDirectory(
 
     if (!NT_SUCCESS(status) && status != STATUS_TIMEOUT && context.Rows.Rows->Count == 0)
     {
-        AtSetToolStatusError(Result, status, L"Opening the object directory");
+        AtSetToolStatusError(Result, status, L"打开对象目录");
         AtDeleteRows(&context.Rows);
         PhClearReference(&context.TypeName);
         PhClearReference(&context.NameContains);
@@ -1487,7 +1487,7 @@ VOID AtpGetObjectInfo(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path");
         return;
     }
 
@@ -1515,9 +1515,9 @@ VOID AtpGetObjectInfo(
     if (!objectHandle && !target && PhIsNullOrEmptyString(typeName))
     {
         if (!NT_SUCCESS(directoryStatus))
-            AtSetToolStatusError(Result, directoryStatus, L"Listing the parent directory");
+            AtSetToolStatusError(Result, directoryStatus, L"列出父目录");
         else
-            AtSetToolStatusError(Result, STATUS_OBJECT_NAME_NOT_FOUND, L"Finding the object");
+            AtSetToolStatusError(Result, STATUS_OBJECT_NAME_NOT_FOUND, L"查找对象");
         PhClearReference(&typeName);
         PhDereferenceObject(path);
         return;
@@ -1579,7 +1579,7 @@ VOID AtpGetObjectInfo(
     {
         if (kind == AtObjectKindOther)
         {
-            AtJsonAddStringZ(structured, "open_error", L"objects of this type are not opened by this tool");
+            AtJsonAddStringZ(structured, "open_error", L"此工具不会打开该类型的对象");
         }
         else
         {
@@ -1627,7 +1627,7 @@ VOID AtpGetDriverObject(
     if (!(path = AtGetArgumentString(Call->Arguments, "path")))
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"path is required: a driver object such as \\Driver\\disk, or a device object such as \\Device\\HarddiskVolume3.");
+            L"需要提供 path：驱动程序对象（如 \\Driver\\disk）或设备对象（如 \\Device\\HarddiskVolume3）。");
         return;
     }
 
@@ -1638,7 +1638,7 @@ VOID AtpGetDriverObject(
     if (!isDevice && !PhStartsWithStringRef(&path->sr, &driverPrefix, TRUE))
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"path must name an object under \\Driver or \\Device.");
+            L"path 必须指向 \\Driver 或 \\Device 下的对象。");
         PhDereferenceObject(path);
         return;
     }
@@ -1651,8 +1651,8 @@ VOID AtpGetDriverObject(
             Result,
             "failed",
             STATUS_NOT_SUPPORTED,
-            L"Driver and device objects are read through the System Informer driver at maximum "
-            L"access, which is not available to this instance (access level: %s).",
+            L"驱动程序对象和设备对象需要通过 System Informer 驱动程序以最大访问级别读取，"
+            L"而当前实例不具备该条件（访问级别：%s）。",
             AtKphLevelString(KsiLevel())
             );
         AtSetToolHint(Result, AT_HINT_NEEDS_DRIVER);
@@ -1667,7 +1667,7 @@ VOID AtpGetDriverObject(
 
         if (!PhStringRefToUnicodeString(&path->sr, &objectName))
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_NAME_TOO_LONG, L"The path is too long.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_NAME_TOO_LONG, L"路径过长。");
             PhDereferenceObject(path);
             return;
         }
@@ -1695,7 +1695,7 @@ VOID AtpGetDriverObject(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, isDevice ? L"Opening the device object" : L"Opening the driver object");
+        AtSetToolStatusError(Result, status, isDevice ? L"打开设备对象" : L"打开驱动程序对象");
         PhDereferenceObject(path);
         return;
     }
@@ -1778,7 +1778,7 @@ VOID AtFindInvokeTool(
         AtpGetObjectInfo(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

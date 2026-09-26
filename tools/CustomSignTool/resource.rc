@@ -31,10 +31,10 @@ IDR_RT_MANIFEST         RT_MANIFEST             "CustomSignTool.manifest"
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (Australia) resources
+// Chinese (Simplified Chinese) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (Australia) resources
+#endif    // Chinese (Simplified Chinese) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

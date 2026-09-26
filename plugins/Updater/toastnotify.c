@@ -359,16 +359,16 @@ NTSTATUS NTAPI UpdateWinHttpEventCallbackStage4(
     switch (Event)
     {
     case PHHTTP_EVENT_INITIALIZING:
-        UpdateSetDialogStatusText(updater, L"Initializing download request...");
+        UpdateSetDialogStatusText(updater, L"正在初始化下载请求...");
         break;
     case PHHTTP_EVENT_CONNECTING:
-        UpdateSetDialogStatusText(updater, L"Connecting...");
+        UpdateSetDialogStatusText(updater, L"正在连接...");
         break;
     case PHHTTP_EVENT_SENDING_REQUEST:
-        UpdateSetDialogStatusText(updater, L"Sending download request...");
+        UpdateSetDialogStatusText(updater, L"正在发送下载请求...");
         break;
     case PHHTTP_EVENT_RECEIVING_RESPONSE:
-        UpdateSetDialogStatusText(updater, L"Waiting for response...");
+        UpdateSetDialogStatusText(updater, L"正在等待响应...");
         break;
     }
 
@@ -410,7 +410,7 @@ NTSTATUS NTAPI UpdateWinHttpTransferCallbackStage5(
             LARGE_INTEGER allocationSize;
             PPH_STRING string;
 
-            string = PhFormatString(L"Downloading release %s...", PhGetStringOrEmpty(updater->Version));
+            string = PhFormatString(L"正在下载 release %s...", PhGetStringOrEmpty(updater->Version));
             UpdateSetDialogInitialProgressText(updater, string->Buffer);
             PhDereferenceObject(string);
 
@@ -723,7 +723,7 @@ VOID UpdateSetDialogInitialProgressText(
     if (Context->DialogHandle)
     {
         SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)MainInstruction);
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"Downloaded: ~ of ~ (0%)\r\nSpeed: ~ KB/s");
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s");
     }
     else if (Context->ToastMode)
     {

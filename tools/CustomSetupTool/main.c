@@ -202,13 +202,13 @@ LONG SetupShowMessagePromptForLegacyVersion(
     config.dwCommonButtons = TDCBF_OK_BUTTON;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainIcon = TD_INFORMATION_ICON;
-    config.pszMainInstruction = L"Hey there, before we continue...";
+    config.pszMainInstruction = L"请注意，在继续之前...";
     config.pszContent =
-        L"- Process Hacker was renamed System Informer.\n"
-        L"- Process Hacker does not support Windows 10 or 11.\n"
-        L"- Process Hacker will not be updated.\n"
-        L"- Process Hacker will not be uninstalled.\n\n"
-        L"This update will now install System Informer.\n\nPlease remember to uninstall Process Hacker. Thanks <3";
+        L"- Process Hacker 已更名为 System Informer。\n"
+        L"- Process Hacker 不支持 Windows 10 或 11。\n"
+        L"- Process Hacker 不会再更新。\n"
+        L"- Process Hacker 不会被卸载。\n\n"
+        L"本次更新将立即安装 System Informer。\n\n请记得卸载 Process Hacker。感谢 <3";
     config.cxWidth = 200;
 
     //PhShowInformation2(

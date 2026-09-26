@@ -1488,7 +1488,7 @@ VOID AtpGetImageStrings(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -1526,7 +1526,7 @@ VOID AtpGetImageStrings(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhClearReference(&context.Contains);
         PhDereferenceObject(path);
         return;
@@ -1542,7 +1542,7 @@ VOID AtpGetImageStrings(
             Result,
             "invalid_image",
             status,
-            L"The file could not be mapped as a PE image; get_image_strings reads executables."
+            L"无法将文件映射为 PE 映像；get_image_strings 读取的是可执行文件。"
             );
         PhClearReference(&context.Contains);
         PhDereferenceObject(path);

@@ -126,21 +126,21 @@ VOID PhInitializeNetworkTreeList(
     TreeNew_SetImageList(TreeNewHandle, PhProcessSmallImageList);
 
     // Default columns
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_PROCESS, TRUE, L"Name", 100, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_PROCESS, TRUE, L"名称", 100, PH_ALIGN_LEFT, 0, 0);
     PhAddTreeNewColumn(TreeNewHandle, PHNETLC_PID, TRUE, L"PID", 50, PH_ALIGN_RIGHT, 1, DT_RIGHT);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALADDRESS, TRUE, L"Local address", 120, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALPORT, TRUE, L"Local port", 50, PH_ALIGN_RIGHT, 3, DT_RIGHT);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEADDRESS, TRUE, L"Remote address", 120, PH_ALIGN_LEFT, 4, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEPORT, TRUE, L"Remote port", 50, PH_ALIGN_RIGHT, 5, DT_RIGHT);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_PROTOCOL, TRUE, L"Protocol", 45, PH_ALIGN_LEFT, 6, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_STATE, TRUE, L"State", 70, PH_ALIGN_LEFT, 7, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_OWNER, TRUE, L"Owner", 80, PH_ALIGN_LEFT, 8, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALADDRESS, TRUE, L"本地地址", 120, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALPORT, TRUE, L"本地端口", 50, PH_ALIGN_RIGHT, 3, DT_RIGHT);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEADDRESS, TRUE, L"远程地址", 120, PH_ALIGN_LEFT, 4, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEPORT, TRUE, L"远程端口", 50, PH_ALIGN_RIGHT, 5, DT_RIGHT);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_PROTOCOL, TRUE, L"协议", 45, PH_ALIGN_LEFT, 6, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_STATE, TRUE, L"状态", 70, PH_ALIGN_LEFT, 7, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_OWNER, TRUE, L"所有者", 80, PH_ALIGN_LEFT, 8, 0);
 
-    PhAddTreeNewColumnEx(TreeNewHandle, PHNETLC_TIMESTAMP, FALSE, L"Time stamp", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALHOSTNAME, FALSE, L"Local hostname", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEHOSTNAME, FALSE, L"Remote hostname", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PHNETLC_TIMELINE, FALSE, L"Timeline", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_HV_SERVICE, FALSE, L"Hyper-V service", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PHNETLC_TIMESTAMP, FALSE, L"时间戳", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_LOCALHOSTNAME, FALSE, L"本地主机名", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_REMOTEHOSTNAME, FALSE, L"远程主机名", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PHNETLC_TIMELINE, FALSE, L"时间线", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumn(TreeNewHandle, PHNETLC_HV_SERVICE, FALSE, L"Hyper-V 服务", 120, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     PhCmInitializeManager(&NetworkTreeListCm, TreeNewHandle, PHNETLC_MAXIMUM, PhpNetworkTreeNewPostSortFunction);
     PhInitializeTreeNewFilterSupport(&FilterSupport, TreeNewHandle, NetworkNodeList);
@@ -692,7 +692,7 @@ BOOLEAN NTAPI PhpNetworkTreeNewCallback(
                     if (networkItem->LocalHostnameResolved)
                         getCellText->Text = PhGetStringRef(networkItem->LocalHostString);
                     else
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"解析中...");
                 }
                 break;
             case PHNETLC_LOCALPORT:
@@ -710,7 +710,7 @@ BOOLEAN NTAPI PhpNetworkTreeNewCallback(
                     if (networkItem->RemoteHostnameResolved)
                         getCellText->Text = PhGetStringRef(networkItem->RemoteHostString);
                     else
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"解析中...");
                 }
                 break;
             case PHNETLC_REMOTEPORT:
@@ -745,11 +745,11 @@ BOOLEAN NTAPI PhpNetworkTreeNewCallback(
                     {
                         if (networkItem->State)
                         {
-                            PhInitializeStringRef(&getCellText->Text, L"Connected");
+                            PhInitializeStringRef(&getCellText->Text, L"已连接");
                         }
                         else
                         {
-                            PhInitializeStringRef(&getCellText->Text, L"Listen");
+                            PhInitializeStringRef(&getCellText->Text, L"监听");
                         }
                     }
                 }
@@ -977,8 +977,8 @@ VOID PhpUpdateNetworkItemProcessName(
     )
 {
     static PH_INITONCE initOnce = PH_INITONCE_INIT;
-    static CONST PH_STRINGREF processNameUnknown = PH_STRINGREF_INIT(L"Unknown process");
-    static CONST PH_STRINGREF processNameWaiting = PH_STRINGREF_INIT(L"Waiting connections");
+    static CONST PH_STRINGREF processNameUnknown = PH_STRINGREF_INIT(L"未知进程");
+    static CONST PH_STRINGREF processNameWaiting = PH_STRINGREF_INIT(L"等待连接");
     static PPH_STRING cachedNameUnknown = NULL;
     static PPH_STRING cachedNameWaiting = NULL;
 
@@ -1093,9 +1093,9 @@ BOOLEAN PhSelectAndEnsureVisibleNetworkNode(
     {
         PhShowInformation2(
             PhMainWndHandle,
-            L"Unable to perform the operation.",
+            L"无法执行该操作。",
             L"%s",
-            L"This node cannot be displayed because it is currently hidden by your active filter settings or preferences."
+            L"此节点无法显示，因为它当前被您的活动筛选设置或首选项隐藏。"
             );
         return FALSE;
     }

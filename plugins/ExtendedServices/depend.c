@@ -74,7 +74,7 @@ INT_PTR CALLBACK EspServiceDependenciesDlgProc(
             SC_HANDLE serviceHandle;
             NTSTATUS status;
 
-            PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"This service depends on the following services:");
+            PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"该服务依赖于以下服务：");
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_SERVICES_LAYOUT), NULL, PH_ANCHOR_ALL);
@@ -129,8 +129,8 @@ INT_PTR CALLBACK EspServiceDependenciesDlgProc(
                 PPH_STRING errorMessage = PhGetNtMessage(status);
 
                 PhSetDialogItemText(WindowHandle, IDC_SERVICES_LAYOUT, PhaConcatStrings2(
-                    L"Unable to enumerate dependencies: ",
-                    PhGetStringOrDefault(errorMessage, L"Unknown error.")
+                    L"无法枚举依赖项：",
+                    PhGetStringOrDefault(errorMessage, L"未知错误。")
                     )->Buffer);
 
                 ShowWindow(GetDlgItem(WindowHandle, IDC_SERVICES_LAYOUT), SW_SHOW);
@@ -205,7 +205,7 @@ INT_PTR CALLBACK EspServiceDependenciesDlgProc(
             SC_HANDLE serviceHandle;
             NTSTATUS status;
 
-            PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"The following services depend on this service:");
+            PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"以下服务依赖于该服务：");
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_SERVICES_LAYOUT), NULL, PH_ANCHOR_ALL);
@@ -263,8 +263,8 @@ INT_PTR CALLBACK EspServiceDependenciesDlgProc(
                 PPH_STRING errorMessage = PhGetNtMessage(status);
 
                 PhSetDialogItemText(WindowHandle, IDC_SERVICES_LAYOUT, PhaConcatStrings2(
-                    L"Unable to enumerate dependents: ",
-                    PhGetStringOrDefault(errorMessage, L"Unknown error.")
+                    L"无法枚举依赖方：",
+                    PhGetStringOrDefault(errorMessage, L"未知错误。")
                     )->Buffer);
 
                 ShowWindow(GetDlgItem(WindowHandle, IDC_SERVICES_LAYOUT), SW_SHOW);

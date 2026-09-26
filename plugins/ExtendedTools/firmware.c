@@ -23,25 +23,25 @@ PPH_STRING EtFirmwareAttributeToString(
     PhInitializeStringBuilder(&sb, 0x100);
 
     if (Attribute & EFI_VARIABLE_NON_VOLATILE)
-        PhAppendStringBuilder2(&sb, L"Non Volatile, ");
+        PhAppendStringBuilder2(&sb, L"非易失性, ");
 
     if (Attribute & EFI_VARIABLE_BOOTSERVICE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"Boot Service, ");
+        PhAppendStringBuilder2(&sb, L"引导服务, ");
 
     if (Attribute & EFI_VARIABLE_RUNTIME_ACCESS)
-        PhAppendStringBuilder2(&sb, L"Runtime Access, ");
+        PhAppendStringBuilder2(&sb, L"运行时访问, ");
 
     if (Attribute & EFI_VARIABLE_HARDWARE_ERROR_RECORD)
-        PhAppendStringBuilder2(&sb, L"Hardware Error Record, ");
+        PhAppendStringBuilder2(&sb, L"硬件错误记录, "); 
 
     if (Attribute & EFI_VARIABLE_AUTHENTICATED_WRITE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"Authenticated Write Access, ");
+        PhAppendStringBuilder2(&sb, L"认证写入访问, ");
 
     if (Attribute & EFI_VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"Authenticated Write Access (Time Based), ");
+        PhAppendStringBuilder2(&sb, L"认证写入访问 (时间基于), ");
 
     if (Attribute & EFI_VARIABLE_APPEND_WRITE)
-        PhAppendStringBuilder2(&sb, L"Append Write, ");
+        PhAppendStringBuilder2(&sb, L"追加写入, ");
 
     if (PhEndsWithStringRef2(&sb.String->sr, L", ", FALSE))
         PhRemoveEndStringBuilder(&sb, 2);
@@ -179,7 +179,7 @@ VOID EtFirmwareDeleteEntry(
     }
     else
     {
-        PhShowStatus(Context->WindowHandle, L"Unable to delete firmware variable.", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法删除固件变量。", status, 0);
     }
 }
 
@@ -243,11 +243,11 @@ INT_PTR CALLBACK EtFirmwareDlgProc(
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             SetWindowFont(context->ListViewHandle, context->WindowFont, FALSE);
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 100, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 140, L"Attributes");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 140, L"Guid Name");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 100, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 140, L"属性");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 140, L"Guid名称");
             PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 140, L"Guid");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 50, L"Data Length");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 50, L"数据长度");
             PhSetExtendedListView(context->ListViewHandle);
 
             //ExtendedListView_SetSortFast(context->ListViewHandle, TRUE);
@@ -362,11 +362,11 @@ INT_PTR CALLBACK EtFirmwareDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&Edit", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"编辑(&E)", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"&Delete", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"删除(&D)", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(
@@ -442,7 +442,7 @@ BOOLEAN EtFirmwareEnablePrivilege(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to enable environment privilege.", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法启用环境特权。", status, 0);
         return FALSE;
     }
 
@@ -470,9 +470,9 @@ VOID EtShowFirmwareDialog(
     {
         PhShowError2(
             ParentWindowHandle,
-            L"Unable to query firmware table.",
+            L"无法查询固件表。",
             L"%s",
-            L"Windows was installed using legacy BIOS."
+            L"Windows 使用旧 BIOS。"
             );
     }
 

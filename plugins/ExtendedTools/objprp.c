@@ -386,7 +386,7 @@ VOID EtHandlePropertiesWindowInitialized(
         // Removing of row breaks cached indexes, so hide reference value instead
         //PhSetListViewSubItem(context->ListViewHandle, context->ListViewRowCache[PH_PLUGIN_HANDLE_GENERAL_INDEX_REFERENCES], 1, L"");
 
-        PhAddListViewGroupItem(context->ListViewHandle, PH_PLUGIN_HANDLE_GENERAL_CATEGORY_BASICINFO, OBJECT_GENERAL_INDEX_ATTRIBUTES, L"Object attributes", NULL);
+        PhAddListViewGroupItem(context->ListViewHandle, PH_PLUGIN_HANDLE_GENERAL_CATEGORY_BASICINFO, OBJECT_GENERAL_INDEX_ATTRIBUTES, L"对象属性", NULL);
 
         {
             // Show object attributes
@@ -395,13 +395,13 @@ VOID EtHandlePropertiesWindowInitialized(
 
             PhInitializeStringBuilder(&stringBuilder, 10);
             if (context->HandleItem->Attributes & OBJ_PERMANENT)
-                PhAppendStringBuilder2(&stringBuilder, L"Permanent, ");
+                PhAppendStringBuilder2(&stringBuilder, L"永久, ");
             if (context->HandleItem->Attributes & OBJ_EXCLUSIVE)
-                PhAppendStringBuilder2(&stringBuilder, L"Exclusive, ");
+                PhAppendStringBuilder2(&stringBuilder, L"独占, ");
             if (context->HandleItem->Attributes & OBJ_KERNEL_HANDLE)
-                PhAppendStringBuilder2(&stringBuilder, L"Kernel object, ");
+                PhAppendStringBuilder2(&stringBuilder, L"内核对象, ");
             if (context->HandleItem->Attributes & PH_OBJ_KERNEL_ACCESS_ONLY)
-                PhAppendStringBuilder2(&stringBuilder, L"Kernel only access, ");
+                PhAppendStringBuilder2(&stringBuilder, L"仅内核访问, ");
 
             // Remove the trailing ", ".
             if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
@@ -422,12 +422,12 @@ VOID EtHandlePropertiesWindowInitialized(
             PPH_STRING driverName;
             KPH_DRIVER_BASIC_INFORMATION basicInfo;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, L"Driver information");
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERIMAGE, L"Driver Image", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSERVICE, L"Driver Service Name", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSIZE, L"Driver Size", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSTART, L"Driver Start Address", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERFLAGS, L"Driver Flags", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, L"驱动程序信息");
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERIMAGE, L"驱动程序映像", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSERVICE, L"驱动程序服务名称", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSIZE, L"驱动程序大小", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERSTART, L"驱动程序起始地址", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DRIVER, OBJECT_GENERAL_INDEX_DRIVERFLAGS, L"驱动程序标志", NULL);
 
             if (KsiLevel() == KphLevelMax &&
                 NT_SUCCESS(EtDuplicateHandleFromProcessEx(
@@ -484,12 +484,12 @@ VOID EtHandlePropertiesWindowInitialized(
             OBJECT_ATTRIBUTES objectAttributes;
             UNICODE_STRING objectName;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, L"Device information");
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVLOW, L"Lower-edge driver", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVLOWPATH, L"Lower-edge driver image", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVHIGH, L"Upper-edge driver", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVHIGHPATH, L"Upper-edge driver Image", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEPNPNAME, L"PnP Device Name", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, L"设备信息");
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVLOW, L"下层驱动程序", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVLOWPATH, L"下层驱动程序映像", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVHIGH, L"上层驱动程序", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEDRVHIGHPATH, L"上层驱动程序映像", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DEVICE, OBJECT_GENERAL_INDEX_DEVICEPNPNAME, L"PnP 设备名称", NULL);
 
             if (KsiLevel() == KphLevelMax &&
                 !PhIsNullOrEmptyString(context->HandleItem->ObjectName))
@@ -568,9 +568,9 @@ VOID EtHandlePropertiesWindowInitialized(
             PH_STRINGREF stationName;
             PH_STRINGREF pathPart;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, L"Window Station information");
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, OBJECT_GENERAL_INDEX_WINSTATYPE, L"Type", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, OBJECT_GENERAL_INDEX_WINSTAVISIBLE, L"Visible", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, L"窗口站信息");
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, OBJECT_GENERAL_INDEX_WINSTATYPE, L"类型", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_WINDOWSTATION, OBJECT_GENERAL_INDEX_WINSTAVISIBLE, L"可见", NULL);
 
             if (!PhIsNullOrEmptyString(context->HandleItem->ObjectName))
             {
@@ -596,7 +596,7 @@ VOID EtHandlePropertiesWindowInitialized(
                     NULL
                     ))
                 {
-                    PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_WINSTAVISIBLE, 1, userFlags.dwFlags & WSF_VISIBLE ? L"True" : L"False");
+                    PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_WINSTAVISIBLE, 1, userFlags.dwFlags & WSF_VISIBLE ? L"是" : L"否");
                 }
 
                 CloseWindowStation(hWinStation);
@@ -606,10 +606,10 @@ VOID EtHandlePropertiesWindowInitialized(
         {
             HDESK hDesktop;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, L"Desktop information");
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPIO, L"Input desktop", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPSID, L"User SID", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPHEAP, L"Heap size", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, L"桌面信息");
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPIO, L"输入桌面", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPSID, L"用户 SID", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_DESKTOP, OBJECT_GENERAL_INDEX_DESKTOPHEAP, L"堆大小", NULL);
 
             if (NT_SUCCESS(EtDuplicateHandleFromProcessEx(
                 (PHANDLE)&hDesktop,
@@ -626,7 +626,7 @@ VOID EtHandlePropertiesWindowInitialized(
 
                 if (GetUserObjectInformation(hDesktop, UOI_IO, &vInfo, sizeof(vInfo), NULL))
                 {
-                    PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_DESKTOPIO, 1, !!vInfo ? L"True" : L"False");
+                    PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_DESKTOPIO, 1, !!vInfo ? L"是" : L"否");
                 }
 
                 if (GetUserObjectInformation(hDesktop, UOI_USER_SID, UserSid, SECURITY_MAX_SID_SIZE, &length))
@@ -654,15 +654,15 @@ VOID EtHandlePropertiesWindowInitialized(
             PPH_STRING accessString;
             PH_STRING_BUILDER stringBuilder;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, L"Type information");
-            PhAddListViewGroupItem(context->ListViewHandle,OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEINDEX, L"Index", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEOBJECTS, L"Objects", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEHANDLES, L"Handles", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPEAKOBJECTS, L"Peak Objects", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPEAKHANDLES, L"Peak Handles", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPOOLTYPE, L"Pool Type", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPAGECHARGE, L"Default Paged Charge", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPENPAGECHARGE, L"Default NP Charge", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, L"类型信息");
+            PhAddListViewGroupItem(context->ListViewHandle,OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEINDEX, L"索引", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEOBJECTS, L"对象", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEHANDLES, L"句柄", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPEAKOBJECTS, L"峰值对象数", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPEAKHANDLES, L"峰值句柄数", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPOOLTYPE, L"池类型", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPEPAGECHARGE, L"默认分页收费", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE, OBJECT_GENERAL_INDEX_TYPENPAGECHARGE, L"默认非分页收费", NULL);
 
             if (!PhIsNullOrEmptyString(context->HandleItem->ObjectName) &&
                 PhSplitStringRefAtLastChar(&context->HandleItem->ObjectName->sr, OBJ_NAME_PATH_SEPARATOR, &firstPart, &typeName))
@@ -692,10 +692,10 @@ VOID EtHandlePropertiesWindowInitialized(
                             PWSTR poolTypeString = L"";
                             switch (objectType->PoolType)
                             {
-                                case NonPagedPool: poolTypeString = L"Non Paged"; break;
-                                case PagedPool: poolTypeString = L"Paged"; break;
-                                case NonPagedPoolNx: poolTypeString = L"Non Paged NX"; break;
-                                case PagedPoolSessionNx: poolTypeString = L"Paged Session NX"; break;
+                                case NonPagedPool: poolTypeString = L"非分页"; break;
+                                case PagedPool: poolTypeString = L"分页"; break;
+                                case NonPagedPoolNx: poolTypeString = L"非分页 NX"; break;
+                                case PagedPoolSessionNx: poolTypeString = L"分页会话 NX"; break;
                             }
 
                             PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_TYPEPOOLTYPE, 1, poolTypeString);
@@ -703,13 +703,13 @@ VOID EtHandlePropertiesWindowInitialized(
                             PhPrintUInt32(string, objectType->DefaultNonPagedPoolCharge);
                             PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_TYPENPAGECHARGE, 1, string);
 
-                            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, L"Type access information");
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEVALIDMASK, L"Valid Access Mask", NULL);
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICREAD, L"Generic Read", NULL);
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICWRITE, L"Generic Write", NULL);
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICEXECUTE, L"Generic Execute", NULL);
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICALL, L"Generic All", NULL);
-                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEINVALIDATTRIBUTES, L"Invalid Attributes", NULL);
+                            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, L"类型访问信息");
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEVALIDMASK, L"有效访问掩码", NULL);
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICREAD, L"通用读取", NULL);
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICWRITE, L"通用写入", NULL);
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICEXECUTE, L"通用执行", NULL);
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEGENERICALL, L"通用全部", NULL);
+                            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_TYPE_ACCESS, OBJECT_GENERAL_INDEX_TYPEINVALIDATTRIBUTES, L"无效属性", NULL);
 
                             accessString = PH_AUTO(EtGetAccessString2(&typeName, objectType->ValidAccessMask));
                             PhSetListViewSubItem(context->ListViewHandle, OBJECT_GENERAL_INDEX_TYPEVALIDMASK, 1, PhGetString(accessString));
@@ -768,15 +768,15 @@ VOID EtHandlePropertiesWindowInitialized(
             ULONG sessionId;
             SYSTEMTIME systemTime;
 
-            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, L"Session information");
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONNAME, L"Session Name", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONID, L"Session ID", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONUSERNAME, L"User name", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONSTATE, L"State", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONLOGON, L"Logon time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONCONNECT, L"Connect time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONDISCONNECT, L"Disconnect time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONLASTINPUT, L"Last input time", NULL);
+            PhAddListViewGroup(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, L"会话信息");
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONNAME, L"会话名称", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONID, L"会话 ID", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONUSERNAME, L"用户名", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONSTATE, L"状态", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONLOGON, L"登录时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONCONNECT, L"连接时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONDISCONNECT, L"断开连接时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, OBJECT_GENERAL_CATEGORY_SESSION, OBJECT_GENERAL_INDEX_SESSIONLASTINPUT, L"最后输入时间", NULL);
 
             if (!PhIsNullOrEmptyString(context->HandleItem->ObjectName) &&
                 PhSplitStringRefAtLastChar(&context->HandleItem->ObjectName->sr, OBJ_NAME_PATH_SEPARATOR, &firstPart, &sessionName) &&
@@ -828,23 +828,23 @@ PPH_STRING EtGetWindowStationType(
 {
     if (PhEqualStringRef2(StationName, T_WINSTA_INTERACTIVE, TRUE))
     {
-        return PhCreateString(L"Interactive Window Station");
+        return PhCreateString(L"交互式窗口站");
     }
 
     PH_FORMAT format[3];
 
     PhInitFormatC(&format[0], UNICODE_NULL);
     PhInitFormatC(&format[1], L' ');
-    PhInitFormatS(&format[2], L"logon session");
+    PhInitFormatS(&format[2], L"登录会话");
 
     if (PhFindStringInStringRefZ(StationName, T_WINSTA_SYSTEM, TRUE) != SIZE_MAX)
-        PhInitFormatS(&format[0], L"System");
+        PhInitFormatS(&format[0], L"系统");
     if (PhFindStringInStringRefZ(StationName, T_WINSTA_ANONYMOUS, TRUE) != SIZE_MAX)
-        PhInitFormatS(&format[0], L"Anonymous");
+        PhInitFormatS(&format[0], L"匿名");
     if (PhFindStringInStringRefZ(StationName, T_WINSTA_LOCALSERVICE, TRUE) != SIZE_MAX)
-        PhInitFormatS(&format[0], L"Local Service");
+        PhInitFormatS(&format[0], L"本地服务");
     if (PhFindStringInStringRefZ(StationName, T_WINSTA_NETWORK_SERVICE, TRUE) != SIZE_MAX)
-        PhInitFormatS(&format[0], L"Network Service");
+        PhInitFormatS(&format[0], L"网络服务");
 
     return format[0].u.Char != UNICODE_NULL ? PhFormat(format, RTL_NUMBER_OF(format), 0) : NULL;
 }
@@ -874,16 +874,16 @@ PCWSTR EtMapSessionConnectState(
 {
     static CONST PH_KEY_VALUE_PAIR EtpConnectStatePairs[] =
     {
-        SIP(L"Active", State_Active),
-        SIP(L"Connected", State_Connected),
-        SIP(L"ConnectQuery", State_ConnectQuery),
-        SIP(L"Shadow", State_Shadow),
-        SIP(L"Disconnected", State_Disconnected),
-        SIP(L"Idle", State_Idle),
-        SIP(L"Listen", State_Listen),
-        SIP(L"Reset", State_Reset),
-        SIP(L"Down", State_Down),
-        SIP(L"Init", State_Init)
+        SIP(L"活动", State_Active),
+        SIP(L"已连接", State_Connected),
+        SIP(L"连接查询", State_ConnectQuery),
+        SIP(L"阴影", State_Shadow),
+        SIP(L"已断开", State_Disconnected),
+        SIP(L"空闲", State_Idle),
+        SIP(L"监听", State_Listen),
+        SIP(L"重置", State_Reset),
+        SIP(L"已关闭", State_Down),
+        SIP(L"初始化", State_Init)
     };
 
     PCWSTR stateString = NULL;
@@ -1027,7 +1027,7 @@ INT_PTR CALLBACK EtpTpWorkerFactoryPageDlgProc(
                         PhSetDialogItemText(
                             hwndDlg,
                             IDC_WORKERTHREADSTART,
-                            PhaFormatString(L"Worker Thread Start: %s", symbol->Buffer)->Buffer
+                            PhaFormatString(L"工作线程起始: %s", symbol->Buffer)->Buffer
                             );
                         PhDereferenceObject(symbol);
                     }
@@ -1037,7 +1037,7 @@ INT_PTR CALLBACK EtpTpWorkerFactoryPageDlgProc(
                         PhSetDialogItemText(
                             hwndDlg,
                             IDC_WORKERTHREADSTART,
-                            PhaFormatString(L"Worker Thread Start: %s", value)->Buffer
+                            PhaFormatString(L"工作线程起始: %s", value)->Buffer
                             );
                     }
 
@@ -1045,7 +1045,7 @@ INT_PTR CALLBACK EtpTpWorkerFactoryPageDlgProc(
                     PhSetDialogItemText(
                         hwndDlg,
                         IDC_WORKERTHREADCONTEXT,
-                        PhaFormatString(L"Worker Thread Context: %s", value)->Buffer
+                        PhaFormatString(L"工作线程上下文: %s", value)->Buffer
                         );
                 }
 
@@ -1381,15 +1381,15 @@ VOID EtpEnumObjectHandles(
             switch (handleInfo->HandleAttributes & (OBJ_PROTECT_CLOSE | OBJ_INHERIT))
             {
                 case OBJ_PROTECT_CLOSE:
-                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Protected");
+                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"受保护");
                     entry->Color = colorProtected, entry->UseCustomColor = TRUE;
                     break;
                 case OBJ_INHERIT:
-                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Inherit");
+                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"继承");
                     entry->Color = colorInherit, entry->UseCustomColor = TRUE;
                     break;
                 case OBJ_PROTECT_CLOSE | OBJ_INHERIT:
-                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Protected, Inherit");
+                    PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"受保护, 继承");
                     entry->Color = colorProtectedInherit, entry->UseCustomColor = TRUE;
                     break;
             }
@@ -1405,8 +1405,8 @@ VOID EtpEnumObjectHandles(
             {
                 if (!Context->ColumnsAdded)
                 {
-                    Context->ColumnsAdded = !!PhAddListViewColumn(Context->ListViewHandle, ETHNLVC_NAME, ETHNLVC_NAME, ETHNLVC_NAME, LVCFMT_LEFT, 200, L"Name");
-                    PhAddListViewColumn(Context->ListViewHandle, ETHNLVC_ORIGNAME, ETHNLVC_ORIGNAME, ETHNLVC_ORIGNAME, LVCFMT_LEFT, 200, L"Original name");
+                    Context->ColumnsAdded = !!PhAddListViewColumn(Context->ListViewHandle, ETHNLVC_NAME, ETHNLVC_NAME, ETHNLVC_NAME, LVCFMT_LEFT, 200, L"名称");
+                    PhAddListViewColumn(Context->ListViewHandle, ETHNLVC_ORIGNAME, ETHNLVC_ORIGNAME, ETHNLVC_ORIGNAME, LVCFMT_LEFT, 200, L"原始名称");
                 }
 
                 if (useWorkQueue && entry->HandleItem->TypeIndex == EtFileTypeIndex)
@@ -1438,7 +1438,7 @@ VOID EtpEnumObjectHandles(
     }
 
     if (isTypeObject)
-        PhSetDialogItemText(Context->WindowHandle, IDC_OBJ_HANDLESBYNAME_L, L"By type:");
+        PhSetDialogItemText(Context->WindowHandle, IDC_OBJ_HANDLESBYNAME_L, L"按类型:");
 
     PhPrintUInt32(string, Context->TotalHandlesCount);
     PhSetDialogItemText(Context->WindowHandle, IDC_OBJ_HANDLESTOTAL, string);
@@ -1671,10 +1671,10 @@ INT_PTR CALLBACK EtpObjHandlesPageDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_PROCESS, ETHNLVC_PROCESS, ETHNLVC_PROCESS, LVCFMT_LEFT, 120, L"Process");
-            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_HANDLE, ETHNLVC_HANDLE, ETHNLVC_HANDLE, LVCFMT_LEFT, 50, L"Handle");
-            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_ACCESS, ETHNLVC_ACCESS, ETHNLVC_ACCESS, LVCFMT_LEFT, 125, L"Access");
-            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_ATTRIBUTES, ETHNLVC_ATTRIBUTES, ETHNLVC_ATTRIBUTES, LVCFMT_LEFT, 70, L"Attributes");
+            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_PROCESS, ETHNLVC_PROCESS, ETHNLVC_PROCESS, LVCFMT_LEFT, 120, L"进程");
+            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_HANDLE, ETHNLVC_HANDLE, ETHNLVC_HANDLE, LVCFMT_LEFT, 50, L"句柄");
+            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_ACCESS, ETHNLVC_ACCESS, ETHNLVC_ACCESS, LVCFMT_LEFT, 125, L"访问");
+            PhAddListViewColumn(context->ListViewHandle, ETHNLVC_ATTRIBUTES, ETHNLVC_ATTRIBUTES, ETHNLVC_ATTRIBUTES, LVCFMT_LEFT, 70, L"属性");
             PhSetExtendedListView(context->ListViewHandle);
             ExtendedListView_SetSort(context->ListViewHandle, 0, NoSortOrder);
             ExtendedListView_SetItemColorFunction(context->ListViewHandle, EtpColorItemColorFunction);
@@ -1849,17 +1849,17 @@ INT_PTR CALLBACK EtpObjHandlesPageDlgProc(
                     PhGetListViewContextMenuPoint(context->ListViewHandle, &point);
 
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_CLOSEHANDLE, L"C&lose\bDel", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, protectedMenuItem = PhCreateEMenuItem(0, IDC_HANDLE_PROTECTED, L"&Protected", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, inheritMenuItem = PhCreateEMenuItem(0, IDC_HANDLE_INHERIT, L"&Inherit", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_CLOSEHANDLE, L"关闭(&L)\bDel", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, protectedMenuItem = PhCreateEMenuItem(0, IDC_HANDLE_PROTECTED, L"受保护(&P)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, inheritMenuItem = PhCreateEMenuItem(0, IDC_HANDLE_INHERIT, L"继承(&I)", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOPROCESS, L"&Go to process\bCtrl+Enter", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOPROCESS, L"转到进程(&G)\bCtrl+Enter", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"&Security", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"安全(&S)", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, propMenuItem = PhCreateEMenuItem(0, IDC_PROPERTIES, L"Prope&rties\bEnter", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, propMenuItem = PhCreateEMenuItem(0, IDC_PROPERTIES, L"属性(&R)\bEnter", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
                 PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
                 PhSetFlagsEMenuItem(menu, IDC_PROPERTIES, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
 
@@ -1936,15 +1936,15 @@ INT_PTR CALLBACK EtpObjHandlesPageDlgProc(
                                 switch (listviewItems[0]->HandleItem->Attributes & (OBJ_PROTECT_CLOSE | OBJ_INHERIT))
                                 {
                                 case OBJ_PROTECT_CLOSE:
-                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Protected");
+                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"受保护");
                                     listviewItems[0]->Color = PhGetIntegerSetting(SETTING_COLOR_PROTECTED_HANDLES), listviewItems[0]->UseCustomColor = TRUE;
                                     break;
                                 case OBJ_INHERIT:
-                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Inherit");
+                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"继承");
                                     listviewItems[0]->Color = PhGetIntegerSetting(SETTING_COLOR_INHERIT_HANDLES), listviewItems[0]->UseCustomColor = TRUE;
                                     break;
                                 case OBJ_PROTECT_CLOSE | OBJ_INHERIT:
-                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"Protected, Inherit");
+                                    PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETHNLVC_ATTRIBUTES, L"受保护, 继承");
                                     listviewItems[0]->Color = PhGetIntegerSetting(SETTING_COLOR_PARTIALLY_SUSPENDED), listviewItems[0]->UseCustomColor = TRUE;
                                     break;
                                 default:
@@ -2078,7 +2078,7 @@ static BOOL CALLBACK EtpEnumDesktopsCallback(
 
         if (GetUserObjectInformation(hDesktop, UOI_IO, &vInfo, sizeof(vInfo), NULL))
         {
-            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETDTLVC_IO, !!vInfo ? L"True" : L"False");
+            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, ETDTLVC_IO, !!vInfo ? L"是" : L"否");
         }
 
         CloseDesktop(hDesktop);
@@ -2176,7 +2176,7 @@ VOID EtpOpenDesktopSecurity(
     PhEditSecurity(
         !!PhGetIntegerSetting(SETTING_FORCE_NO_PARENT) ? NULL : context->WindowHandle,
         PhGetString(deskName),
-        L"Desktop",
+        L"桌面",
         EtpOpenSecurityDesktopHandle,
         EtpCloseSecurityDesktop,
         OpenContext
@@ -2217,10 +2217,10 @@ INT_PTR CALLBACK EtpWinStaPageDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_NAME, ETDTLVC_NAME, ETDTLVC_NAME, LVCFMT_LEFT, 152, L"Name");
+            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_NAME, ETDTLVC_NAME, ETDTLVC_NAME, LVCFMT_LEFT, 152, L"名称");
             PhAddListViewColumn(context->ListViewHandle, ETDTLVC_SID, ETDTLVC_SID, ETDTLVC_SID, LVCFMT_LEFT, 105, L"SID");
-            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_HEAP, ETDTLVC_HEAP, ETDTLVC_HEAP, LVCFMT_LEFT, 62, L"Heap Size");
-            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_IO, ETDTLVC_IO, ETDTLVC_IO, LVCFMT_LEFT, 45, L"Input");
+            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_HEAP, ETDTLVC_HEAP, ETDTLVC_HEAP, LVCFMT_LEFT, 62, L"堆大小");
+            PhAddListViewColumn(context->ListViewHandle, ETDTLVC_IO, ETDTLVC_IO, ETDTLVC_IO, LVCFMT_LEFT, 45, L"输入");
             PhSetExtendedListView(context->ListViewHandle);
             ExtendedListView_SetSort(context->ListViewHandle, 0, NoSortOrder);
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
@@ -2322,9 +2322,9 @@ INT_PTR CALLBACK EtpWinStaPageDlgProc(
                     PhGetListViewContextMenuPoint(context->ListViewHandle, &point);
 
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"&Security\bEnter", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"安全(&S)\bEnter", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
                 PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
                 PhSetFlagsEMenuItem(menu, IDC_SECURITY, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
                 if (numberOfItems > 1)

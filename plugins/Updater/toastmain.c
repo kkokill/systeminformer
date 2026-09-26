@@ -167,7 +167,7 @@ VOID UpdaterUpdateProgressToast(
         PPH_STRING speedString;
 
         speedString = PhFormatSize(bitsPerSecond, ULONG_MAX);
-        statusString = PhFormatString(L"Speed: %s/s", PhGetStringOrEmpty(speedString));
+        statusString = PhFormatString(L"速度: %s/s", PhGetStringOrEmpty(speedString));
         if (speedString)
             PhDereferenceObject(speedString);
     }
@@ -202,7 +202,7 @@ VOID UpdaterUpdateProgressToast(
     }
     else
     {
-        valueString = PhCreateString(L"Downloaded: ~ of ~");
+        valueString = PhCreateString(L"已下载: ~ / ~");
     }
 
     if (!valueString || !statusString)
@@ -414,11 +414,11 @@ BOOLEAN UpdaterShowAvailableToast(
     xml = PhFormatString(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
-        L"<text>System Informer - Update Available</text>"
-        L"<text>Version %s (download %s)</text>"
+        L"<text>System Informer - 有可用更新</text>"
+        L"<text>版本 %s（下载 %s）</text>"
         L"</binding></visual>"
         L"<actions>"
-        L"<action content=\"Download\" arguments=\"" UPDATER_TOAST_ACTION_DOWNLOAD L"\" activationType=\"foreground\"/>"
+        L"<action content=\"下载\" arguments=\"" UPDATER_TOAST_ACTION_DOWNLOAD L"\" activationType=\"foreground\"/>"
         L"</actions>"
         L"</toast>",
         PhGetStringOrEmpty(versionEsc),
@@ -492,12 +492,12 @@ BOOLEAN UpdaterShowProgressToast(
     xml = PhFormatString(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
-        L"<text>Downloading System Informer %s</text>"
+        L"<text>正在下载 System Informer %s</text>"
         L"<progress title=\"\" status=\"{progressStatus}\" "
         L"value=\"{progressValue}\" valueStringOverride=\"{progressValueString}\"/>"
         L"</binding></visual>"
         L"<actions>"
-        L"<action content=\"Close\" arguments=\"dismiss\" activationType=\"system\"/>"
+        L"<action content=\"关闭\" arguments=\"dismiss\" activationType=\"system\"/>"
         L"</actions>"
         L"</toast>",
         PhGetStringOrEmpty(versionEsc)
@@ -546,7 +546,7 @@ BOOLEAN UpdaterShowProgressToast(
     }
 
     Context->ToastMode = TRUE;
-    UpdaterUpdateProgressToast(Context, L"Starting download...");
+    UpdaterUpdateProgressToast(Context, L"开始下载...");
 
     PhReferenceObject(Context);
     PhCreateThread2(UpdateInstallerDownloadThreadStage1, Context);
@@ -573,11 +573,11 @@ BOOLEAN UpdaterShowReadyToInstallToast(
         L"<toast launch=\"\" scenario=\"reminder\">"
         L"<visual><binding template=\"ToastGeneric\">"
         L"<text>System Informer %s</text>"
-        L"<text>Update successfully downloaded and verified.</text>"
+        L"<text>更新已成功下载并验证。</text>"
         L"</binding></visual>"
         L"<actions>"
-        L"<action content=\"Install\" arguments=\"" UPDATER_TOAST_ACTION_INSTALL L"\" activationType=\"foreground\"/>"
-        L"<action content=\"Cancel\" arguments=\"dismiss\" activationType=\"system\"/>"
+        L"<action content=\"安装\" arguments=\"" UPDATER_TOAST_ACTION_INSTALL L"\" activationType=\"foreground\"/>"
+        L"<action content=\"取消\" arguments=\"dismiss\" activationType=\"system\"/>"
         L"</actions>"
         L"</toast>",
         PhGetStringOrEmpty(versionEsc)
@@ -665,11 +665,11 @@ BOOLEAN UpdaterShowFailedToast(
 
     if (SignatureFailed)
     {
-        errorText = L"Signature check failed.";
+        errorText = L"签名检查失败。";
     }
     else if (HashFailed)
     {
-        errorText = L"Hash check failed.";
+        errorText = L"哈希检查失败。";
     }
     else if (Context->UpdateStatus)
     {
@@ -689,18 +689,18 @@ BOOLEAN UpdaterShowFailedToast(
         }
         else
         {
-            errorText = L"Click Check for updates to try again.";
+            errorText = L"点击“检查更新”以重试。";
         }
     }
     else
     {
-        errorText = L"Click Check for updates to try again.";
+        errorText = L"点击检查更新以重试。";
     }
 
     xml = PhFormatString(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
-        L"<text>System Informer update failed</text>"
+        L"<text>System Informer 更新失败</text>"
         L"<text>%s</text>"
         L"</binding></visual>"
         L"</toast>",

@@ -142,7 +142,7 @@ VOID PvAddTreeViewSections(
 
     // General page
     section = PvCreateTabSection(
-        L"General",
+        L"常规",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEGENERAL),
         PvPeGeneralDlgProc,
@@ -151,7 +151,7 @@ VOID PvAddTreeViewSections(
 
     // Headers page
     PvCreateTabSection(
-        L"Headers",
+        L"头信息",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEHEADERS),
         PvPeHeadersDlgProc,
@@ -162,7 +162,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, &entry)))
     {
         PvCreateTabSection(
-            L"Load Config",
+            L"加载配置",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PELOADCONFIG),
             PvPeLoadConfigDlgProc,
@@ -172,7 +172,7 @@ VOID PvAddTreeViewSections(
 
     // Sections page
     PvCreateTabSection(
-        L"Sections",
+        L"节",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESECTIONS),
         PvPeSectionsDlgProc,
@@ -181,7 +181,7 @@ VOID PvAddTreeViewSections(
 
     // Directories page
     PvCreateTabSection(
-        L"Directories",
+        L"目录",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEDIRECTORY),
         PvPeDirectoryDlgProc,
@@ -193,7 +193,7 @@ VOID PvAddTreeViewSections(
         (NT_SUCCESS(PhGetMappedImageDelayImports(&imports, &PvMappedImage)) && imports.NumberOfDlls != 0))
     {
         PvCreateTabSection(
-            L"Imports",
+            L"导入",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEIMPORTS),
             PvPeImportsDlgProc,
@@ -218,7 +218,7 @@ VOID PvAddTreeViewSections(
         propSheetPage->lParam = (LPARAM)propPageContext;
 
         PvCreateTabSection(
-            L"Exports",
+            L"导出",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEEXPORTS),
             PvPeExportsDlgProc,
@@ -243,7 +243,7 @@ VOID PvAddTreeViewSections(
         propSheetPage->lParam = (LPARAM)propPageContext;
 
         PvCreateTabSection(
-            L"Exports ARM64X",
+            L"导出 ARM64X",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEEXPORTS),
             PvPeExportsDlgProc,
@@ -255,7 +255,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_RESOURCE, &entry)))
     {
         PvCreateTabSection(
-            L"Resources",
+            L"资源",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PERESOURCES),
             PvPeResourcesDlgProc,
@@ -266,7 +266,7 @@ VOID PvAddTreeViewSections(
         if (NT_SUCCESS(PhGetMappedImageResource(&PvMappedImage, MAKEINTRESOURCEW(1), RT_MANIFEST, 0, NULL, NULL)))
         {
             PvCreateTabSection(
-                L"Manifest",
+                L"清单",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEPREVIEW),
                 PvPeAppManifestDlgProc,
@@ -307,7 +307,7 @@ VOID PvAddTreeViewSections(
                 );
 
             PvCreateTabSection(
-                L"CLR Imports",
+                L"CLR 导入",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PECLRIMPORTS),
                 PvpPeClrImportsDlgProc,
@@ -315,7 +315,7 @@ VOID PvAddTreeViewSections(
                 );
 
             PvCreateTabSection(
-                L"CLR Tables",
+                L"CLR 表",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PECLRTABLES),
                 PvpPeClrTablesDlgProc,
@@ -355,7 +355,7 @@ VOID PvAddTreeViewSections(
         if (imageDosStubLength != 0 && imageDosStubLength != 64)
         {
             PvCreateTabSection(
-                L"ProdID",
+                L"产品 ID",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEPRODID),
                 PvpPeProdIdDlgProc,
@@ -407,7 +407,7 @@ VOID PvAddTreeViewSections(
             propSheetPage->lParam = (LPARAM)propPageContext;
 
             PvCreateTabSection(
-                L"Exceptions",
+                L"异常",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEEXCEPTIONS),
                 PvpPeExceptionDlgProc,
@@ -432,7 +432,7 @@ VOID PvAddTreeViewSections(
             propSheetPage->lParam = (LPARAM)propPageContext;
 
             PvCreateTabSection(
-                L"Exceptions ARM64X",
+                L"异常 ARM64X",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEEXCEPTIONS),
                 PvpPeExceptionDlgProc,
@@ -445,7 +445,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_BASERELOC, &entry)))
     {
         PvCreateTabSection(
-            L"Relocations",
+            L"重定位",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PERELOCATIONS),
             PvpPeRelocationDlgProc,
@@ -457,7 +457,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDynamicRelocationsTable(&PvMappedImage, NULL)))
     {
         PvCreateTabSection(
-            L"Dynamic Relocations",
+            L"动态重定位",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEDYNAMICRELOC),
             PvpPeDynamicRelocationDlgProc,
@@ -469,7 +469,7 @@ VOID PvAddTreeViewSections(
     if (PhGetMappedImageCHPEVersion(&PvMappedImage))
     {
         PvCreateTabSection(
-            L"Hybrid Metadata",
+            L"混合元数据",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PELOADCONFIG),
             PvpPeCHPEDlgProc,
@@ -481,7 +481,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_SECURITY, &entry)))
     {
         PvCreateTabSection(
-            L"Certificates",
+            L"证书",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PESECURITY),
             PvpPeSecurityDlgProc,
@@ -493,7 +493,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_DEBUG, &entry)))
     {
         PvCreateTabSection(
-            L"Debug",
+            L"调试",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEDEBUG),
             PvpPeDebugDlgProc,
@@ -527,7 +527,7 @@ VOID PvAddTreeViewSections(
         if (valid)
         {
             PvCreateTabSection(
-                L"Volatile Metadata",
+                L"易失元数据",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEVOLATILE),
                 PvpPeVolatileDlgProc,
@@ -562,7 +562,7 @@ VOID PvAddTreeViewSections(
         if (has_ehcont)
         {
             PvCreateTabSection(
-                L"EH Continuation",
+                L"EH 延续",
                 PhInstanceHandle,
                 MAKEINTRESOURCE(IDD_PEEHCONT),
                 PvpPeEhContDlgProc,
@@ -608,7 +608,7 @@ VOID PvAddTreeViewSections(
 
     // Properties page
     PvCreateTabSection(
-        L"Properties",
+        L"属性",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEPROPSTORAGE),
         PvpPePropStoreDlgProc,
@@ -617,7 +617,7 @@ VOID PvAddTreeViewSections(
 
     // Extended attributes page
     PvCreateTabSection(
-        L"Attributes",
+        L"属性",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEATTR),
         PvpPeExtendedAttributesDlgProc,
@@ -626,7 +626,7 @@ VOID PvAddTreeViewSections(
 
     // Streams page
     PvCreateTabSection(
-        L"Streams",
+        L"流",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESTREAMS),
         PvpPeStreamsDlgProc,
@@ -635,7 +635,7 @@ VOID PvAddTreeViewSections(
 
     // Layout page
     PvCreateTabSection(
-        L"Layout",
+        L"布局",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PELAYOUT),
         PvpPeLayoutDlgProc,
@@ -644,7 +644,7 @@ VOID PvAddTreeViewSections(
 
     // Links page
     PvCreateTabSection(
-        L"Links",
+        L"链接",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PELINKS),
         PvpPeLinksDlgProc,
@@ -653,7 +653,7 @@ VOID PvAddTreeViewSections(
 
     // Processes page
     PvCreateTabSection(
-        L"Processes",
+        L"进程",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PIDS),
         PvpPeProcessesDlgProc,
@@ -662,7 +662,7 @@ VOID PvAddTreeViewSections(
 
     // Hashes page
     PvCreateTabSection(
-        L"Hashes",
+        L"哈希",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEHASHES),
         PvpPeHashesDlgProc,
@@ -671,7 +671,7 @@ VOID PvAddTreeViewSections(
 
     // Text preview page
     PvCreateTabSection(
-        L"Preview",
+        L"预览",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEPREVIEW),
         PvpPePreviewDlgProc,
@@ -680,7 +680,7 @@ VOID PvAddTreeViewSections(
 
     // Symbols page
     PvCreateTabSection(
-        L"Symbols",
+        L"符号",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESYMBOLS),
         PvpSymbolsDlgProc,
@@ -689,7 +689,7 @@ VOID PvAddTreeViewSections(
 
     // Strings page
     PvCreateTabSection(
-        L"Strings",
+        L"字符串",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_STRINGS),
         PvStringsDlgProc,
@@ -698,7 +698,7 @@ VOID PvAddTreeViewSections(
 
     // VS_VERSIONINFO page
     PvCreateTabSection(
-        L"Version",
+        L"版本",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEVERSIONINFO),
         PvpPeVersionInfoDlgProc,
@@ -709,7 +709,7 @@ VOID PvAddTreeViewSections(
     if (KphLevelEx(FALSE) >= KphLevelMed)
     {
         PvCreateTabSection(
-            L"Mappings",
+            L"映射",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PERELOCATIONS),
             PvpMappingsDlgProc,
@@ -792,7 +792,7 @@ INT_PTR CALLBACK PvTabWindowDialogProc(
             PvTabTreeControl = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
             PvTabContainerControl = GetDlgItem(hwndDlg, IDD_CONTAINER);
 
-            PhSetWindowText(hwndDlg, PhaFormatString(L"%s Properties", PhGetString(PvFileName))->Buffer);
+            PhSetWindowText(hwndDlg, PhaFormatString(L"%s 属性", PhGetString(PvFileName))->Buffer);
 
             //PhSetWindowStyle(GetDlgItem(hwndDlg, IDC_SEPARATOR), SS_OWNERDRAW, SS_OWNERDRAW);
             PhSetControlTheme(PvTabTreeControl, L"explorer");

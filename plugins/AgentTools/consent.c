@@ -198,7 +198,7 @@ VOID AtpAppendStdioClients(
 
             name = PhFormatString(
                 L"%s (%lu)",
-                PhGetStringOrDefault(processItem->ProcessName, L"unknown"),
+                PhGetStringOrDefault(processItem->ProcessName, L"未知"),
                 HandleToUlong(processId)
                 );
             AtSanitizeDisplayString(name);
@@ -256,7 +256,7 @@ PPH_STRING AtpFormatRequester(
 
     PhAcquireQueuedLockExclusive(&Connection->Lock);
 
-    PhAppendStringBuilder2(&builder, L"Requested by ");
+    PhAppendStringBuilder2(&builder, L"请求来源：");
 
     if (Connection->ClientName)
     {
@@ -270,7 +270,7 @@ PPH_STRING AtpFormatRequester(
     }
     else
     {
-        PhAppendStringBuilder2(&builder, L"an unidentified client");
+        PhAppendStringBuilder2(&builder, L"一个未表明身份的客户端");
     }
 
     // Whoever holds the broker's standard handles is driving the session, and that is the one
@@ -278,21 +278,21 @@ PPH_STRING AtpFormatRequester(
     switch (Connection->StdioOrigin)
     {
     case AtStdioResolved:
-        PhAppendStringBuilder2(&builder, L"\nClient: ");
+        PhAppendStringBuilder2(&builder, L"\n客户端：");
         AtpAppendStdioClients(&builder, Connection);
         break;
     case AtStdioConsole:
-        PhAppendStringBuilder2(&builder, L"\nClient: a console");
+        PhAppendStringBuilder2(&builder, L"\n客户端：控制台");
         break;
     default:
-        PhAppendStringBuilder2(&builder, L"\nClient: not verified");
+        PhAppendStringBuilder2(&builder, L"\n客户端：未验证");
         break;
     }
 
     if (Connection->BrokerImageName)
         broker = PhGetBaseName(Connection->BrokerImageName);
 
-    PhAppendFormatStringBuilder(&builder, L"\nBroker: %s (verified)", PhGetStringOrDefault(broker, L"unknown"));
+    PhAppendFormatStringBuilder(&builder, L"\n代理程序：%s（已验证）", PhGetStringOrDefault(broker, L"未知"));
     PhClearReference(&broker);
 
     // The claim survived the handshake, which refuses one the handles disprove, but holding them is
@@ -300,10 +300,10 @@ PPH_STRING AtpFormatRequester(
     if (Connection->LauncherImageName)
         launcher = PhGetBaseName(Connection->LauncherImageName);
 
-    PhAppendFormatStringBuilder(&builder, L"\nLauncher: %s (self-reported)", PhGetStringOrDefault(launcher, L"unknown"));
+    PhAppendFormatStringBuilder(&builder, L"\n启动器：%s（自行报告）", PhGetStringOrDefault(launcher, L"未知"));
     PhClearReference(&launcher);
 
-    PhAppendFormatStringBuilder(&builder, L"\nUser: %s", PhGetStringOrDefault(Connection->UserName, L"unknown"));
+    PhAppendFormatStringBuilder(&builder, L"\n用户：%s", PhGetStringOrDefault(Connection->UserName, L"未知"));
 
     PhReleaseQueuedLockExclusive(&Connection->Lock);
 
@@ -454,18 +454,18 @@ PPH_STRING AtFormatCallerDescription(
     }
     else
     {
-        PhAppendStringBuilder2(&builder, L"an MCP client that did not identify itself");
+        PhAppendStringBuilder2(&builder, L"一个未表明身份的 MCP 客户端");
     }
 
-    PhAppendStringBuilder2(&builder, L" (unverified) launched via ");
-    PhAppendStringBuilder2(&builder, PhGetStringOrDefault(Connection->LauncherImageName, L"an unknown process"));
-    PhAppendStringBuilder2(&builder, L" (unverified)");
+    PhAppendStringBuilder2(&builder, L"（未验证），由 ");
+    PhAppendStringBuilder2(&builder, PhGetStringOrDefault(Connection->LauncherImageName, L"一个未知进程"));
+    PhAppendStringBuilder2(&builder, L"（未验证）启动");
 
     PhAppendFormatStringBuilder(
         &builder,
-        L"; running as %s at %s integrity",
-        PhGetStringOrDefault(Connection->UserName, L"the current user"),
-        Connection->IntegrityString ? Connection->IntegrityString : L"unknown"
+        L"；以 %s 身份运行，完整性级别为 %s",
+        PhGetStringOrDefault(Connection->UserName, L"当前用户"),
+        Connection->IntegrityString ? Connection->IntegrityString : L"未知"
         );
 
     PhReleaseQueuedLockExclusive(&Connection->Lock);
@@ -494,10 +494,10 @@ VOID AtAudit(
     if (target)
     {
         message = PhFormatString(
-            L"AgentTools: connection %u (%s, client %s) %s on %s%s%s: %s",
+            L"AgentTools：连接 %u（%s，客户端 %s）%s 于 %s%s%s：%s",
             Connection->ConnectionId,
-            PhGetStringOrDefault(Connection->UserName, L"unknown user"),
-            PhGetStringOrDefault(client, L"unidentified"),
+            PhGetStringOrDefault(Connection->UserName, L"未知用户"),
+            PhGetStringOrDefault(client, L"未表明身份"),
             Action->AuditName,
             PhGetString(target),
             Target->Parameter ? L" to " : L"",
@@ -508,10 +508,10 @@ VOID AtAudit(
     else
     {
         message = PhFormatString(
-            L"AgentTools: connection %u (%s, client %s) %s: %s",
+            L"AgentTools：连接 %u（%s，客户端 %s）%s：%s",
             Connection->ConnectionId,
-            PhGetStringOrDefault(Connection->UserName, L"unknown user"),
-            PhGetStringOrDefault(client, L"unidentified"),
+            PhGetStringOrDefault(Connection->UserName, L"未知用户"),
+            PhGetStringOrDefault(client, L"未表明身份"),
             Action->AuditName,
             Outcome
             );
@@ -623,9 +623,9 @@ HRESULT CALLBACK AtpConsentDialogCallback(
                 PH_FORMAT format[3];
                 PPH_STRING footer;
 
-                PhInitFormatS(&format[0], L"Automatically denied in ");
+                PhInitFormatS(&format[0], L"将在 ");
                 PhInitFormatU(&format[1], (AT_CONSENT_TIMEOUT_MS - elapsed + 999) / 1000);
-                PhInitFormatS(&format[2], L" seconds.");
+                PhInitFormatS(&format[2], L" 秒后自动拒绝。");
                 footer = PhFormat(format, RTL_NUMBER_OF(format), 64);
                 SendMessage(WindowHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_FOOTER, (LPARAM)footer->Buffer);
 
@@ -680,9 +680,9 @@ VOID AtpCreateSessionPolicyControls(
     _In_ PAT_CONSENT_REQUEST Request
     )
 {
-    static PCWSTR longLabel = L"Authorization this session:";
-    static PCWSTR shortLabel = L"This session:";
-    static PCWSTR items[] = { L"Ask every time", L"Allow for this session", L"Delegate to client" };
+    static PCWSTR longLabel = L"本会话的授权：";
+    static PCWSTR shortLabel = L"本会话：";
+    static PCWSTR items[] = { L"每次询问", L"本会话内允许", L"委托给客户端" };
     AT_BUTTON_ROW row;
     PCWSTR labelText;
     HFONT font;
@@ -836,11 +836,11 @@ VOID AtpCompleteConnectionRequest(
         WriteRelease((PLONG)&connection->Approval, AtApprovalAllowed);
 
         if (Request->AnsweredByHold)
-            reason = L"allowed by the answer held for this session";
+            reason = L"由本会话保存的答复允许";
         else if (Request->HoldRequested)
-            reason = L"allowed by the user, and held for every connection this session";
+            reason = L"由用户允许，并应用于本会话的所有连接";
         else
-            reason = L"allowed by the user";
+            reason = L"由用户允许";
 
         AtAudit(connection, &AtActionInfo[AtActionConnect], NULL, reason);
         return;
@@ -849,23 +849,23 @@ VOID AtpCompleteConnectionRequest(
     WriteRelease((PLONG)&connection->Approval, AtApprovalDenied);
 
     if (Request->Failed)
-        reason = L"denied (the confirmation could not be shown)";
+        reason = L"已拒绝（无法显示确认对话框）";
     else if (Request->TimedOut)
-        reason = L"denied (no answer in time)";
+        reason = L"已拒绝（未及时答复）";
     else if (Request->AnsweredByHold)
-        reason = L"denied by the answer held for this session";
+        reason = L"由本会话保存的答复拒绝";
     else if (Request->HoldRequested)
-        reason = L"denied by the user, and held for every connection this session";
+        reason = L"由用户拒绝，并应用于本会话的所有连接";
     else
-        reason = L"denied by the user";
+        reason = L"由用户拒绝";
 
     AtAudit(connection, &AtActionInfo[AtActionConnect], NULL, reason);
 
     if (Request->TimedOut)
     {
         PhShowIconNotification(
-            L"Agent connection denied",
-            L"An agent connected to System Informer and nobody allowed it in time. It was disconnected."
+            L"智能体连接被拒绝",
+            L"一个智能体已连接到 System Informer，但无人及时允许，连接已断开。"
             );
     }
 
@@ -932,12 +932,12 @@ NTSTATUS NTAPI AtpConsentDialogWorker(
         config.cxWidth = 250;
 
         if (request->OfferHoldAnswer)
-            config.pszVerificationText = L"Use this answer for all connections until restart";
+            config.pszVerificationText = L"在重启前对所有连接使用此答复";
 
         buttons[0].nButtonID = IDYES;
-        buttons[0].pszButtonText = request->AcceptText ? request->AcceptText : L"Approve";
+        buttons[0].pszButtonText = request->AcceptText ? request->AcceptText : L"允许";
         buttons[1].nButtonID = IDNO;
-        buttons[1].pszButtonText = request->DeclineText ? request->DeclineText : L"Deny";
+        buttons[1].pszButtonText = request->DeclineText ? request->DeclineText : L"拒绝";
         config.cButtons = RTL_NUMBER_OF(buttons);
         config.pButtons = buttons;
         config.nDefaultButton = IDNO;
@@ -992,7 +992,7 @@ PAT_CONSENT_REQUEST AtpCreateConsentRequest(
     PhInitializeEvent(&request->CompletedEvent);
     request->Action = Action;
     request->MainIcon = AtpCreateRequestIcon(Connection);
-    request->Footer = PhFormatString(L"Automatically denied in %u seconds.", AT_CONSENT_TIMEOUT_MS / 1000);
+    request->Footer = PhFormatString(L"将在 %u 秒后自动拒绝。", AT_CONSENT_TIMEOUT_MS / 1000);
 
     return request;
 }
@@ -1105,7 +1105,7 @@ AT_CONSENT_RESULT AtpAskUser(
     request->OfferDelegate = Call->ClientElicitation;
 
     if (Action->Tier == AtTierNetworkEgress)
-        request->Content = PhFormatString(L"%s\n\nThis sends the request off this machine to a service on the internet.", PhGetString(requester));
+        request->Content = PhFormatString(L"%s\n\n这会将请求从本机发送到互联网上的服务。", PhGetString(requester));
     else
         request->Content = PhReferenceObject(requester);
 
@@ -1117,8 +1117,8 @@ AT_CONSENT_RESULT AtpAskUser(
     if (result == AtConsentTimeout)
     {
         PhShowIconNotification(
-            L"Agent request denied",
-            L"An agent asked System Informer to perform an action and nobody confirmed it in time. The request was denied."
+            L"智能体请求被拒绝",
+            L"一个智能体请求 System Informer 执行操作，但无人及时确认，请求已被拒绝。"
             );
     }
 
@@ -1134,7 +1134,7 @@ BOOLEAN AtpConfirmSessionPolicy(
     )
 {
     static CONST PH_STRINGREF undo = PH_STRINGREF_INIT(
-        L"\n\nRevoke grants on the Agents options page, or disconnecting the agent, undoes it.");
+        L"\n\n在智能体选项页撤销授权，或断开智能体连接，即可撤销此设置。");
     PAT_CONNECTION connection = Call->Connection;
     PAT_CONSENT_REQUEST request;
     AT_SESSION_POLICY policy;
@@ -1144,31 +1144,31 @@ BOOLEAN AtpConfirmSessionPolicy(
 
     request = AtpCreateConsentRequest(Action, connection);
     PhMoveReference(&request->Footer,
-        PhFormatString(L"No answer in %u seconds keeps asking each time.", AT_CONSENT_TIMEOUT_MS / 1000));
+        PhFormatString(L"%u 秒内未答复则每次询问。", AT_CONSENT_TIMEOUT_MS / 1000));
 
     if (Policy == AtSessionDelegate)
     {
-        request->Instruction = PhCreateString(L"Let the client confirm this from now on?");
+        request->Instruction = PhCreateString(L"今后由客户端确认此类操作？");
         content = PhFormatString(
-            L"Later requests to %s are confirmed by the connected client instead of by System "
-            L"Informer, which cannot check how the client presents them.",
+            L"此后对 %s 的请求将由所连接的客户端确认，而不是由 System "
+            L"Informer 确认，后者无法检查客户端如何呈现这些请求。",
             Action->Verb
             );
-        request->AcceptText = L"Let the client ask";
-        request->DeclineText = L"Keep asking here";
+        request->AcceptText = L"由客户端询问";
+        request->DeclineText = L"仍在此处询问";
     }
     else
     {
-        request->Instruction = PhCreateString(L"Stop asking about this for this connection?");
+        request->Instruction = PhCreateString(L"此连接不再询问该操作？");
 
         // A classed grant covers every tool in the class, and the description says so.
         if (scope = AtConsentClassDescription(Action->Class))
-            content = PhFormatString(L"This connection will be able to %s without being asked again.", scope);
+            content = PhFormatString(L"此连接将能够在无人询问的情况下%s。", scope);
         else
-            content = PhFormatString(L"This connection will be able to %s, against any target, without being asked again.", Action->Verb);
+            content = PhFormatString(L"此连接将能够对任何目标%s，且不再询问。", Action->Verb);
 
-        request->AcceptText = L"Stop asking";
-        request->DeclineText = L"Ask each time";
+        request->AcceptText = L"不再询问";
+        request->DeclineText = L"每次询问";
     }
 
     request->Content = PhConcatStringRef2(&content->sr, &undo);
@@ -1197,7 +1197,7 @@ PPH_STRING AtpFormatConnectionRequester(
     // The client's own name when it has sent initialize; the launcher as reported.
     if (Connection->ClientName)
     {
-        PhAppendStringBuilder2(&builder, L"Requested by ");
+        PhAppendStringBuilder2(&builder, L"请求来源：");
         PhAppendStringBuilder(&builder, &Connection->ClientName->sr);
 
         if (Connection->ClientVersion)
@@ -1214,21 +1214,21 @@ PPH_STRING AtpFormatConnectionRequester(
 
     PhAppendFormatStringBuilder(
         &builder,
-        L"Process: %s (PID %lu)%s",
-        PhGetStringOrDefault(launcher, L"unknown"),
+        L"进程：%s（PID %lu）%s",
+        PhGetStringOrDefault(launcher, L"未知"),
         Connection->LauncherProcessId,
-        AtpLauncherMatchesStdio(Connection) ? L"" : L" (UNVERIFIED)"
+        AtpLauncherMatchesStdio(Connection) ? L"" : L"（未验证）"
         );
     PhClearReference(&launcher);
 
     if (Connection->LauncherVerifyChecked && Connection->LauncherVerifyResult == VrTrusted)
-        PhAppendFormatStringBuilder(&builder, L"\nSigner: %s (trusted)", PhGetStringOrDefault(Connection->LauncherSignerName, L"unknown"));
+        PhAppendFormatStringBuilder(&builder, L"\n签名者：%s（受信任）", PhGetStringOrDefault(Connection->LauncherSignerName, L"未知"));
     else if (!Connection->LauncherVerifyChecked || Connection->LauncherVerifyResult == VrUnknown)
-        PhAppendStringBuilder2(&builder, L"\nSigner: not verified");
+        PhAppendStringBuilder2(&builder, L"\n签名者：未验证");
     else
-        PhAppendStringBuilder2(&builder, L"\nSigner: not trusted");
+        PhAppendStringBuilder2(&builder, L"\n签名者：不受信任");
 
-    PhAppendFormatStringBuilder(&builder, L"\nUser: %s", PhGetStringOrDefault(Connection->UserName, L"unknown"));
+    PhAppendFormatStringBuilder(&builder, L"\n用户：%s", PhGetStringOrDefault(Connection->UserName, L"未知"));
 
     PhReleaseQueuedLockExclusive(&Connection->Lock);
 
@@ -1253,11 +1253,11 @@ VOID AtConsentRequestConnection(
     {
     case AtConnectAnswerAllow:
         WriteRelease((PLONG)&Connection->Approval, AtApprovalAllowed);
-        AtAudit(Connection, action, NULL, L"allowed by the answer held for this session");
+        AtAudit(Connection, action, NULL, L"由本会话保存的答复允许");
         return;
     case AtConnectAnswerDeny:
         WriteRelease((PLONG)&Connection->Approval, AtApprovalDenied);
-        AtAudit(Connection, action, NULL, L"denied by the answer held for this session");
+        AtAudit(Connection, action, NULL, L"由本会话保存的答复拒绝");
         AtConnectionClose(Connection, SimcpCloseRejected, SimcpHelloRejectedByUser);
         return;
     }
@@ -1321,11 +1321,11 @@ PCWSTR AtConsentClassDescription(
     switch (Class)
     {
     case AtConsentClassHandleNames:
-        return L"reading the names of the objects behind handles, in any process";
+        return L"读取任意进程中句柄所指向对象的名称";
     case AtConsentClassThreadStacks:
-        return L"reading thread stacks and their symbols, in any process";
+        return L"读取任意进程中的线程栈及其符号";
     case AtConsentClassProcessMemory:
-        return L"reading the contents of process memory, in any process";
+        return L"读取任意进程内存的内容";
     }
 
     return NULL;
@@ -1390,7 +1390,7 @@ VOID AtConsentRevokeGrants(
         memset(connection->ClassPolicy, 0, sizeof(connection->ClassPolicy));
         PhReleaseQueuedLockExclusive(&connection->Lock);
 
-        AtAudit(connection, &AtActionInfo[AtActionConnect], NULL, L"session grants revoked");
+        AtAudit(connection, &AtActionInfo[AtActionConnect], NULL, L"已撤销此会话的全部授权");
     }
 
     PhDereferenceObject(connections);
@@ -1414,7 +1414,7 @@ AT_CONSENT_RESULT AtConsentGate(
     if (confirm == AT_CONFIRM_NONE)
     {
         if (Action->Tier != AtTierRead)
-            AtAudit(connection, Action, Target, L"allowed without confirmation");
+            AtAudit(connection, Action, Target, L"未经确认即允许");
 
         return AtConsentAllowed;
     }
@@ -1426,7 +1426,7 @@ AT_CONSENT_RESULT AtConsentGate(
     if (policy == AtSessionAllow)
     {
         if (Action->Tier != AtTierRead)
-            AtAudit(connection, Action, Target, L"allowed by a grant held for this connection");
+            AtAudit(connection, Action, Target, L"凭此连接持有的授权允许");
 
         return AtConsentAllowed;
     }
@@ -1447,13 +1447,13 @@ AT_CONSENT_RESULT AtConsentGate(
                     connection,
                     Action,
                     NULL,
-                    policy == AtSessionAllow ? L"granted for this connection" : L"delegated to the client's prompt for this connection"
+                    policy == AtSessionAllow ? L"已为此连接授予" : L"已委托客户端为此连接询问提示"
                     );
             }
             else
             {
                 policy = AtSessionAsk;
-                AtAudit(connection, Action, NULL, L"standing grant not confirmed; this call only");
+                AtAudit(connection, Action, NULL, L"长期授权未确认；仅限本次调用");
             }
         }
     }
@@ -1475,28 +1475,28 @@ AT_CONSENT_RESULT AtConsentGate(
     switch (result)
     {
     case AtConsentAllowed:
-        AtAudit(connection, Action, Target, L"allowed");
+        AtAudit(connection, Action, Target, L"已允许");
         break;
     case AtConsentDenied:
-        AtAudit(connection, Action, Target, L"denied by the user");
+        AtAudit(connection, Action, Target, L"由用户拒绝");
         break;
     case AtConsentTimeout:
-        AtAudit(connection, Action, Target, L"denied (no answer in time)");
+        AtAudit(connection, Action, Target, L"已拒绝（未及时答复）");
         break;
     case AtConsentDeclined:
-        AtAudit(connection, Action, Target, L"declined through the client");
+        AtAudit(connection, Action, Target, L"经客户端拒绝");
         break;
     case AtConsentCancelled:
-        AtAudit(connection, Action, Target, L"cancelled by the client");
+        AtAudit(connection, Action, Target, L"由客户端取消");
         break;
     case AtConsentElicitationRequired:
-        AtAudit(connection, Action, Target, L"refused (confirmation delegated to a client without elicitation)");
+        AtAudit(connection, Action, Target, L"已拒绝（确认被委托给不支持 elicitation 的客户端）");
         break;
     case AtConsentInputRequired:
-        AtAudit(connection, Action, Target, L"confirmation requested through the client");
+        AtAudit(connection, Action, Target, L"已通过客户端请求确认");
         break;
     default:
-        AtAudit(connection, Action, Target, L"confirmation failed");
+        AtAudit(connection, Action, Target, L"确认失败");
         break;
     }
 

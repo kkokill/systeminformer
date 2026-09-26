@@ -12,10 +12,10 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Chinese (Simplified, China) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -23,19 +23,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
-    "\r\n"
     "\0"
 END
 
@@ -49,70 +48,258 @@ END
 
 IDD_OPTIONS DIALOGEX 0, 0, 231, 195
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Options"
+CAPTION "选项"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enable toolbar",IDC_ENABLE_TOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,42,62,10
-    CONTROL         "Enable status bar",IDC_ENABLE_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,54,72,10
-    CONTROL         "Resolve ghost windows to hung windows",IDC_RESOLVEGHOSTWINDOWS,
+    CONTROL         "启用工具栏",IDC_ENABLE_TOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,42,62,10
+    CONTROL         "启用状态栏",IDC_ENABLE_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,54,72,10
+    CONTROL         "将幽灵窗口解析为挂起窗口",IDC_RESOLVEGHOSTWINDOWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,152,10
-    CONTROL         "Auto-hide main menu (Alt or F10 key toggle)",IDC_ENABLE_AUTOHIDE_MENU,
+    CONTROL         "自动隐藏主菜单 (Alt 或 F10 键切换)",IDC_ENABLE_AUTOHIDE_MENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,78,157,10
-    CONTROL         "Enable toolbar menu bar",IDC_ENABLE_MENUBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,113,10
-    CONTROL         "Enable auto focus to search box",IDC_ENABLE_AUTOFOCUS_SEARCH,
+    CONTROL         "启用工具栏菜单栏",IDC_ENABLE_MENUBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,113,10
+    CONTROL         "启用搜索框自动聚焦",IDC_ENABLE_AUTOFOCUS_SEARCH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,102,210,10
-    LTEXT           "Note: Right-click the toolbar on the main window to customize the icons and graphs.",IDC_STATIC,7,7,157,18
+    LTEXT           "提示：右键单击主窗口上的工具栏可自定义图标和图表。",IDC_STATIC,7,7,157,18
     COMBOBOX        IDC_CURRENT,14,174,119,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Select the graph to show on the taskbar:",IDC_STATIC,14,163,132,8
-    CONTROL         "Enable large toolbar icons",IDC_ENABLE_LARGETOOLBARICON,
+    LTEXT           "选择要在任务栏上显示的图表：",IDC_STATIC,14,163,132,8
+    CONTROL         "启用大工具栏图标",IDC_ENABLE_LARGETOOLBARICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,114,98,10
-    CONTROL         "Use screen overlay when finding windows",IDC_FINDWINDOW_OVERLAY,
+    CONTROL         "查找窗口时使用屏幕覆盖层",IDC_FINDWINDOW_OVERLAY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,126,180,10
-    CONTROL         "Use snapshot picker when finding windows",IDC_FINDWINDOW_SNAPSHOT,
+    CONTROL         "查找窗口时使用快照拾取器",IDC_FINDWINDOW_SNAPSHOT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,138,180,10
-    GROUPBOX        "Toolbar configuration",IDC_STATIC,7,29,217,122
-    GROUPBOX        "Taskbar configuration",IDC_STATIC,7,151,217,45
+    GROUPBOX        "工具栏配置",IDC_STATIC,7,29,217,122
+    GROUPBOX        "任务栏配置",IDC_STATIC,7,151,217,45
 END
 
 IDD_CUSTOMIZE_TB DIALOGEX 0, 0, 369, 188
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Customize Toolbar"
+CAPTION "自定义工具栏"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Available toolbar buttons:",IDC_STATIC,7,7,85,8
+    LTEXT           "可用工具栏按钮：",IDC_STATIC,7,7,85,8
     LISTBOX         IDC_AVAILABLE,7,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Add >",IDC_ADD,133,50,50,14
-    PUSHBUTTON      "< Remove",IDC_REMOVE,133,68,50,14
-    LTEXT           "Current toolbar buttons:",IDC_STATIC,188,7,81,8
+    PUSHBUTTON      "添加 >",IDC_ADD,133,50,50,14
+    PUSHBUTTON      "< 移除",IDC_REMOVE,133,68,50,14
+    LTEXT           "当前工具栏按钮：",IDC_STATIC,188,7,81,8
     LISTBOX         IDC_CURRENT,187,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Move up",IDC_MOVEUP,312,18,50,14
-    PUSHBUTTON      "Move down",IDC_MOVEDOWN,312,36,50,14
-    LTEXT           "Text options:",IDC_STATIC,7,142,44,8
+    PUSHBUTTON      "上移",IDC_MOVEUP,312,18,50,14
+    PUSHBUTTON      "下移",IDC_MOVEDOWN,312,36,50,14
+    LTEXT           "文本选项：",IDC_STATIC,7,142,44,8
     COMBOBOX        IDC_TEXTOPTIONS,56,139,113,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Search box:",IDC_STATIC,7,158,45,8
+    LTEXT           "搜索框：",IDC_STATIC,7,158,45,8
     COMBOBOX        IDC_SEARCHOPTIONS,56,155,113,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Enable modern icons",IDC_ENABLE_MODERN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,139,83,10
-    CONTROL         "Auto-hide main menu (Alt or F10 key toggle)",IDC_ENABLE_AUTOHIDE_MENU,
+    CONTROL         "启用现代图标",IDC_ENABLE_MODERN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,139,83,10
+    CONTROL         "自动隐藏主菜单 (Alt 或 F10 键切换)",IDC_ENABLE_AUTOHIDE_MENU,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,152,157,10
-    PUSHBUTTON      "Reset",IDC_RESET,258,167,50,14
-    DEFPUSHBUTTON   "Close",IDCANCEL,312,167,50,14
+    PUSHBUTTON      "重置",IDC_RESET,258,167,50,14
+    DEFPUSHBUTTON   "关闭",IDCANCEL,312,167,50,14
 END
 
 IDD_CUSTOMIZE_SB DIALOGEX 0, 0, 373, 142
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Customize Status Bar"
+CAPTION "自定义状态栏"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "Available status bar entries:",-1,7,7,91,8
+    LTEXT           "可用状态栏条目：",-1,7,7,91,8
     LISTBOX         IDC_AVAILABLE,7,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Add >",IDC_ADD,133,50,50,14
-    PUSHBUTTON      "< Remove",IDC_REMOVE,133,68,50,14
-    LTEXT           "Current status bar entries:",-1,188,7,87,8
+    PUSHBUTTON      "添加 >",IDC_ADD,133,50,50,14
+    PUSHBUTTON      "< 移除",IDC_REMOVE,133,68,50,14
+    LTEXT           "当前状态栏条目：",-1,188,7,87,8
     LISTBOX         IDC_CURRENT,187,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Move up",IDC_MOVEUP,316,18,50,14
-    PUSHBUTTON      "Move down",IDC_MOVEDOWN,316,36,50,14
-    PUSHBUTTON      "Reset",IDC_RESET,316,103,50,14
-    DEFPUSHBUTTON   "Close",IDCANCEL,316,121,50,14
+    PUSHBUTTON      "上移",IDC_MOVEUP,316,18,50,14
+    PUSHBUTTON      "下移",IDC_MOVEDOWN,316,36,50,14
+    PUSHBUTTON      "重置",IDC_RESET,316,103,50,14
+    DEFPUSHBUTTON   "关闭",IDCANCEL,316,121,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINWND_ACCEL ACCELERATORS
+BEGIN
+    "K",            ID_SEARCH,              VIRTKEY, CONTROL, NOINVERT
+    VK_TAB,         ID_SEARCH_TAB,          VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_ARROW_REFRESH_MODERN_LIGHT PNG                     "resources\\arrow_refresh_modern_light.png"
+
+IDB_ARROW_REFRESH_MODERN_DARK PNG                     "resources\\arrow_refresh_modern_dark.png"
+
+IDB_COG_EDIT_MODERN_LIGHT PNG                     "resources\\cog_edit_modern_light.png"
+
+IDB_COG_EDIT_MODERN_DARK PNG                     "resources\\cog_edit_modern_dark.png"
+
+IDB_FIND_MODERN_LIGHT   PNG                     "resources\\find_modern_light.png"
+
+IDB_FIND_MODERN_DARK    PNG                     "resources\\find_modern_dark.png"
+
+IDB_CHART_LINE_MODERN_LIGHT PNG                     "resources\\chart_line_modern_light.png"
+
+IDB_CHART_LINE_MODERN_DARK PNG                     "resources\\chart_line_modern_dark.png"
+
+IDB_TBAPPLICATION_MODERN_LIGHT PNG                     "resources\\application_modern_light.png"
+
+IDB_TBAPPLICATION_MODERN_DARK PNG                     "resources\\application_modern_dark.png"
+
+IDB_APPLICATION_GO_MODERN_LIGHT PNG                     "resources\\application_go_modern_light.png"
+
+IDB_APPLICATION_GO_MODERN_DARK PNG                     "resources\\application_go_modern_dark.png"
+
+IDB_CROSS_MODERN_LIGHT  PNG                     "resources\\cross_modern_light.png"
+
+IDB_CROSS_MODERN_DARK   PNG                     "resources\\cross_modern_dark.png"
+
+IDB_APPLICATION_GET_MODERN_LIGHT PNG                     "resources\\application_get_modern_light.png"
+
+IDB_APPLICATION_GET_MODERN_DARK PNG                     "resources\\application_get_modern_dark.png"
+
+IDB_LIGHTBULB_OFF_MODERN_LIGHT PNG                     "resources\\lightbulb_off_modern_light.png"
+
+IDB_LIGHTBULB_OFF_MODERN_DARK PNG                     "resources\\lightbulb_off_modern_dark.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ARROW_REFRESH       ICON                    "resources\\arrow_refresh.ico"
+
+IDI_COG_EDIT            ICON                    "resources\\cog_edit.ico"
+
+IDI_FIND                ICON                    "resources\\find.ico"
+
+IDI_CHART_LINE          ICON                    "resources\\chart_line.ico"
+
+IDI_TBAPPLICATION       ICON                    "resources\\application.ico"
+
+IDI_APPLICATION_GO      ICON                    "resources\\application_go.ico"
+
+IDI_CROSS               ICON                    "resources\\cross.ico"
+
+IDI_APPLICATION_GET     ICON                    "resources\\application_get.ico"
+
+IDI_LIGHTBULB_OFF       ICON                    "resources\\lightbulb_off.ico"
+
+
+#endif    // Chinese (Simplified, China) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include ""winres.h""\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 231, 195
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "选项"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "启用工具栏",IDC_ENABLE_TOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,42,62,10
+    CONTROL         "启用状态栏",IDC_ENABLE_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,54,72,10
+    CONTROL         "将幽灵窗口解析为挂起窗口",IDC_RESOLVEGHOSTWINDOWS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,152,10
+    CONTROL         "自动隐藏主菜单 (Alt 或 F10 键切换)",IDC_ENABLE_AUTOHIDE_MENU,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,78,157,10
+    CONTROL         "启用工具栏菜单栏",IDC_ENABLE_MENUBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,113,10
+    CONTROL         "启用搜索框自动聚焦",IDC_ENABLE_AUTOFOCUS_SEARCH,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,102,210,10
+    LTEXT           "提示：右键单击主窗口上的工具栏可自定义图标和图表。",IDC_STATIC,7,7,157,18
+    COMBOBOX        IDC_CURRENT,14,174,119,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "选择要在任务栏上显示的图表：",IDC_STATIC,14,163,132,8
+    CONTROL         "启用大工具栏图标",IDC_ENABLE_LARGETOOLBARICON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,114,98,10
+    CONTROL         "查找窗口时使用屏幕覆盖层",IDC_FINDWINDOW_OVERLAY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,126,180,10
+    CONTROL         "查找窗口时使用快照拾取器",IDC_FINDWINDOW_SNAPSHOT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,138,180,10
+    GROUPBOX        "工具栏配置",IDC_STATIC,7,29,217,122
+    GROUPBOX        "任务栏配置",IDC_STATIC,7,151,217,45
+END
+
+IDD_CUSTOMIZE_TB DIALOGEX 0, 0, 369, 188
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "自定义工具栏"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "可用工具栏按钮：",IDC_STATIC,7,7,85,8
+    LISTBOX         IDC_AVAILABLE,7,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "添加 >",IDC_ADD,133,50,50,14
+    PUSHBUTTON      "< 移除",IDC_REMOVE,133,68,50,14
+    LTEXT           "当前工具栏按钮：",IDC_STATIC,188,7,81,8
+    LISTBOX         IDC_CURRENT,187,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "上移",IDC_MOVEUP,312,18,50,14
+    PUSHBUTTON      "下移",IDC_MOVEDOWN,312,36,50,14
+    LTEXT           "文本选项：",IDC_STATIC,7,142,44,8
+    COMBOBOX        IDC_TEXTOPTIONS,56,139,113,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "搜索框：",IDC_STATIC,7,158,45,8
+    COMBOBOX        IDC_SEARCHOPTIONS,56,155,113,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "启用现代图标",IDC_ENABLE_MODERN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,139,83,10
+    CONTROL         "自动隐藏主菜单 (Alt 或 F10 键切换)",IDC_ENABLE_AUTOHIDE_MENU,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,152,157,10
+    PUSHBUTTON      "重置",IDC_RESET,258,167,50,14
+    DEFPUSHBUTTON   "关闭",IDCANCEL,312,167,50,14
+END
+
+IDD_CUSTOMIZE_SB DIALOGEX 0, 0, 373, 142
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "自定义状态栏"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "可用状态栏条目：",-1,7,7,91,8
+    LISTBOX         IDC_AVAILABLE,7,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "添加 >",IDC_ADD,133,50,50,14
+    PUSHBUTTON      "< 移除",IDC_REMOVE,133,68,50,14
+    LTEXT           "当前状态栏条目：",-1,188,7,87,8
+    LISTBOX         IDC_CURRENT,187,18,122,117,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "上移",IDC_MOVEUP,316,18,50,14
+    PUSHBUTTON      "下移",IDC_MOVEDOWN,316,36,50,14
+    PUSHBUTTON      "重置",IDC_RESET,316,103,50,14
+    DEFPUSHBUTTON   "关闭",IDCANCEL,316,121,50,14
 END
 
 

@@ -13,8 +13,8 @@
 #include <peview.h>
 #include "colmgr.h"
 
-static PH_STRINGREF EmptyExportsText = PH_STRINGREF_INIT(L"There are no exports to display.");
-static PH_STRINGREF LoadingExportsText = PH_STRINGREF_INIT(L"Loading exports from image...");
+static PH_STRINGREF EmptyExportsText = PH_STRINGREF_INIT(L"没有要显示的导出。");
+static PH_STRINGREF LoadingExportsText = PH_STRINGREF_INIT(L"正在从映像加载导出...");
 
 typedef enum _PV_EXPORT_TREE_COLUMN_ITEM
 {
@@ -444,7 +444,7 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Exports (Ctrl+K)",
+                L"搜索导出 (Ctrl+K)",
                 PvpPeExportsSearchControlCallback,
                 context
                 );
@@ -530,7 +530,7 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -903,7 +903,7 @@ BOOLEAN NTAPI PvExportTreeNewCallback(
             case PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION:
                 {
                     if (node->ExportSuppressed)
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }
@@ -1064,13 +1064,13 @@ VOID PvInitializeExportTree(
 
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_INDEX, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_RVA, TRUE, L"RVA", 80, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_RVA, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_NAME, TRUE, L"Name", 250, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_NAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_ORDINAL, TRUE, L"Ordinal", 50, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_ORDINAL, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_HINT, TRUE, L"Hint", 50, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_HINT, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_FWDNAME, TRUE, L"Forwarded name", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_FWDNAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_SYMBOL, TRUE, L"Symbol name", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_SYMBOL, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_UNDECORATED, TRUE, L"Undecorated name", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_UNDECORATED, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION, TRUE, L"CFG export suppression", 80, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_NAME, TRUE, L"名称", 250, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_NAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_ORDINAL, TRUE, L"序号", 50, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_ORDINAL, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_HINT, TRUE, L"提示", 50, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_HINT, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_FWDNAME, TRUE, L"转发名称", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_FWDNAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_SYMBOL, TRUE, L"符号名称", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_SYMBOL, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_UNDECORATED, TRUE, L"未修饰名称", 150, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_UNDECORATED, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION, TRUE, L"CFG 导出抑制", 80, PH_ALIGN_LEFT, PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION, 0, 0);
 
     TreeNew_SetRowHeight(Context->TreeNewHandle, PvpGetTreeNewRowHeight());
 

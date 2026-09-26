@@ -2798,7 +2798,7 @@ INT CALLBACK PhModalPropSheetWindowProcedure(
             // Hide the OK button.
             ShowWindow(GetDlgItem(hwndDlg, IDOK), SW_HIDE);
             // Set the Cancel button's text to "Close".
-            PhSetDialogItemText(hwndDlg, IDCANCEL, L"Close");
+            PhSetDialogItemText(hwndDlg, IDCANCEL, L"关闭");
         }
         break;
     }
@@ -3441,7 +3441,7 @@ static PPH_HASHTABLE PhGetWindowContextHashTable(
 
     if (!FlsSetValue(WindowCallbackFlsIndex, hashtable))
     {
-        PhShowStatus(NULL, L"Unable to create the window context.", 0, PhGetLastError());
+        PhShowStatus(NULL, L"无法创建窗口上下文。", 0, PhGetLastError());
         RtlFailFast(FAST_FAIL_INVALID_FLS_DATA);
     }
 

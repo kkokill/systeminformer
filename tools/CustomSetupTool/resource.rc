@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿﻿// Microsoft Visual C++ generated resource script.
 //
 
 #include "resource.h"
@@ -15,10 +15,10 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Chinese (Simplified, China) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -37,126 +37,126 @@ IDI_ICON                ICON                    "../../SystemInformer/SystemInfo
 
 IDD_WELCOME DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "System Informer Setup"
+CAPTION "System Informer 安装程序"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "",IDC_SIDEBAR,"Static",SS_BITMAP,21,20,140,212
-    LTEXT           "Welcome to the System Informer Setup Wizard",IDC_TITLE,148,4,250,34
-    LTEXT           "This will install System Informer on your computer. System Informer helps you monitor system resources, debug software, and detect malware.",IDC_STATIC,148,55,240,30
-    LTEXT           "It is recommended you close all other applications before continuing.",IDC_STATIC,148,94,240,18
-    LTEXT           "Click Next to continue, or Cancel to exit setup.",IDC_STATIC,148,126,240,14
+    LTEXT           "欢迎使用 System Informer 安装向导",IDC_TITLE,148,4,250,34
+    LTEXT           "这将在该计算机上安装 System Informer。System Informer 可帮助您监视系统资源、调试软件并检测恶意软件。",IDC_STATIC,148,55,240,30
+    LTEXT           "建议您在继续之前关闭所有其他应用程序。",IDC_STATIC,148,94,240,18
+    LTEXT           "单击“下一步”继续，或单击“取消”退出安装。",IDC_STATIC,148,126,240,14
 END
 
 IDD_UNINSTALL_WELCOME DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "System Informer Uninstall"
+CAPTION "System Informer 卸载程序"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "",IDC_SIDEBAR,"Static",SS_BITMAP,21,20,140,212
-    LTEXT           "Welcome to the System Informer Uninstall Wizard",IDC_TITLE,148,4,250,34
-    LTEXT           "This will uninstall System Informer from your computer. System Informer helps you monitor system resources, debug software, and detect malware.",IDC_STATIC,148,55,240,30
-    LTEXT           "It is recommended you close all other applications before continuing.",IDC_STATIC,148,94,240,18
-    LTEXT           "Click Next to continue, or Cancel to exit uninstallation.",IDC_STATIC,148,126,240,14
+    LTEXT           "欢迎使用 System Informer 卸载向导",IDC_TITLE,148,4,250,34
+    LTEXT           "这将从该计算机中卸载 System Informer。System Informer 可帮助您监视系统资源、调试软件并检测恶意软件。",IDC_STATIC,148,55,240,30
+    LTEXT           "建议您在继续之前关闭所有其他应用程序。",IDC_STATIC,148,94,240,18
+    LTEXT           "单击“下一步”继续，或单击“取消”退出卸载。",IDC_STATIC,148,126,240,14
 END
 
 IDD_CONFIG DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Setup Options"
+CAPTION "安装选项"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Select Destination Location",IDC_TITLE,15,0,338,10
-    LTEXT           "Where should System Informer be installed?",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "选择目标位置",IDC_TITLE,15,0,338,10
+    LTEXT           "应将 System Informer 安装到哪里？",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Setup will install System Informer into the following folder.",IDC_STATIC,25,40,358,10
-    LTEXT           "To continue, click Next. If you would like to select a different folder, click Browse.",IDC_STATIC,25,64,358,10
+    LTEXT           "安装程序将把 System Informer 安装到以下文件夹。",IDC_STATIC,25,40,358,10
+    LTEXT           "单击“下一步”继续。如果要选择其他文件夹，请单击“浏览”。",IDC_STATIC,25,64,358,10
     EDITTEXT        IDC_PATH,25,78,301,14,ES_AUTOHSCROLL,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "Browse...",IDC_BROWSE,334,77,49,16
+    PUSHBUTTON      "浏览...",IDC_BROWSE,334,77,49,16
 END
 
 IDD_SHORTCUTS DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Shortcut Options"
+CAPTION "快捷方式选项"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Choose Start Menu Folder",IDC_TITLE,15,0,338,10
-    LTEXT           "Choose a Start Menu folder for System Informer shortcuts.",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "选择开始菜单文件夹",IDC_TITLE,15,0,338,10
+    LTEXT           "为 System Informer 快捷方式选择一个开始菜单文件夹。",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Select an existing Start Menu folder or enter a name to create a new folder.",IDC_STATIC,25,40,358,18
+    LTEXT           "选择现有的开始菜单文件夹，或输入名称以创建新文件夹。",IDC_STATIC,25,40,358,18
     EDITTEXT        IDC_STARTMENUFOLDER,25,65,358,14,ES_AUTOHSCROLL,WS_EX_CLIENTEDGE
     LISTBOX         IDC_STARTMENUFOLDERLIST,25,83,358,91,LBS_NOTIFY | LBS_SORT | WS_VSCROLL | WS_TABSTOP,WS_EX_CLIENTEDGE
-    CONTROL         "Do not create Start Menu shortcuts",IDC_NOSTARTMENUSHORTCUTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,181,200,12
-    CONTROL         "Create desktop shortcut",IDC_DESKTOPSHORTCUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,200,180,12
+    CONTROL         "不创建开始菜单快捷方式",IDC_NOSTARTMENUSHORTCUTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,181,200,12
+    CONTROL         "创建桌面快捷方式",IDC_DESKTOPSHORTCUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,200,180,12
 END
 
 IDD_INSTALL DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Installing"
+CAPTION "正在安装"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Installing",IDC_TITLE,15,0,338,10
-    LTEXT           "Please wait while Setup installs System Informer on your computer.",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "正在安装",IDC_TITLE,15,0,338,10
+    LTEXT           "请稍候，安装程序正在该计算机上安装 System Informer。",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Status:",IDC_STATIC,25,40,358,10
+    LTEXT           "状态：",IDC_STATIC,25,40,358,10
     LTEXT           "",IDC_STATUS,25,52,358,10
     CONTROL         "",IDC_PROGRESS,"msctls_progress32",PBS_MARQUEE,25,70,358,13
 END
 
 IDD_COMPLETED DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Installation Complete"
+CAPTION "安装完成"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "",IDC_SIDEBAR,"Static",SS_BITMAP,21,20,140,212
-    LTEXT           "Completing the System Informer Setup Wizard",IDC_TITLE,148,4,250,34
-    LTEXT           "Setup has finished installing System Informer on your computer. The application may be launched by selecting the installed shortcuts.",IDC_STATIC,148,55,240,30
-    LTEXT           "Click Finish to exit Setup.",IDC_STATIC,148,88,240,14
-    CONTROL         "Start System Informer",IDC_STARTAPP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,112,240,12
+    LTEXT           "正在完成 System Informer 安装向导",IDC_TITLE,148,4,250,34
+    LTEXT           "安装程序已在该计算机上完成 System Informer 的安装。您可以通过所安装的快捷方式启动该应用程序。",IDC_STATIC,148,55,240,30
+    LTEXT           "单击“完成”退出安装程序。",IDC_STATIC,148,88,240,14
+    CONTROL         "启动 System Informer",IDC_STARTAPP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,112,240,12
 END
 
 IDD_ERROR DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Setup Failed"
+CAPTION "安装失败"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "",IDC_SIDEBAR,"Static",SS_BITMAP,21,20,15,13
-    LTEXT           "System Informer Setup Wizard failed",IDC_TITLE,148,4,250,34
-    LTEXT           "Setup was unable to complete the operation.",IDC_STATIC,148,55,240,14
+    LTEXT           "System Informer 安装向导失败",IDC_TITLE,148,4,250,34
+    LTEXT           "安装程序无法完成该操作。",IDC_STATIC,148,55,240,14
     LTEXT           "",IDC_STATUS,148,78,240,42
-    LTEXT           "Click Retry to try again, or Cancel to exit Setup.",IDC_STATIC,148,130,240,14
+    LTEXT           "单击“重试”再次尝试，或单击“取消”退出安装程序。",IDC_STATIC,148,130,240,14
 END
 
 IDD_UNINSTALL DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Uninstall"
+CAPTION "卸载"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Ready to Uninstall",IDC_TITLE,15,0,338,10
-    LTEXT           "Setup is ready to remove System Informer from your computer.",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "准备卸载",IDC_TITLE,15,0,338,10
+    LTEXT           "安装程序已准备好从该计算机中移除 System Informer。",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Click Uninstall to continue with the uninstallation, or click Back if you want to review or change any settings.",IDC_STATIC,25,40,358,18
-    CONTROL         "Remove application settings",IDC_REMOVESETTINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,70,358,12
+    LTEXT           "单击“卸载”继续卸载；如果要检查或更改任何设置，请单击“上一步”。",IDC_STATIC,25,40,358,18
+    CONTROL         "移除应用程序设置",IDC_REMOVESETTINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,70,358,12
 END
 
 IDD_UPDATE DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Update"
+CAPTION "更新"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Ready to Update",IDC_TITLE,15,0,338,10
-    LTEXT           "Setup is ready to update System Informer on your computer.",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "准备更新",IDC_TITLE,15,0,338,10
+    LTEXT           "安装程序已准备好更新该计算机上的 System Informer。",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Click Update to continue with the installation, or click Back if you want to review or change any settings.",IDC_STATIC,25,40,358,18
+    LTEXT           "单击“更新”继续安装；如果要检查或更改任何设置，请单击“上一步”。",IDC_STATIC,25,40,358,18
 END
 
 IDD_REPAIR DIALOGEX 0, 0, 408, 234
 STYLE DS_SETFONT | WS_CHILD | WS_DISABLED | WS_CAPTION
-CAPTION "Repair"
+CAPTION "修复"
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
-    LTEXT           "Ready to Repair",IDC_TITLE,15,0,338,10
-    LTEXT           "Setup is ready to repair System Informer on your computer.",IDC_SUBTITLE,25,11,338,10
+    LTEXT           "准备修复",IDC_TITLE,15,0,338,10
+    LTEXT           "安装程序已准备好修复该计算机上的 System Informer。",IDC_SUBTITLE,25,11,338,10
     ICON            IDI_ICON,IDC_PAGEICON,378,0,20,20
-    LTEXT           "Click Repair to continue, or click Back if you want to review or change any settings.",IDC_STATIC,25,40,358,18
+    LTEXT           "单击“修复”继续；如果要检查或更改任何设置，请单击“上一步”。",IDC_STATIC,25,40,358,18
 END
 
 
@@ -254,7 +254,7 @@ END
 
 IDB_PNG1                PNG                     "../../SystemInformer/resources/systeminformer.png"
 
-#endif    // English (United States) resources
+#endif    // Chinese (Simplified, China) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

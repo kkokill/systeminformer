@@ -374,15 +374,15 @@ PPH_STRING NTAPI PhClrImportFlagsToString(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (PhPmNoMangle(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"No mangle, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不修饰名称, ");
     if (PhPmCharSetAnsi(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Ansi charset, ");
+        PhAppendStringBuilder2(&stringBuilder, L"ANSI 字符集, ");
     if (PhPmCharSetUnicode(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Unicode charset, ");
+        PhAppendStringBuilder2(&stringBuilder, L"Unicode 字符集, ");
     if (PhPmCharSetAuto(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Auto charset, ");
+        PhAppendStringBuilder2(&stringBuilder, L"自动字符集, ");
     if (PhPmSupportsLastError(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Supports last error, ");
+        PhAppendStringBuilder2(&stringBuilder, L"支持 SetLastError, ");
     if (PhPmCallConvWinapi(Flags))
         PhAppendStringBuilder2(&stringBuilder, L"Winapi, ");
     if (PhPmCallConvCdecl(Flags))
@@ -394,17 +394,17 @@ PPH_STRING NTAPI PhClrImportFlagsToString(
     if (PhPmCallConvFastcall(Flags))
         PhAppendStringBuilder2(&stringBuilder, L"Fastcall, ");
     if (PhPmBestFitEnabled(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Bestfit enabled, ");
+        PhAppendStringBuilder2(&stringBuilder, L"启用最佳匹配, ");
     if (PhPmBestFitDisabled(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"Bestfit disabled, ");
+        PhAppendStringBuilder2(&stringBuilder, L"禁用最佳匹配, ");
     if (Flags & PM_BEST_FIT_MASK)
-        PhAppendStringBuilder2(&stringBuilder, L"Bestfit assembly, ");
+        PhAppendStringBuilder2(&stringBuilder, L"最佳匹配继承自程序集, ");
     if (PhPmThrowOnUnmappableCharEnabled(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"ThrowOnUnmappableChar enabled, ");
+        PhAppendStringBuilder2(&stringBuilder, L"启用不可映射字符异常, ");
     if (PhPmThrowOnUnmappableCharDisabled(Flags))
-        PhAppendStringBuilder2(&stringBuilder, L"ThrowOnUnmappableChar disabled, ");
+        PhAppendStringBuilder2(&stringBuilder, L"禁用不可映射字符异常, ");
     if (Flags & PM_THROW_ON_UNMAPPABLE_CHAR_MASK)
-        PhAppendStringBuilder2(&stringBuilder, L"ThrowOnUnmappableChar assembly, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不可映射字符异常继承自程序集, ");
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);

@@ -63,25 +63,25 @@ PPH_STRING PhpFormatUserFlags(
 #define PH_LSA_USER_FLAG(x, n)            { TEXT(#x), x, FALSE, FALSE, n }
     static const PH_ACCESS_ENTRY userFlags[] =
     {
-        PH_LSA_USER_FLAG(LOGON_GUEST, L"Guest"),
-        PH_LSA_USER_FLAG(LOGON_NOENCRYPTION, L"No encryption"),
-        PH_LSA_USER_FLAG(LOGON_CACHED_ACCOUNT, L"Cached account"),
-        PH_LSA_USER_FLAG(LOGON_USED_LM_PASSWORD, L"Used LM password"),
-        PH_LSA_USER_FLAG(LOGON_EXTRA_SIDS, L"Extra SIDs"),
-        PH_LSA_USER_FLAG(LOGON_SUBAUTH_SESSION_KEY, L"Subauth session key"),
-        PH_LSA_USER_FLAG(LOGON_SERVER_TRUST_ACCOUNT, L"Server trust account"),
-        PH_LSA_USER_FLAG(LOGON_NTLMV2_ENABLED, L"NTLMv2 enabled"),
-        PH_LSA_USER_FLAG(LOGON_RESOURCE_GROUPS, L"Resource groups"),
-        PH_LSA_USER_FLAG(LOGON_PROFILE_PATH_RETURNED, L"Profile path returned"),
+        PH_LSA_USER_FLAG(LOGON_GUEST, L"来宾"),
+        PH_LSA_USER_FLAG(LOGON_NOENCRYPTION, L"无加密"),
+        PH_LSA_USER_FLAG(LOGON_CACHED_ACCOUNT, L"缓存的账户"),
+        PH_LSA_USER_FLAG(LOGON_USED_LM_PASSWORD, L"使用 LM 密码"),
+        PH_LSA_USER_FLAG(LOGON_EXTRA_SIDS, L"额外 SID"),
+        PH_LSA_USER_FLAG(LOGON_SUBAUTH_SESSION_KEY, L"子认证会话密钥"),
+        PH_LSA_USER_FLAG(LOGON_SERVER_TRUST_ACCOUNT, L"服务器信任账户"),
+        PH_LSA_USER_FLAG(LOGON_NTLMV2_ENABLED, L"已启用 NTLMv2"),
+        PH_LSA_USER_FLAG(LOGON_RESOURCE_GROUPS, L"资源组"),
+        PH_LSA_USER_FLAG(LOGON_PROFILE_PATH_RETURNED, L"返回了配置文件路径"),
         PH_LSA_USER_FLAG(LOGON_NT_V2, L"NTv2"),
         PH_LSA_USER_FLAG(LOGON_LM_V2, L"LMv2"),
         PH_LSA_USER_FLAG(LOGON_NTLM_V2, L"NTLMv2"),
-        PH_LSA_USER_FLAG(LOGON_OPTIMIZED, L"Optimized"),
-        PH_LSA_USER_FLAG(LOGON_WINLOGON, L"WinLogon created"),
-        PH_LSA_USER_FLAG(LOGON_PKINIT, L"Keberos"),
-        PH_LSA_USER_FLAG(LOGON_NO_OPTIMIZED, L"Not optimized"),
-        PH_LSA_USER_FLAG(LOGON_NO_ELEVATION, L"No elevation"),
-        PH_LSA_USER_FLAG(LOGON_MANAGED_SERVICE, L"Managed service"),
+        PH_LSA_USER_FLAG(LOGON_OPTIMIZED, L"优化"),
+        PH_LSA_USER_FLAG(LOGON_WINLOGON, L"WinLogon 创建"),
+        PH_LSA_USER_FLAG(LOGON_PKINIT, L"Kerberos"),
+        PH_LSA_USER_FLAG(LOGON_NO_OPTIMIZED, L"未优化"),
+        PH_LSA_USER_FLAG(LOGON_NO_ELEVATION, L"无提升"),
+        PH_LSA_USER_FLAG(LOGON_MANAGED_SERVICE, L"托管服务"),
     };
 
     PH_FORMAT format[4];
@@ -405,7 +405,7 @@ VOID PhpUserListRefresh(
         LsaFreeReturnBuffer_I(logonSessionList);
     }
 
-    PhInitFormatS(&format[0], L"Number of users: ");
+    PhInitFormatS(&format[0], L"用户数量: ");
     PhInitFormatU(&format[1], Context->NodeList->Count);
     message = PhFormat(format, 2, 10);
 
@@ -764,43 +764,43 @@ BOOLEAN NTAPI PhpUserListTreeNewCallback(
                 switch (user->LogonType)
                 {
                 case UndefinedLogonType:
-                    PhInitializeStringRef(&getCellText->Text, L"Undefined");
+                    PhInitializeStringRef(&getCellText->Text, L"未定义");
                     break;
                 case Interactive:
-                    PhInitializeStringRef(&getCellText->Text, L"Interactive");
+                    PhInitializeStringRef(&getCellText->Text, L"交互式");
                     break;
                 case Network:
-                    PhInitializeStringRef(&getCellText->Text, L"Network");
+                    PhInitializeStringRef(&getCellText->Text, L"网络");
                     break;
                 case Batch:
-                    PhInitializeStringRef(&getCellText->Text, L"Batch");
+                    PhInitializeStringRef(&getCellText->Text, L"批处理");
                     break;
                 case Service:
-                    PhInitializeStringRef(&getCellText->Text, L"Service");
+                    PhInitializeStringRef(&getCellText->Text, L"服务");
                     break;
                 case Proxy:
-                    PhInitializeStringRef(&getCellText->Text, L"Proxy");
+                    PhInitializeStringRef(&getCellText->Text, L"代理");
                     break;
                 case Unlock:
-                    PhInitializeStringRef(&getCellText->Text, L"Unlock");
+                    PhInitializeStringRef(&getCellText->Text, L"解锁");
                     break;
                 case NetworkCleartext:
-                    PhInitializeStringRef(&getCellText->Text, L"Network cleartext");
+                    PhInitializeStringRef(&getCellText->Text, L"网络明文");
                     break;
                 case NewCredentials:
-                    PhInitializeStringRef(&getCellText->Text, L"New credentials");
+                    PhInitializeStringRef(&getCellText->Text, L"新凭据");
                     break;
                 case RemoteInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"Remote interactive");
+                    PhInitializeStringRef(&getCellText->Text, L"远程交互式");
                     break;
                 case CachedInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"Cached interactive");
+                    PhInitializeStringRef(&getCellText->Text, L"缓存交互式");
                     break;
                 case CachedRemoteInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"Cached remote interactive");
+                    PhInitializeStringRef(&getCellText->Text, L"缓存远程交互式");
                     break;
                 case CachedUnlock:
-                    PhInitializeStringRef(&getCellText->Text, L"Cached unlock");
+                    PhInitializeStringRef(&getCellText->Text, L"缓存解锁");
                     break;
                 default:
                     break;
@@ -1011,7 +1011,7 @@ BOOLEAN NTAPI PhpUserListTreeNewCallback(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, IDC_COPY, context->TreeNewHandle, contextMenu->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1096,31 +1096,31 @@ VOID PhpInitializeUserListTree(
 
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_NAME, TRUE, L"User name", 250, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_DOMAIN, TRUE, L"Logon domain", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_SESSION_ID, TRUE, L"Session ID", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_TYPE, TRUE, L"Logon type", 100, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_AUTHENTICATION_PACKAGE, TRUE, L"Authentication package", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_DNS_DOMAIN_NAME, TRUE, L"DNS domain name", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_TIME, TRUE, L"Logon time", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_LAST_SET, TRUE, L"Password last set", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_NAME, TRUE, L"用户名", 250, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_DOMAIN, TRUE, L"登录域", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_SESSION_ID, TRUE, L"会话 ID", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_TYPE, TRUE, L"登录类型", 100, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_AUTHENTICATION_PACKAGE, TRUE, L"身份验证包", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_DNS_DOMAIN_NAME, TRUE, L"DNS 域名", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_TIME, TRUE, L"登录时间", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_LAST_SET, TRUE, L"上次设置密码", 140, PH_ALIGN_LEFT, index++, 0);
     PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_SID, TRUE, L"SID", 180, PH_ALIGN_LEFT, index++, 0);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_ID, FALSE, L"Logon ID", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_SERVER, FALSE, L"Logon server", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_PRINCIPAL_NAME, FALSE, L"User principal name", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_FLAGS, FALSE, L"User flags", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_FAILED_ATTEMPTS_SINCE_LAST_SUCCESSFUL_LOGON, FALSE, L"Failed logon attempts since", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LAST_SUCCESSFUL_LOGON, FALSE, L"Last successful logon", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LAST_FAILED_LOGON, FALSE, L"Last failed logon", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_SCRIPT, FALSE, L"Longon script", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PROFILE_PATH, FALSE, L"Profile path", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_HOME_DIRECTORY, FALSE, L"Home directory", 180, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_HOME_DIRECTORY_DRIVE, FALSE, L"Home directory drive", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGOFF_TIME, FALSE, L"Logoff time", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_KICKOFF_TIME, FALSE, L"Kickoff time", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_CAN_CHANGE, FALSE, L"Password can set", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_MUST_CHANGE, FALSE, L"Password must set", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_ID, FALSE, L"登录 ID", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_SERVER, FALSE, L"登录服务器", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_PRINCIPAL_NAME, FALSE, L"用户主体名称", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_USER_FLAGS, FALSE, L"用户标志", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_FAILED_ATTEMPTS_SINCE_LAST_SUCCESSFUL_LOGON, FALSE, L"上次成功登录后失败尝试", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LAST_SUCCESSFUL_LOGON, FALSE, L"上次成功登录", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LAST_FAILED_LOGON, FALSE, L"上次失败登录", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGON_SCRIPT, FALSE, L"登录脚本", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PROFILE_PATH, FALSE, L"配置文件路径", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_HOME_DIRECTORY, FALSE, L"主目录", 180, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_HOME_DIRECTORY_DRIVE, FALSE, L"主目录驱动器", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_LOGOFF_TIME, FALSE, L"注销时间", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_KICKOFF_TIME, FALSE, L"强制断开时间", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_CAN_CHANGE, FALSE, L"可设置密码", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_USER_LIST_COLUMN_PASSWORD_MUST_CHANGE, FALSE, L"必须设置密码", 140, PH_ALIGN_LEFT, index++, 0);
 
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
     //TreeNew_SetTriState(Context->TreeNewHandle, FALSE);
@@ -1179,7 +1179,7 @@ INT_PTR CALLBACK PhpUserListDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"Search Users",
+                L"搜索用户",
                 SETTING_SEARCH_USERS_REGEX,
                 SETTING_SEARCH_USERS_CASE_SENSITIVE,
                 PhpUserListSearchControlCallback,
@@ -1335,7 +1335,7 @@ VOID PhShowUserListDialog(
 
     if (!LsaFreeReturnBuffer_I || !LsaEnumerateLogonSessions_I || !LsaGetLogonSessionData_I)
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to locate routines.", STATUS_NOINTERFACE, 0);
+        PhShowStatus(ParentWindowHandle, L"无法定位例程。", STATUS_NOINTERFACE, 0);
         return;
     }
 
@@ -1344,7 +1344,7 @@ VOID PhShowUserListDialog(
 
     if (!NT_SUCCESS(PhCreateThread2(PhpUserListDialogThreadStart, context)))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to create the window.", 0, ERROR_OUTOFMEMORY);
+        PhShowStatus(ParentWindowHandle, L"无法创建窗口。", 0, ERROR_OUTOFMEMORY);
         PhFree(context);
     }
 }

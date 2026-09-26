@@ -31,7 +31,7 @@ NTSTATUS AtResolveProcessTarget(
 
     if (!AtGetArgumentUInt64(Arguments, "pid", &processId) || processId > MAXULONG)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"pid is required and must be an integer.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 pid，且必须为整数。");
         return STATUS_INVALID_PARAMETER;
     }
 
@@ -39,13 +39,13 @@ NTSTATUS AtResolveProcessTarget(
 
     if (RequireSequenceNumber && !haveSequenceNumber)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"process_sequence_number is required; take it from list_processes or get_process.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 process_sequence_number；请从 list_processes 或 get_process 获取。");
         return STATUS_INVALID_PARAMETER;
     }
 
     if (!(processItem = PhReferenceProcessItem(UlongToHandle((ULONG)processId))))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No process with pid %llu is in the provider cache.", processId);
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"提供程序缓存中没有 pid 为 %llu 的进程。", processId);
         return STATUS_NOT_FOUND;
     }
 
@@ -55,7 +55,7 @@ NTSTATUS AtResolveProcessTarget(
             Result,
             "identity_mismatch",
             STATUS_PROCESS_IS_TERMINATING,
-            L"pid %llu is now process_sequence_number %llu, not %llu; the process you were shown has exited and the pid was reused. Re-list and try again.",
+            L"pid %llu 现在的 process_sequence_number 是 %llu 而非 %llu；之前显示的进程已退出且 pid 被复用。请重新列出后重试。",
             processId,
             processItem->ProcessSequenceNumber,
             sequenceNumber
@@ -71,7 +71,7 @@ NTSTATUS AtResolveProcessTarget(
 
         if (!PH_IS_REAL_PROCESS_ID(processItem->ProcessId))
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_CID, L"This pid is not a real process.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_CID, L"该 pid 不是真实进程。");
             PhDereferenceObject(processItem);
             return STATUS_INVALID_CID;
         }
@@ -84,7 +84,7 @@ NTSTATUS AtResolveProcessTarget(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Opening the process");
+            AtSetToolStatusError(Result, status, L"打开进程");
             PhDereferenceObject(processItem);
             return status;
         }
@@ -93,7 +93,7 @@ NTSTATUS AtResolveProcessTarget(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Validating the process identity");
+            AtSetToolStatusError(Result, status, L"验证进程标识");
             NtClose(processHandle);
             PhDereferenceObject(processItem);
             return status;
@@ -105,7 +105,7 @@ NTSTATUS AtResolveProcessTarget(
                 Result,
                 "identity_mismatch",
                 STATUS_PROCESS_IS_TERMINATING,
-                L"pid %llu is now process_sequence_number %llu, not %llu; the process you were shown has exited and the pid was reused. Re-list and try again.",
+                L"pid %llu 现在的 process_sequence_number 是 %llu 而非 %llu；之前显示的进程已退出且 pid 被复用。请重新列出后重试。",
                 processId,
                 liveSequenceNumber,
                 processItem->ProcessSequenceNumber
@@ -159,7 +159,7 @@ NTSTATUS AtpResolveThreadTarget(
 
     if (!AtGetArgumentUInt64(Arguments, "tid", &threadId) || threadId > MAXULONG || threadId == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"tid is required and must be an integer.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 tid，且必须为整数。");
         return STATUS_INVALID_PARAMETER;
     }
 
@@ -187,7 +187,7 @@ NTSTATUS AtpResolveThreadTarget(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the thread");
+        AtSetToolStatusError(Result, status, L"打开线程");
         AtDeleteTarget(Target);
         return status;
     }
@@ -196,7 +196,7 @@ NTSTATUS AtpResolveThreadTarget(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Validating the thread identity");
+        AtSetToolStatusError(Result, status, L"验证线程标识");
         NtClose(threadHandle);
         AtDeleteTarget(Target);
         return status;
@@ -208,7 +208,7 @@ NTSTATUS AtpResolveThreadTarget(
             Result,
             "identity_mismatch",
             STATUS_INVALID_CID,
-            L"Thread %llu belongs to pid %lu, not pid %lu. Re-list the threads and try again.",
+            L"线程 %llu 属于 pid %lu 而非 pid %lu。请重新列出线程后重试。",
             threadId,
             HandleToUlong(basicInfo.ClientId.UniqueProcess),
             HandleToUlong(Target->ProcessItem->ProcessId)
@@ -230,7 +230,7 @@ NTSTATUS AtpResolveThreadTarget(
                 Result,
                 "identity_mismatch",
                 STATUS_INVALID_CID,
-                L"The creation time of thread %llu could not be read, so its identity could not be checked.",
+                L"无法读取线程 %llu 的创建时间，因此无法校验其标识。",
                 threadId
                 );
             PhDereferenceObject(createTime);
@@ -245,7 +245,7 @@ NTSTATUS AtpResolveThreadTarget(
                 Result,
                 "identity_mismatch",
                 STATUS_INVALID_CID,
-                L"Thread %llu was created at %s, not %s; the tid has been reused. Re-list the threads and try again.",
+                L"线程 %llu 的创建时间是 %s 而非 %s；该 tid 已被复用。请重新列出线程后重试。",
                 threadId,
                 PhGetString(liveCreateTime),
                 PhGetString(createTime)
@@ -284,14 +284,14 @@ NTSTATUS AtpResolveServiceTarget(
 
     if (!(name = AtGetArgumentString(Arguments, "name")) || name->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"name is required and must be the service name (not the display name).");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 name，且必须是服务名(而非显示名称)。");
         PhClearReference(&name);
         return STATUS_INVALID_PARAMETER;
     }
 
     if (!(serviceItem = PhReferenceServiceItem(&name->sr)))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No service named %s is in the provider cache. Use list_services to find the service name.", PhGetString(name));
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"提供程序缓存中没有名为 %s 的服务。请使用 list_services 查找服务名。", PhGetString(name));
         PhDereferenceObject(name);
         return STATUS_NOT_FOUND;
     }
@@ -304,7 +304,7 @@ NTSTATUS AtpResolveServiceTarget(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Opening the service");
+            AtSetToolStatusError(Result, status, L"打开服务");
             PhDereferenceObject(serviceItem);
             PhDereferenceObject(name);
             return status;
@@ -342,7 +342,7 @@ NTSTATUS AtResolveHandleTarget(
 
     if (!AtGetArgumentPointer(Arguments, "handle", &handleValue) || handleValue == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"handle is required; pass the handle value from get_process_handles.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 handle；请传入从 get_process_handles 获取的句柄值。");
         return STATUS_INVALID_PARAMETER;
     }
 
@@ -355,7 +355,7 @@ NTSTATUS AtResolveHandleTarget(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating handles");
+        AtSetToolStatusError(Result, status, L"枚举句柄");
         AtDeleteTarget(Target);
         return status;
     }
@@ -372,7 +372,7 @@ NTSTATUS AtResolveHandleTarget(
 
     if (!entry)
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"pid %lu has no handle 0x%llx.", HandleToUlong(Target->ProcessItem->ProcessId), handleValue);
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"pid %lu 没有句柄 0x%llx。", HandleToUlong(Target->ProcessItem->ProcessId), handleValue);
         PhFree(handles);
         AtDeleteTarget(Target);
         return STATUS_NOT_FOUND;
@@ -413,9 +413,9 @@ NTSTATUS AtResolveHandleTarget(
                 Result,
                 "identity_mismatch",
                 STATUS_OBJECT_TYPE_MISMATCH,
-                L"Handle 0x%llx is a %s handle, not %s. Re-list the handles and try again.",
+                L"句柄 0x%llx 是 %s 句柄，而非 %s。请重新列出句柄后重试。",
                 handleValue,
-                PhGetStringOrDefault(typeName, L"(unknown type)"),
+                PhGetStringOrDefault(typeName, L"(未知类型)"),
                 PhGetString(expectedType)
                 );
             PhDereferenceObject(expectedType);
@@ -447,13 +447,13 @@ NTSTATUS AtpResolveDeviceTarget(
     if (!(instanceId = AtGetArgumentString(Arguments, "instance_id")))
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"instance_id is required; list_devices reports the instance id of every device.");
+            L"需要提供 instance_id；list_devices 会报告每个设备的实例 ID。");
         return STATUS_INVALID_PARAMETER;
     }
 
     if (!(tree = PhReferenceDeviceTree()))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The device tree is not available.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"设备树不可用。");
         PhDereferenceObject(instanceId);
         return STATUS_UNSUCCESSFUL;
     }
@@ -461,7 +461,7 @@ NTSTATUS AtpResolveDeviceTarget(
     if (!(item = PhLookupDeviceItem(tree, &instanceId->sr)))
     {
         AtSetToolError(Result, "not_found", STATUS_NOT_FOUND,
-            L"No device has that instance id; list_devices reports the ones there are.");
+            L"没有设备具有该实例 ID；list_devices 会报告现存的设备。");
         PhDereferenceObject(tree);
         PhDereferenceObject(instanceId);
         return STATUS_NOT_FOUND;
@@ -554,7 +554,7 @@ NTSTATUS AtpResolveTargetParameter(
 
             if (!AtParsePriorityClass(value, &priorityClass))
             {
-                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"priority_class must be one of idle, below_normal, normal, above_normal, high, realtime.");
+                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"priority_class 必须是 idle、below_normal、normal、above_normal、high、realtime 之一。");
                 PhClearReference(&value);
                 return STATUS_INVALID_PARAMETER;
             }
@@ -571,7 +571,7 @@ NTSTATUS AtpResolveTargetParameter(
 
             if (!AtParseIoPriority(value, &ioPriority))
             {
-                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"io_priority must be one of very_low, low, normal, high.");
+                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"io_priority 必须是 very_low、low、normal、high 之一。");
                 PhClearReference(&value);
                 return STATUS_INVALID_PARAMETER;
             }
@@ -590,8 +590,7 @@ NTSTATUS AtpResolveTargetParameter(
             if (!AtGetArgumentUInt64(Arguments, "affinity_mask", &mask) || mask == 0)
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"affinity_mask is required and must name at least one processor; a mask of zero is not "
-                    L"\"no restriction\", it is a process that can run nowhere.");
+                    L"需要提供 affinity_mask，且必须指定至少一个处理器；掩码为零不是“无限制”，而是无法在任何处理器上运行的进程。");
                 return STATUS_INVALID_PARAMETER;
             }
 
@@ -606,21 +605,21 @@ NTSTATUS AtpResolveTargetParameter(
                 (mask & ~(ULONG64)basicInfo.ActiveProcessorsAffinityMask) != 0)
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"affinity_mask names a processor this machine does not have; the active processors are 0x%I64x.",
+                    L"affinity_mask 指定了该计算机不存在的处理器；当前活动处理器为 0x%I64x。",
                     (ULONG64)basicInfo.ActiveProcessorsAffinityMask);
                 return STATUS_INVALID_PARAMETER;
             }
 
             if (hasGroup && group > MAXUSHORT)
             {
-                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"group is out of range.");
+                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"group 超出范围。");
                 return STATUS_INVALID_PARAMETER;
             }
 
             if (hasGroup)
-                text = PhFormatString(L"group %I64u mask 0x%I64x", group, mask);
+                text = PhFormatString(L"组 %I64u 掩码 0x%I64x", group, mask);
             else
-                text = PhFormatString(L"mask 0x%I64x", mask);
+                text = PhFormatString(L"掩码 0x%I64x", mask);
         }
         break;
     case AtActionSetDeviceEnabled:
@@ -630,7 +629,7 @@ NTSTATUS AtpResolveTargetParameter(
             if (PhIsNullOrEmptyString(value))
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"instance_id is required; take it from list_devices.");
+                    L"需要提供 instance_id；请从 list_devices 获取。");
                 PhClearReference(&value);
                 return STATUS_INVALID_PARAMETER;
             }
@@ -638,14 +637,14 @@ NTSTATUS AtpResolveTargetParameter(
             if (!AtJsonGetObjectMember(Arguments, "enabled", PH_JSON_OBJECT_TYPE_BOOLEAN))
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"enabled is required: true to enable the device, false to disable it.");
+                    L"需要提供 enabled：true 启用设备，false 禁用设备。");
                 PhClearReference(&value);
                 return STATUS_INVALID_PARAMETER;
             }
 
             // Just the direction: the headline names the device and the description carries its
             // instance id, so repeating the id here would push the one word that matters off the end.
-            text = PhCreateString(AtJsonGetObjectBoolean(Arguments, "enabled") ? L"enabled" : L"DISABLED");
+            text = PhCreateString(AtJsonGetObjectBoolean(Arguments, "enabled") ? L"启用" : L"禁用");
             PhClearReference(&value);
         }
         break;
@@ -659,7 +658,7 @@ NTSTATUS AtpResolveTargetParameter(
             if (!AtGetArgumentPointer(Arguments, "handle", &handleValue) || handleValue == 0)
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"handle is required; take it from list_windows or get_process_windows.");
+                    L"需要提供 handle；请从 list_windows 或 get_process_windows 获取。");
                 return STATUS_INVALID_PARAMETER;
             }
 
@@ -670,19 +669,19 @@ NTSTATUS AtpResolveTargetParameter(
                 if (!AtParseWindowState(value, &showCommand, &foreground))
                 {
                     AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                        L"state must be one of show, hide, minimize, maximize, restore, foreground.");
+                        L"state 必须是 show、hide、minimize、maximize、restore、foreground 之一。");
                     PhClearReference(&value);
                     return STATUS_INVALID_PARAMETER;
                 }
 
                 // The window is named in the approval as well as the change: the process alone
                 // does not say which of its windows this is about.
-                text = PhFormatString(L"window 0x%I64x %s", handleValue, value->Buffer);
+                text = PhFormatString(L"窗口 0x%I64x %s", handleValue, value->Buffer);
                 PhClearReference(&value);
             }
             else
             {
-                text = PhFormatString(L"window 0x%I64x", handleValue);
+                text = PhFormatString(L"窗口 0x%I64x", handleValue);
             }
         }
         break;
@@ -694,12 +693,11 @@ NTSTATUS AtpResolveTargetParameter(
                 pagePriority > MEMORY_PRIORITY_NORMAL)
             {
                 AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                    L"page_priority is required and must be 0 to 5: 0 lowest, 1 very low, 2 low, 3 medium, "
-                    L"4 below normal, 5 normal.");
+                    L"需要提供 page_priority，且必须为 0 到 5：0 最低、1 极低、2 低、3 中、4 低于正常、5 正常。");
                 return STATUS_INVALID_PARAMETER;
             }
 
-            text = PhFormatString(L"page priority %I64u (%s)", pagePriority,
+            text = PhFormatString(L"页优先级 %I64u (%s)", pagePriority,
                 AtPagePriorityString((ULONG)pagePriority));
         }
         break;
@@ -717,7 +715,7 @@ NTSTATUS AtpResolveTargetParameter(
 
             if (!value || PhDetermineDosPathNameType(&value->sr) != RtlPathTypeDriveAbsolute)
             {
-                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required and must be an absolute drive path such as C:\\dumps\\process.dmp.");
+                AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path，且必须是绝对驱动器路径，例如 C:\\dumps\\process.dmp。");
                 PhClearReference(&value);
                 return STATUS_INVALID_PARAMETER;
             }
@@ -845,7 +843,7 @@ PPH_STRING AtpFormatProcessHeadline(
 {
     return PhFormatString(
         L"%s (PID %lu)",
-        PhGetStringOrDefault(ProcessItem->ProcessName, L"(unnamed)"),
+        PhGetStringOrDefault(ProcessItem->ProcessName, L"(未命名)"),
         HandleToUlong(ProcessItem->ProcessId)
         );
 }
@@ -866,30 +864,30 @@ PPH_STRING AtFormatTargetHeadline(
         result = PhReferenceObject(process);
         break;
     case AtTargetThread:
-        result = PhFormatString(L"thread %lu of %s", HandleToUlong(Target->ThreadId), PhGetString(process));
+        result = PhFormatString(L"%s 的线程 %lu", PhGetString(process), HandleToUlong(Target->ThreadId));
         break;
     case AtTargetService:
         if (Target->ServiceItem->DisplayName && !PhEqualString(Target->ServiceItem->DisplayName, Target->ServiceItem->Name, TRUE))
-            result = PhFormatString(L"service %s (%s)", PhGetString(Target->ServiceItem->Name), PhGetString(Target->ServiceItem->DisplayName));
+            result = PhFormatString(L"服务 %s (%s)", PhGetString(Target->ServiceItem->Name), PhGetString(Target->ServiceItem->DisplayName));
         else
-            result = PhFormatString(L"service %s", PhGetString(Target->ServiceItem->Name));
+            result = PhFormatString(L"服务 %s", PhGetString(Target->ServiceItem->Name));
         break;
     case AtTargetHandle:
         result = PhFormatString(
-            L"handle 0x%Ix (%s) in %s",
+            L"句柄 0x%Ix (%s)，位于 %s",
             (ULONG_PTR)Target->HandleValue,
-            PhGetStringOrDefault(Target->HandleTypeName, L"unknown type"),
+            PhGetStringOrDefault(Target->HandleTypeName, L"未知类型"),
             PhGetString(process)
             );
         break;
     case AtTargetConnection:
-        result = PhFormatString(L"connection %s of %s", PhGetString(Target->ConnectionText), PhGetString(process));
+        result = PhFormatString(L"%s 的连接 %s", PhGetString(process), PhGetString(Target->ConnectionText));
         break;
     case AtTargetDevice:
-        result = PhFormatString(L"device %s", PhGetString(Target->DeviceName));
+        result = PhFormatString(L"设备 %s", PhGetString(Target->DeviceName));
         break;
     default:
-        result = PhCreateString(L"(no target)");
+        result = PhCreateString(L"(无目标)");
         break;
     }
 
@@ -921,25 +919,25 @@ VOID AtpAppendProcessDescription(
     _In_ PPH_PROCESS_ITEM ProcessItem
     )
 {
-    PhAppendFormatStringBuilder(Builder, L"\nSequence: %I64u", ProcessItem->ProcessSequenceNumber);
-    AtpAppendDisplayValue(Builder, L"\nImage: ", PhGetStringOrDefault(ProcessItem->FileName, L"(unknown)"));
+    PhAppendFormatStringBuilder(Builder, L"\n序列：%I64u", ProcessItem->ProcessSequenceNumber);
+    AtpAppendDisplayValue(Builder, L"\n映像：", PhGetStringOrDefault(ProcessItem->FileName, L"(未知)"));
 
     if (ProcessItem->VerifyResult == VrTrusted)
     {
-        AtpAppendDisplayValue(Builder, L"\nSigner: Trusted (", PhGetStringOrDefault(ProcessItem->VerifySignerName, L"unknown"));
+        AtpAppendDisplayValue(Builder, L"\n签名者：受信任 (", PhGetStringOrDefault(ProcessItem->VerifySignerName, L"未知"));
         PhAppendStringBuilder2(Builder, L")");
     }
     else if (ProcessItem->VerifyResult == VrUnknown)
     {
-        PhAppendStringBuilder2(Builder, L"\nSigner: not verified");
+        PhAppendStringBuilder2(Builder, L"\n签名者：未验证");
     }
     else
     {
-        PhAppendStringBuilder2(Builder, L"\nSigner: not trusted");
+        PhAppendStringBuilder2(Builder, L"\n签名者：不受信任");
     }
 
     if (ProcessItem->UserName)
-        AtpAppendDisplayValue(Builder, L"\nUser: ", PhGetString(ProcessItem->UserName));
+        AtpAppendDisplayValue(Builder, L"\n用户：", PhGetString(ProcessItem->UserName));
 }
 
 PPH_STRING AtFormatTargetDescription(
@@ -961,46 +959,46 @@ PPH_STRING AtFormatTargetDescription(
         {
             PPH_SERVICE_ITEM serviceItem = Target->ServiceItem;
 
-            PhAppendFormatStringBuilder(&builder, L"\nState: %s", PhGetServiceStateString(serviceItem->State)->Buffer);
-            PhAppendFormatStringBuilder(&builder, L"\nStart type: %s", PhGetServiceStartTypeString(serviceItem->StartType)->Buffer);
-            AtpAppendDisplayValue(&builder, L"\nImage: ", PhGetStringOrDefault(serviceItem->FileName, L"(unknown)"));
+            PhAppendFormatStringBuilder(&builder, L"\n状态：%s", PhGetServiceStateString(serviceItem->State)->Buffer);
+            PhAppendFormatStringBuilder(&builder, L"\n启动类型：%s", PhGetServiceStartTypeString(serviceItem->StartType)->Buffer);
+            AtpAppendDisplayValue(&builder, L"\n映像：", PhGetStringOrDefault(serviceItem->FileName, L"(未知)"));
 
             if (serviceItem->VerifyResult == VrTrusted)
             {
-                AtpAppendDisplayValue(&builder, L"\nSigner: Trusted (", PhGetStringOrDefault(serviceItem->VerifySignerName, L"unknown"));
+                AtpAppendDisplayValue(&builder, L"\n签名者：受信任 (", PhGetStringOrDefault(serviceItem->VerifySignerName, L"未知"));
                 PhAppendStringBuilder2(&builder, L")");
             }
             else if (serviceItem->VerifyResult == VrUnknown)
             {
-                PhAppendStringBuilder2(&builder, L"\nSigner: not verified");
+                PhAppendStringBuilder2(&builder, L"\n签名者：未验证");
             }
             else
             {
-                PhAppendStringBuilder2(&builder, L"\nSigner: not trusted");
+                PhAppendStringBuilder2(&builder, L"\n签名者：不受信任");
             }
 
             if (serviceItem->ProcessId)
-                PhAppendFormatStringBuilder(&builder, L"\nPID: %lu", HandleToUlong(serviceItem->ProcessId));
+                PhAppendFormatStringBuilder(&builder, L"\nPID：%lu", HandleToUlong(serviceItem->ProcessId));
         }
         break;
     case AtTargetHandle:
         {
-            AtpAppendDisplayValue(&builder, L"\nObject: ", PhGetStringOrDefault(Target->HandleObjectName, L"(unnamed)"));
+            AtpAppendDisplayValue(&builder, L"\n对象：", PhGetStringOrDefault(Target->HandleObjectName, L"(未命名)"));
             AtpAppendProcessDescription(&builder, Target->ProcessItem);
         }
         break;
     case AtTargetConnection:
         {
-            PhAppendFormatStringBuilder(&builder, L"\nState: %s", PhGetTcpStateName(Target->NetworkItem->State)->Buffer);
+            PhAppendFormatStringBuilder(&builder, L"\n状态：%s", PhGetTcpStateName(Target->NetworkItem->State)->Buffer);
             AtpAppendProcessDescription(&builder, Target->ProcessItem);
         }
         break;
     case AtTargetDevice:
         {
             if (Target->DeviceClass)
-                AtpAppendDisplayValue(&builder, L"\nClass: ", PhGetString(Target->DeviceClass));
+                AtpAppendDisplayValue(&builder, L"\n类：", PhGetString(Target->DeviceClass));
 
-            AtpAppendDisplayValue(&builder, L"\nInstance: ", PhGetString(Target->DeviceInstanceId));
+            AtpAppendDisplayValue(&builder, L"\n实例：", PhGetString(Target->DeviceInstanceId));
         }
         break;
     default:
@@ -1026,10 +1024,10 @@ PPH_STRING AtFormatTargetAudit(
     if (Target->ProcessItem)
     {
         result = PhFormatString(
-            L"%s [sequence %I64u, %s]",
+            L"%s [序列 %I64u, %s]",
             PhGetString(headline),
             Target->ProcessItem->ProcessSequenceNumber,
-            PhGetStringOrDefault(Target->ProcessItem->FileName, L"unknown image")
+            PhGetStringOrDefault(Target->ProcessItem->FileName, L"未知映像")
             );
     }
     else if (Target->Kind == AtTargetService)
@@ -1037,7 +1035,7 @@ PPH_STRING AtFormatTargetAudit(
         result = PhFormatString(
             L"%s [%s]",
             PhGetString(headline),
-            PhGetStringOrDefault(Target->ServiceItem->FileName, L"unknown image")
+            PhGetStringOrDefault(Target->ServiceItem->FileName, L"未知映像")
             );
     }
     else

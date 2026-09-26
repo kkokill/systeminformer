@@ -272,7 +272,7 @@ VOID AtpListNetworkAdapters(
 
     if (!AtpInitializeIphlpapi())
     {
-        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"The IP helper library is not available.");
+        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"IP Helper 库不可用。");
         return;
     }
 
@@ -292,7 +292,7 @@ VOID AtpListNetworkAdapters(
     // failure to size the answer.
     if ((error = AtpGetAdaptersAddresses(AF_UNSPEC, flags, NULL, NULL, &bufferLength)) != ERROR_BUFFER_OVERFLOW)
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(error), L"Sizing the network adapter list");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(error), L"确定网络适配器列表大小");
         PhClearReference(&nameContains);
         return;
     }
@@ -301,7 +301,7 @@ VOID AtpListNetworkAdapters(
 
     if ((error = AtpGetAdaptersAddresses(AF_UNSPEC, flags, NULL, buffer, &bufferLength)) != ERROR_SUCCESS)
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(error), L"Enumerating the network adapters");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(error), L"枚举网络适配器");
         PhFree(buffer);
         PhClearReference(&nameContains);
         return;
@@ -389,7 +389,7 @@ VOID AtAdapterInvokeTool(
         AtpListNetworkAdapters(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

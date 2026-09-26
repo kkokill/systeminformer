@@ -137,7 +137,7 @@ VOID PhShowProcessMitigationPolicyDialog(
     }
     else
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to open the process.", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法打开进程。", status, 0);
     }
 }
 
@@ -179,7 +179,7 @@ INT_PTR CALLBACK PhpProcessMitigationPolicyDlgProc(
             context->ListViewHandle = lvHandle = GetDlgItem(hwndDlg, IDC_LIST);
             PhSetListViewStyle(lvHandle, FALSE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
-            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"Policy");
+            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"策略");
             PhSetExtendedListView(lvHandle);
 
             for (policy = 0; policy < MaxProcessMitigationPolicy; policy++)
@@ -225,8 +225,8 @@ INT_PTR CALLBACK PhpProcessMitigationPolicyDlgProc(
 
                     entry = PhAllocate(sizeof(MITIGATION_POLICY_ENTRY));
                     entry->NonStandard = TRUE;
-                    entry->ShortDescription = PhCreateString(L"Indirect branch prediction");
-                    entry->LongDescription = PhCreateString(L"Protects against sibling hardware threads (hyperthreads) from interfering with indirect branch predictions.");
+                    entry->ShortDescription = PhCreateString(L"间接分支预测");
+                    entry->LongDescription = PhCreateString(L"防止同级硬件线程（超线程）干扰间接分支预测。");
 
                     PhAddListViewItem(lvHandle, MAXINT, entry->ShortDescription->Buffer, entry);
                 }
@@ -237,8 +237,8 @@ INT_PTR CALLBACK PhpProcessMitigationPolicyDlgProc(
 
                     entry = PhAllocate(sizeof(MITIGATION_POLICY_ENTRY));
                     entry->NonStandard = TRUE;
-                    entry->ShortDescription = PhCreateString(L"Dynamic code (downgrade)");
-                    entry->LongDescription = PhCreateString(L"Allows a broker to downgrade the dynamic code policy for a process.");
+                    entry->ShortDescription = PhCreateString(L"动态代码（降级）");
+                    entry->LongDescription = PhCreateString(L"允许代理程序降低进程的动态代码策略。");
 
                     PhAddListViewItem(lvHandle, MAXINT, entry->ShortDescription->Buffer, entry);
                 }
@@ -249,8 +249,8 @@ INT_PTR CALLBACK PhpProcessMitigationPolicyDlgProc(
 
                     entry = PhAllocate(sizeof(MITIGATION_POLICY_ENTRY));
                     entry->NonStandard = TRUE;
-                    entry->ShortDescription = PhCreateString(L"Speculative store bypass");
-                    entry->LongDescription = PhCreateString(L"Disables spectre mitigations for the process.");
+                    entry->ShortDescription = PhCreateString(L"推测性存储绕过");
+                    entry->LongDescription = PhCreateString(L"禁用进程的 Spectre 缓解措施。");
 
                     PhAddListViewItem(lvHandle, MAXINT, entry->ShortDescription->Buffer, entry);
                 }

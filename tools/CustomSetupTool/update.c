@@ -28,7 +28,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     context->SetupProgressActive = TRUE;
 
 #if !defined(PH_BUILD_API)
-    SetupSetProgressText(context, L"Downloading update...", NULL);
+    SetupSetProgressText(context, L"正在下载更新...", NULL);
 
     if (!NT_SUCCESS(status = SetupDownloadBuildZip(context)))
     {
@@ -42,7 +42,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     //
 
     SetupSetProgressMarquee(context, TRUE);
-    SetupSetProgressText(context, L"Preparing the update directory...", NULL);
+    SetupSetProgressText(context, L"正在准备更新目录...", NULL);
 
     if (!NT_SUCCESS(status = PhCreateDirectoryWin32(&context->SetupInstallPath->sr)))
     {
@@ -54,7 +54,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     // Stop the application.
     //
 
-    SetupSetProgressText(context, L"Stopping System Informer...", NULL);
+    SetupSetProgressText(context, L"正在停止 System Informer...", NULL);
 
     if (!NT_SUCCESS(status = SetupShutdownApplication(context)))
     {
@@ -66,7 +66,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     // Stop the kernel driver.
     //
 
-    SetupSetProgressText(context, L"Stopping the kernel driver...", NULL);
+    SetupSetProgressText(context, L"正在停止内核驱动程序...", NULL);
 
     if (!NT_SUCCESS(status = SetupUninstallDriver(context)))
     {
@@ -78,7 +78,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     // Create the uninstaller.
     //
 
-    SetupSetProgressText(context, L"Updating the uninstaller...", NULL);
+    SetupSetProgressText(context, L"正在更新卸载程序...", NULL);
 
     if (!NT_SUCCESS(status = SetupCreateUninstallFile(context)))
     {
@@ -90,7 +90,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     // Extract the updated files.
     //
 
-    SetupSetProgressText(context, L"Extracting updated files...", NULL);
+    SetupSetProgressText(context, L"正在提取更新的文件...", NULL);
 
     if (!NT_SUCCESS(status = SetupExtractBuild(context)))
     {
@@ -101,31 +101,31 @@ NTSTATUS CALLBACK SetupUpdateBuild(
     //
     // Upgrade the settings file.
     //
-    SetupSetProgressText(context, L"Updating settings...", NULL);
+    SetupSetProgressText(context, L"正在更新设置...", NULL);
     SetupUpgradeSettingsFile();
 
     //
     // Convert the settings file.
     //
-    SetupSetProgressText(context, L"Converting settings...", NULL);
+    SetupSetProgressText(context, L"正在转换设置...", NULL);
     SetupConvertSettingsFile();
 
     //
     // Create the ARP uninstall config.
     //
-    SetupSetProgressText(context, L"Updating uninstall registration...", NULL);
+    SetupSetProgressText(context, L"正在更新卸载注册...", NULL);
     SetupCreateUninstallKey(Context);
 
     //
     // Create Windows Error Reporting config.
     //
-    SetupSetProgressText(context, L"Updating LocalDumps configuration...", NULL);
+    SetupSetProgressText(context, L"正在更新 LocalDumps 配置...", NULL);
     SetupCreateLocalDumpsKey();
 
     //
     // Create the application path config.
     //
-    SetupSetProgressText(context, L"Updating Windows integration...", NULL);
+    SetupSetProgressText(context, L"正在更新 Windows 集成...", NULL);
     SetupCreateWindowsOptions(Context);
 
     //
@@ -136,7 +136,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
 
     SetupRepairAutoRunEntry(Context);
 
-    SetupSetProgressText(context, L"Update complete.", NULL);
+    SetupSetProgressText(context, L"更新完成。", NULL);
     SetupSetProgressValue(context, 100);
     context->SetupProgressActive = FALSE;
     SetupDeleteBuildZip(context);
@@ -145,7 +145,7 @@ NTSTATUS CALLBACK SetupUpdateBuild(
 
 CleanupExit:
 
-    SetupSetProgressText(context, L"Update failed.", NULL);
+    SetupSetProgressText(context, L"更新失败。", NULL);
     context->SetupProgressActive = FALSE;
     SetupDeleteBuildZip(context);
     PostMessage(context->DialogHandle, SETUP_SHOWUPDATEERROR, 0, 0);
@@ -283,7 +283,7 @@ VOID ShowUpdatePageDialog(
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainInstruction = PhaFormatString(
-        L"Updating to version %lu.%lu.%lu.%lu...",
+        L"正在更新到版本 %lu.%lu.%lu.%lu...",
         PHAPP_VERSION_MAJOR,
         PHAPP_VERSION_MINOR,
         PHAPP_VERSION_BUILD,
@@ -315,8 +315,8 @@ VOID ShowUpdateCompletedPageDialog(
 
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Update complete.";
-    config.pszContent = L"Select Close to exit.";
+    config.pszMainInstruction = L"更新完成。";
+    config.pszContent = L"选择“关闭”以退出。";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -332,8 +332,8 @@ VOID ShowUpdateErrorPageDialog(
 {
     static TASKDIALOG_BUTTON TaskDialogButtonArray[] =
     {
-        { IDYES, L"Retry" },
-        { IDCLOSE, L"Close" },
+        { IDYES, L"重试" },
+        { IDCLOSE, L"关闭" },
     };
     TASKDIALOGCONFIG config;
 
@@ -348,7 +348,7 @@ VOID ShowUpdateErrorPageDialog(
     config.cButtons = ARRAYSIZE(TaskDialogButtonArray);
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Error updating to the latest version.";
+    config.pszMainInstruction = L"更新到最新版本时出错。";
 
     if (Context->LastStatus)
     {

@@ -1076,7 +1076,7 @@ NTSTATUS EtpTargetResolverWorkThreadStart(
                             PhRemoveEndStringBuilder(&sb, 2);
 
                         if (sb.String->Length == 0)
-                            PhAppendStringBuilder2(&sb, L"(No processes)");
+                            PhAppendStringBuilder2(&sb, L"（无进程）");
 
                         entry->TargetIsInfoOnly = TRUE;
                         PhMoveReference(&entry->Target, PhFinalStringBuilderString(&sb));
@@ -1149,16 +1149,16 @@ NTSTATUS EtpTargetResolverWorkThreadStart(
                         if (NT_SUCCESS(status))
                         {
                             PH_FORMAT format[4];
-                            PWSTR sectionType = L"Unknown";
+                            PWSTR sectionType = L"未知";
 
                             if (basicInfo.AllocationAttributes & SEC_COMMIT)
-                                sectionType = L"Commit";
+                                sectionType = L"提交";
                             else if (basicInfo.AllocationAttributes & SEC_FILE)
-                                sectionType = L"File";
+                                sectionType = L"文件";
                             else if (basicInfo.AllocationAttributes & SEC_IMAGE)
-                                sectionType = L"Image";
+                                sectionType = L"映像";
                             else if (basicInfo.AllocationAttributes & SEC_RESERVE)
-                                sectionType = L"Reserve";
+                                sectionType = L"保留";
 
                             PhInitFormatS(&format[0], sectionType);
                             PhInitFormatS(&format[1], L" (");
@@ -1223,7 +1223,7 @@ NTSTATUS EtpTargetResolverWorkThreadStart(
                     if (NT_SUCCESS(PhGetSemaphoreBasicInformation(objectHandle, &basicInfo)))
                     {
                         entry->TargetIsInfoOnly = TRUE;
-                        entry->Target = PhFormatString(L"Current count: %d/%d", basicInfo.CurrentCount, basicInfo.MaximumCount);
+                        entry->Target = PhFormatString(L"当前计数：%d/%d", basicInfo.CurrentCount, basicInfo.MaximumCount);
                     }
                 }
             }
@@ -1248,7 +1248,7 @@ NTSTATUS EtpTargetResolverWorkThreadStart(
                             entry->TypeTypeIndex = typeIndex;
                             entry->TargetIsInfoOnly = TRUE;
                             entry->Target = PhFormatString(
-                                L"Index: %d, Objects: %d, Handles: %d",
+                                L"索引：%d，对象：%d，句柄：%d",
                                 objectType->TypeIndex,
                                 objectType->TotalNumberOfObjects,
                                 objectType->TotalNumberOfHandles);
@@ -1411,14 +1411,14 @@ NTSTATUS EtEnumCurrentDirectoryObjects(
 
     if (!NT_SUCCESS(status) && status != STATUS_NO_MORE_ENTRIES)
     {
-        PhShowStatus(Context->WindowHandle, L"Unable to query directory object.", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法查询目录对象。", status, 0);
     }
 
     PhSetWindowText(Context->PathControlHandle, PhGetString(Context->CurrentPath));
     Edit_SetSel(Context->PathControlEdit, -2, -1);
 
     PhPrintUInt32(string, ListView_GetItemCount(Context->ListViewHandle));
-    PhSetWindowText(Context->StatusBarHandle, PH_AUTO_T(PH_STRING, PhFormatString(L"Objects in current directory: %s", string))->Buffer);
+    PhSetWindowText(Context->StatusBarHandle, PH_AUTO_T(PH_STRING, PhFormatString(L"当前目录中的对象数：%s", string))->Buffer);
 
     // Apply current filter and sort
     PPH_STRING curentFilter = PH_AUTO(PhGetWindowText(Context->SearchBoxHandle));
@@ -2020,7 +2020,7 @@ NTSTATUS EtObjectManagerOpenRealObject(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(NULL, L"Unidentified third party object.", status, 0);
+                PhShowStatus(NULL, L"未识别的第三方对象。", status, 0);
             }
         }
 
@@ -2464,12 +2464,12 @@ start_scan:
                     SETTING_FILE_BROWSE_EXECUTABLE,
                     PhGetString(Target),
                     FALSE,
-                    L"Make sure the Explorer executable file is present."
+                    L"请确保 Explorer 可执行文件存在。"
                     );
             }
             else
             {
-                PhShowStatus(Context->WindowHandle, L"Unable to locate the target.", STATUS_NOT_FOUND, 0);
+                PhShowStatus(Context->WindowHandle, L"无法找到目标。", STATUS_NOT_FOUND, 0);
             }
         }
     }
@@ -2653,7 +2653,7 @@ VOID NTAPI EtpObjectManagerSearchControlCallback(
 
     WCHAR string[PH_INT32_STR_LEN_1];
     PhPrintUInt32(string, ListView_GetItemCount(context->ListViewHandle));
-    PhSetWindowText(context->StatusBarHandle, PH_AUTO_T(PH_STRING, PhFormatString(L"Objects in current directory: %s", string))->Buffer);
+    PhSetWindowText(context->StatusBarHandle, PH_AUTO_T(PH_STRING, PhFormatString(L"当前目录中的对象数：%s", string))->Buffer);
 }
 
 VOID NTAPI EtpObjectManagerSortAndSelectOld(
@@ -2873,12 +2873,12 @@ INT_PTR CALLBACK WinObjDlgProc(
             EtSectionTypeIndex = PhGetObjectTypeNumberZ(L"Section");
             EtWinStaTypeIndex = PhGetObjectTypeNumberZ(L"WindowStation");
 
-            ObjectSignaledString = PhCreateString(L"Signaled");
-            ObjectNotificationString = PhCreateString(L"Notification");
-            ObjectSignaledNotificationString = PhCreateString(L"Signaled, Notification");
-            ObjectSynchronizationString = PhCreateString(L"Synchronization");
-            ObjectSignaledSynchronizationString = PhCreateString(L"Signaled, Synchronization");
-            ObjectAbandonedString = PhCreateString(L"Abandoned");
+            ObjectSignaledString = PhCreateString(L"已通知");
+            ObjectNotificationString = PhCreateString(L"通知事件");
+            ObjectSignaledNotificationString = PhCreateString(L"已通知，通知事件");
+            ObjectSynchronizationString = PhCreateString(L"同步事件");
+            ObjectSignaledSynchronizationString = PhCreateString(L"已通知，同步事件");
+            ObjectAbandonedString = PhCreateString(L"已放弃");
             PhEndInitOnce(&initOnce);
         }
     }
@@ -2928,12 +2928,12 @@ INT_PTR CALLBACK WinObjDlgProc(
             PhSetListViewStyle(context->ListViewHandle, TRUE, FALSE);
             PhSetExtendedListView(context->ListViewHandle);
             ListView_SetImageList(context->ListViewHandle, context->ListImageList, LVSIL_SMALL);
-            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_NAME, ETOBLVC_NAME, ETOBLVC_NAME, LVCFMT_LEFT, 445, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_TYPE, ETOBLVC_TYPE, ETOBLVC_TYPE, LVCFMT_LEFT, 150, L"Type");
-            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_TARGET, ETOBLVC_TARGET, ETOBLVC_TARGET, LVCFMT_LEFT, 200, L"Target");
+            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_NAME, ETOBLVC_NAME, ETOBLVC_NAME, LVCFMT_LEFT, 445, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_TYPE, ETOBLVC_TYPE, ETOBLVC_TYPE, LVCFMT_LEFT, 150, L"类型");
+            PhAddListViewColumn(context->ListViewHandle, ETOBLVC_TARGET, ETOBLVC_TARGET, ETOBLVC_TARGET, LVCFMT_LEFT, 200, L"目标");
             context->UseAddressColumn = KsiLevel() >= KphLevelMed;
             if (context->UseAddressColumn)
-                PhAddListViewColumn(context->ListViewHandle, ETOBLVC_OBJECT, ETOBLVC_OBJECT, ETOBLVC_OBJECT, LVCFMT_LEFT, 120, L"Object address");
+                PhAddListViewColumn(context->ListViewHandle, ETOBLVC_OBJECT, ETOBLVC_OBJECT, ETOBLVC_OBJECT, LVCFMT_LEFT, 120, L"对象地址");
             PhLoadListViewColumnsFromSetting(SETTING_NAME_OBJMGR_COLUMNS, context->ListViewHandle);
 
             PH_INTEGER_PAIR sortSettings;
@@ -2958,7 +2958,7 @@ INT_PTR CALLBACK WinObjDlgProc(
             PhCreateSearchControl(
                 hwndDlg,
                 context->SearchBoxHandle,
-                L"Search Objects (Ctrl+K)",
+                L"搜索对象 (Ctrl+K)",
                 EtpObjectManagerSearchControlCallback,
                 context
                 );
@@ -3145,10 +3145,10 @@ INT_PTR CALLBACK WinObjDlgProc(
                                 dispInfo->item.pszText = PhGetString(entry->TypeName);
                                 break;
                             case ETOBLVC_TARGET:
-                                dispInfo->item.pszText = !entry->TargetIsResolving ? PhGetString(entry->Target) : L"Resolving...";
+                                dispInfo->item.pszText = !entry->TargetIsResolving ? PhGetString(entry->Target) : L"正在解析...";
                                 break;
                             case ETOBLVC_OBJECT:
-                                dispInfo->item.pszText = !entry->TargetIsResolving ? entry->ObjectString : L"Resolving...";
+                                dispInfo->item.pszText = !entry->TargetIsResolving ? entry->ObjectString : L"正在解析...";
                                 break;
                         }
                     }
@@ -3297,7 +3297,7 @@ INT_PTR CALLBACK WinObjDlgProc(
                     if (sortOrder != NoSortOrder)
                     {
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_RESETSORT, L"&Reset sort", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_RESETSORT, L"重置排序(&R)", NULL, NULL), ULONG_MAX);
 
                         item = PhShowEMenu(
                             menu,
@@ -3337,37 +3337,37 @@ INT_PTR CALLBACK WinObjDlgProc(
                     PPH_EMENU_ITEM handlesMenuItem;
 
                     PhInsertEMenuItem(menu, propMenuItem = PhCreateEMenuItem(0, IDC_PROPERTIES,
-                        !isSymlink ? L"Prope&rties\bEnter" : L"Prope&rties\bShift+Enter", NULL, NULL), ULONG_MAX);
+                        !isSymlink ? L"属性(&R)\bEnter" : L"属性(&R)\bShift+Enter", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, handlesMenuItem = PhCreateEMenuItem(0, IDC_OPENHANDLES, L"&Handles\bCtrl+H", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, handlesMenuItem = PhCreateEMenuItem(0, IDC_OPENHANDLES, L"句柄(&H)\bCtrl+H", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
 
                     if (isSymlink)
                     {
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), 0);
-                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_OPENLINK, L"&Open link\bEnter", NULL, NULL), 0);
+                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_OPENLINK, L"打开链接(&O)\bEnter", NULL, NULL), 0);
                     }
                     else if (entry->EtObjectType == EtObjectDevice)
                     {
                         if (entry->TargetDrvLow && entry->TargetDrvUp && !PhEqualString(entry->TargetDrvLow, entry->TargetDrvUp, TRUE))
                         {
-                            PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTODRIVER2, L"Go to &upper device driver", NULL, NULL), ULONG_MAX);
-                            PhInsertEMenuItem(menu, gotoMenuItem2 = PhCreateEMenuItem(0, IDC_GOTODRIVER, L"&Go to lower device driver", NULL, NULL), ULONG_MAX);
+                            PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTODRIVER2, L"转到上层设备驱动程序(&U)", NULL, NULL), ULONG_MAX);
+                            PhInsertEMenuItem(menu, gotoMenuItem2 = PhCreateEMenuItem(0, IDC_GOTODRIVER, L"转到下层设备驱动程序(&G)", NULL, NULL), ULONG_MAX);
                         }
                         else
                         {
-                            PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTODRIVER, L"&Go to device driver", NULL, NULL), ULONG_MAX);
+                            PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTODRIVER, L"转到设备驱动程序(&G)", NULL, NULL), ULONG_MAX);
                         }
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     }
                     else if (entry->EtObjectType == EtObjectAlpcPort)
                     {
-                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOPROCESS, L"&Go to process...", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOPROCESS, L"转到进程(&G)...", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     }
                     else if (entry->EtObjectType == EtObjectMutant)
                     {
-                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOTHREAD, L"&Go to thread...", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_GOTOTHREAD, L"转到线程(&G)...", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     }
                     else if (
@@ -3375,7 +3375,7 @@ INT_PTR CALLBACK WinObjDlgProc(
                         entry->EtObjectType == EtObjectSection
                         )
                     {
-                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_OPENFILELOCATION, L"&Open file location", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_OPENFILELOCATION, L"打开文件位置(&O)", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     }
                     if (entry->EtObjectType == EtObjectSymLink && hasTarget &&
@@ -3383,16 +3383,16 @@ INT_PTR CALLBACK WinObjDlgProc(
                           targetIsDriveVolume))
                     {
                         PhInsertEMenuItem(menu, gotoMenuItem = PhCreateEMenuItem(0, IDC_OPENFILELOCATION,
-                            targetIsDriveVolume ? L"Sh&ow drive volume" : L"&Open file location", NULL, NULL), ULONG_MAX);
+                            targetIsDriveVolume ? L"显示驱动器卷(&O)" : L"打开文件位置(&O)", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
                     }
 
-                    PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"&Security\bCtrl+Enter", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, secMenuItem = PhCreateEMenuItem(0, IDC_SECURITY, L"安全(&S)\bCtrl+Enter", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, copyAddressMenuItem = PhCreateEMenuItem(0, IDC_COPYOBJECTADDRESS, L"Copy Object &Address\bCtrl+Shift+C", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, copyPathMenuItem = PhCreateEMenuItem(0, IDC_COPYPATH, L"Copy &Full Name\bCtrl+Alt+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, copyAddressMenuItem = PhCreateEMenuItem(0, IDC_COPYOBJECTADDRESS, L"复制对象地址(&A)\bCtrl+Shift+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, copyPathMenuItem = PhCreateEMenuItem(0, IDC_COPYPATH, L"复制完整名称(&F)\bCtrl+Alt+C", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
                     PhSetFlagsEMenuItem(menu, isSymlink ? IDC_OPENLINK : IDC_PROPERTIES, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
 
@@ -3488,12 +3488,12 @@ INT_PTR CALLBACK WinObjDlgProc(
                                             SETTING_FILE_BROWSE_EXECUTABLE,
                                             PhGetString(target),
                                             FALSE,
-                                            L"Make sure the Explorer executable file is present."
+                                            L"请确保 Explorer 可执行文件存在。"
                                         );
                                     }
                                     else
                                     {
-                                        PhShowStatus(hwndDlg, L"Unable to locate the target.", STATUS_NOT_FOUND, 0);
+                                        PhShowStatus(hwndDlg, L"无法找到目标。", STATUS_NOT_FOUND, 0);
                                     }
                                 }
                                 break;
@@ -3550,16 +3550,16 @@ INT_PTR CALLBACK WinObjDlgProc(
                     TreeView_SelectItem(context->TreeViewHandle, treeItem);
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_PROPERTIES, L"Prope&rties\bShift+Enter", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_PROPERTIES, L"属性(&R)\bShift+Enter", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_OPENHANDLES, L"&Handles\bCtrl+H", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_OPENHANDLES, L"句柄(&H)\bCtrl+H", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_SECURITY, L"&Security\bCtrl+Enter", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_SECURITY, L"安全(&S)\bCtrl+Enter", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPYOBJECTADDRESS, L"Copy Object &Address\bCtrl+Shift+C", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPYPATH, L"Copy &Full Name\bCtrl+Alt+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPYOBJECTADDRESS, L"复制对象地址(&A)\bCtrl+Shift+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPYPATH, L"复制完整名称(&F)\bCtrl+Alt+C", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPYOBJECTADDRESS, context->ListViewHandle);
 
                     item = PhShowEMenu(
@@ -3791,7 +3791,7 @@ VOID EtShowObjectManagerDialog(
     {
         if (!NT_SUCCESS(PhCreateThreadEx(&EtObjectManagerDialogThreadHandle, EtShowObjectManagerDialogThread, ParentWindowHandle)))
         {
-            PhShowError2(ParentWindowHandle, L"Unable to create the window.", L"%s", L"");
+            PhShowError2(ParentWindowHandle, L"无法创建窗口。", L"%s", L"");
             return;
         }
 

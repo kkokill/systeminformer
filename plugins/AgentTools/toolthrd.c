@@ -530,7 +530,7 @@ VOID AtpGetProcessThreads(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating threads");
+        AtSetToolStatusError(Result, status, L"枚举线程");
         return;
     }
 
@@ -775,7 +775,7 @@ VOID AtpGetThreadStack(
 
     if (!(context.SymbolProvider = AtCreateSymbolProvider(Target->ProcessItem->ProcessId)))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The symbol provider could not be created.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法创建符号提供程序。");
         return;
     }
 
@@ -813,7 +813,7 @@ VOID AtpGetThreadStack(
 
     if (!NT_SUCCESS(status) && context.Count == 0)
     {
-        AtSetToolStatusError(Result, status, L"Walking the thread stack");
+        AtSetToolStatusError(Result, status, L"遍历线程堆栈");
         PhFreeJsonObject(context.Frames);
         return;
     }
@@ -922,7 +922,7 @@ VOID AtpGetProcessStacks(
     // plain enumeration returns the smaller SYSTEM_THREAD_INFORMATION at a different stride.
     if (!NT_SUCCESS(status = PhEnumProcessesEx(&processes, SystemExtendedProcessInformation)))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the processes");
+        AtSetToolStatusError(Result, status, L"枚举进程");
         return;
     }
 
@@ -978,7 +978,7 @@ VOID AtpGetProcessStacks(
 
     if (!(symbolProvider = AtCreateSymbolProvider(Target->ProcessItem->ProcessId)))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The symbol provider could not be created.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法创建符号提供程序。");
         PhClearReference(&order);
         PhFree(threads);
         PhFree(processes);
@@ -1043,7 +1043,7 @@ VOID AtpGetProcessStacks(
             PPH_STRING message = PhGetStatusMessage(status, 0);
 
             PhAddJsonObject(row, "error", status == STATUS_ACCESS_DENIED ? "access_denied" : "failed");
-            AtJsonAddStringZ(row, "message", PhGetStringOrDefault(message, L"unknown error"));
+            AtJsonAddStringZ(row, "message", PhGetStringOrDefault(message, L"未知错误"));
             PhClearReference(&message);
         }
         else
@@ -1194,7 +1194,7 @@ VOID AtpResolveSymbol(
 
     if (!isFile && !AtJsonGetObjectMember(Call->Arguments, "pid", PH_JSON_OBJECT_TYPE_INT))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"Either pid or path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 pid 或 path。");
         PhClearReference(&path);
         PhClearReference(&name);
         return;
@@ -1202,7 +1202,7 @@ VOID AtpResolveSymbol(
 
     if ((haveAddress ? 1 : 0) + (haveRva ? 1 : 0) + (name ? 1 : 0) != 1)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"Exactly one of address, rva or name is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 address、rva 或 name 之一。");
         PhClearReference(&path);
         PhClearReference(&name);
         return;
@@ -1210,7 +1210,7 @@ VOID AtpResolveSymbol(
 
     if (haveRva && !isFile)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"rva is only meaningful with path; a running process takes an address.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"rva 仅在提供 path 时有意义；运行中的进程应使用 address。");
         PhClearReference(&path);
         PhClearReference(&name);
         return;
@@ -1222,7 +1222,7 @@ VOID AtpResolveSymbol(
 
         if (!nativePath)
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_OBJECT_PATH_INVALID, L"The path could not be resolved.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_OBJECT_PATH_INVALID, L"无法解析该路径。");
             PhClearReference(&path);
             PhClearReference(&name);
             return;
@@ -1232,7 +1232,7 @@ VOID AtpResolveSymbol(
 
         if (!symbolProvider)
         {
-            AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The file could not be loaded for symbols.");
+            AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法加载该文件以获取符号。");
             PhClearReference(&nativePath);
             PhClearReference(&path);
             PhClearReference(&name);
@@ -1256,7 +1256,7 @@ VOID AtpResolveSymbol(
 
         if (!symbolProvider)
         {
-            AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The symbol provider could not be created.");
+            AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法创建符号提供程序。");
             AtDeleteTarget(&target);
             PhClearReference(&name);
             return;
@@ -1318,7 +1318,7 @@ VOID AtpResolveSymbol(
         }
         else
         {
-            AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No symbol named %s was found. A name resolves only from a symbol file or an export table.", PhGetString(name));
+            AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"找不到名为 %s 的符号。名称只能通过符号文件或导出表解析。", PhGetString(name));
             PhFreeJsonObject(structured);
             goto CleanupExit;
         }
@@ -1418,7 +1418,7 @@ VOID AtpControlThread(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"The operation");
+        AtSetToolStatusError(Result, status, L"该操作");
         return;
     }
 
@@ -1463,7 +1463,7 @@ VOID AtThreadInvokeTool(
         AtpControlThread(Tool, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

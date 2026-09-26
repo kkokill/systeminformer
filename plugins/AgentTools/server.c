@@ -702,7 +702,7 @@ SIMCP_HELLO_STATUS AtpAuthenticateClient(
     {
         result = SimcpHelloRejectedLauncher;
         AtAudit(Connection, &AtActionInfo[AtActionConnect], NULL,
-            L"refused (the named launcher does not hold the broker's standard handles)");
+            L"已拒绝（指定的启动器未持有代理的标准句柄）");
     }
 
 CleanupExit:

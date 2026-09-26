@@ -159,7 +159,7 @@ VOID AtpListDevices(
 
     if (!(tree = PhReferenceDeviceTree()))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The device tree is not available.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"设备树不可用。");
         PhClearReference(&nameContains);
         PhClearReference(&deviceClass);
         PhClearReference(&service);
@@ -375,20 +375,20 @@ VOID AtpGetDeviceResources(
 
     if (!(instanceId = AtGetArgumentString(Call->Arguments, "instance_id")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"instance_id is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 instance_id。");
         return;
     }
 
     if (!(tree = PhReferenceDeviceTree()))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The device tree is not available.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"设备树不可用。");
         PhDereferenceObject(instanceId);
         return;
     }
 
     if (!(item = PhLookupDeviceItem(tree, &instanceId->sr)))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No device has that instance id.");
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"没有设备具有该实例 ID。");
         PhDereferenceObject(tree);
         PhDereferenceObject(instanceId);
         return;
@@ -468,12 +468,12 @@ VOID AtpSetDeviceEnabled(
             Result,
             AtpDeviceErrorCode(result),
             PhDosErrorToNtStatus(CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE)),
-            L"The device node could not be opened (CONFIGRET %lu).%s",
+            L"无法打开设备节点（CONFIGRET %lu）。%s",
             (ULONG)result,
             result == CR_NO_SUCH_DEVNODE || result == CR_INVALID_DEVNODE || result == CR_INVALID_DEVICE_ID ?
-                L" No device with that instance id; list_devices reports the ones there are." :
-                L" The device was there when the target was resolved, so this is a refusal rather "
-                L"than an absence."
+                L"没有具有该实例 ID 的设备；list_devices 会列出当前存在的设备。" :
+                L"目标解析时该设备还存在，因此这是配置管理器的拒绝，"
+                L"而非设备不存在。"
             );
         PhClearReference(&instanceId);
         return;
@@ -493,19 +493,17 @@ VOID AtpSetDeviceEnabled(
             Result,
             AtpDeviceErrorCode(result),
             PhDosErrorToNtStatus(CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE)),
-            L"%s failed (CONFIGRET %lu).%s",
-            enable ? L"Enabling the device" : L"Disabling the device",
+            L"%s 失败（CONFIGRET %lu）。%s",
+            enable ? L"启用设备" : L"禁用设备",
             (ULONG)result,
             result == CR_REMOVE_VETOED ?
-                L" A driver in the device's stack refused to stop it, which usually means something "
-                L"is using it. This disable is not asked to persist, so it has to stop the device "
-                L"now and cannot defer to a restart the way Device Manager does; close whatever is "
-                L"using the device and try again." :
+                L"设备堆栈中的某个驱动程序拒绝停止该设备，这通常意味着有程序正在使用它。"
+                L"此次禁用未要求持久生效，因此必须立即停止设备，无法像设备管理器那样"
+                L"推迟到重启时处理；请关闭正在使用该设备的程序，然后重试。" :
             result == CR_NOT_DISABLEABLE ?
-                L" The device reports that it cannot be disabled at all, so trying again will not "
-                L"help - a device the system is running on says this." :
-                L" list_devices shows what the node is and whether it has a parent worth asking "
-                L"about instead."
+                L"该设备报告其完全无法被禁用，重试也不会有帮助——系统正运行在该设备上时"
+                L"会如此报告。" :
+                L"list_devices 可显示该节点的信息，以及是否存在值得询问的父设备。"
             );
         PhClearReference(&instanceId);
         return;
@@ -558,7 +556,7 @@ VOID AtDeviceInvokeTool(
         AtpSetDeviceEnabled(Call, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

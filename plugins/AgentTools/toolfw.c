@@ -366,7 +366,7 @@ VOID AtpListFirewallEvents(
 
     if (!AtpInitializeFirewall())
     {
-        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"The filtering platform library is not available.");
+        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"Windows 筛选平台库不可用。");
         return;
     }
 
@@ -374,7 +374,7 @@ VOID AtpListFirewallEvents(
 
     if (status != ERROR_SUCCESS)
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"Opening the filtering engine");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"打开筛选引擎");
         return;
     }
 
@@ -396,7 +396,7 @@ VOID AtpListFirewallEvents(
 
     if (status != ERROR_SUCCESS)
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"Enumerating the firewall events");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"枚举防火墙事件");
         AtpFwpmEngineClose(engineHandle);
         PhClearReference(&pathContains);
         return;
@@ -437,7 +437,7 @@ VOID AtpListFirewallEvents(
     // Nothing was read at all, so there is no partial answer worth returning.
     if (!enumComplete && rows.TotalCount == 0)
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"Enumerating the firewall events");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(status), L"枚举防火墙事件");
         PhFreeJsonObject(structured);
         AtDeleteRows(&rows);
         PhClearReference(&pathContains);
@@ -474,7 +474,7 @@ VOID AtFirewallInvokeTool(
         AtpListFirewallEvents(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

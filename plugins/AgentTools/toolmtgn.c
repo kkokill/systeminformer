@@ -165,7 +165,7 @@ VOID AtpGetProcessMitigations(
 
     if (!PH_IS_REAL_PROCESS_ID(target.ProcessItem->ProcessId))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_CID, L"This pid is not a real process.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_CID, L"该 PID 不是真实进程。");
         AtDeleteTarget(&target);
         return;
     }
@@ -177,7 +177,7 @@ VOID AtpGetProcessMitigations(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the process");
+        AtSetToolStatusError(Result, status, L"打开进程");
         AtDeleteTarget(&target);
         return;
     }
@@ -212,7 +212,7 @@ VOID AtMitigationInvokeTool(
         AtpGetProcessMitigations(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具未实现。");
         break;
     }
 }

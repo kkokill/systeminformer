@@ -122,7 +122,7 @@ VOID ToolbarGraphsInitialize(
     ToolbarRegisterGraph(
         PluginInstance,
         1,
-        L"CPU history",
+        L"CPU 历史记录",
         0,
         NULL,
         CpuHistoryGraphMessageCallback
@@ -131,7 +131,7 @@ VOID ToolbarGraphsInitialize(
     ToolbarRegisterGraph(
         PluginInstance,
         2,
-        L"Physical memory history",
+        L"物理内存历史记录",
         0,
         NULL,
         PhysicalHistoryGraphMessageCallback
@@ -140,7 +140,7 @@ VOID ToolbarGraphsInitialize(
     ToolbarRegisterGraph(
         PluginInstance,
         3,
-        L"Commit charge history",
+        L"已提交内存历史记录",
         0,
         NULL,
         CommitHistoryGraphMessageCallback
@@ -149,7 +149,7 @@ VOID ToolbarGraphsInitialize(
     ToolbarRegisterGraph(
         PluginInstance,
         4,
-        L"I/O history",
+        L"I/O 历史记录",
         0,
         NULL,
         IoHistoryGraphMessageCallback
@@ -505,7 +505,7 @@ VOID ToolbarGraphCreateMenu(
         {
             PPH_STRING newText;
 
-            newText = PhaConcatStrings2(graph->Text, L" (Unavailable)");
+            newText = PhaConcatStrings2(graph->Text, L" (不可用)");
             PhModifyEMenuItem(menuItem, PH_EMENU_MODIFY_TEXT, PH_EMENU_TEXT_OWNED,
                 PhAllocateCopy(newText->Buffer, newText->Length + sizeof(UNICODE_NULL)), NULL);
         }
@@ -536,7 +536,7 @@ VOID ToolbarGraphCreatePluginMenu(
         {
             PPH_STRING newText;
 
-            newText = PhaConcatStrings2(graph->Text, L" (Unavailable)");
+            newText = PhaConcatStrings2(graph->Text, L" (不可用)");
             PhModifyEMenuItem(menuItem, PH_EMENU_MODIFY_TEXT, PH_EMENU_TEXT_OWNED,
                 PhAllocateCopy(newText->Buffer, newText->Length + sizeof(UNICODE_NULL)), NULL);
         }
@@ -927,7 +927,7 @@ BOOLEAN PhysicalHistoryGraphMessageCallback(
                     physicalUsage = PhGetItemCircularBuffer_ULONG(SystemStatistics.PhysicalHistory, getTooltipText->Index);
 
                     // Physical memory: %s\n%s
-                    PhInitFormatS(&format[0], L"Physical memory: ");
+                    PhInitFormatS(&format[0], L"物理内存：");
                     PhInitFormatSize(&format[1], UInt32x32To64(physicalUsage, PAGE_SIZE));
                     PhInitFormatC(&format[2], L'\n');
                     PhInitFormatSR(&format[3], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -1034,7 +1034,7 @@ BOOLEAN CommitHistoryGraphMessageCallback(
                     commitUsage = PhGetItemCircularBuffer_ULONG(SystemStatistics.CommitHistory, getTooltipText->Index);
 
                     // Commit charge: %s\n%s
-                    PhInitFormatS(&format[0], L"Commit charge: ");
+                    PhInitFormatS(&format[0], L"已提交内存：");
                     PhInitFormatSize(&format[1], UInt32x32To64(commitUsage, PAGE_SIZE));
                     PhInitFormatC(&format[2], L'\n');
                     PhInitFormatSR(&format[3], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);

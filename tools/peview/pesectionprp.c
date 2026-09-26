@@ -15,8 +15,8 @@
 #include "../thirdparty/ssdeep/fuzzy.h"
 #include "../thirdparty/tlsh/tlsh_wrapper.h"
 
-static PH_STRINGREF EmptySectionsText = PH_STRINGREF_INIT(L"There are no sections to display.");
-static PH_STRINGREF LoadingSectionsText = PH_STRINGREF_INIT(L"Loading sections from image...");
+static PH_STRINGREF EmptySectionsText = PH_STRINGREF_INIT(L"没有要显示的节。");
+static PH_STRINGREF LoadingSectionsText = PH_STRINGREF_INIT(L"正在从映像加载节...");
 
 typedef enum _PV_SECTION_TREE_COLUMN_ITEM
 {
@@ -215,50 +215,50 @@ PPH_STRING PvGetSectionCharacteristics(
     WCHAR pointer[PH_PTR_STR_LEN_1];
 
     if (Characteristics == 0)
-        return PhCreateString(L"Associative (0x0)");
+        return PhCreateString(L"关联 (0x0)");
 
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (Characteristics & IMAGE_SCN_TYPE_NO_PAD)
-        PhAppendStringBuilder2(&stringBuilder, L"No Padding, ");
+        PhAppendStringBuilder2(&stringBuilder, L"无填充, ");
     if (Characteristics & IMAGE_SCN_CNT_CODE)
-        PhAppendStringBuilder2(&stringBuilder, L"Code, ");
+        PhAppendStringBuilder2(&stringBuilder, L"代码, ");
     if (Characteristics & IMAGE_SCN_CNT_INITIALIZED_DATA)
-        PhAppendStringBuilder2(&stringBuilder, L"Initialized data, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已初始化数据, ");
     if (Characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
-        PhAppendStringBuilder2(&stringBuilder, L"Uninitialized data, ");
+        PhAppendStringBuilder2(&stringBuilder, L"未初始化数据, ");
     if (Characteristics & IMAGE_SCN_LNK_INFO)
-        PhAppendStringBuilder2(&stringBuilder, L"Comments, ");
+        PhAppendStringBuilder2(&stringBuilder, L"注释, ");
     if (Characteristics & IMAGE_SCN_LNK_REMOVE)
-        PhAppendStringBuilder2(&stringBuilder, L"Excluded, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已排除, ");
     if (Characteristics & IMAGE_SCN_LNK_COMDAT)
         PhAppendStringBuilder2(&stringBuilder, L"COMDAT, ");
     if (Characteristics & IMAGE_SCN_NO_DEFER_SPEC_EXC)
-        PhAppendStringBuilder2(&stringBuilder, L"Speculative exceptions, ");
+        PhAppendStringBuilder2(&stringBuilder, L"推测异常, ");
     if (Characteristics & IMAGE_SCN_GPREL)
-        PhAppendStringBuilder2(&stringBuilder, L"GP relative, ");
+        PhAppendStringBuilder2(&stringBuilder, L"GP 相对, ");
     if (Characteristics & IMAGE_SCN_MEM_PURGEABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"Purgeable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可清除, ");
     if (Characteristics & IMAGE_SCN_MEM_LOCKED)
-        PhAppendStringBuilder2(&stringBuilder, L"Locked, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已锁定, ");
     if (Characteristics & IMAGE_SCN_MEM_PRELOAD)
-        PhAppendStringBuilder2(&stringBuilder, L"Preload, ");
+        PhAppendStringBuilder2(&stringBuilder, L"预加载, ");
     if (Characteristics & IMAGE_SCN_LNK_NRELOC_OVFL)
-        PhAppendStringBuilder2(&stringBuilder, L"Extended relocations, ");
+        PhAppendStringBuilder2(&stringBuilder, L"扩展重定位, ");
     if (Characteristics & IMAGE_SCN_MEM_DISCARDABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"Discardable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可丢弃, ");
     if (Characteristics & IMAGE_SCN_MEM_NOT_CACHED)
-        PhAppendStringBuilder2(&stringBuilder, L"Not cachable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不可缓存, ");
     if (Characteristics & IMAGE_SCN_MEM_NOT_PAGED)
-        PhAppendStringBuilder2(&stringBuilder, L"Not pageable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不可分页, ");
     if (Characteristics & IMAGE_SCN_MEM_SHARED)
-        PhAppendStringBuilder2(&stringBuilder, L"Shareable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可共享, ");
     if (Characteristics & IMAGE_SCN_MEM_EXECUTE)
-        PhAppendStringBuilder2(&stringBuilder, L"Executable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可执行, ");
     if (Characteristics & IMAGE_SCN_MEM_READ)
-        PhAppendStringBuilder2(&stringBuilder, L"Readable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可读, ");
     if (Characteristics & IMAGE_SCN_MEM_WRITE)
-        PhAppendStringBuilder2(&stringBuilder, L"Writeable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可写, ");
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -474,7 +474,7 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Sections (Ctrl+K)",
+                L"搜索节 (Ctrl+K)",
                 PvpPeSectionsSearchControlCallback,
                 context
                 );
@@ -558,14 +558,14 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_SETTINGS), &rect))
                         break;
 
-                    writableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_WRITE, L"Hide writable", NULL, NULL);
-                    executableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_EXECUTE, L"Hide executable", NULL, NULL);
-                    codeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_CODE, L"Hide code", NULL, NULL);
-                    readMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_READ, L"Hide readable", NULL, NULL);
-                    highlightWriteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_WRITE, L"Highlight writable", NULL, NULL);
-                    highlightExecuteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, L"Highlight executable", NULL, NULL);
-                    highlightCodeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_CODE, L"Highlight code", NULL, NULL);
-                    highlightReadMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_READ, L"Highlight readable", NULL, NULL);
+                    writableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_WRITE, L"隐藏可写", NULL, NULL);
+                    executableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_EXECUTE, L"隐藏可执行", NULL, NULL);
+                    codeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_CODE, L"隐藏代码", NULL, NULL);
+                    readMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_READ, L"隐藏可读", NULL, NULL);
+                    highlightWriteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_WRITE, L"高亮可写", NULL, NULL);
+                    highlightExecuteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, L"高亮可执行", NULL, NULL);
+                    highlightCodeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_CODE, L"高亮代码", NULL, NULL);
+                    highlightReadMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_READ, L"高亮可读", NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, writableMenuItem, ULONG_MAX);
@@ -640,7 +640,7 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1294,17 +1294,17 @@ VOID PvInitializeSectionTree(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
 
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_INDEX, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_NAME, TRUE, L"Name", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_NAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_START, TRUE, L"RAW (start)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_START, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_END, TRUE, L"RAW (end)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_END, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_SIZE, TRUE, L"RAW (size)", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_SLACK_SIZE, TRUE, L"Slack space", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_SLACK_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (start)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_START, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (end)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_END, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"RVA (size)", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_CHARACTERISTICS, TRUE, L"Characteristics", 250, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_CHARACTERISTICS, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_HASH, TRUE, L"Hash", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_HASH, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"Entropy", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_NAME, TRUE, L"名称", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_NAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_START, TRUE, L"RAW (起始)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_START, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_END, TRUE, L"RAW (结束)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_END, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RAW_SIZE, TRUE, L"RAW (大小)", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RAW_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_SLACK_SIZE, TRUE, L"闲置空间", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_SLACK_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (起始)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_START, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (结束)", 100, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_END, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"RVA (大小)", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_CHARACTERISTICS, TRUE, L"特征", 250, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_CHARACTERISTICS, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_HASH, TRUE, L"哈希", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_HASH, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"熵", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_SSDEEP, TRUE, L"SSDEEP", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_SSDEEP, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_SECTION_TREE_COLUMN_ITEM_TLSH, TRUE, L"TLSH", 80, PH_ALIGN_LEFT, PV_SECTION_TREE_COLUMN_ITEM_TLSH, 0, 0);
 

@@ -147,10 +147,10 @@ VOID AtpGetAlpcPortInfo(
             Result,
             "identity_mismatch",
             STATUS_OBJECT_TYPE_MISMATCH,
-            L"Handle 0x%llx in pid %lu is a %s handle, not an ALPC Port.",
+            L"句柄 0x%llx（位于 pid %lu）是 %s 句柄，而非 ALPC Port。",
             (ULONG64)(ULONG_PTR)Target->HandleValue,
             HandleToUlong(Target->ProcessItem->ProcessId),
-            PhGetStringOrDefault(Target->HandleTypeName, L"(unknown type)")
+            PhGetStringOrDefault(Target->HandleTypeName, L"(未知类型)")
             );
         return;
     }
@@ -163,7 +163,7 @@ VOID AtpGetAlpcPortInfo(
             Result,
             "failed",
             STATUS_NOT_SUPPORTED,
-            L"ALPC port information comes from the System Informer driver, which is not available to this instance (access level: %s).",
+            L"ALPC 端口信息来自 System Informer 驱动程序，而该驱动程序对此实例不可用（访问级别：%s）。",
             AtKphLevelString(KsiLevel())
             );
         AtSetToolHint(Result, AT_HINT_NEEDS_DRIVER);
@@ -181,7 +181,7 @@ VOID AtpGetAlpcPortInfo(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Querying the ALPC port");
+        AtSetToolStatusError(Result, status, L"查询 ALPC 端口");
         return;
     }
 
@@ -811,7 +811,7 @@ VOID AtpGetHandleDetails(
                 Result,
                 dupStatus == STATUS_ACCESS_DENIED ? "access_denied" : "failed",
                 dupStatus,
-                L"Handle 0x%llx in pid %lu could not be duplicated and the System Informer driver is not available to read it in place (access level: %s).",
+                L"无法复制句柄 0x%llx（位于 pid %lu），且当前实例没有可用的 System Informer 驱动程序来就地读取它（访问级别：%s）。",
                 (ULONG64)(ULONG_PTR)Target->HandleValue,
                 HandleToUlong(Target->ProcessItem->ProcessId),
                 AtKphLevelString(KsiLevel())
@@ -1061,7 +1061,7 @@ VOID AtpListNamedPipes(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the named pipe directory");
+        AtSetToolStatusError(Result, status, L"打开命名管道目录");
         PhClearReference(&context.NameContains);
         PhDereferenceObject(context.Pipes);
         return;
@@ -1272,7 +1272,7 @@ VOID AtpGetSectionMappings(
             Result,
             "failed",
             STATUS_NOT_SUPPORTED,
-            L"Section mappings come from the System Informer driver, which is not available to this instance (access level: %s).",
+            L"节区映射信息来自 System Informer 驱动程序，而该驱动程序对此实例不可用（访问级别：%s）。",
             AtKphLevelString(KsiLevel())
             );
         AtSetToolHint(Result, AT_HINT_NEEDS_DRIVER);
@@ -1288,7 +1288,7 @@ VOID AtpGetSectionMappings(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Opening the file");
+            AtSetToolStatusError(Result, status, L"打开文件");
             AtDeleteRows(&rows);
             PhDereferenceObject(path);
             return;
@@ -1341,10 +1341,10 @@ VOID AtpGetSectionMappings(
                 Result,
                 "identity_mismatch",
                 STATUS_OBJECT_TYPE_MISMATCH,
-                L"Handle 0x%llx in pid %lu is a %s handle, not a Section.",
+                L"句柄 0x%llx（位于 pid %lu）是 %s 句柄，而非 Section。",
                 (ULONG64)(ULONG_PTR)target.HandleValue,
                 HandleToUlong(target.ProcessItem->ProcessId),
-                PhGetStringOrDefault(target.HandleTypeName, L"(unknown type)")
+                PhGetStringOrDefault(target.HandleTypeName, L"(未知类型)")
                 );
             AtDeleteRows(&rows);
             AtDeleteTarget(&target);
@@ -1376,7 +1376,7 @@ VOID AtpGetSectionMappings(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Querying the section mappings");
+            AtSetToolStatusError(Result, status, L"查询节区映射");
             PhFree(mappings);
             AtDeleteRows(&rows);
             AtDeleteTarget(&target);
@@ -1427,7 +1427,7 @@ VOID AtpFindObjectHandles(
             Result,
             "access_denied",
             STATUS_ACCESS_DENIED,
-            L"The kernel did not report an object address for handle 0x%llx in pid %lu, so no other handle can be matched to it. Kernel addresses are withheld from an unelevated caller.",
+            L"内核未报告句柄 0x%llx（pid %lu）的对象地址，因此无法将其他句柄与之匹配。未提权的调用方无法获取内核地址。",
             (ULONG64)(ULONG_PTR)target.HandleValue,
             HandleToUlong(target.ProcessItem->ProcessId)
             );
@@ -1439,7 +1439,7 @@ VOID AtpFindObjectHandles(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating handles");
+        AtSetToolStatusError(Result, status, L"枚举句柄");
         AtDeleteTarget(&target);
         return;
     }
@@ -1516,7 +1516,7 @@ VOID AtHandleInvokeTool(
         AtpFindObjectHandles(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"Unhandled tool.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

@@ -81,49 +81,49 @@ VOID EtProcessTreeNewInitializing(
 {
     const static COLUMN_INFO columns[] =
     {
-        { ETPRTNC_DISKREADS, L"Disk reads", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKWRITES, L"Disk writes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKREADBYTES, L"Disk read bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKWRITEBYTES, L"Disk write bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKTOTALBYTES, L"Disk total bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKREADSDELTA, L"Disk reads delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKWRITESDELTA, L"Disk writes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKREADBYTESDELTA, L"Disk read bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKWRITEBYTESDELTA, L"Disk write bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKTOTALBYTESDELTA, L"Disk total bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKRECEIVES, L"Network receives", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKSENDS, L"Network sends", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKRECEIVEBYTES, L"Network receive bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKSENDBYTES, L"Network send bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKTOTALBYTES, L"Network total bytes", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKRECEIVESDELTA, L"Network receives delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKSENDSDELTA, L"Network sends delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKRECEIVEBYTESDELTA, L"Network receive bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKSENDBYTESDELTA, L"Network send bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKTOTALBYTESDELTA, L"Network total bytes delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_HARDFAULTS, L"Hard faults", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_HARDFAULTSDELTA, L"Hard faults delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_PEAKTHREADS, L"Peak threads", 45, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_GPUDEDICATEDBYTES, L"GPU dedicated bytes (resident)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_GPUSHAREDBYTES, L"GPU shared bytes (resident)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKREADRATE, L"Disk read rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKWRITERATE, L"Disk write rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_DISKTOTALRATE, L"Disk total rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKRECEIVERATE, L"Network receive rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKSENDRATE, L"Network send rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NETWORKTOTALRATE, L"Network total rate", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKREADS, L"磁盘读取", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKWRITES, L"磁盘写入", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKREADBYTES, L"磁盘读取字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKWRITEBYTES, L"磁盘写入字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKTOTALBYTES, L"磁盘总字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKREADSDELTA, L"磁盘读取增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKWRITESDELTA, L"磁盘写入增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKREADBYTESDELTA, L"磁盘读取字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKWRITEBYTESDELTA, L"磁盘写入字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKTOTALBYTESDELTA, L"磁盘总字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKRECEIVES, L"网络接收", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKSENDS, L"网络发送", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKRECEIVEBYTES, L"网络接收字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKSENDBYTES, L"网络发送字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKTOTALBYTES, L"网络总字节", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKRECEIVESDELTA, L"网络接收增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKSENDSDELTA, L"网络发送增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKRECEIVEBYTESDELTA, L"网络接收字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKSENDBYTESDELTA, L"网络发送字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKTOTALBYTESDELTA, L"网络总字节增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_HARDFAULTS, L"硬错误", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_HARDFAULTSDELTA, L"硬错误增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_PEAKTHREADS, L"线程峰值", 45, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_GPUDEDICATEDBYTES, L"GPU 专用字节 (常驻)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_GPUSHAREDBYTES, L"GPU 共享字节 (常驻)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKREADRATE, L"磁盘读取速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKWRITERATE, L"磁盘写入速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_DISKTOTALRATE, L"磁盘总速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKRECEIVERATE, L"网络接收速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKSENDRATE, L"网络发送速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NETWORKTOTALRATE, L"网络总速率", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
         { ETPRTNC_FPS, L"FPS", 50, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
         { ETPRTNC_NPU, L"NPU", 45, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NPUDEDICATEDBYTES, L"NPU dedicated bytes (resident)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NPUSHAREDBYTES, L"NPU shared bytes (resident)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_GPUDEDICATEDCOMMITTEDBYTES, L"GPU dedicated bytes (committed)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_GPUSHAREDCOMMITTEDBYTES, L"GPU shared bytes (committed)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NPUDEDICATEDCOMMITTEDBYTES, L"NPU dedicated bytes (committed)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_NPUSHAREDCOMMITTEDBYTES, L"NPU shared bytes (committed)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_FIREWALLALLOWS, L"Firewall allows", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_FIREWALLBLOCKS, L"Firewall blocks", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_FIREWALLALLOWSDELTA, L"Firewall allows delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
-        { ETPRTNC_FIREWALLBLOCKSDELTA, L"Firewall blocks delta", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NPUDEDICATEDBYTES, L"NPU 专用字节 (常驻)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NPUSHAREDBYTES, L"NPU 共享字节 (常驻)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_GPUDEDICATEDCOMMITTEDBYTES, L"GPU 专用字节 (提交)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_GPUSHAREDCOMMITTEDBYTES, L"GPU 共享字节 (提交)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NPUDEDICATEDCOMMITTEDBYTES, L"NPU 专用字节 (提交)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_NPUSHAREDCOMMITTEDBYTES, L"NPU 共享字节 (提交)", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_FIREWALLALLOWS, L"防火墙允许", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_FIREWALLBLOCKS, L"防火墙阻止", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_FIREWALLALLOWSDELTA, L"防火墙允许增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
+        { ETPRTNC_FIREWALLBLOCKSDELTA, L"防火墙阻止增量", 70, PH_ALIGN_RIGHT, DT_RIGHT, TRUE },
     };
 
     PPH_PLUGIN_TREENEW_INFORMATION treeNewInfo = Parameter;
@@ -178,9 +178,9 @@ VOID EtProcessTreeNewInitializing(
             previousAdapterIndex = adapterIndex;
 
             if (nodeName && nodeName->Length)
-                columnText = PhFormatString(L"GPU %lu node %lu (%s)", adapterIndex, adapterNodeIndex, nodeName->Buffer);
+                columnText = PhFormatString(L"GPU %lu 节点 %lu (%s)", adapterIndex, adapterNodeIndex, nodeName->Buffer);
             else
-                columnText = PhFormatString(L"GPU %lu node %lu", adapterIndex, adapterNodeIndex);
+                columnText = PhFormatString(L"GPU %lu 节点 %lu", adapterIndex, adapterNodeIndex);
 
             PhAddItemList(EtGpuNodeColumnTextList, columnText);
             EtpAddTreeNewColumn(
@@ -1677,11 +1677,11 @@ VOID EtNetworkTreeNewMessage(
                     {
                         static CONST PH_STRINGREF strings[FirewallMaximumStatus] =
                         {
-                            PH_STRINGREF_INIT(L"Unknown"),
-                            PH_STRINGREF_INIT(L"Allowed, not restricted"),
-                            PH_STRINGREF_INIT(L"Allowed, restricted"),
-                            PH_STRINGREF_INIT(L"Not allowed, not restricted"),
-                            PH_STRINGREF_INIT(L"Not allowed, restricted"),
+                            PH_STRINGREF_INIT(L"未知"),
+                            PH_STRINGREF_INIT(L"允许，不受限制"),
+                            PH_STRINGREF_INIT(L"允许，受限制"),
+                            PH_STRINGREF_INIT(L"不允许，不受限制"),
+                            PH_STRINGREF_INIT(L"不允许，受限制"),
                         };
 
                         block->TextCacheLength[message->SubId] = strings[block->FirewallStatus].Length;

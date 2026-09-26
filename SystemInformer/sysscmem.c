@@ -25,29 +25,29 @@
 
 static CONST PH_KEY_VALUE_PAIR MemoryFormFactors[] =
 {
-    SIP(L"Other", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_OTHER),
-    SIP(L"Unknown", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_UNKNOWN),
+    SIP(L"其他", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_OTHER),
+    SIP(L"未知", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_UNKNOWN),
     SIP(L"SIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_SIMM),
     SIP(L"SIP", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_SIP),
-    SIP(L"Chip", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_CHIP),
+    SIP(L"芯片", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_CHIP),
     SIP(L"DIP", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_DIP),
     SIP(L"ZIP", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_ZIP),
-    SIP(L"Proprietary", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_PROPRIETARY),
+    SIP(L"专有", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_PROPRIETARY),
     SIP(L"DIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_DIMM),
     SIP(L"TOSP", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_TSOP),
-    SIP(L"Row of chips", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_ROW_OF_CHIPS),
+    SIP(L"芯片行", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_ROW_OF_CHIPS),
     SIP(L"RIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_RIMM),
     SIP(L"SODIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_SODIMM),
     SIP(L"SRIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_SRIMM),
     SIP(L"FB-DIMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_FB_DIMM),
-    SIP(L"Die", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_DIE),
+    SIP(L"裸片", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_DIE),
     SIP(L"CAMM", SMBIOS_MEMORY_DEVICE_FORM_FACTOR_CAMM),
 };
 
 static CONST PH_KEY_VALUE_PAIR MemoryTypes[] =
 {
-    SIP(L"Other", SMBIOS_MEMORY_DEVICE_TYPE_OTHER),
-    SIP(L"Unknown", SMBIOS_MEMORY_DEVICE_TYPE_UNKNOWN),
+    SIP(L"其他", SMBIOS_MEMORY_DEVICE_TYPE_OTHER),
+    SIP(L"未知", SMBIOS_MEMORY_DEVICE_TYPE_UNKNOWN),
     SIP(L"DRAM", SMBIOS_MEMORY_DEVICE_TYPE_DRAM),
     SIP(L"EDRAM", SMBIOS_MEMORY_DEVICE_TYPE_EDRAM),
     SIP(L"VRAM", SMBIOS_MEMORY_DEVICE_TYPE_VRAM),
@@ -73,7 +73,7 @@ static CONST PH_KEY_VALUE_PAIR MemoryTypes[] =
     SIP(L"LPDDR2", SMBIOS_MEMORY_DEVICE_TYPE_LPDDR2),
     SIP(L"LPDDR3", SMBIOS_MEMORY_DEVICE_TYPE_LPDDR3),
     SIP(L"LPDDR4", SMBIOS_MEMORY_DEVICE_TYPE_LPDDR4),
-    SIP(L"Local non-volatile", SMBIOS_MEMORY_DEVICE_TYPE_LOCAL_NON_VOLATILE),
+    SIP(L"本地非易失性", SMBIOS_MEMORY_DEVICE_TYPE_LOCAL_NON_VOLATILE),
     SIP(L"HBM", SMBIOS_MEMORY_DEVICE_TYPE_HBM),
     SIP(L"HBM2", SMBIOS_MEMORY_DEVICE_TYPE_HBM2),
     SIP(L"DDR5", SMBIOS_MEMORY_DEVICE_TYPE_DDR5),
@@ -83,8 +83,8 @@ static CONST PH_KEY_VALUE_PAIR MemoryTypes[] =
 
 static CONST PH_KEY_VALUE_PAIR MemoryTechnologies[] =
 {
-    SIP(L"Other", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_OTHER),
-    SIP(L"Unknown", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_UNKNOWN),
+    SIP(L"其他", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_OTHER),
+    SIP(L"未知", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_UNKNOWN),
     SIP(L"DRAM", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_DRAM),
     SIP(L"NVDIMM-N", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_NVDIMM_N),
     SIP(L"NVDIMM-F", SMBIOS_MEMORY_DEVICE_TECHNOLOGY_NVDIMM_F),
@@ -393,7 +393,7 @@ BOOLEAN PhSipMemorySectionCallback(
                 usedPages = totalPages - PhPerfInformation.AvailablePages;
             }
 
-            drawPanel->Title = PhCreateString(L"Memory");
+            drawPanel->Title = PhCreateString(L"内存");
 
             // %.0f%%\n%s / %s
             PhInitFormatF(&format[0], ((FLOAT)usedPages / (FLOAT)totalPages) * 100, 0);
@@ -511,12 +511,12 @@ INT_PTR CALLBACK PhSipMemoryDialogProc(
             if (NT_SUCCESS(PhGetPhysicallyInstalledSystemMemory(&InstalledMemory, &ReservedMemory)))
             {
                 PhSetWindowText(totalPhysicalLabel, PhaConcatStrings2(
-                    PhaFormatSize(InstalledMemory, ULONG_MAX)->Buffer, L" installed")->Buffer);
+                    PhaFormatSize(InstalledMemory, ULONG_MAX)->Buffer, L" 已安装")->Buffer);
             }
             else
             {
                 PhSetWindowText(totalPhysicalLabel, PhaConcatStrings2(
-                    PhaFormatSize(UInt32x32To64(PhSystemBasicInformation.NumberOfPhysicalPages, PAGE_SIZE), ULONG_MAX)->Buffer, L" total")->Buffer);
+                    PhaFormatSize(UInt32x32To64(PhSystemBasicInformation.NumberOfPhysicalPages, PAGE_SIZE), ULONG_MAX)->Buffer, L" 总计")->Buffer);
             }
 
             MemoryPanel = PhCreateDialog(PhInstanceHandle, MAKEINTRESOURCE(IDD_SYSINFO_MEMPANEL), hwndDlg, PhSipMemoryPanelDialogProc, NULL);
@@ -926,16 +926,16 @@ BOOLEAN NTAPI PhSipNotifyPhysicalGraph(
                     {
                         PH_FORMAT format[13];
 
-                        PhInitFormatS(&format[0], L"Physical memory: ");
+                        PhInitFormatS(&format[0], L"物理内存：");
                         PhInitFormatSize(&format[1], UInt32x32To64(usedPages, PAGE_SIZE));
                         PhInitFormatC(&format[2], L'\n');
-                        PhInitFormatS(&format[3], L"Compressed memory: ");
+                        PhInitFormatS(&format[3], L"压缩内存：");
                         PhInitFormatSize(&format[4], (ULONG64)currentCompressedMemory);
                         PhInitFormatC(&format[5], L'\n');
-                        PhInitFormatS(&format[6], L"Total compressed: ");
+                        PhInitFormatS(&format[6], L"总压缩：");
                         PhInitFormatSize(&format[7], (ULONG64)totalCompressedMemory);
                         PhInitFormatC(&format[8], L'\n');
-                        PhInitFormatS(&format[9], L"Total memory saved: ");
+                        PhInitFormatS(&format[9], L"总计节省内存：");
                         PhInitFormatSize(&format[10], (ULONG64)totalSavedMemory);
                         PhInitFormatC(&format[11], L'\n');
                         PhInitFormatSR(&format[12], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -1003,24 +1003,24 @@ VOID PhSipUpdateMemoryPanel(
             PCWSTR string;
 
             PhInitFormatU(&format[0], MemorySlotsUsed);
-            PhInitFormatS(&format[1], L" of ");
+            PhInitFormatS(&format[1], L" / ");
             PhInitFormatU(&format[2], MemorySlotsTotal);
             PhSetDialogItemText(MemoryPanel, IDC_ZMEMSLOTS_V, PhaFormat(format, 3, 10)->Buffer);
 
             if (PhFindStringSiKeyValuePairs(MemoryFormFactors, sizeof(MemoryFormFactors), MemoryFormFactor, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, L"Undefined");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, L"未定义");
 
             if (PhFindStringSiKeyValuePairs(MemoryTypes, sizeof(MemoryTypes), MemoryType, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, L"Undefined");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, L"未定义");
 
             if (PhFindStringSiKeyValuePairs(MemoryTechnologies, sizeof(MemoryTechnologies), MemoryTechnology, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, L"Undefined");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, L"未定义");
 
             PhInitFormatU(&format[0], MemorySpeed);
             PhInitFormatS(&format[1], L" MT/s");
@@ -1100,7 +1100,7 @@ VOID PhSipUpdateMemoryPanel(
         if (paged != MAXSIZE_T)
             pagedLimit = PhaFormatSize(paged, ULONG_MAX)->Buffer;
         else
-            pagedLimit = KsiLevel() ? L"no symbols" : L"no driver";
+            pagedLimit = KsiLevel() ? L"无符号" : L"无驱动";
 
         if (nonPaged != MAXSIZE_T)
             nonPagedLimit = PhaFormatSize(nonPaged, ULONG_MAX)->Buffer;
@@ -1111,12 +1111,12 @@ VOID PhSipUpdateMemoryPanel(
     {
         if (KsiLevel())
         {
-            pagedLimit = L"no symbols";
+            pagedLimit = L"无符号";
             nonPagedLimit = L"N/A";
         }
         else
         {
-            pagedLimit = L"no driver";
+            pagedLimit = L"无驱动";
             nonPagedLimit = L"N/A";
         }
     }

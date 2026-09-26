@@ -60,7 +60,7 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"NetworkTools",
+        L"网络工具",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_OPTIONS),
         OptionsDlgProc,
@@ -199,8 +199,8 @@ VOID NTAPI MenuItemCallback(
 
             while (PhChoiceDialog(
                 menuItem->OwnerWindow,
-                L"Ping the Hostname or IP Address",
-                L"You can use an IPv4 or IPv6 address as the target or a fully qualified domain name (FQDN) or a website URL as the target.",
+                L"Ping 主机名或 IP 地址",
+                L"您可以使用 IPv4 或 IPv6 地址作为目标，或使用完全限定域名 (FQDN) 或网站 URL 作为目标。",
                 NULL,
                 0,
                 NULL,
@@ -225,8 +225,8 @@ VOID NTAPI MenuItemCallback(
 
             while (PhChoiceDialog(
                 menuItem->OwnerWindow,
-                L"Tracert the Hostname or IP Address",
-                L"You can use an IPv4 or IPv6 address as the target or a fully qualified domain name (FQDN) or a website URL as the target.",
+                L"Tracert 主机名或 IP 地址",
+                L"您可以使用 IPv4 或 IPv6 地址作为目标，或使用完全限定域名 (FQDN) 或网站 URL 作为目标。",
                 NULL,
                 0,
                 NULL,
@@ -251,8 +251,8 @@ VOID NTAPI MenuItemCallback(
 
             while (PhChoiceDialog(
                 menuItem->OwnerWindow,
-                L"Whois the Hostname or IP Address",
-                L"You can use an IPv4 or IPv6 address as the target or a fully qualified domain name (FQDN) or a website URL as the target.",
+                L"Whois 查询主机名或 IP 地址",
+                L"您可以使用 IPv4 或 IPv6 地址作为目标，或使用完全限定域名 (FQDN) 或网站 URL 作为目标。",
                 NULL,
                 0,
                 NULL,
@@ -288,12 +288,12 @@ VOID NTAPI MainMenuInitializingCallback(
     if (menuInfo->u.MainMenu.SubMenuIndex != PH_MENU_ITEM_LOCATION_TOOLS)
         return;
 
-    networkToolsMenu = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"&Network Tools", NULL);
-    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_GEOIP_UPDATE, L"&GeoLite database update...", NULL), ULONG_MAX);
+    networkToolsMenu = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"网络工具(&N)", NULL);
+    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_GEOIP_UPDATE, L"GeoLite 数据库更新(&G)...", NULL), ULONG_MAX);
     PhInsertEMenuItem(networkToolsMenu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_PING, L"&Ping address...", NULL), ULONG_MAX);
-    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_TRACERT, L"&Traceroute address...", NULL), ULONG_MAX);
-    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_WHOIS, L"&Whois address...", NULL), ULONG_MAX);
+    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_PING, L"Ping 地址(&P)...", NULL), ULONG_MAX);
+    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_TRACERT, L"Traceroute 地址(&T)...", NULL), ULONG_MAX);
+    PhInsertEMenuItem(networkToolsMenu, PhPluginCreateEMenuItem(PluginInstance, 0, MAINMENU_ACTION_WHOIS, L"Whois 查询地址(&W)...", NULL), ULONG_MAX);
     PhInsertEMenuItem(menuInfo->Menu, networkToolsMenu, ULONG_MAX);
 }
 
@@ -314,9 +314,9 @@ VOID NTAPI NetworkMenuInitializingCallback(
     else
         networkItem = NULL;
 
-    PhInsertEMenuItem(menuInfo->Menu, pingMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_PING, L"&Ping", networkItem), 0);
-    PhInsertEMenuItem(menuInfo->Menu, traceMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_TRACEROUTE, L"&Traceroute", networkItem), 1);
-    PhInsertEMenuItem(menuInfo->Menu, whoisMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_WHOIS, L"&Whois", networkItem), 2);
+    PhInsertEMenuItem(menuInfo->Menu, pingMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_PING, L"Ping(&P)", networkItem), 0);
+    PhInsertEMenuItem(menuInfo->Menu, traceMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_TRACEROUTE, L"Traceroute(&T)", networkItem), 1);
+    PhInsertEMenuItem(menuInfo->Menu, whoisMenu = PhPluginCreateEMenuItem(PluginInstance, 0, NETWORK_ACTION_WHOIS, L"Whois 查询(&W)", networkItem), 2);
     PhInsertEMenuItem(menuInfo->Menu, PhCreateEMenuSeparator(), 3);
 
     if (networkItem)
@@ -421,50 +421,50 @@ VOID NTAPI NetworkTreeNewInitializingCallback(
     *(HWND*)Context = info->TreeNewHandle;
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Country";
+    column.Text = L"国家";
     column.Width = 140;
     column.Alignment = PH_ALIGN_LEFT;
     column.CustomDraw = TRUE; // Owner-draw this column to show country flags
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_REMOTE_COUNTRY, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Local service";
+    column.Text = L"本地服务";
     column.Width = 140;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_LOCAL_SERVICE, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Remote service";
+    column.Text = L"远程服务";
     column.Width = 140;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_REMOTE_SERVICE, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Total bytes in";
+    column.Text = L"总接收字节";
     column.Width = 80;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_BYTES_IN, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Total bytes out";
+    column.Text = L"总发送字节";
     column.Width = 80;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_BYTES_OUT, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Packet loss";
+    column.Text = L"丢包";
     column.Width = 80;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_PACKETLOSS, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Jitter (ms)";
+    column.Text = L"抖动 (毫秒)";
     column.Width = 80;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_JITTER, NULL, NetworkServiceSortFunction);
 
     memset(&column, 0, sizeof(PH_TREENEW_COLUMN));
-    column.Text = L"Latency (ms)";
+    column.Text = L"延迟 (毫秒)";
     column.Width = 80;
     column.Alignment = PH_ALIGN_LEFT;
     PhPluginAddTreeNewColumn(PluginInstance, info->CmData, &column, NETWORK_COLUMN_ID_LATENCY, NULL, NetworkServiceSortFunction);
@@ -656,7 +656,7 @@ VOID UpdateNetworkNode(
                 PhMoveReference(&Extension->BytesIn, PhFormatSize(Extension->NumberOfBytesIn, ULONG_MAX));
 
             if (!NetworkExtensionEnabled && !Extension->BytesIn && PhGetOwnTokenAttributes().Elevated)
-                PhMoveReference(&Extension->BytesIn, PhCreateString(L"Extended TCP statistics are disabled"));
+                PhMoveReference(&Extension->BytesIn, PhCreateString(L"扩展 TCP 统计已禁用"));
         }
         break;
     case NETWORK_COLUMN_ID_BYTES_OUT:
@@ -665,7 +665,7 @@ VOID UpdateNetworkNode(
                 PhMoveReference(&Extension->BytesOut, PhFormatSize(Extension->NumberOfBytesOut, ULONG_MAX));
 
             if (!NetworkExtensionEnabled && !Extension->BytesOut && PhGetOwnTokenAttributes().Elevated)
-                PhMoveReference(&Extension->BytesOut, PhCreateString(L"Extended TCP statistics are disabled"));
+                PhMoveReference(&Extension->BytesOut, PhCreateString(L"扩展 TCP 统计已禁用"));
         }
         break;
     case NETWORK_COLUMN_ID_PACKETLOSS:
@@ -674,7 +674,7 @@ VOID UpdateNetworkNode(
                 PhMoveReference(&Extension->LossText, PhFormatUInt64(Extension->NumberOfLostPackets, TRUE));
 
             if (!NetworkExtensionEnabled && !Extension->LossText && PhGetOwnTokenAttributes().Elevated)
-                PhMoveReference(&Extension->LossText, PhCreateString(L"Extended TCP statistics are disabled"));
+                PhMoveReference(&Extension->LossText, PhCreateString(L"扩展 TCP 统计已禁用"));
         }
         break;
     case NETWORK_COLUMN_ID_JITTER:
@@ -683,7 +683,7 @@ VOID UpdateNetworkNode(
                 PhMoveReference(&Extension->JitterText, PhFormatUInt64(Extension->VarianceRtt, TRUE));
 
             if (!NetworkExtensionEnabled && !Extension->JitterText && PhGetOwnTokenAttributes().Elevated)
-                PhMoveReference(&Extension->JitterText, PhCreateString(L"Extended TCP statistics are disabled"));
+                PhMoveReference(&Extension->JitterText, PhCreateString(L"扩展 TCP 统计已禁用"));
         }
         break;
     case NETWORK_COLUMN_ID_LATENCY:
@@ -692,7 +692,7 @@ VOID UpdateNetworkNode(
                 PhMoveReference(&Extension->LatencyText, PhFormatUInt64(Extension->SampleRtt, TRUE));
 
             if (!NetworkExtensionEnabled && !Extension->LatencyText && PhGetOwnTokenAttributes().Elevated)
-                PhMoveReference(&Extension->LatencyText, PhCreateString(L"Extended TCP statistics are disabled"));
+                PhMoveReference(&Extension->LatencyText, PhCreateString(L"扩展 TCP 统计已禁用"));
         }
         break;
     }
@@ -810,7 +810,7 @@ VOID NTAPI TreeNewMessageCallback(
             }
             else if (!GeoDbInitialized)
             {
-                DrawText(hdc, L"Geoip database not found.", -1, &rect, DT_LEFT | DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE);
+                DrawText(hdc, L"GeoIP 数据库未找到。", -1, &rect, DT_LEFT | DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE);
             }
         }
         break;
@@ -1041,8 +1041,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Network Tools";
-            info->Description = L"Provides ping, traceroute and whois for network connections.";
+            info->DisplayName = L"网络工具";
+            info->Description = L"为网络连接提供 Ping、Traceroute 和 Whois 功能。";
             info->Interface = &PluginInterface;
 
             PhRegisterCallback(

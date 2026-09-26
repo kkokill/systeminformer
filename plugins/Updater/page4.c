@@ -83,7 +83,7 @@ VOID ShowProgressDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.pfCallback = ShowProgressCallbackProc;
 
-    config.pszWindowTitle = L"System Informer - Updater";
+    config.pszWindowTitle = L"System Informer - 更新器";
     if (Context->SwitchingChannel)
     {
         PCWSTR channelName;
@@ -91,30 +91,30 @@ VOID ShowProgressDialog(
         switch (Context->Channel)
         {
         case PhReleaseChannel:
-            channelName = L" release";
+            channelName = L" Release";
             break;
         //case PhPreviewChannel:
-        //    channelName = L" release";
+        //    channelName = L" Preview";
         //    break;
         case PhCanaryChannel:
-            channelName = L" canary";
+            channelName = L" Canary";
             break;
         //case PhDeveloperChannel:
-        //    channelName = L" developer";
+        //    channelName = L" Developer";
         //    break;
         default:
             channelName = L"";
             break;
         }
 
-        config.pszMainInstruction = PhaFormatString(L"Downloading%s channel %s...", channelName, PhGetStringOrEmpty(Context->Version))->Buffer;
+        config.pszMainInstruction = PhaFormatString(L"正在下载 %s 渠道 %s...", channelName, PhGetStringOrEmpty(Context->Version))->Buffer;
     }
     else
     {
-        config.pszMainInstruction = PhaFormatString(L"Downloading update %s...", PhGetStringOrEmpty(Context->Version))->Buffer;
+        config.pszMainInstruction = PhaFormatString(L"正在下载更新 %s...", PhGetStringOrEmpty(Context->Version))->Buffer;
     }
 
-    config.pszContent = L"Downloaded: ~ of ~ (0%)\r\nSpeed: ~ KB/s";
+    config.pszContent = L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }

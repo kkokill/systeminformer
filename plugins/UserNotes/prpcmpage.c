@@ -102,8 +102,8 @@ INT_PTR CALLBACK ProcessCommentPageDlgProc(
                     !PhEqualString(comment, objectForProcessName->Comment, FALSE))
                 {
                     message = PhaFormatString(
-                        L"Do you want to replace the comment for %s which is currently\n    \"%s\"\n"
-                        L"with\n    \"%s\"?",
+                        L"是否要替换 %s 的注释？当前注释为\n    \"%s\"\n"
+                        L"替换为\n    \"%s\"？",
                         processItem->ProcessName->Buffer,
                         objectForProcessName->Comment->Buffer,
                         comment->Buffer
@@ -121,7 +121,7 @@ INT_PTR CALLBACK ProcessCommentPageDlgProc(
                     // Prevent deadlocks.
                     UnlockDb();
 
-                    if (MessageBox(WindowHandle, message->Buffer, L"Comment", MB_ICONQUESTION | MB_YESNO) == IDNO)
+                    if (MessageBox(WindowHandle, message->Buffer, L"注释", MB_ICONQUESTION | MB_YESNO) == IDNO)
                     {
                         done = TRUE;
                     }

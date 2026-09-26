@@ -40,7 +40,7 @@ BOOLEAN HardwareDeviceEnableDisable(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to change the device state.", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
+        PhShowStatus(ParentWindow, L"更改设备状态失败。", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
         return FALSE;
     }
 
@@ -51,7 +51,7 @@ BOOLEAN HardwareDeviceEnableDisable(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to change the device state.", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
+        PhShowStatus(ParentWindow, L"更改设备状态失败。", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
         return FALSE;
     }
 
@@ -74,7 +74,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"重启设备失败。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -88,7 +88,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"重启设备失败。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -99,7 +99,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"重启设备失败。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -122,7 +122,7 @@ BOOLEAN HardwareDeviceUninstall(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to uninstall the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"卸载设备失败。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -130,7 +130,7 @@ BOOLEAN HardwareDeviceUninstall(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to uninstall the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"卸载设备失败。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -268,19 +268,19 @@ VOID EspShowDeviceInstanceMenu(
         return;
 
     menu = PhCreateEMenu();
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"Enable", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Disable", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Restart", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"Uninstall", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"启用", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"禁用", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"重启", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"卸载", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    subMenu = PhCreateEMenuItem(0, 0, L"Open key", NULL, NULL);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 4, L"Hardware", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 5, L"Software", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 6, L"User", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 7, L"Config", NULL, NULL), ULONG_MAX);
+    subMenu = PhCreateEMenuItem(0, 0, L"打开项", NULL, NULL);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 4, L"硬件", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 5, L"软件", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 6, L"用户", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, 7, L"配置", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, subMenu, ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"Properties", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"属性", NULL, NULL), ULONG_MAX);
 
     selectedItem = PhShowEMenu(
         menu,
@@ -741,13 +741,13 @@ INT_PTR CALLBACK EspPnPServiceDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"PnP Devices");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"即插即用设备");
             PhSetExtendedListView(context->ListViewHandle);
             ExtendedListView_SetColumnWidth(context->ListViewHandle, 0, ELVSCW_AUTOSIZE_REMAININGSPACE);
             if (PhWindowsVersion > WINDOWS_7)
                 ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 0, L"Connected");
-            PhAddListViewGroup(context->ListViewHandle, 1, L"Disconnected");
+            PhAddListViewGroup(context->ListViewHandle, 0, L"已连接");
+            PhAddListViewGroup(context->ListViewHandle, 1, L"已断开");
 
             dpiValue = PhGetWindowDpi(WindowHandle);
             context->ImageList = PhImageListCreate(
@@ -764,7 +764,7 @@ INT_PTR CALLBACK EspPnPServiceDlgProc(
 
             if (context->ServiceItem->Type & SERVICE_DRIVER)
             {
-                PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"This service has registered the following PnP devices:");
+                PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"此服务注册了以下即插即用设备：");
 
                 if (!EspEnumerateDriverPnpDevices(context))
                 {
@@ -773,7 +773,7 @@ INT_PTR CALLBACK EspPnPServiceDlgProc(
             }
             else
             {
-                PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"This service type doesn't support PnP devices.");
+                PhSetDialogItemText(WindowHandle, IDC_MESSAGE, L"此服务类型不支持即插即用设备。");
                 ShowWindow(context->ListViewHandle, SW_HIDE);
             }
 

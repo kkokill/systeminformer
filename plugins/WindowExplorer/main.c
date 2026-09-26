@@ -102,8 +102,8 @@ VOID NTAPI MenuItemCallback(
 
             if (PhaChoiceDialog(
                 menuItem->OwnerWindow,
-                L"Desktop Windows",
-                L"Display windows for the following desktop:",
+                L"桌面窗口",
+                L"显示以下桌面的窗口：",
                 (PWSTR *)desktopNames->Items,
                 desktopNames->Count,
                 NULL,
@@ -169,13 +169,13 @@ VOID NTAPI MainMenuInitializingCallback(
     else
         insertIndex = ULONG_MAX;
 
-    PhInsertEMenuItem(menuInfo->Menu, menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_VIEW_WINDOWS, L"&Windows", NULL), insertIndex);
+    PhInsertEMenuItem(menuInfo->Menu, menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_VIEW_WINDOWS, L"&窗口", NULL), insertIndex);
 
     if (PhGetIntegerSetting(SETTING_NAME_SHOW_DESKTOP_WINDOWS))
     {
         insertIndex = PhIndexOfEMenuItem(menuInfo->Menu, menuItem) + 1;
 
-        PhInsertEMenuItem(menuInfo->Menu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_VIEW_DESKTOPWINDOWS, L"Deskto&p Windows...", NULL), insertIndex);
+        PhInsertEMenuItem(menuInfo->Menu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_VIEW_DESKTOPWINDOWS, L"桌面窗口(&P)...", NULL), insertIndex);
     }
 }
 
@@ -233,7 +233,7 @@ VOID NTAPI ThreadMenuInitializingCallback(
     else
         insertIndex = ULONG_MAX;
 
-    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_WINDOWS, L"&Windows", threadItem);
+    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_WINDOWS, L"窗口", threadItem);
     PhInsertEMenuItem(menuInfo->Menu, menuItem, insertIndex);
 
     if (!threadItem)
@@ -270,7 +270,7 @@ LOGICAL DllMain(
                 { StringSettingType, SETTING_NAME_WINDOWS_PROPERTY_COLUMNS, L"" },
                 { IntegerPairSettingType, SETTING_NAME_WINDOWS_PROPERTY_POSITION, L"0,0" },
                 { ScalableIntegerPairSettingType, SETTING_NAME_WINDOWS_PROPERTY_SIZE, L"@96|690,540" },
-                { StringSettingType, SETTING_NAME_WINDOWS_PROPERTY_PAGE, L"General" },
+                { StringSettingType, SETTING_NAME_WINDOWS_PROPERTY_PAGE, L"常规" },
                 { StringSettingType, SETTING_NAME_WINDOWS_PROPLIST_COLUMNS, L"" },
                 { StringSettingType, SETTING_NAME_WINDOWS_PROPSTORAGE_COLUMNS, L"" },
                 { StringSettingType, SETTING_NAME_WINDOWS_DWMATTRIBUTES_COLUMNS, L"" },
@@ -291,8 +291,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Window Explorer";
-            info->Description = L"View and manipulate windows.";
+            info->DisplayName = L"窗口资源管理器";
+            info->Description = L"查看和操作窗口。";
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),

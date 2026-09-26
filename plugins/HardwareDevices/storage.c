@@ -1416,7 +1416,7 @@ PCWSTR SmartAttributeGetText(
         return L"Free fall protection";
     }
 
-    return L"Unknown";
+    return L"未知";
 }
 
 /**

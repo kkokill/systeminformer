@@ -74,7 +74,7 @@ static VOID PhpRefreshProcessList(
 
     if (!NT_SUCCESS(status = PhEnumProcesses(&processes)))
     {
-        PhShowStatus(hwndDlg, L"Unable to enumerate processes", status, 0);
+        PhShowStatus(hwndDlg, L"无法枚举进程", status, 0);
         return;
     }
 
@@ -251,9 +251,9 @@ INT_PTR CALLBACK PhpChooseProcessDlgProc(
 
             PhSetListViewStyle(lvHandle, FALSE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
-            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 180, L"Name");
+            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 180, L"名称");
             PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 60, L"PID");
-            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 160, L"User name");
+            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 160, L"用户名");
             PhSetExtendedListView(lvHandle);
 
             PhpChooseProcessSetImagelist(context);

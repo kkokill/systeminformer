@@ -2278,8 +2278,8 @@ VOID PhLoaderEntrySnapShowErrorMessage(
         {
             PhShowError2(
                 NULL,
-                L"Unable to load plugin.",
-                L"Name: %s\r\nOrdinal: %u\r\nModule: %hs",
+                L"无法加载插件。",
+                L"名称: %s\r\n序号: %u\r\n模块: %hs",
                 PhGetStringOrEmpty(fileName),
                 IMAGE_ORDINAL(OriginalThunk->u1.Ordinal),
                 ImportName
@@ -2293,8 +2293,8 @@ VOID PhLoaderEntrySnapShowErrorMessage(
 
             PhShowError2(
                 NULL,
-                L"Unable to load plugin.",
-                L"Name: %s\r\nFunction: %hs\r\nModule: %hs",
+                L"无法加载插件。",
+                L"名称: %s\r\n函数: %hs\r\n模块: %hs",
                 PhGetStringOrEmpty(fileName),
                 importByName->Name,
                 ImportName

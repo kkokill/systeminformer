@@ -216,7 +216,7 @@ private:
         bytesPerSecond = timeTicks ? progress.BytesTransferred / timeTicks : 0;
 
         if (Finalizing && progress.BytesTotal != 0 && progress.BytesTransferred >= progress.BytesTotal)
-            UpdateSetProgressFinalizingState(Context, L"Finalizing BITS download...");
+            UpdateSetProgressFinalizingState(Context, L"正在完成 BITS 下载...");
         else
             UpdateSetProgressState(Context, progress.BytesTotal, progress.BytesTransferred, bytesPerSecond);
     }
@@ -243,33 +243,33 @@ VOID UpdateBitsStatusText(
     case BG_JOB_STATE_QUEUED:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"Queued BITS download..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在排队 BITS 下载..."));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"Queued BITS download...");
+                UpdaterUpdateProgressToast(Context, L"正在排队 BITS 下载...");
         }
         break;
     case BG_JOB_STATE_CONNECTING:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"Connecting with BITS..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在通过 BITS 连接..."));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"Connecting with BITS...");
+                UpdaterUpdateProgressToast(Context, L"正在通过 BITS 连接...");
         }
         break;
     case BG_JOB_STATE_TRANSFERRING:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"Downloading with BITS..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在通过 BITS 下载..."));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"Downloading with BITS...");
+                UpdaterUpdateProgressToast(Context, L"正在通过 BITS 下载...");
         }
         break;
     case BG_JOB_STATE_TRANSIENT_ERROR:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"BITS download retry pending..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"BITS 下载重试中..."));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"BITS download retry pending...");
+                UpdaterUpdateProgressToast(Context, L"BITS 下载重试中...");
         }
         break;
     }
@@ -328,12 +328,12 @@ EXTERN_C NTSTATUS UpdateDownloadFileWithBits(
 
     if (Context->DialogHandle)
     {
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"Initializing BITS download..."));
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, reinterpret_cast<LPARAM>(L"Downloaded: ~ of ~ (0%)\r\nSpeed: ~ KB/s"));
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在初始化 BITS 下载..."));
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, reinterpret_cast<LPARAM>(L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s"));
     }
     else if (Context->ToastMode)
     {
-        UpdaterUpdateProgressToast(Context, L"Initializing BITS download...");
+        UpdaterUpdateProgressToast(Context, L"正在初始化 BITS 下载...");
     }
 
     memset(Result, 0, sizeof(UPDATER_DOWNLOAD_RESULT));
@@ -510,7 +510,7 @@ EXTERN_C NTSTATUS UpdateDownloadFileWithBits(
                 progress.BytesTotal != 0 &&
                 progress.BytesTransferred >= progress.BytesTotal)
             {
-                UpdateSetProgressFinalizingState(Context, L"Finalizing BITS download...");
+                UpdateSetProgressFinalizingState(Context, L"正在完成 BITS 下载...");
             }
             else
             {

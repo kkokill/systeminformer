@@ -1129,8 +1129,8 @@ BOOLEAN SetupCancelWizard(
         Context->ParentWindowHandle,
         TD_YES_BUTTON | TD_NO_BUTTON,
         TD_WARNING_ICON,
-        L"Cancel Setup?",
-        L"Setup is currently in progress. Cancelling now may leave System Informer partially installed or updated.\r\n\r\nAre you sure you want to cancel?"
+        L"是否取消安装？",
+        L"安装程序正在运行。现在取消可能导致 System Informer 处于未完全安装或更新的状态。\r\n\r\n确定要取消吗？"
         ) == IDYES)
     {
         return TRUE;
@@ -1163,10 +1163,10 @@ VOID SetupSetWizardButtons(
 
     parentWindowHandle = GetParent(WindowHandle);
     PropSheet_SetWizButtons(parentWindowHandle, Buttons);
-    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_BACK, L"< &Back");
-    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_NEXT, L"&Next >");
-    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_FINISH, L"&Finish");
-    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_CANCEL, L"Cancel");
+    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_BACK, L"< 上一步(&B)");
+    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_NEXT, L"下一步(&N) >");
+    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_FINISH, L"完成(&F)");
+    SetupSetWizardButtonText(parentWindowHandle, IDC_PROPSHEET_CANCEL, L"取消");
     SetupEnableWizardButton(parentWindowHandle, IDC_PROPSHEET_BACK, ShowBack);
     SetupEnableWizardButton(parentWindowHandle, IDC_PROPSHEET_NEXT, ShowNext);
     SetupEnableWizardButton(parentWindowHandle, IDC_PROPSHEET_FINISH, ShowFinish);
@@ -1306,7 +1306,7 @@ INT_PTR CALLBACK SetupWelcomePageDlgProc(
                                 }
                                 else
                                 {
-                                    PhShowStatus(WindowHandle, L"Unable to restart the application.", status, 0);
+                                    PhShowStatus(WindowHandle, L"无法重新启动该应用程序。", status, 0);
                                 }
 
                                 PhDereferenceObject(applicationFileName);
@@ -1566,7 +1566,7 @@ INT_PTR CALLBACK SetupShortcutsPageDlgProc(
             IDC_STARTMENUFOLDER,
             EM_SETCUEBANNER,
             TRUE,
-            (LPARAM)L"No folder will be created"
+            (LPARAM)L"不会创建文件夹"
             );
         SetupPopulateStartMenuFolders(GetDlgItem(WindowHandle, IDC_STARTMENUFOLDERLIST));
         CheckDlgButton(
@@ -1678,8 +1678,8 @@ INT_PTR CALLBACK SetupShortcutsPageDlgProc(
                             WindowHandle,
                             TD_OK_BUTTON,
                             TD_WARNING_ICON,
-                            L"Invalid Start Menu folder",
-                            L"Enter a valid Start Menu folder name."
+                            L"无效的开始菜单文件夹",
+                            L"请输入有效的开始菜单文件夹名称。"
                             );
                         SetWindowLongPtr(WindowHandle, DWLP_MSGRESULT, -1);
                         return TRUE;
@@ -1782,7 +1782,7 @@ INT_PTR CALLBACK SetupUninstallPageDlgProc(
             case PSN_SETACTIVE:
                 {
                     SetupSetWizardButtons(WindowHandle, PSWIZB_BACK | PSWIZB_NEXT, TRUE, TRUE, FALSE, TRUE);
-                    SetupSetWizardButtonText(context->ParentWindowHandle, IDC_PROPSHEET_NEXT, L"&Uninstall");
+                    SetupSetWizardButtonText(context->ParentWindowHandle, IDC_PROPSHEET_NEXT, L"卸载(&U)");
 
                     if (!PhGetOwnTokenAttributes().Elevated)
                     {
@@ -1829,7 +1829,7 @@ INT_PTR CALLBACK SetupUninstallPageDlgProc(
                                 }
                                 else
                                 {
-                                    PhShowStatus(NULL, L"Unable to restart the application.", status, 0);
+                                    PhShowStatus(NULL, L"无法重新启动该应用程序。", status, 0);
                                 }
 
                                 PhDereferenceObject(applicationFileName);
@@ -1949,8 +1949,8 @@ INT_PTR CALLBACK SetupInstallPageDlgProc(
 
         if (context->SetupMode == SetupCommandUninstall)
         {
-            PhSetDialogItemText(WindowHandle, IDC_TITLE, L"Uninstalling");
-            PhSetDialogItemText(WindowHandle, IDC_SUBTITLE, L"Please wait while Setup removes System Informer from your computer.");
+            PhSetDialogItemText(WindowHandle, IDC_TITLE, L"正在卸载");
+            PhSetDialogItemText(WindowHandle, IDC_SUBTITLE, L"请稍候，安装程序正在从该计算机中移除 System Informer。");
         }
 
         if (context->SetupMode == SetupCommandUpdate)
@@ -2215,11 +2215,11 @@ INT_PTR CALLBACK SetupErrorPageDlgProc(
                     }
                     else
                     {
-                        PhSetDialogItemText(WindowHandle, IDC_STATUS, L"An unknown error occurred.");
+                        PhSetDialogItemText(WindowHandle, IDC_STATUS, L"发生未知错误。");
                     }
 
                     SetupSetWizardButtons(WindowHandle, PSWIZB_BACK, TRUE, FALSE, FALSE, TRUE);
-                    SetupSetWizardButtonText(context->ParentWindowHandle, IDC_PROPSHEET_BACK, L"Retry");
+                    SetupSetWizardButtonText(context->ParentWindowHandle, IDC_PROPSHEET_BACK, L"重试");
                 }
                 break;
             case PSN_QUERYCANCEL:
@@ -2532,7 +2532,7 @@ VOID SetupShowWizard(
     header.hInstance = PhInstanceHandle;
     header.hIcon = Context->IconLargeHandle;
     header.pfnCallback = SetupPropSheetProc;
-    header.pszCaption = L"System Informer Setup";
+    header.pszCaption = L"System Informer 安装程序";
     header.nPages = ARRAYSIZE(pages);
     header.ppsp = pages;
 

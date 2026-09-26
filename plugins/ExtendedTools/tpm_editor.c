@@ -96,7 +96,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
             context->BytesPerRowHandle = GetDlgItem(WindowHandle, IDC_TPM_BYTESPERROW);
 
             PhSetApplicationWindowIcon(WindowHandle);
-            PhSetWindowText(WindowHandle, PhaFormatString(L"TPM index 0x%08x", context->Index.Value)->Buffer);
+            PhSetWindowText(WindowHandle, PhaFormatString(L"TPM 索引 0x%08x", context->Index.Value)->Buffer);
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_TPM_HEXEDIT), NULL, PH_ANCHOR_ALL);
@@ -108,7 +108,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
 
             if (!NT_SUCCESS(status = EtTpmEditorRead(context)))
             {
-                PhShowStatus(context->ParentWindowHandle, L"Failed to read TPM", status, 0);
+                PhShowStatus(context->ParentWindowHandle, L"无法读取 TPM", status, 0);
                 DestroyWindow(WindowHandle);
                 return TRUE;
             }
@@ -152,7 +152,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 ULONG bytesPerRow;
 
                 for (ULONG i = 0; i < ARRAYSIZE(bytesPerRowStrings); i++)
-                    bytesPerRowStrings[i] = PhaFormatString(L"%u bytes per row", 1 << (2 + i))->Buffer;
+                    bytesPerRowStrings[i] = PhaFormatString(L"%u 字节/行", 1 << (2 + i))->Buffer;
 
                 PhAddComboBoxStrings(context->BytesPerRowHandle, bytesPerRowStrings, ARRAYSIZE(bytesPerRowStrings));
 
@@ -162,7 +162,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 {
                     HexEdit_SetBytesPerRow(context->HexEditHandle, bytesPerRow);
                     PhSelectComboBoxString(context->BytesPerRowHandle, PhaFormatString(
-                        L"%u bytes per row", bytesPerRow)->Buffer, FALSE);
+                        L"%u 字节/行", bytesPerRow)->Buffer, FALSE);
                 }
             }
 
@@ -199,8 +199,8 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 {
                     static PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Binary files (*.bin)", L"*.bin" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"二进制文件 (*.bin)", L"*.bin" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog;
 
@@ -233,7 +233,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                         }
 
                         if (!NT_SUCCESS(status))
-                            PhShowStatus(WindowHandle, L"Unable to create the file", status, 0);
+                            PhShowStatus(WindowHandle, L"无法创建文件", status, 0);
                     }
 
                     PhFreeFileDialog(fileDialog);
@@ -241,7 +241,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 break;
             case IDC_TPM_WRITE:
                 {
-                    PhShowWarning(NULL, L"Unable to write to the TPM", L"TPM write not yet implemented");
+                    PhShowWarning(NULL, L"无法写入 TPM", L"TPM 写入功能尚未实现");
                     return TRUE;
                 }
                 break;
@@ -251,7 +251,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
 
                     if (!NT_SUCCESS(status = EtTpmEditorRead(context)))
                     {
-                        PhShowStatus(NULL, L"Unable to read TPM", status, 0);
+                        PhShowStatus(NULL, L"无法读取 TPM", status, 0);
                         return TRUE;
                     }
 

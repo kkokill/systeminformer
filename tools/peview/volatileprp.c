@@ -118,7 +118,7 @@ VOID PvEnumerateVolatileEntries(
                 break;
             default:
             case PhsrlInvalid:
-                PhSetListViewSubItem(ListViewHandle, lvItemIndex, 2, L"(unnamed)");
+                PhSetListViewSubItem(ListViewHandle, lvItemIndex, 2, L"（未命名）");
                 break;
             }
 
@@ -182,7 +182,7 @@ INT_PTR CALLBACK PvpPeVolatileDlgProc(
             PvConfigListViewFont(hwndDlg, context->ListViewHandle);
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
             PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 150, L"RVA");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"Symbol");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 250, L"符号");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(L"ImageVolatileListViewColumns", context->ListViewHandle);
             PvConfigTreeBorders(context->ListViewHandle);
@@ -191,8 +191,8 @@ INT_PTR CALLBACK PvpPeVolatileDlgProc(
             PhAddLayoutItem(&context->LayoutManager, context->ListViewHandle, NULL, PH_ANCHOR_ALL);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 2, L"Volatile Range Table");
-            PhAddListViewGroup(context->ListViewHandle, 1, L"Volatile RVA Table");
+            PhAddListViewGroup(context->ListViewHandle, 2, L"易失性范围表");
+            PhAddListViewGroup(context->ListViewHandle, 1, L"易失性 RVA 表");
             PvEnumerateVolatileEntries(context->ListViewHandle);
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);

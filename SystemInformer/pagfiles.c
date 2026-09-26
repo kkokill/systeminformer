@@ -184,15 +184,15 @@ INT_PTR CALLBACK PhpPagefilesDlgProc(
 
             PhSetApplicationWindowIcon(hwndDlg);
 
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"File name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Usage");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"Peak usage");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"Total");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"文件名");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"使用量");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"峰值使用量");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"总计");
 
             if (WindowsVersion > WINDOWS_8)
             {
-                PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 100, L"Minimum");
-                PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 100, L"Maximum");
+                PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 100, L"最小值");
+                PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 100, L"最大值");
             }
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
@@ -229,7 +229,7 @@ INT_PTR CALLBACK PhpPagefilesDlgProc(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(hwndDlg, L"Unable to query pagefile information.", status, 0);
+                PhShowStatus(hwndDlg, L"无法查询页面文件信息。", status, 0);
                 DestroyWindow(hwndDlg);
             }
 
@@ -294,7 +294,7 @@ INT_PTR CALLBACK PhpPagefilesDlgProc(
 
                     if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(hwndDlg, L"Unable to query pagefile information.", status, 0);
+                        PhShowStatus(hwndDlg, L"无法查询页面文件信息。", status, 0);
                     }
                 }
                 break;
@@ -331,7 +331,7 @@ INT_PTR CALLBACK PhpPagefilesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

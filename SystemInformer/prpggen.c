@@ -57,7 +57,7 @@ PPH_STRING PhGetProcessItemProtectionText(
     {
         if (WindowsVersion >= WINDOWS_8_1)
         {
-            PWSTR type = L"Unknown";
+            PWSTR type = L"未知";
             PWSTR signer = L"";
 
             PhFindStringSiKeyValuePairs(PhProtectedTypeStrings, sizeof(PhProtectedTypeStrings), ProcessItem->Protection.Type, &type);
@@ -75,9 +75,9 @@ PPH_STRING PhGetProcessItemProtectionText(
                 return PhCreateString(L"Secure (IUM)");
 
             if (ProcessItem->IsProtectedProcess)
-                return PhCreateString(L"Yes");
+                return PhCreateString(L"是");
 
-            return PhCreateString(L"None");
+            return PhCreateString(L"无");
         }
     }
 
@@ -250,7 +250,7 @@ VOID PhpUpdateProcessMitigationPolicies(
             }
             else
             {
-                PhSetDialogItemText(hwndDlg, IDC_MITIGATION, L"None");
+                PhSetDialogItemText(hwndDlg, IDC_MITIGATION, L"无");
             }
 
             PhDeleteStringBuilder(&sb);
@@ -489,7 +489,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 if (processItem->VerifySignerName)
                 {
                     PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME_LINK,
-                        PhaFormatString(L"<a>(Verified) %s</a>", processItem->VerifySignerName->Buffer)->Buffer);
+                        PhaFormatString(L"<a>（已验证）%s</a>", processItem->VerifySignerName->Buffer)->Buffer);
                     ShowWindow(GetDlgItem(hwndDlg, IDC_COMPANYNAME), SW_HIDE);
                     ShowWindow(GetDlgItem(hwndDlg, IDC_COMPANYNAME_LINK), SW_SHOW);
                 }
@@ -497,7 +497,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 {
                     PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME,
                         PhaConcatStrings2(
-                        L"(Verified) ",
+                        L"（已验证） ",
                         PhGetStringOrEmpty(processItem->VersionInfo.CompanyName)
                         )->Buffer);
                 }
@@ -506,7 +506,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
             {
                 PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME,
                     PhaConcatStrings2(
-                    L"(UNVERIFIED) ",
+                    L"（未验证） ",
                     PhGetStringOrEmpty(processItem->VersionInfo.CompanyName)
                     )->Buffer);
             }
@@ -568,7 +568,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                     startTimeString = PhaFormatDateTime(&startTimeFields);
 
                     PhSetWindowText(context->StartedLabelHandle, PhaFormatString(
-                        L"%s ago (%s)",
+                        L"%s前（%s）",
                         startTimeRelativeString->Buffer,
                         startTimeString->Buffer
                         )->Buffer);
@@ -604,7 +604,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 else
                 {
                     PhSetDialogItemText(hwndDlg, IDC_PARENTPROCESS, PhaFormatString(
-                        L"Non-existent process (%lu)", HandleToUlong(processItem->ParentProcessId))->Buffer);
+                        L"不存在的进程（%lu）", HandleToUlong(processItem->ParentProcessId))->Buffer);
                 }
 
                 EnableWindow(GetDlgItem(hwndDlg, IDC_VIEWPARENTPROCESS), FALSE);
@@ -739,12 +739,12 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                                 SETTING_PROGRAM_INSPECT_EXECUTABLES,
                                 PhGetString(processItem->FileName),
                                 FALSE,
-                                L"Make sure the PE Viewer executable file is present."
+                                L"请确保 PE 查看器可执行文件存在。"
                                 );
                         }
                         else
                         {
-                            PhShowStatus(hwndDlg, L"Unable to locate the file.", STATUS_NOT_FOUND, 0);
+                            PhShowStatus(hwndDlg, L"无法找到文件。", STATUS_NOT_FOUND, 0);
                         }
                     }
                 }
@@ -764,12 +764,12 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                                 SETTING_FILE_BROWSE_EXECUTABLE,
                                 PhGetString(processItem->FileName),
                                 FALSE,
-                                L"Make sure the Explorer executable file is present."
+                                L"请确保资源管理器可执行文件存在。"
                                 );
                         }
                         else
                         {
-                            PhShowStatus(hwndDlg, L"Unable to locate the file.", STATUS_NOT_FOUND, 0);
+                            PhShowStatus(hwndDlg, L"无法找到文件。", STATUS_NOT_FOUND, 0);
                         }
                     }
                 }
@@ -821,7 +821,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                     }
                     else
                     {
-                        PhShowStatus(hwndDlg, L"The process does not exist.", STATUS_NOT_FOUND, 0);
+                        PhShowStatus(hwndDlg, L"进程不存在。", STATUS_NOT_FOUND, 0);
                     }
                 }
                 break;
@@ -927,9 +927,9 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                     {
                         if (PhShowConfirmMessage(
                             hwndDlg,
-                            L"update",
-                            L"the integrity label",
-                            L"Altering the integrity label for a process may produce undesirable results, instability or data corruption.",
+                            L"更新",
+                            L"完整性标签",
+                            L"更改进程的完整性标签可能产生不良后果、不稳定或数据损坏。",
                             FALSE
                             ))
                         {
@@ -970,7 +970,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
 
                         if (!NT_SUCCESS(status))
                         {
-                            PhShowStatus(hwndDlg, L"Unable to set the integrity label", status, 0);
+                            PhShowStatus(hwndDlg, L"无法设置完整性标签", status, 0);
                         }
                     }
 
@@ -1036,7 +1036,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                                 }
                                 else
                                 {
-                                    PhShowStatus(hwndDlg, L"Unable to perform the operation.", status, 0);
+                                    PhShowStatus(hwndDlg, L"无法执行该操作。", status, 0);
                                 }
                             }
                         }
@@ -1074,7 +1074,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                             startTimeString = PhaFormatDateTime(&startTimeFields);
 
                             PhSetWindowText(context->StartedLabelHandle, PhaFormatString(
-                                L"%s ago (%s)",
+                                L"%s前（%s）",
                                 PhGetString(startTimeRelativeString),
                                 PhGetString(startTimeString)
                                 )->Buffer);

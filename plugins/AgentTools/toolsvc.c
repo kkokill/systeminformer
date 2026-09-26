@@ -65,14 +65,14 @@ PPH_STRING AtFormatServiceConfigParameter(
     if (!startTypeString && !delayedMember && !description)
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"At least one of start_type, delayed_auto_start and description is required.");
+            L"需要提供 start_type、delayed_auto_start 和 description 中的至少一项。");
         return NULL;
     }
 
     if (description && description->Length > AT_SERVICE_DESCRIPTION_MAXIMUM * sizeof(WCHAR))
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"description must be %lu characters or fewer.", (ULONG)AT_SERVICE_DESCRIPTION_MAXIMUM);
+            L"description 不能超过 %lu 个字符。", (ULONG)AT_SERVICE_DESCRIPTION_MAXIMUM);
         PhClearReference(&description);
         PhClearReference(&startTypeString);
         return NULL;
@@ -80,7 +80,7 @@ PPH_STRING AtFormatServiceConfigParameter(
 
     if (startTypeString && !AtParseServiceStartType(startTypeString, &startType))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"start_type must be one of boot, system, auto, demand, disabled.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"start_type 必须为 boot、system、auto、demand、disabled 之一。");
         PhClearReference(&description);
         PhClearReference(&startTypeString);
         return NULL;
@@ -89,14 +89,14 @@ PPH_STRING AtFormatServiceConfigParameter(
     PhInitializeStringBuilder(&builder, 64);
 
     if (startTypeString)
-        PhAppendFormatStringBuilder(&builder, L"start type %s", startTypeString->Buffer);
+        PhAppendFormatStringBuilder(&builder, L"启动类型 %s", startTypeString->Buffer);
 
     if (delayedMember)
     {
         if (startTypeString)
             PhAppendStringBuilder2(&builder, L", ");
 
-        PhAppendStringBuilder2(&builder, AtJsonGetObjectBoolean(Arguments, "delayed_auto_start") ? L"delayed start on" : L"delayed start off");
+        PhAppendStringBuilder2(&builder, AtJsonGetObjectBoolean(Arguments, "delayed_auto_start") ? L"延迟启动：开" : L"延迟启动：关");
     }
 
     // The text is what the user is asked to approve, so the description goes in it whole: a
@@ -106,7 +106,7 @@ PPH_STRING AtFormatServiceConfigParameter(
         if (startTypeString || delayedMember)
             PhAppendStringBuilder2(&builder, L", ");
 
-        PhAppendFormatStringBuilder(&builder, L"description \"%s\"", description->Buffer);
+        PhAppendFormatStringBuilder(&builder, L"描述 \"%s\"", description->Buffer);
     }
 
     PhClearReference(&description);
@@ -396,7 +396,7 @@ VOID AtpListServices(
     // (signature, flags), so each SCM service is enriched from the cached item when present.
     if (!NT_SUCCESS(status = PhEnumServices(&services, &numberOfServiceItems)))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the service control manager");
+        AtSetToolStatusError(Result, status, L"枚举服务控制管理器");
         PhClearReference(&filter.NameContains);
         return;
     }
@@ -773,14 +773,14 @@ VOID AtpGetService(
 
     if (!(name = AtGetArgumentString(Call->Arguments, "name")) || name->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"name is required and must be the service name.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"必须提供名称，且必须是服务名。");
         PhClearReference(&name);
         return;
     }
 
     if (!(serviceItem = PhReferenceServiceItem(&name->sr)))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No service named %s is in the provider cache.", PhGetString(name));
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"提供程序缓存中不存在名为 %s 的服务。", PhGetString(name));
         PhDereferenceObject(name);
         return;
     }
@@ -975,8 +975,8 @@ VOID AtpControlService(
                 !FlagOn(serviceStatus.dwControlsAccepted, SERVICE_ACCEPT_PAUSE_CONTINUE))
             {
                 AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED,
-                    L"%s does not accept pause and continue; get_service lists what a service accepts "
-                    L"under controls_accepted, and most accept only stop.",
+                    L"%s 不支持暂停和继续；get_service 会在 controls_accepted 下列出服务接受的控制，"
+                    L"且大多数服务仅接受 stop。",
                     PhGetString(serviceItem->Name)
                     );
                 return;
@@ -1052,7 +1052,7 @@ VOID AtpControlService(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"The operation");
+        AtSetToolStatusError(Result, status, L"该操作");
         return;
     }
 
@@ -1141,7 +1141,7 @@ VOID AtServiceInvokeTool(
         AtpControlService(Tool, Call, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具未实现。");
         break;
     }
 }

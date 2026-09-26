@@ -55,7 +55,7 @@ static PCWSTR PvpClrColumnTypeToString(
     case PH_CLR_COLUMN_CODED:
         return L"Coded";
     default:
-        return L"Unknown";
+        return L"未知";
     }
 }
 
@@ -80,7 +80,7 @@ static VOID PvpPeClrTablePreviewAddColumns(
             &type
             )))
         {
-            typeName = L"Unknown";
+            typeName = L"未知";
         }
         else
         {
@@ -116,7 +116,7 @@ static VOID PvpPeClrTablePreviewAddColumns(
                 i + 1,
                 LVCFMT_LEFT,
                 110,
-                PhaFormatString(L"Column %lu (%s)", i, typeName)->Buffer
+                PhaFormatString(L"列 %lu (%s)", i, typeName)->Buffer
                 );
         }
     }
@@ -207,7 +207,7 @@ INT_PTR CALLBACK PvpPeClrTablePreviewDlgProc(
 
             if (tableName = PhConvertUtf8ToUtf16(context->TableName))
             {
-                PhSetWindowText(hwndDlg, PhaFormatString(L"CLR Table: %s", tableName->Buffer)->Buffer);
+                PhSetWindowText(hwndDlg, PhaFormatString(L"CLR 表: %s", tableName->Buffer)->Buffer);
                 PhDereferenceObject(tableName);
             }
 
@@ -313,7 +313,7 @@ static VOID PvpPeClrShowTablePreview(
 
     if (!Context->ClrMetadataInitialized)
     {
-        PhShowError(Context->WindowHandle, L"%s", L"Unable to preview CLR table rows because CLR metadata is unavailable.");
+        PhShowError(Context->WindowHandle, L"%s", L"无法预览 CLR 表行，因为 CLR 元数据不可用。");
         return;
     }
 
@@ -334,7 +334,7 @@ static VOID PvpPeClrShowTablePreview(
     if (!NT_SUCCESS(status))
     {
         PhFree(previewContext);
-        PhShowStatus(Context->WindowHandle, L"Unable to preview CLR table rows", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法预览 CLR 表行", status, 0);
         return;
     }
 
@@ -349,7 +349,7 @@ static VOID PvpPeClrShowTablePreview(
     if (!dialogHandle)
     {
         PhFree(previewContext);
-        PhShowError(Context->WindowHandle, L"%s", L"Unable to create the CLR table preview window.");
+        PhShowError(Context->WindowHandle, L"%s", L"无法创建 CLR 表预览窗口。");
         return;
     }
 
@@ -519,12 +519,12 @@ INT_PTR CALLBACK PvpPeClrTablesDlgProc(
             PvSetListViewImageList(context->WindowHandle, context->ListViewHandle);
 
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 50, L"#");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"Count");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 80, L"Size");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 120, L"RVA (start)");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 120, L"RVA (end)");
-            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 200, L"Hash");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"计数");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 80, L"大小");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 120, L"RVA (起始)");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 120, L"RVA (结束)");
+            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 200, L"哈希");
             PhLoadListViewColumnsFromSetting(L"ImageClrTablesListViewColumns", context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(L"ImageClrTablePreviewListViewColumns", context->ListViewHandle);
 

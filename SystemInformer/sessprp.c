@@ -24,16 +24,16 @@ INT_PTR CALLBACK PhpSessionPropertiesDlgProc(
 
 static CONST PH_KEY_VALUE_PAIR PhpConnectStatePairs[] =
 {
-    SIP(L"Active", State_Active),
-    SIP(L"Connected", State_Connected),
-    SIP(L"ConnectQuery", State_ConnectQuery),
-    SIP(L"Shadow", State_Shadow),
-    SIP(L"Disconnected", State_Disconnected),
-    SIP(L"Idle", State_Idle),
-    SIP(L"Listen", State_Listen),
-    SIP(L"Reset", State_Reset),
-    SIP(L"Down", State_Down),
-    SIP(L"Init", State_Init)
+    SIP(L"活动", State_Active),
+    SIP(L"已连接", State_Connected),
+    SIP(L"连接查询", State_ConnectQuery),
+    SIP(L"影子", State_Shadow),
+    SIP(L"已断开", State_Disconnected),
+    SIP(L"空闲", State_Idle),
+    SIP(L"监听", State_Listen),
+    SIP(L"重置", State_Reset),
+    SIP(L"停机", State_Down),
+    SIP(L"初始化", State_Init)
 };
 
 VOID PhShowSessionProperties(
@@ -246,24 +246,24 @@ INT_PTR CALLBACK PhpSessionPropertiesDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 150, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 250, L"Value");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 150, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 250, L"值");
             PhSetExtendedListView(context->ListViewHandle);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 0, L"User");
+            PhAddListViewGroup(context->ListViewHandle, 0, L"用户");
             //PhAddListViewGroup(context->ListViewHandle, 1, L"Profile");
 
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 0, L"User name", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 1, L"Session ID", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 2, L"State", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 3, L"Logon time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 4, L"Connect time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 5, L"Disconnect time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 6, L"Last input time", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 7, L"Client name", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 8, L"Client address", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 9, L"Client display", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 0, L"用户名", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 1, L"会话 ID", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 2, L"状态", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 3, L"登录时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 4, L"连接时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 5, L"断开时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 6, L"最后输入时间", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 7, L"客户端名称", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 8, L"客户端地址", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 9, L"客户端显示", NULL);
 
             //PhAddListViewGroupItem(context->ListViewHandle, 1, 10, L"LastLogon", NULL);
             //PhAddListViewGroupItem(context->ListViewHandle, 1, 11, L"LastLogoff", NULL);
@@ -322,7 +322,7 @@ INT_PTR CALLBACK PhpSessionPropertiesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&复制", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

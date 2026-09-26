@@ -82,9 +82,9 @@ VOID ShowFileFoundDialog(
 {
     static TASKDIALOG_BUTTON TaskDialogButtonArray[] =
     {
-        { IDYES, L"View last analysis\nView the last or outdated analysis page" },
+        { IDYES, L"查看上次分析\n查看上次或过期的分析页面" },
         //{ IDRETRY, L"Reanalyze file\nRescan the existing sample on VirusTotal" },
-        { IDOK, L"Upload file\nUpload fresh sample for updated analysis" },
+        { IDOK, L"上传文件\n上传新样本以进行更新分析" },
     };
 
     TASKDIALOGCONFIG config;
@@ -95,7 +95,7 @@ VOID ShowFileFoundDialog(
     config.dwCommonButtons = TDCBF_CLOSE_BUTTON;
     config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(Context->DialogHandle));
     config.pszMainInstruction = PhaFormatString(
-        L"%s was last analyzed %s",
+        L"%s 上次分析于 %s",
         PhGetStringOrEmpty(Context->BaseFileName),
         PhGetStringOrEmpty(Context->LastAnalysisDate)
         )->Buffer;
@@ -105,28 +105,28 @@ VOID ShowFileFoundDialog(
         // was last analyzed by VirusTotal on 2016-12-28 05:26:50 UTC (1 hour ago) it was first analyzed by VirusTotal on 2016-12-12 17:08:19 UTC.
         config.pszContent = PhaFormatString(
             L"%s %s\r\n%s %s\r\n%s %s\r\n%s %s\r\n\r\n%s",
-            L"Detections:",
+            L"检测数：",
             PhGetStringOrEmpty(Context->Detected),
-            L"First analyzed:",
+            L"首次分析：",
             PhGetStringOrEmpty(Context->FirstAnalysisDate),
-            L"Last analyzed:",
+            L"上次分析：",
             PhGetStringOrEmpty(Context->LastAnalysisDate),
-            L"Upload size:",
+            L"上传大小：",
             PhGetStringOrEmpty(Context->FileSize),
-            L"You can take a look at the last analysis or upload it again now."
+            L"您可以查看上次分析，或立即重新上传。"
             )->Buffer;
     }
     else
     {
         config.pszContent = PhaFormatString(
             L"%s %s\r\n%s %s\r\n\r\n%s",
-            L"Detections:",
+            L"检测数：",
             PhGetStringOrEmpty(Context->Detected),
             //L"Last analyzed:",
             //PhGetStringOrEmpty(Context->LastAnalysisDate),
-            L"Upload size:",
+            L"上传大小：",
             PhGetStringOrEmpty(Context->FileSize),
-            L"You can take a look at the last analysis or upload it again now."
+            L"您可以查看上次分析，或立即重新上传。"
             )->Buffer;
     }
 

@@ -66,8 +66,8 @@ typedef struct _PV_PE_DYNRELOC_CONTEXT
     BOOLEAN Cancel;
 } PV_PE_DYNRELOC_CONTEXT, *PPV_PE_DYNRELOC_CONTEXT;
 
-static PH_STRINGREF LoadingDynRelocText = PH_STRINGREF_INIT(L"Loading dynamic relocations from image...");
-static PH_STRINGREF EmptyDynRelocText = PH_STRINGREF_INIT(L"There are no dynamic relocations to display.");
+static PH_STRINGREF LoadingDynRelocText = PH_STRINGREF_INIT(L"正在从映像加载动态重定位...");
+static PH_STRINGREF EmptyDynRelocText = PH_STRINGREF_INIT(L"没有要显示的动态重定位。");
 
 typedef struct _PV_DYNRELOC_OVERRIDE_GROUP
 {
@@ -240,9 +240,9 @@ PPH_STRING PvDynRelocEntryInfoString(
             case IMAGE_DVRT_ARM64X_FIXUP_TYPE_ZEROFILL:
                 switch (Entry->ARM64X.RecordFixup.Size)
                 {
-                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_2BYTES: return PhCreateString(L"Zero 2 bytes");
-                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_4BYTES: return PhCreateString(L"Zero 4 bytes");
-                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_8BYTES: return PhCreateString(L"Zero 8 bytes");
+                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_2BYTES: return PhCreateString(L"清零 2 字节");
+                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_4BYTES: return PhCreateString(L"清零 4 字节");
+                case IMAGE_DVRT_ARM64X_FIXUP_SIZE_8BYTES: return PhCreateString(L"清零 8 字节");
                 default: return PhCreateString(L"UNKNOWN");
                 }
             case IMAGE_DVRT_ARM64X_FIXUP_TYPE_VALUE:
@@ -264,11 +264,11 @@ PPH_STRING PvDynRelocEntryInfoString(
         }
     case IMAGE_DYNAMIC_RELOCATION_GUARD_RF_PROLOGUE:
         *TypeName = L"RF_PROLOGUE";
-        return PhFormatString(L"%u bytes", Entry->RFPrologue.PrologueByteCount);
+        return PhFormatString(L"%u 字节", Entry->RFPrologue.PrologueByteCount);
     case IMAGE_DYNAMIC_RELOCATION_GUARD_RF_EPILOGUE:
         *TypeName = L"RF_EPILOGUE";
         return PhFormatString(
-            L"%u epilogues, %u bytes, %u branches (%u byte elems)",
+            L"%u 个尾声, %u 字节, %u 个分支 (%u 字节元素)",
             Entry->RFEpilogue.EpilogueCount,
             Entry->RFEpilogue.EpilogueByteCount,
             Entry->RFEpilogue.BranchDescriptorCount,
@@ -279,7 +279,7 @@ PPH_STRING PvDynRelocEntryInfoString(
         return PhFormatString(
             L"IAT index %05x%ls",
             Entry->ImportControl.Record.IATIndex,
-            Entry->ImportControl.Record.IndirectCall ? L" call" : L" branch"
+            Entry->ImportControl.Record.IndirectCall ? L" 调用" : L" 分支"
             );
     case IMAGE_DYNAMIC_RELOCATION_ARM64_KERNEL_IMPORT_CALL_TRANSFER:
         *TypeName = L"ARM64_IMPORT";
@@ -288,7 +288,7 @@ PPH_STRING PvDynRelocEntryInfoString(
             Entry->ARM64ImportControl.Record.IATIndex,
             Entry->ARM64ImportControl.Record.RegisterIndex,
             Entry->ARM64ImportControl.Record.IndirectCall ? L" BLR" : L" BR",
-            Entry->ARM64ImportControl.Record.ImportType ? L" delay" : L""
+            Entry->ARM64ImportControl.Record.ImportType ? L" 延迟" : L""
             );
     case IMAGE_DYNAMIC_RELOCATION_GUARD_INDIR_CONTROL_TRANSFER:
         *TypeName = L"INDIRECT";
@@ -300,7 +300,7 @@ PPH_STRING PvDynRelocEntryInfoString(
             );
     case IMAGE_DYNAMIC_RELOCATION_GUARD_SWITCHTABLE_BRANCH:
         *TypeName = L"BRANCH";
-        return PhFormatString(L"Register %u", Entry->SwitchBranch.Record.RegisterNumber);
+        return PhFormatString(L"寄存器 %u", Entry->SwitchBranch.Record.RegisterNumber);
     default:
         // Entries with no dedicated DVRT symbol carry an ordinary base-relocation record; name it
         // from the record type as the flat list did (this should only be ABS in practice, but the
@@ -423,7 +423,7 @@ PPH_STRING PvDynRelocFeatureString(
     // OVRDCAP_ALWAYS_OFF is 0x7FFFFFFF -- the top bit is CLEAR, so this must be tested before (not
     // inside) the top-bit branch below.
     if (Feature == OVRDCAP_ALWAYS_OFF)
-        return PhCreateString(L"never");
+        return PhCreateString(L"从不");
 
     // A set top bit marks an "OS Special Function": the OS supplies the implementation (e.g. from
     // ntdll) rather than the image selecting one of its own bodies. The low 31 bits are still a
@@ -432,7 +432,7 @@ PPH_STRING PvDynRelocFeatureString(
     {
         ULONG capability = Feature & ~0x80000000ul;
         PPH_STRING inner = PvDynRelocFeatureString(capability);
-        PPH_STRING result = PhFormatString(L"OS special function: %ls", inner->Buffer);
+        PPH_STRING result = PhFormatString(L"OS 特殊函数: %ls", inner->Buffer);
 
         PhDereferenceObject(inner);
         return result;
@@ -443,21 +443,21 @@ PPH_STRING PvDynRelocFeatureString(
     // ---- AMD64 -----------------------------------------------------------------------------
 
     // Vendor selectors. The remaining CPU-signature ranges are fused by the caller.
-    case OVRDCAP_AMD64_CPU_MANUFACTURER_RECOGNIZED: name = L"any known CPU vendor"; break;
+    case OVRDCAP_AMD64_CPU_MANUFACTURER_RECOGNIZED: name = L"任意已知 CPU 厂商"; break;
     case OVRDCAP_AMD64_CPU_MANUFACTURER_INTEL:      name = L"Intel"; break;
     case OVRDCAP_AMD64_CPU_MANUFACTURER_AMD:        name = L"AMD"; break;
     case OVRDCAP_AMD64_CPU_MANUFACTURER_VIA:        name = L"VIA"; break;
 
     // String/memory-copy instruction capabilities.
     case OVRDCAP_AMD64_ERMSB:                   name = L"ERMSB"; break;
-    case OVRDCAP_AMD64_FAST_SHORT_REPMOV:       name = L"fast short REP MOV"; break;
-    case OVRDCAP_AMD64_FAST_ZERO_LEN_REPMOV:    name = L"fast zero-length REP MOV"; break;
-    case OVRDCAP_AMD64_FAST_SHORT_REPSTOSB:     name = L"fast short REP STOSB"; break;
-    case OVRDCAP_AMD64_FAST_SHORT_REPCMPSB:     name = L"fast short REP CMPSB"; break;
+    case OVRDCAP_AMD64_FAST_SHORT_REPMOV:       name = L"快速短 REP MOV"; break;
+    case OVRDCAP_AMD64_FAST_ZERO_LEN_REPMOV:    name = L"快速零长度 REP MOV"; break;
+    case OVRDCAP_AMD64_FAST_SHORT_REPSTOSB:     name = L"快速短 REP STOSB"; break;
+    case OVRDCAP_AMD64_FAST_SHORT_REPCMPSB:     name = L"快速短 REP CMPSB"; break;
 
     // Execution mode.
-    case OVRDCAP_AMD64_USERMODE:                name = L"user mode"; break;
-    case OVRDCAP_AMD64_KERNELMODE:              name = L"kernel mode"; break;
+    case OVRDCAP_AMD64_USERMODE:                name = L"用户模式"; break;
+    case OVRDCAP_AMD64_KERNELMODE:              name = L"内核模式"; break;
 
     // Instruction-set extensions.
     case OVRDCAP_AMD64_AVX:                     name = L"AVX"; break;
@@ -466,52 +466,52 @@ PPH_STRING PvDynRelocFeatureString(
     case OVRDCAP_AMD64_SSE41:                   name = L"SSE4.1"; break;
 
     // Control-flow guard dispatch variants (values fixed; hard coded in the compiler).
-    case OVRDCAP_AMD64_CFG_CHECK_OPT:           name = L"CFG check optimization"; break;
-    case OVRDCAP_AMD64_CFG_DISPATCH_OPT:        name = L"CFG dispatch optimization"; break;
-    case OVRDCAP_AMD64_XFG_DISPATCH_OPT:        name = L"XFG dispatch optimization"; break;
-    case OVRDCAP_AMD64_KCFG_DISPATCH_KSCP:      name = L"kCFG dispatch (KSCP)"; break;
+    case OVRDCAP_AMD64_CFG_CHECK_OPT:           name = L"CFG 检查优化"; break;
+    case OVRDCAP_AMD64_CFG_DISPATCH_OPT:        name = L"CFG 分发优化"; break;
+    case OVRDCAP_AMD64_XFG_DISPATCH_OPT:        name = L"XFG 分发优化"; break;
+    case OVRDCAP_AMD64_KCFG_DISPATCH_KSCP:      name = L"kCFG 分发 (KSCP)"; break;
 
     // Supervisor-mode protections.
     case OVRDCAP_AMD64_SMEP:                    name = L"SMEP"; break;
     case OVRDCAP_AMD64_SMAP:                    name = L"SMAP"; break;
 
-    case OVRDCAP_AMD64_NOT_LIVE_MIGRATEABLE:    name = L"not live-migrateable"; break;
+    case OVRDCAP_AMD64_NOT_LIVE_MIGRATEABLE:    name = L"不支持实时迁移"; break;
 
     // User-mode access (UMA) special-function overrides.
-    case OVRDCAP_AMD64_UMA_DISPATCH_KSCP:                   name = L"UMA dispatch (KSCP)"; break;
-    case OVRDCAP_AMD64_UMA_COPY_FROM_USER_SO:               name = L"UMA copy-from-user"; break;
-    case OVRDCAP_AMD64_UMA_COPY_TO_USER_SO:                 name = L"UMA copy-to-user"; break;
-    case OVRDCAP_AMD64_UMA_COPY_TO_USER_FROM_USER_SO:       name = L"UMA copy-to-user-from-user"; break;
-    case OVRDCAP_AMD64_UMA_MOVE_TO_USER_FROM_USER_SO:       name = L"UMA move-to-user-from-user"; break;
-    case OVRDCAP_AMD64_UMA_SET_USER_MEMORY_SO:              name = L"UMA set-user-memory"; break;
-    case OVRDCAP_AMD64_UMA_READ_UCHAR_FROM_USER_SO:         name = L"UMA read UCHAR"; break;
-    case OVRDCAP_AMD64_UMA_WRITE_UCHAR_TO_USER_SO:          name = L"UMA write UCHAR"; break;
-    case OVRDCAP_AMD64_UMA_READ_USHORT_FROM_USER_SO:        name = L"UMA read USHORT"; break;
-    case OVRDCAP_AMD64_UMA_WRITE_USHORT_TO_USER_SO:         name = L"UMA write USHORT"; break;
-    case OVRDCAP_AMD64_UMA_READ_ULONG_FROM_USER_SO:         name = L"UMA read ULONG"; break;
-    case OVRDCAP_AMD64_UMA_WRITE_ULONG_TO_USER_SO:          name = L"UMA write ULONG"; break;
-    case OVRDCAP_AMD64_UMA_READ_ULONG64_FROM_USER_SO:       name = L"UMA read ULONG64"; break;
-    case OVRDCAP_AMD64_UMA_WRITE_ULONG64_TO_USER_SO:        name = L"UMA write ULONG64"; break;
-    case OVRDCAP_AMD64_UMA_STRING_LENGTH_FROM_USER_SO:      name = L"UMA string length"; break;
-    case OVRDCAP_AMD64_UMA_WSTRING_LENGTH_FROM_USER_SO:     name = L"UMA wide string length"; break;
-    case OVRDCAP_AMD64_UMA_COPY_FROM_USER_NON_TEMPORAL_SO:  name = L"UMA copy-from-user (non-temporal)"; break;
-    case OVRDCAP_AMD64_UMA_COPY_TO_USER_NON_TEMPORAL_SO:    name = L"UMA copy-to-user (non-temporal)"; break;
-    case OVRDCAP_AMD64_UMA_CAS_64_TO_USER_SO:               name = L"UMA compare-exchange 64"; break;
-    case OVRDCAP_AMD64_UMA_IOR_32_TO_USER_SO:               name = L"UMA interlocked-or 32"; break;
-    case OVRDCAP_AMD64_UMA_IOR_64_TO_USER_SO:               name = L"UMA interlocked-or 64"; break;
-    case OVRDCAP_AMD64_UMA_IAND_32_TO_USER_SO:              name = L"UMA interlocked-and 32"; break;
-    case OVRDCAP_AMD64_UMA_IAND_64_TO_USER_SO:              name = L"UMA interlocked-and 64"; break;
+    case OVRDCAP_AMD64_UMA_DISPATCH_KSCP:                   name = L"UMA 分发 (KSCP)"; break;
+    case OVRDCAP_AMD64_UMA_COPY_FROM_USER_SO:               name = L"UMA 从用户空间复制"; break;
+    case OVRDCAP_AMD64_UMA_COPY_TO_USER_SO:                 name = L"UMA 复制到用户空间"; break;
+    case OVRDCAP_AMD64_UMA_COPY_TO_USER_FROM_USER_SO:       name = L"UMA 从用户空间复制到用户空间"; break;
+    case OVRDCAP_AMD64_UMA_MOVE_TO_USER_FROM_USER_SO:       name = L"UMA 从用户空间移动到用户空间"; break;
+    case OVRDCAP_AMD64_UMA_SET_USER_MEMORY_SO:              name = L"UMA 设置用户空间内存"; break;
+    case OVRDCAP_AMD64_UMA_READ_UCHAR_FROM_USER_SO:         name = L"UMA 读取 UCHAR"; break;
+    case OVRDCAP_AMD64_UMA_WRITE_UCHAR_TO_USER_SO:          name = L"UMA 写入 UCHAR"; break;
+    case OVRDCAP_AMD64_UMA_READ_USHORT_FROM_USER_SO:        name = L"UMA 读取 USHORT"; break;
+    case OVRDCAP_AMD64_UMA_WRITE_USHORT_TO_USER_SO:         name = L"UMA 写入 USHORT"; break;
+    case OVRDCAP_AMD64_UMA_READ_ULONG_FROM_USER_SO:         name = L"UMA 读取 ULONG"; break;
+    case OVRDCAP_AMD64_UMA_WRITE_ULONG_TO_USER_SO:          name = L"UMA 写入 ULONG"; break;
+    case OVRDCAP_AMD64_UMA_READ_ULONG64_FROM_USER_SO:       name = L"UMA 读取 ULONG64"; break;
+    case OVRDCAP_AMD64_UMA_WRITE_ULONG64_TO_USER_SO:        name = L"UMA 写入 ULONG64"; break;
+    case OVRDCAP_AMD64_UMA_STRING_LENGTH_FROM_USER_SO:      name = L"UMA 字符串长度"; break;
+    case OVRDCAP_AMD64_UMA_WSTRING_LENGTH_FROM_USER_SO:     name = L"UMA 宽字符串长度"; break;
+    case OVRDCAP_AMD64_UMA_COPY_FROM_USER_NON_TEMPORAL_SO:  name = L"UMA 从用户空间复制 (非临时)"; break;
+    case OVRDCAP_AMD64_UMA_COPY_TO_USER_NON_TEMPORAL_SO:    name = L"UMA 复制到用户空间 (非临时)"; break;
+    case OVRDCAP_AMD64_UMA_CAS_64_TO_USER_SO:               name = L"UMA 比较交换 64"; break;
+    case OVRDCAP_AMD64_UMA_IOR_32_TO_USER_SO:               name = L"UMA 互锁或 32"; break;
+    case OVRDCAP_AMD64_UMA_IOR_64_TO_USER_SO:               name = L"UMA 互锁或 64"; break;
+    case OVRDCAP_AMD64_UMA_IAND_32_TO_USER_SO:              name = L"UMA 互锁与 32"; break;
+    case OVRDCAP_AMD64_UMA_IAND_64_TO_USER_SO:              name = L"UMA 互锁与 64"; break;
 
     // Capability-set version markers: the OS is aware of this capability set.
-    case OVRDCAP_AMD64_V1_CAPSET:               name = L"AMD64 capability set v1"; break;
-    case OVRDCAP_AMD64_V2_CAPSET:               name = L"AMD64 capability set v2"; break;
-    case OVRDCAP_AMD64_V3_CAPSET:               name = L"AMD64 capability set v3"; break;
-    case OVRDCAP_AMD64_V4_CAPSET:               name = L"AMD64 capability set v4"; break;
+    case OVRDCAP_AMD64_V1_CAPSET:               name = L"AMD64 功能集 v1"; break;
+    case OVRDCAP_AMD64_V2_CAPSET:               name = L"AMD64 功能集 v2"; break;
+    case OVRDCAP_AMD64_V3_CAPSET:               name = L"AMD64 功能集 v3"; break;
+    case OVRDCAP_AMD64_V4_CAPSET:               name = L"AMD64 功能集 v4"; break;
 
     // ---- ARM64 -----------------------------------------------------------------------------
 
-    case OVRDCAP_ARM64_USERMODE:                name = L"user mode"; break;
-    case OVRDCAP_ARM64_KERNELMODE:              name = L"kernel mode"; break;
+    case OVRDCAP_ARM64_USERMODE:                name = L"用户模式"; break;
+    case OVRDCAP_ARM64_KERNELMODE:              name = L"内核模式"; break;
 
     // Cryptographic and arithmetic extensions.
     case OVRDCAP_ARM64_SHA256:                  name = L"SHA-256"; break;
@@ -522,7 +522,7 @@ PPH_STRING PvDynRelocFeatureString(
     case OVRDCAP_ARM64_LSE:                     name = L"LSE"; break;
     case OVRDCAP_ARM64_LSE2:                    name = L"LSE2"; break;
     case OVRDCAP_ARM64_RDM:                     name = L"RDM"; break;
-    case OVRDCAP_ARM64_DP:                      name = L"dot product"; break;
+    case OVRDCAP_ARM64_DP:                      name = L"点积"; break;
     case OVRDCAP_ARM64_FHM:                     name = L"FHM"; break;
     case OVRDCAP_ARM64_FLAGM:                   name = L"FlagM"; break;
     case OVRDCAP_ARM64_FLAGM2:                  name = L"FlagM2"; break;
@@ -538,23 +538,23 @@ PPH_STRING PvDynRelocFeatureString(
     case OVRDCAP_ARM64_F64MM:                   name = L"F64MM"; break;
 
     // Control-flow guard dispatch variants (values fixed; hard coded in the compiler).
-    case OVRDCAP_ARM64_CFG_CHECK_OPT:           name = L"CFG check optimization"; break;
-    case OVRDCAP_ARM64_CFG_DISPATCH_OPT:        name = L"CFG dispatch optimization"; break;
-    case OVRDCAP_ARM64_EC_CFG_CHECK_OPT:        name = L"EC CFG check optimization"; break;
-    case OVRDCAP_ARM64_EC_ICALL_CHECK_OPT:      name = L"EC indirect-call check optimization"; break;
-    case OVRDCAP_ARM64_EC_CALL_CHECK_OPT:       name = L"EC call check optimization"; break;
-    case OVRDCAP_ARM64_KCFG_CHECK_KSCP:         name = L"kCFG check (KSCP)"; break;
+    case OVRDCAP_ARM64_CFG_CHECK_OPT:           name = L"CFG 检查优化"; break;
+    case OVRDCAP_ARM64_CFG_DISPATCH_OPT:        name = L"CFG 分发优化"; break;
+    case OVRDCAP_ARM64_EC_CFG_CHECK_OPT:        name = L"EC CFG 检查优化"; break;
+    case OVRDCAP_ARM64_EC_ICALL_CHECK_OPT:      name = L"EC 间接调用检查优化"; break;
+    case OVRDCAP_ARM64_EC_CALL_CHECK_OPT:       name = L"EC 调用检查优化"; break;
+    case OVRDCAP_ARM64_KCFG_CHECK_KSCP:         name = L"kCFG 检查 (KSCP)"; break;
 
     // Alignment and cache behaviour.
-    case OVRDCAP_ARM64_UNALIGNED_CRT_STRESS_TEST: name = L"unaligned CRT stress test"; break;
-    case OVRDCAP_ARM64_UNALIGNED_CRT:           name = L"unaligned CRT"; break;
+    case OVRDCAP_ARM64_UNALIGNED_CRT_STRESS_TEST: name = L"非对齐 CRT 压力测试"; break;
+    case OVRDCAP_ARM64_UNALIGNED_CRT:           name = L"非对齐 CRT"; break;
     case OVRDCAP_ARM64_DCZVA:                   name = L"DC ZVA"; break;
-    case OVRDCAP_ARM64_DCZVA_STRIDE_64BYTES:    name = L"DC ZVA 64-byte stride"; break;
+    case OVRDCAP_ARM64_DCZVA_STRIDE_64BYTES:    name = L"DC ZVA 64 字节步长"; break;
 
     case OVRDCAP_ARM64_PAN:                     name = L"PAN"; break;
-    case OVRDCAP_ARM64_NO_DEVICE_MEMORY_ALLOCATION: name = L"no device-memory allocation"; break;
-    case OVRDCAP_ARM64_NOT_LIVE_MIGRATEABLE:    name = L"not live-migrateable"; break;
-    case OVRDCAP_ARM64_HYPERVISOR_VENDOR_MICROSOFT: name = L"Microsoft hypervisor"; break;
+    case OVRDCAP_ARM64_NO_DEVICE_MEMORY_ALLOCATION: name = L"无设备内存分配"; break;
+    case OVRDCAP_ARM64_NOT_LIVE_MIGRATEABLE:    name = L"不支持实时迁移"; break;
+    case OVRDCAP_ARM64_HYPERVISOR_VENDOR_MICROSOFT: name = L"Microsoft 虚拟机监控程序"; break;
 
     // CPU implementers.
     case OVRDCAP_ARM64_CPU_IMPLEMENTER_ARM:         name = L"ARM"; break;
@@ -583,43 +583,43 @@ PPH_STRING PvDynRelocFeatureString(
 #endif
 
     // User-mode access (UMA) special-function overrides.
-    case OVRDCAP_ARM64_UMA_DISPATCH_KSCP:                   name = L"UMA dispatch (KSCP)"; break;
-    case OVRDCAP_ARM64_UMA_COPY_FROM_USER_SO:               name = L"UMA copy-from-user"; break;
-    case OVRDCAP_ARM64_UMA_COPY_TO_USER_SO:                 name = L"UMA copy-to-user"; break;
-    case OVRDCAP_ARM64_UMA_COPY_TO_USER_FROM_USER_SO:       name = L"UMA copy-to-user-from-user"; break;
-    case OVRDCAP_ARM64_UMA_MOVE_TO_USER_FROM_USER_SO:       name = L"UMA move-to-user-from-user"; break;
-    case OVRDCAP_ARM64_UMA_SET_USER_MEMORY_SO:              name = L"UMA set-user-memory"; break;
-    case OVRDCAP_ARM64_UMA_READ_UCHAR_FROM_USER_SO:         name = L"UMA read UCHAR"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_UCHAR_TO_USER_SO:          name = L"UMA write UCHAR"; break;
-    case OVRDCAP_ARM64_UMA_READ_USHORT_FROM_USER_SO:        name = L"UMA read USHORT"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_USHORT_TO_USER_SO:         name = L"UMA write USHORT"; break;
-    case OVRDCAP_ARM64_UMA_READ_ULONG_FROM_USER_SO:         name = L"UMA read ULONG"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_ULONG_TO_USER_SO:          name = L"UMA write ULONG"; break;
-    case OVRDCAP_ARM64_UMA_READ_ULONG64_FROM_USER_SO:       name = L"UMA read ULONG64"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_ULONG64_TO_USER_SO:        name = L"UMA write ULONG64"; break;
-    case OVRDCAP_ARM64_UMA_STRING_LENGTH_FROM_USER_SO:      name = L"UMA string length"; break;
-    case OVRDCAP_ARM64_UMA_WSTRING_LENGTH_FROM_USER_SO:     name = L"UMA wide string length"; break;
-    case OVRDCAP_ARM64_UMA_READ_UCHAR_FROM_USER_ACQ_SO:     name = L"UMA read UCHAR (acquire)"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_UCHAR_TO_USER_REL_SO:      name = L"UMA write UCHAR (release)"; break;
-    case OVRDCAP_ARM64_UMA_READ_USHORT_FROM_USER_ACQ_SO:    name = L"UMA read USHORT (acquire)"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_USHORT_TO_USER_REL_SO:     name = L"UMA write USHORT (release)"; break;
-    case OVRDCAP_ARM64_UMA_READ_ULONG_FROM_USER_ACQ_SO:     name = L"UMA read ULONG (acquire)"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_ULONG_TO_USER_REL_SO:      name = L"UMA write ULONG (release)"; break;
-    case OVRDCAP_ARM64_UMA_READ_ULONG64_FROM_USER_ACQ_SO:   name = L"UMA read ULONG64 (acquire)"; break;
-    case OVRDCAP_ARM64_UMA_WRITE_ULONG64_TO_USER_REL_SO:    name = L"UMA write ULONG64 (release)"; break;
-    case OVRDCAP_ARM64_UMA_COPY_FROM_USER_NON_TEMPORAL_SO:  name = L"UMA copy-from-user (non-temporal)"; break;
-    case OVRDCAP_ARM64_UMA_COPY_TO_USER_NON_TEMPORAL_SO:    name = L"UMA copy-to-user (non-temporal)"; break;
-    case OVRDCAP_ARM64_UMA_CAS_64_TO_USER_SO:               name = L"UMA compare-exchange 64"; break;
-    case OVRDCAP_ARM64_UMA_IOR_32_TO_USER_SO:               name = L"UMA interlocked-or 32"; break;
-    case OVRDCAP_ARM64_UMA_IOR_64_TO_USER_SO:               name = L"UMA interlocked-or 64"; break;
-    case OVRDCAP_ARM64_UMA_IAND_32_TO_USER_SO:              name = L"UMA interlocked-and 32"; break;
-    case OVRDCAP_ARM64_UMA_IAND_64_TO_USER_SO:              name = L"UMA interlocked-and 64"; break;
+    case OVRDCAP_ARM64_UMA_DISPATCH_KSCP:                   name = L"UMA 分发 (KSCP)"; break;
+    case OVRDCAP_ARM64_UMA_COPY_FROM_USER_SO:               name = L"UMA 从用户空间复制"; break;
+    case OVRDCAP_ARM64_UMA_COPY_TO_USER_SO:                 name = L"UMA 复制到用户空间"; break;
+    case OVRDCAP_ARM64_UMA_COPY_TO_USER_FROM_USER_SO:       name = L"UMA 从用户空间复制到用户空间"; break;
+    case OVRDCAP_ARM64_UMA_MOVE_TO_USER_FROM_USER_SO:       name = L"UMA 从用户空间移动到用户空间"; break;
+    case OVRDCAP_ARM64_UMA_SET_USER_MEMORY_SO:              name = L"UMA 设置用户空间内存"; break;
+    case OVRDCAP_ARM64_UMA_READ_UCHAR_FROM_USER_SO:         name = L"UMA 读取 UCHAR"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_UCHAR_TO_USER_SO:          name = L"UMA 写入 UCHAR"; break;
+    case OVRDCAP_ARM64_UMA_READ_USHORT_FROM_USER_SO:        name = L"UMA 读取 USHORT"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_USHORT_TO_USER_SO:         name = L"UMA 写入 USHORT"; break;
+    case OVRDCAP_ARM64_UMA_READ_ULONG_FROM_USER_SO:         name = L"UMA 读取 ULONG"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_ULONG_TO_USER_SO:          name = L"UMA 写入 ULONG"; break;
+    case OVRDCAP_ARM64_UMA_READ_ULONG64_FROM_USER_SO:       name = L"UMA 读取 ULONG64"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_ULONG64_TO_USER_SO:        name = L"UMA 写入 ULONG64"; break;
+    case OVRDCAP_ARM64_UMA_STRING_LENGTH_FROM_USER_SO:      name = L"UMA 字符串长度"; break;
+    case OVRDCAP_ARM64_UMA_WSTRING_LENGTH_FROM_USER_SO:     name = L"UMA 宽字符串长度"; break;
+    case OVRDCAP_ARM64_UMA_READ_UCHAR_FROM_USER_ACQ_SO:     name = L"UMA 读取 UCHAR (获取)"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_UCHAR_TO_USER_REL_SO:      name = L"UMA 写入 UCHAR (释放)"; break;
+    case OVRDCAP_ARM64_UMA_READ_USHORT_FROM_USER_ACQ_SO:    name = L"UMA 读取 USHORT (获取)"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_USHORT_TO_USER_REL_SO:     name = L"UMA 写入 USHORT (释放)"; break;
+    case OVRDCAP_ARM64_UMA_READ_ULONG_FROM_USER_ACQ_SO:     name = L"UMA 读取 ULONG (获取)"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_ULONG_TO_USER_REL_SO:      name = L"UMA 写入 ULONG (释放)"; break;
+    case OVRDCAP_ARM64_UMA_READ_ULONG64_FROM_USER_ACQ_SO:   name = L"UMA 读取 ULONG64 (获取)"; break;
+    case OVRDCAP_ARM64_UMA_WRITE_ULONG64_TO_USER_REL_SO:    name = L"UMA 写入 ULONG64 (释放)"; break;
+    case OVRDCAP_ARM64_UMA_COPY_FROM_USER_NON_TEMPORAL_SO:  name = L"UMA 从用户空间复制 (非临时)"; break;
+    case OVRDCAP_ARM64_UMA_COPY_TO_USER_NON_TEMPORAL_SO:    name = L"UMA 复制到用户空间 (非临时)"; break;
+    case OVRDCAP_ARM64_UMA_CAS_64_TO_USER_SO:               name = L"UMA 比较交换 64"; break;
+    case OVRDCAP_ARM64_UMA_IOR_32_TO_USER_SO:               name = L"UMA 互锁或 32"; break;
+    case OVRDCAP_ARM64_UMA_IOR_64_TO_USER_SO:               name = L"UMA 互锁或 64"; break;
+    case OVRDCAP_ARM64_UMA_IAND_32_TO_USER_SO:              name = L"UMA 互锁与 32"; break;
+    case OVRDCAP_ARM64_UMA_IAND_64_TO_USER_SO:              name = L"UMA 互锁与 64"; break;
 
     // Capability-set version markers: the OS is aware of this capability set.
-    case OVRDCAP_ARM64_V1_CAPSET:               name = L"ARM64 capability set v1"; break;
-    case OVRDCAP_ARM64_V2_CAPSET:               name = L"ARM64 capability set v2"; break;
-    case OVRDCAP_ARM64_V3_CAPSET:               name = L"ARM64 capability set v3"; break;
-    case OVRDCAP_ARM64_V4_CAPSET:               name = L"ARM64 capability set v4"; break;
+    case OVRDCAP_ARM64_V1_CAPSET:               name = L"ARM64 功能集 v1"; break;
+    case OVRDCAP_ARM64_V2_CAPSET:               name = L"ARM64 功能集 v2"; break;
+    case OVRDCAP_ARM64_V3_CAPSET:               name = L"ARM64 功能集 v3"; break;
+    case OVRDCAP_ARM64_V4_CAPSET:               name = L"ARM64 功能集 v4"; break;
     }
 
     if (name)
@@ -628,7 +628,7 @@ PPH_STRING PvDynRelocFeatureString(
     // A number inside a namespace that this switch does not name: either a capability added after the
     // SDK header this build was compiled against, or one deliberately left to the caller's signature
     // fusion. Show the raw value in hex so it can be matched against overridecapabilities.h.
-    return PhFormatString(L"feature 0x%lx", Feature);
+    return PhFormatString(L"功能 0x%lx", Feature);
 }
 
 // CPU-signature field ranges. Each is a base capability plus the field value, so a run of
@@ -651,11 +651,11 @@ PPH_STRING PvDynRelocOutcomeString(
     switch (Outcome->Type)
     {
     case PhFunctionOverrideKeepOriginal:
-        return PhCreateString(L"keep original");
+        return PhCreateString(L"保留原始");
     case PhFunctionOverrideInvalid:
-        return PhCreateString(L"(malformed terminal)");
+        return PhCreateString(L"(格式错误的终结点)");
     default:
-        return PhFormatString(L"override[%lu]", Outcome->RvaIndex);
+        return PhFormatString(L"覆盖[%lu]", Outcome->RvaIndex);
     }
 }
 
@@ -745,18 +745,18 @@ PPH_STRING PvDynRelocBuildCondition(
                 // either way the rendering names both fields, so no two rungs that differ in
                 // extended family can collapse to the same string.
                 if (family == 15)
-                    PhAppendFormatStringBuilder(&sb, L"family %lu (15+%lu)", family + extFamily, extFamily);
+                    PhAppendFormatStringBuilder(&sb, L"家族 %lu (15+%lu)", family + extFamily, extFamily);
                 else
-                    PhAppendFormatStringBuilder(&sb, L"family %lu ext family %lu", family, extFamily);
+                    PhAppendFormatStringBuilder(&sb, L"家族 %lu 扩展家族 %lu", family, extFamily);
             }
             else
             {
-                PhAppendFormatStringBuilder(&sb, L"family %lu", family);
+                PhAppendFormatStringBuilder(&sb, L"家族 %lu", family);
             }
         }
         else if (haveExtFamily)
         {
-            PhAppendFormatStringBuilder(&sb, L"ext family %lu", extFamily);
+            PhAppendFormatStringBuilder(&sb, L"扩展家族 %lu", extFamily);
         }
 
         if (haveModel || haveExtModel)
@@ -771,7 +771,7 @@ PPH_STRING PvDynRelocBuildCondition(
                 // this rung cannot collapse onto one that constrained only the base model.
                 PhAppendFormatStringBuilder(
                     &sb,
-                    L"model 0x%02lX (%lu:%lu)",
+                    L"型号 0x%02lX (%lu:%lu)",
                     (extModel << 4) | model,
                     extModel,
                     model
@@ -780,15 +780,15 @@ PPH_STRING PvDynRelocBuildCondition(
             else if (haveModel && haveExtModel)
             {
                 // Base family does not fold the extended model: both fields stand alone.
-                PhAppendFormatStringBuilder(&sb, L"model %lu ext model %lu", model, extModel);
+                PhAppendFormatStringBuilder(&sb, L"型号 %lu 扩展型号 %lu", model, extModel);
             }
             else if (haveModel)
             {
-                PhAppendFormatStringBuilder(&sb, L"model %lu", model);
+                PhAppendFormatStringBuilder(&sb, L"型号 %lu", model);
             }
             else
             {
-                PhAppendFormatStringBuilder(&sb, L"ext model %lu", extModel);
+                PhAppendFormatStringBuilder(&sb, L"扩展型号 %lu", extModel);
             }
         }
 
@@ -796,7 +796,7 @@ PPH_STRING PvDynRelocBuildCondition(
     }
 
     if (!needAnd)
-        PhAppendStringBuilder2(&sb, L"(unconstrained)");
+        PhAppendStringBuilder2(&sb, L"(无约束)");
 
     *Index = thenIndex;
     *CommonFalse = commonFalse;
@@ -834,7 +834,7 @@ VOID PvDynRelocAddBddOutcomes(
 
     if (Depth >= PV_DYNRELOC_MAX_BDD_DEPTH)
     {
-        PvAddDynRelocNode(Context, ParentNode, NULL, NULL, PhCreateString(L"(nesting too deep)"));
+        PvAddDynRelocNode(Context, ParentNode, NULL, NULL, PhCreateString(L"(嵌套过深)"));
         return;
     }
 
@@ -861,7 +861,7 @@ VOID PvDynRelocAddBddOutcomes(
                 ParentNode,
                 PH_AUTO_T(PH_STRING, PhFormatString(L"0x%lx", node->Terminal.Rva))->Buffer,
                 PH_AUTO_T(PH_STRING, PvDynRelocOutcomeString(&node->Terminal))->Buffer,
-                first ? NULL : PhCreateString(L"(default)")
+                first ? NULL : PhCreateString(L"(默认)")
                 );
             PvDynRelocSetRvaColumns(row, node->Terminal.Rva);
             (*Count)++;
@@ -871,7 +871,7 @@ VOID PvDynRelocAddBddOutcomes(
         if (Expanded[Index])
         {
             PvAddDynRelocNode(Context, ParentNode, NULL, NULL,
-                PhFormatString(L"(shared node %lu)", Index));
+                PhFormatString(L"(共享节点 %lu)", Index));
             return;
         }
 
@@ -882,7 +882,7 @@ VOID PvDynRelocAddBddOutcomes(
 
         if (alwaysAbsent)
         {
-            guard = PhFormatString(L"%ls (always absent)", condition->Buffer);
+            guard = PhFormatString(L"%ls (始终不存在)", condition->Buffer);
             PhDereferenceObject(condition);
         }
         else
@@ -943,7 +943,7 @@ ULONG PvDynRelocAddOverrideDecisionTree(
     if (!NT_SUCCESS(PhFunctionOverrideEnumerateBddNodes(Representative, PvDynRelocBddCollectCallback, &collect)) ||
         collect.Nodes->Count == 0)
     {
-        PvAddDynRelocNode(Context, ParentNode, L"(no decision diagram)", NULL, NULL);
+        PvAddDynRelocNode(Context, ParentNode, L"(无决策图)", NULL, NULL);
 
         for (ULONG i = 0; i < collect.Nodes->Count; i++)
             PhFree(collect.Nodes->Items[i]);
@@ -1015,7 +1015,7 @@ VOID PvEnumerateDynamicRelocationEntries(
                         NULL,
                         PH_AUTO_T(PH_STRING, PhFormatString(L"0x%lx", entry->FuncOverride.OriginalRva))->Buffer,
                         L"FUNCTION",
-                        PhFormatString(L"original 0x%lx", entry->FuncOverride.OriginalRva)
+                        PhFormatString(L"原始 0x%lx", entry->FuncOverride.OriginalRva)
                         );
 
                     PvDynRelocSetRvaColumns(group->RootNode, entry->FuncOverride.OriginalRva);
@@ -1058,7 +1058,7 @@ VOID PvEnumerateDynamicRelocationEntries(
             sitesNode = PvAddDynRelocNode(
                 Context,
                 group->RootNode,
-                PH_AUTO_T(PH_STRING, PhFormatString(L"Patch sites (%lu)", group->Sites->Count))->Buffer,
+                PH_AUTO_T(PH_STRING, PhFormatString(L"补丁站点 (%lu)", group->Sites->Count))->Buffer,
                 NULL,
                 NULL
                 );
@@ -1086,7 +1086,7 @@ VOID PvEnumerateDynamicRelocationEntries(
                     sitesNode,
                     PH_AUTO_T(PH_STRING, PhFormatString(L"0x%lx", site->FuncOverride.BlockRva + site->FuncOverride.Record.Offset))->Buffer,
                     PvDynRelocOverrideTypeName(site->FuncOverride.Record.Type),
-                    patchWidth ? PhFormatString(L"%lu bytes", patchWidth) : NULL
+                    patchWidth ? PhFormatString(L"%lu 字节", patchWidth) : NULL
                     );
 
                 PvDynRelocSetEntryColumns(siteNode, site);
@@ -1104,7 +1104,7 @@ VOID PvEnumerateDynamicRelocationEntries(
                 ULONG outcomeCount = PvDynRelocAddOverrideDecisionTree(Context, treeNode, group->Representative);
 
                 // Label the group node with the outcome count, mirroring "Patch sites (N)".
-                treeNode->Rva = PhFormatString(L"Outcomes (%lu)", outcomeCount);
+                treeNode->Rva = PhFormatString(L"结果 (%lu)", outcomeCount);
             }
         }
 
@@ -1154,10 +1154,10 @@ VOID PvInitializeDynRelocTree(
     TreeNew_SetCallback(Context->TreeNewHandle, PvDynRelocTreeNewCallback, Context);
 
     PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_RVA, TRUE, L"RVA", 140, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_TYPE, TRUE, L"Type", 110, PH_ALIGN_LEFT, 1, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_INFO, TRUE, L"Info", 260, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_SECTION, TRUE, L"Section", 80, PH_ALIGN_LEFT, 3, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_SYMBOL, TRUE, L"Symbol", 260, PH_ALIGN_LEFT, 4, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_TYPE, TRUE, L"类型", 110, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_INFO, TRUE, L"信息", 260, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_SECTION, TRUE, L"节", 80, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PV_DYNRELOC_TREE_COLUMN_SYMBOL, TRUE, L"符号", 260, PH_ALIGN_LEFT, 4, 0);
 
     settings = PhGetStringSetting(L"ImageDynamicRelocationsTreeColumns");
     PhCmLoadSettings(Context->TreeNewHandle, &settings->sr);
@@ -1526,7 +1526,7 @@ INT_PTR CALLBACK PvpPeDynamicRelocationDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Relocations (Ctrl+K)",
+                L"搜索重定位 (Ctrl+K)",
                 PvpPeDynRelocSearchControlCallback,
                 context
                 );
@@ -1628,7 +1628,7 @@ INT_PTR CALLBACK PvpPeDynamicRelocationDlgProc(
                     PPH_EMENU_ITEM selectedItem;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyCellEMenuItem(menu, USHRT_MAX, context->TreeNewHandle, contextMenuEvent->Column);
 
                     selectedItem = PhShowEMenu(

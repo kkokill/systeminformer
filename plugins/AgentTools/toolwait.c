@@ -224,7 +224,7 @@ VOID AtpAddThreadWaitChain(
         PhAddJsonObjectBoolean(row, "is_deadlocked", FALSE);
         PhAddJsonObjectBoolean(row, "truncated", FALSE);
         PhAddJsonObject(row, "error", status == STATUS_ACCESS_DENIED ? "access_denied" : "failed");
-        AtJsonAddStringZ(row, "message", PhGetStringOrDefault(message, L"unknown error"));
+        AtJsonAddStringZ(row, "message", PhGetStringOrDefault(message, L"未知错误"));
         PhClearReference(&message);
     }
 
@@ -278,7 +278,7 @@ VOID AtpGetThreadWaitChain(
     // has to answer in one message wants.
     if (!(context.SessionHandle = OpenThreadWaitChainSession(0, NULL)))
     {
-        AtSetToolStatusError(Result, PhDosErrorToNtStatus(PhGetLastError()), L"Opening a wait chain session");
+        AtSetToolStatusError(Result, PhDosErrorToNtStatus(PhGetLastError()), L"打开等待链会话");
         return;
     }
 
@@ -303,7 +303,7 @@ VOID AtpGetThreadWaitChain(
 
         if (!NT_SUCCESS(status))
         {
-            AtSetToolStatusError(Result, status, L"Opening the thread");
+            AtSetToolStatusError(Result, status, L"打开线程");
             CloseThreadWaitChainSession(context.SessionHandle);
             PhFreeJsonObject(context.Rows);
             return;
@@ -326,7 +326,7 @@ VOID AtpGetThreadWaitChain(
 
         if (!NT_SUCCESS(status) && context.Count == 0)
         {
-            AtSetToolStatusError(Result, status, L"Enumerating the threads");
+            AtSetToolStatusError(Result, status, L"枚举线程");
             CloseThreadWaitChainSession(context.SessionHandle);
             PhFreeJsonObject(context.Rows);
             return;
@@ -496,7 +496,7 @@ VOID AtpAnalyzeThreadWait(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Reading the thread's last system call");
+        AtSetToolStatusError(Result, status, L"读取线程的最后系统调用");
         return;
     }
 
@@ -584,7 +584,7 @@ VOID AtWaitInvokeTool(
         AtpAnalyzeThreadWait(Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

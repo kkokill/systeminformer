@@ -334,7 +334,7 @@ PPH_STRING EtWbclFormatLeaf(
     )
 {
     if (Size == 0)
-        return PhCreateString(L"(empty)");
+        return PhCreateString(L"(空)");
 
     if (Size == 1)
     {
@@ -444,7 +444,7 @@ PPH_STRING EtWbclFormatEventData(
     )
 {
     if (EventSize == 0)
-        return PhCreateString(L"(no data)");
+        return PhCreateString(L"(无数据)");
 
     switch (EventType)
     {
@@ -473,7 +473,7 @@ PPH_STRING EtWbclFormatEventData(
                     nameString = PhCreateString(L"?");
 
                 result = PhFormatString(
-                    L"Variable: %s\r\nGUID: %s\r\nData length: %I64u",
+                    L"变量：%s\r\nGUID: %s\r\n数据长度：%I64u",
                     nameString->Buffer,
                     guidString->Buffer,
                     variable->VariableDataLength
@@ -494,7 +494,7 @@ PPH_STRING EtWbclFormatEventData(
             if (EventSize >= RTL_SIZEOF_THROUGH_FIELD(ET_UEFI_IMAGE_LOAD_EVENT, LengthOfDevicePath))
             {
                 return PhFormatString(
-                    L"Image base: 0x%I64x\r\nImage length: 0x%I64x\r\nLink-time address: 0x%I64x\r\nDevice path length: %I64u bytes",
+                    L"映像基址：0x%I64x\r\n映像长度：0x%I64x\r\n链接时地址：0x%I64x\r\n设备路径长度：%I64u 字节",
                     image->ImageLocationInMemory,
                     image->ImageLengthInMemory,
                     image->ImageLinkTimeAddress,
@@ -510,7 +510,7 @@ PPH_STRING EtWbclFormatEventData(
             if (EventSize >= sizeof(ET_UEFI_PLATFORM_FIRMWARE_BLOB))
             {
                 return PhFormatString(
-                    L"Blob base: 0x%I64x\r\nBlob length: 0x%I64x",
+                    L"Blob 基址：0x%I64x\r\nBlob 长度：0x%I64x",
                     blob->BlobBase,
                     blob->BlobLength
                     );
@@ -1014,7 +1014,7 @@ VOID EtWbclLoadLiveLog(
     }
     else
     {
-        PhShowStatus(Context->WindowHandle, L"Unable to read the measured boot log", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法读取度量启动日志", status, 0);
     }
 }
 
@@ -1024,8 +1024,8 @@ VOID EtWbclLoadFileLog(
 {
     static PH_FILETYPE_FILTER filters[] =
     {
-        { L"Measured boot logs (*.log)", L"*.log" },
-        { L"All files (*.*)", L"*.*" }
+        { L"度量启动日志 (*.log)", L"*.log" },
+        { L"所有文件 (*.*)", L"*.*" }
     };
     PVOID fileDialog;
 
@@ -1051,7 +1051,7 @@ VOID EtWbclLoadFileLog(
         }
         else
         {
-            PhShowStatus(Context->WindowHandle, L"Unable to read the log file", status, 0);
+            PhShowStatus(Context->WindowHandle, L"无法读取日志文件", status, 0);
         }
     }
 
@@ -1071,10 +1071,10 @@ VOID EtWbclShowEntryDetails(
     PhInitializeStringBuilder(&stringBuilder, 0x200);
 
     typeName = EtWbclEventTypeToString(Entry->EventType);
-    PhAppendFormatStringBuilder(&stringBuilder, L"PCR index: %lu\r\n", Entry->PcrIndex);
-    PhAppendFormatStringBuilder(&stringBuilder, L"Event type: %s (0x%08lx)\r\n",
-        typeName ? typeName : L"Unknown", Entry->EventType);
-    PhAppendFormatStringBuilder(&stringBuilder, L"Digest (%s): ", EtWbclAlgorithmToString(Entry->FirstDigestAlg));
+    PhAppendFormatStringBuilder(&stringBuilder, L"PCR 索引：%lu\r\n", Entry->PcrIndex);
+    PhAppendFormatStringBuilder(&stringBuilder, L"事件类型：%s (0x%08lx)\r\n",
+        typeName ? typeName : L"未知", Entry->EventType);
+    PhAppendFormatStringBuilder(&stringBuilder, L"摘要 (%s)：", EtWbclAlgorithmToString(Entry->FirstDigestAlg));
 
     if (Entry->FirstDigestSize != 0)
     {
@@ -1083,25 +1083,25 @@ VOID EtWbclShowEntryDetails(
         PhDereferenceObject(hexString);
     }
 
-    PhAppendFormatStringBuilder(&stringBuilder, L"\r\nEvent size: %lu bytes\r\n\r\n", Entry->EventSize);
+    PhAppendFormatStringBuilder(&stringBuilder, L"\r\n事件大小：%lu 字节\r\n\r\n", Entry->EventSize);
 
     if (Entry->Details)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"Details:\r\n");
+        PhAppendStringBuilder2(&stringBuilder, L"详细信息：\r\n");
         PhAppendStringBuilder(&stringBuilder, &Entry->Details->sr);
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
     if (Entry->EventSize != 0)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"\r\nRaw event data:\r\n");
+        PhAppendStringBuilder2(&stringBuilder, L"\r\n原始事件数据：\r\n");
         hexString = PhBufferToHexString((PUCHAR)Entry->EventData, Entry->EventSize);
         PhAppendStringBuilder(&stringBuilder, &hexString->sr);
         PhDereferenceObject(hexString);
     }
 
     text = PhFinalStringBuilderString(&stringBuilder);
-    PhShowInformation2(Context->WindowHandle, L"Boot log entry", L"%s", text->Buffer);
+    PhShowInformation2(Context->WindowHandle, L"启动日志条目", L"%s", text->Buffer);
     PhDereferenceObject(text);
 }
 
@@ -1142,11 +1142,11 @@ INT_PTR CALLBACK EtWbclDlgProc(
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 50, L"#");
             PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 40, L"PCR");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 230, L"Event type");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 60, L"Digest");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 220, L"Digest value");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 60, L"Size");
-            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 400, L"Details");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 230, L"事件类型");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 60, L"摘要");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 220, L"摘要值");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 60, L"大小");
+            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 400, L"详细信息");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhLoadListViewColumnsFromSetting(SETTING_NAME_WBCL_LISTVIEW_COLUMNS, context->ListViewHandle);
@@ -1251,9 +1251,9 @@ INT_PTR CALLBACK EtWbclDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&Details", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"详细信息(&D)", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

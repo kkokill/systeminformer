@@ -327,7 +327,7 @@ VOID EtShowNpuNodesDialog(
     {
         if (!NT_SUCCESS(PhCreateThreadEx(&EtNpuNodesThreadHandle, EtpNpuNodesDialogThreadStart, ParentWindowHandle)))
         {
-            PhShowError2(ParentWindowHandle, L"Unable to create the window.", L"%s", L"");
+            PhShowError2(ParentWindowHandle, L"无法创建窗口。", L"%s", L"");
             return;
         }
 

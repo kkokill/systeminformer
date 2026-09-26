@@ -603,14 +603,14 @@ PPH_STRING PhpThreadStacksInitFrameNode(
         (FrameNode->StackFrame.Machine == IMAGE_FILE_MACHINE_I386) &&
         FlagOn(FrameNode->StackFrame.Flags, PH_THREAD_STACK_FRAME_FPO_DATA_PRESENT))
     {
-        PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L" (No unwind info)"));
+        PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L"（无展开信息）"));
     }
 
     if (PhSymbolProviderInlineContextSupported() &&
         PhIsStackFrameTypeInline(FrameNode->StackFrame.InlineFrameContext))
     {
         if (symbol)
-            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L" (Inline Function)"));
+            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L"（内联函数）"));
 
         // Zero inline frames so the stack matches windbg output.
         FrameNode->StackFrame.PcAddress = NULL;
@@ -720,7 +720,7 @@ VOID PhpThreadStacksWorkerPhase1(
 
     process = PH_FIRST_PROCESS(processes);
 
-    PhpThreadStacksMessage(Context, L"Enumerating processes...");
+    PhpThreadStacksMessage(Context, L"正在枚举进程...");
 
     do
     {
@@ -787,7 +787,7 @@ VOID PhpThreadStacksProcessPhase2(
 
         PhpThreadStacksMessage(
             Context,
-            L"Walking stacks... %lu%% - %ls (%lu) %lu%%",
+            L"正在遍历堆栈... %lu%% - %ls (%lu) %lu%%",
             (ULONG)(((FLOAT)Context->WalkedThreads / (FLOAT)Context->TotalThreads) * 100),
             ProcessNode->ProcessName->Buffer,
             HandleToUlong(ProcessNode->ProcessId),
@@ -836,7 +836,7 @@ VOID PhpThreadStacksWorkerPhase2(
 
         PhpThreadStacksMessage(
             Context,
-            L"Walking stacks... %lu%% - %ls (%lu)",
+            L"正在遍历堆栈... %lu%% - %ls (%lu)",
             (ULONG)(((FLOAT)Context->WalkedThreads / (FLOAT)Context->TotalThreads) * 100),
             node->Process.ProcessName->Buffer,
             HandleToUlong(node->Process.ProcessId)
@@ -1344,21 +1344,21 @@ BOOLEAN NTAPI PhpThreadStacksTreeNewCallback(
             node = (PPH_THREAD_STACKS_NODE)contextMenuEvent->Node;
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, gotoProcess = PhCreateEMenuItem(0, 1, L"Go to process...", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, gotoThread = PhCreateEMenuItem(0, 2, L"Go to thread...", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, gotoProcess = PhCreateEMenuItem(0, 1, L"转到进程...", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, gotoThread = PhCreateEMenuItem(0, 2, L"转到线程...", NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 3, L"Expand all", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 4, L"Collapse all", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 3, L"全部展开", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 4, L"全部折叠", NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 5, L"Hide user frames", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideSystemFrames = PhCreateEMenuItem(0, 6, L"Hide system frames", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideInlineFrames = PhCreateEMenuItem(0, 7, L"Hide inline frames", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 5, L"隐藏用户帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideSystemFrames = PhCreateEMenuItem(0, 6, L"隐藏系统帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideInlineFrames = PhCreateEMenuItem(0, 7, L"隐藏内联帧", NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightUserFrames = PhCreateEMenuItem(0, 8, L"Highlight user frames", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightSystemFrames = PhCreateEMenuItem(0, 9, L"Highlight system frames", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightInlineFrames = PhCreateEMenuItem(0, 10, L"Highlight inline frames", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightUserFrames = PhCreateEMenuItem(0, 8, L"突出显示用户帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightSystemFrames = PhCreateEMenuItem(0, 9, L"突出显示系统帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightInlineFrames = PhCreateEMenuItem(0, 10, L"突出显示内联帧", NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 100, L"Copy", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 100, L"复制", NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, 100, hwnd, contextMenuEvent->Column);
 
             if (node)
@@ -1557,27 +1557,27 @@ VOID PhpInitializeThreadStacksTree(
 
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_SYMBOL, TRUE, L"Symbol", 250, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_SYMBOL, TRUE, L"符号", 250, PH_ALIGN_LEFT, 0, 0);
     PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PROCESSID, TRUE, L"PID", 80, PH_ALIGN_LEFT, 1, 0);
     PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_THREADID, TRUE, L"TID", 80, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMENUMBER, TRUE, L"Frame", 80, PH_ALIGN_LEFT, 3, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_ARCHITECTURE, TRUE, L"Architecture", 100, PH_ALIGN_LEFT, 4, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMENUMBER, TRUE, L"帧", 80, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_ARCHITECTURE, TRUE, L"体系结构", 100, PH_ALIGN_LEFT, 4, 0);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STACKADDRESS, FALSE, L"Stack address", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMEADDRESS, FALSE, L"Frame address", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER1, FALSE, L"Stack parameter #1", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER2, FALSE, L"Stack parameter #2", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER3, FALSE, L"Stack parameter #3", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER4, FALSE, L"Stack parameter #4", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_CONTROLADDRESS, FALSE, L"Control address", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_RETURNADDRESS, FALSE, L"Return address", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FILENAME, FALSE, L"File name", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_LINETEXT, FALSE, L"Line number", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMEDISTANCE, FALSE, L"Frame distance", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STARTADDRESS, FALSE, L"Start address", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STARTADDRESSSYMBOL, FALSE, L"Start address (symbolic)", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PROCESSNAME, FALSE, L"Process name", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_THREADNAME, FALSE, L"Thread name", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STACKADDRESS, FALSE, L"堆栈地址", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMEADDRESS, FALSE, L"帧地址", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER1, FALSE, L"堆栈参数 #1", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER2, FALSE, L"堆栈参数 #2", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER3, FALSE, L"堆栈参数 #3", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PARAMETER4, FALSE, L"堆栈参数 #4", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_CONTROLADDRESS, FALSE, L"控制地址", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_RETURNADDRESS, FALSE, L"返回地址", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FILENAME, FALSE, L"文件名", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_LINETEXT, FALSE, L"行号", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_FRAMEDISTANCE, FALSE, L"帧距离", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STARTADDRESS, FALSE, L"起始地址", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_STARTADDRESSSYMBOL, FALSE, L"起始地址（符号）", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_PROCESSNAME, FALSE, L"进程名称", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_THREAD_STACKS_COLUMN_THREADNAME, FALSE, L"线程名称", 250, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
     //TreeNew_SetTriState(Context->TreeNewHandle, FALSE);
@@ -1655,7 +1655,7 @@ INT_PTR CALLBACK PhpThreadStacksDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"Search Thread Stacks",
+                L"搜索线程堆栈",
                 SETTING_SEARCH_THREAD_STACKS_REGEX,
                 SETTING_SEARCH_THREAD_STACKS_CASE_SENSITIVE,
                 PhpThreadStacksSearchControlCallback,
@@ -1873,7 +1873,7 @@ VOID PhShowThreadStacksDialog(
 
     if (!NT_SUCCESS(PhCreateThread2(PhpThreadStacksDialogThreadStart, context)))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to create the window.", 0, ERROR_OUTOFMEMORY);
+        PhShowStatus(ParentWindowHandle, L"无法创建窗口。", 0, ERROR_OUTOFMEMORY);
         PhDereferenceObject(context);
     }
 }

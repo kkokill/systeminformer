@@ -18,37 +18,37 @@ const TPM_RH TpmRSPassword = TPM_RS_PW;
 
 CONST PH_ACCESS_ENTRY TpmAttributeEntries[31] =
 {
-    { L"TPMA_NV_PPWRITE", TPMA_NV_PPWRITE, FALSE, FALSE, L"Platform write" },
-    { L"TPMA_NV_OWNERWRITE", TPMA_NV_OWNERWRITE, FALSE, FALSE, L"Owner write" },
-    { L"TPMA_NV_AUTHWRITE", TPMA_NV_AUTHWRITE, FALSE, FALSE, L"Auth write" },
-    { L"TPMA_NV_POLICYWRITE", TPMA_NV_POLICYWRITE, FALSE, FALSE, L"Policy write" },
-    { L"TPMA_NV_COUNTER", TPMA_NV_COUNTER, FALSE, FALSE, L"Counter" },
-    { L"TPMA_NV_BITS", TPMA_NV_BITS, FALSE, FALSE, L"Bits" },
-    { L"TPMA_NV_EXTEND", TPMA_NV_EXTEND, FALSE, FALSE, L"Extend" },
-    { L"TPMA_NV_RESERVED_TYPE_1", TPMA_NV_RESERVED_TYPE_1, FALSE, FALSE, L"Reserved type 1" },
-    { L"TPMA_NV_RESERVED_TYPE_2", TPMA_NV_RESERVED_TYPE_2, FALSE, FALSE, L"Reserved type 2" },
-    { L"TPMA_NV_RESERVED_TYPE_3", TPMA_NV_RESERVED_TYPE_3, FALSE, FALSE, L"Reserved type 4" },
-    { L"TPMA_NV_POLICY_DELETE", TPMA_NV_POLICY_DELETE, FALSE, FALSE, L"Policy delete" },
-    { L"TPMA_NV_WRITELOCKED", TPMA_NV_WRITELOCKED, FALSE, FALSE, L"Write locked" },
-    { L"TPMA_NV_WRITEALL", TPMA_NV_WRITEALL, FALSE, FALSE, L"Write all" },
-    { L"TPMA_NV_WRITEDEFINE", TPMA_NV_WRITEDEFINE, FALSE, FALSE, L"Write define" },
-    { L"TPMA_NV_WRITE_STCLEAR", TPMA_NV_WRITE_STCLEAR, FALSE, FALSE, L"Write lockable" },
-    { L"TPMA_NV_GLOBALLOCK", TPMA_NV_GLOBALLOCK, FALSE, FALSE, L"Global lock" },
-    { L"TPMA_NV_PPREAD", TPMA_NV_PPREAD, FALSE, FALSE, L"Platform read" },
-    { L"TPMA_NV_OWNERREAD", TPMA_NV_OWNERREAD, FALSE, FALSE, L"Owner read" },
-    { L"TPMA_NV_AUTHREAD", TPMA_NV_AUTHREAD, FALSE, FALSE, L"Auth read" },
-    { L"TPMA_NV_POLICYREAD", TPMA_NV_POLICYREAD, FALSE, FALSE, L"Policy read" },
-    { L"TPMA_NV_RESERVED_FLAG_1", TPMA_NV_RESERVED_FLAG_1, FALSE, FALSE, L"Reserved flag 1" },
-    { L"TPMA_NV_RESERVED_FLAG_2", TPMA_NV_RESERVED_FLAG_2, FALSE, FALSE, L"Reserved flag 2" },
-    { L"TPMA_NV_RESERVED_FLAG_3", TPMA_NV_RESERVED_FLAG_3, FALSE, FALSE, L"Reserved flag 3" },
-    { L"TPMA_NV_RESERVED_FLAG_4", TPMA_NV_RESERVED_FLAG_4, FALSE, FALSE, L"Reserved flag 4" },
-    { L"TPMA_NV_RESERVED_FLAG_5", TPMA_NV_RESERVED_FLAG_5, FALSE, FALSE, L"Reserved flag 5" },
-    { L"TPMA_NV_NO_DA", TPMA_NV_NO_DA, FALSE, FALSE, L"No dictionary attack protections" },
-    { L"TPMA_NV_ORDERLY", TPMA_NV_ORDERLY, FALSE, FALSE, L"Orderly" },
-    { L"TPMA_NV_CLEAR_STCLEAR", TPMA_NV_CLEAR_STCLEAR, FALSE, FALSE, L"Clear lockable" },
-    { L"TPMA_NV_READLOCKED", TPMA_NV_READLOCKED, FALSE, FALSE, L"Read locked" },
-    { L"TPMA_NV_WRITTEN", TPMA_NV_WRITTEN, FALSE, FALSE, L"Written" },
-    { L"TPMA_NV_READ_STCLEAR", TPMA_NV_READ_STCLEAR, FALSE, FALSE, L"Read lockable" },
+    { L"TPMA_NV_PPWRITE", TPMA_NV_PPWRITE, FALSE, FALSE, L"平台写入" },
+    { L"TPMA_NV_OWNERWRITE", TPMA_NV_OWNERWRITE, FALSE, FALSE, L"所有者写入" },
+    { L"TPMA_NV_AUTHWRITE", TPMA_NV_AUTHWRITE, FALSE, FALSE, L"授权写入" },
+    { L"TPMA_NV_POLICYWRITE", TPMA_NV_POLICYWRITE, FALSE, FALSE, L"策略写入" },
+    { L"TPMA_NV_COUNTER", TPMA_NV_COUNTER, FALSE, FALSE, L"计数器" },
+    { L"TPMA_NV_BITS", TPMA_NV_BITS, FALSE, FALSE, L"位" },
+    { L"TPMA_NV_EXTEND", TPMA_NV_EXTEND, FALSE, FALSE, L"扩展" },
+    { L"TPMA_NV_RESERVED_TYPE_1", TPMA_NV_RESERVED_TYPE_1, FALSE, FALSE, L"保留类型 1" },
+    { L"TPMA_NV_RESERVED_TYPE_2", TPMA_NV_RESERVED_TYPE_2, FALSE, FALSE, L"保留类型 2" },
+    { L"TPMA_NV_RESERVED_TYPE_3", TPMA_NV_RESERVED_TYPE_3, FALSE, FALSE, L"保留类型 4" },
+    { L"TPMA_NV_POLICY_DELETE", TPMA_NV_POLICY_DELETE, FALSE, FALSE, L"策略删除" },
+    { L"TPMA_NV_WRITELOCKED", TPMA_NV_WRITELOCKED, FALSE, FALSE, L"已写锁定" },
+    { L"TPMA_NV_WRITEALL", TPMA_NV_WRITEALL, FALSE, FALSE, L"全部写入" },
+    { L"TPMA_NV_WRITEDEFINE", TPMA_NV_WRITEDEFINE, FALSE, FALSE, L"写入定义" },
+    { L"TPMA_NV_WRITE_STCLEAR", TPMA_NV_WRITE_STCLEAR, FALSE, FALSE, L"可写锁定" },
+    { L"TPMA_NV_GLOBALLOCK", TPMA_NV_GLOBALLOCK, FALSE, FALSE, L"全局锁定" },
+    { L"TPMA_NV_PPREAD", TPMA_NV_PPREAD, FALSE, FALSE, L"平台读取" },
+    { L"TPMA_NV_OWNERREAD", TPMA_NV_OWNERREAD, FALSE, FALSE, L"所有者读取" },
+    { L"TPMA_NV_AUTHREAD", TPMA_NV_AUTHREAD, FALSE, FALSE, L"授权读取" },
+    { L"TPMA_NV_POLICYREAD", TPMA_NV_POLICYREAD, FALSE, FALSE, L"策略读取" },
+    { L"TPMA_NV_RESERVED_FLAG_1", TPMA_NV_RESERVED_FLAG_1, FALSE, FALSE, L"保留标志 1" },
+    { L"TPMA_NV_RESERVED_FLAG_2", TPMA_NV_RESERVED_FLAG_2, FALSE, FALSE, L"保留标志 2" },
+    { L"TPMA_NV_RESERVED_FLAG_3", TPMA_NV_RESERVED_FLAG_3, FALSE, FALSE, L"保留标志 3" },
+    { L"TPMA_NV_RESERVED_FLAG_4", TPMA_NV_RESERVED_FLAG_4, FALSE, FALSE, L"保留标志 4" },
+    { L"TPMA_NV_RESERVED_FLAG_5", TPMA_NV_RESERVED_FLAG_5, FALSE, FALSE, L"保留标志 5" },
+    { L"TPMA_NV_NO_DA", TPMA_NV_NO_DA, FALSE, FALSE, L"无字典攻击保护" },
+    { L"TPMA_NV_ORDERLY", TPMA_NV_ORDERLY, FALSE, FALSE, L"有序" },
+    { L"TPMA_NV_CLEAR_STCLEAR", TPMA_NV_CLEAR_STCLEAR, FALSE, FALSE, L"可清除锁定" },
+    { L"TPMA_NV_READLOCKED", TPMA_NV_READLOCKED, FALSE, FALSE, L"已读锁定" },
+    { L"TPMA_NV_WRITTEN", TPMA_NV_WRITTEN, FALSE, FALSE, L"已写入" },
+    { L"TPMA_NV_READ_STCLEAR", TPMA_NV_READ_STCLEAR, FALSE, FALSE, L"可读锁定" },
 };
 
 typedef struct _TPM_WINDOW_CONTEXT
@@ -648,31 +648,31 @@ NTSTATUS EtEnumerateTpmEntries(
         PhDereferenceObject(string);
 
         if ((attributes & (TPMA_NV_OWNERREAD | TPMA_NV_OWNERWRITE)) == (TPMA_NV_OWNERREAD | TPMA_NV_OWNERWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"Read/Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"读/写");
         else if ((attributes & TPMA_NV_OWNERREAD) == TPMA_NV_OWNERREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"Read");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"读");
         else if ((attributes & TPMA_NV_OWNERWRITE) == TPMA_NV_OWNERWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"写");
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"None");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"无");
 
         if ((attributes & (TPMA_NV_AUTHREAD | TPMA_NV_AUTHWRITE)) == (TPMA_NV_AUTHREAD | TPMA_NV_AUTHWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"Read/Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"读/写");
         else if ((attributes & TPMA_NV_AUTHREAD) == TPMA_NV_AUTHREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"Read");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"读");
         else if ((attributes & TPMA_NV_AUTHWRITE) == TPMA_NV_AUTHWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"写");
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"None");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"无");
 
         if ((attributes & (TPMA_NV_PPREAD | TPMA_NV_PPWRITE)) == (TPMA_NV_PPREAD | TPMA_NV_PPWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"Read/Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"读/写");
         else if ((attributes & TPMA_NV_PPREAD) == TPMA_NV_PPREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"Read");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"读");
         else if ((attributes & TPMA_NV_PPWRITE) == TPMA_NV_PPWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"Write");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"写");
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"None");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"无");
 
         // clear the bits we've broken out into their own columns
         attributes &= ~(
@@ -761,12 +761,12 @@ INT_PTR CALLBACK EtTpmDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 80, L"Index");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 80, L"Data size");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 85, L"Owner rights");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 85, L"Auth rights");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 85, L"Platform rights");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 400, L"Attributes");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 80, L"索引");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 80, L"数据大小");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 85, L"所有者权限");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 85, L"授权权限");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 85, L"平台权限");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 400, L"属性");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhLoadListViewColumnsFromSetting(SETTING_NAME_TPM_LISTVIEW_COLUMNS, context->ListViewHandle);
@@ -868,9 +868,9 @@ INT_PTR CALLBACK EtTpmDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&Edit", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"编辑(&E)", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(
@@ -923,7 +923,7 @@ VOID EtShowTpmDialog(
 {
     if (!EtTpmIsReady())
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to query the TPM", STATUS_TPM_FAIL, 0);
+        PhShowStatus(ParentWindowHandle, L"无法查询 TPM", STATUS_TPM_FAIL, 0);
         return;
     }
 

@@ -150,11 +150,11 @@ INT WINAPI wWinMain(
     {
         PhShowWarning2(
             NULL,
-            L"Warning.",
+            L"警告。",
             L"%s",
-            L"You are attempting to run the 32-bit version of System Informer on 64-bit Windows. "
-            L"Most features will not work correctly.\n\n"
-            L"Please run the 64-bit version of System Informer instead."
+            L"您正在 64 位 Windows 上运行 System Informer 的 32 位版本。 "
+            L"大多数功能将无法正常工作。\n\n"
+            L"请改用 64 位版本的 System Informer。"
             );
         PhExitApplication(STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT);
     }
@@ -189,7 +189,7 @@ INT WINAPI wWinMain(
 
     if (!PhMainWndInitialization(CmdShow))
     {
-        PhShowStatus(NULL, L"Unable to create the window.", 0, ERROR_OUTOFMEMORY);
+        PhShowStatus(NULL, L"无法创建窗口。", 0, ERROR_OUTOFMEMORY);
         return 1;
     }
 
@@ -928,12 +928,12 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
         TASKDIALOGCONFIG config = { sizeof(TASKDIALOGCONFIG) };
         TASKDIALOG_BUTTON buttons[6] =
         {
-            { 101, L"Full\nA complete dump of the process, rarely needed most of the time." },
-            { 102, L"Normal\nFor most purposes, this dump file is the most useful." },
-            { 103, L"Minimal\nA very limited dump with limited data." },
-            { 104, L"Restart\nRestart the application." }, // and hope it doesn't crash again.";
-            { 105, L"Ignore" },  // \nTry ignore the exception and continue.";
-            { 106, L"Exit" }, // \nTerminate the program.";
+            { 101, L"完全\n进程的完整转储，大多数情况下很少需要。" },
+            { 102, L"常规\n对大多数用途而言，此转储文件最为有用。" },
+            { 103, L"最小\n包含有限数据的受限转储。" },
+            { 104, L"重启\n重新启动应用程序。" }, // and hope it doesn't crash again.";
+            { 105, L"忽略" },  // \nTry ignore the exception and continue.";
+            { 106, L"退出" }, // \nTerminate the program.";
         };
 
         if (NT_NTWIN32(ExceptionInfo->ExceptionRecord->ExceptionCode))
@@ -950,7 +950,7 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
         config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_USE_COMMAND_LINKS | TDF_EXPAND_FOOTER_AREA;
         config.pszWindowTitle = PhApplicationName;
         config.pszMainIcon = TD_ERROR_ICON;
-        config.pszMainInstruction = L"System Informer has crashed :(";
+        config.pszMainInstruction = L"System Informer 已崩溃 :(";
         config.cButtons = RTL_NUMBER_OF(buttons);
         config.pButtons = buttons;
         config.nDefaultButton = 106;
@@ -998,8 +998,8 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
             if (PhShowMessage(
                 NULL,
                 MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2,
-                L"System Informer has crashed :(\r\n\r\n%s",
-                L"Do you want to create a minidump on the Desktop?"
+                L"System Informer 已崩溃 :(\r\n\r\n%s",
+                L"是否要在桌面上创建小型转储（minidump）？"
                 ) == IDYES)
             {
                 PhpCreateUnhandledExceptionCrashDump(ExceptionInfo, PhTriageDumpTypeMinimal);
@@ -1016,7 +1016,7 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
         else
             errorMessage = PhGetStatusMessage(ExceptionInfo->ExceptionRecord->ExceptionCode, 0);
 
-        title = PhCreateString(L"System Informer has crashed :(");
+        title = PhCreateString(L"System Informer 已崩溃 :(");
 #ifdef DEBUG
         message = PhFormatString(
             L"%s\r\n0x%08X (%s)\r\n%s",
@@ -1390,7 +1390,7 @@ VOID PhInitializeDesktopPolicy(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(NULL, L"Unable to initialize desktop policy.", status, 0);
+        PhShowStatus(NULL, L"无法初始化桌面策略。", status, 0);
     }
 
     PhExitApplication(status);
@@ -1427,7 +1427,7 @@ VOID PhEnableTerminationPolicy(
 
         if (!NT_SUCCESS(status))
         {
-            PhShowStatus(NULL, L"Unable to configure termination policy.", status, 0);
+            PhShowStatus(NULL, L"无法配置终止策略。", status, 0);
         }
     }
 }
@@ -1523,11 +1523,25 @@ VOID PhInitializeAppSettings(
             if (PhSettingsFileName)
             {
                 status = PhLoadSettingsEx(&PhSettingsFileName->sr, &PhPortableEnabled);
+
+                // An explicit settings file named "<image>.settings.json" in a
+                // directory other than the application directory (e.g. the
+                // portable App\Data layout) still counts as portable mode: plugins
+                // keep their data inside the package and the driver unloads on exit.
+                if (
+                    !PhPortableEnabled &&
+                    PhEndsWithString2(PhSettingsFileName, L"SystemInformer.exe.settings.json", TRUE)
+                    )
+                {
+                    PhPortableEnabled = TRUE;
+                }
             }
         }
 
-        // 2. Default locations (AppData)
-        if (PhIsNullOrEmptyString(PhSettingsFileName) || !NT_SUCCESS(status))
+        // 2. Default locations (AppData). Note: if a settings file was explicitly
+        // specified via -settings but does not exist yet, keep the specified path
+        // so it gets created there on save (portable App\Data layout).
+        if (PhIsNullOrEmptyString(PhSettingsFileName))
         {
             status = PhLoadSettingsAutoDetect(NULL, L"settings", &settingsPath, NULL, &PhPortableEnabled);
 
@@ -1545,8 +1559,8 @@ VOID PhInitializeAppSettings(
                 NULL,
                 TD_YES_BUTTON | TD_NO_BUTTON,
                 TD_WARNING_ICON,
-                L"System Informer's settings file is corrupt. Do you want to reset it?",
-                L"If you select No, the settings system will not function properly."
+                L"System Informer 的设置文件已损坏。是否要重置它？",
+                L"如果选择“否”，设置系统将无法正常运行。"
                 ) == IDYES)
             {
                 if (PhSettingsFileName)
@@ -1559,7 +1573,7 @@ VOID PhInitializeAppSettings(
         }
         else if (!NT_SUCCESS(status) && status != STATUS_OBJECT_NAME_NOT_FOUND)
         {
-            PhShowStatus(NULL, L"Unable to load the settings file.", status, 0);
+            PhShowStatus(NULL, L"无法加载设置文件。", status, 0);
         }
     }
 
@@ -1915,7 +1929,7 @@ VOID PhpProcessStartupParameters(
     {
         PhShowInformation2(
             NULL,
-            L"Command line options:",
+            L"命令行选项：",
             L"%s",
             L"-debug\n"
             L"-elevate\n"

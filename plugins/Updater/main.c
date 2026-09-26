@@ -123,7 +123,7 @@ VOID NTAPI MainMenuInitializingCallback(
     //PhInsertEMenuItem(channelMenuItem, canaryMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, UPDATE_SWITCH_CANARY, L"Canary", NULL), ULONG_MAX);
     ////PhInsertEMenuItem(channelMenuItem, developerMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, UPDATE_SWITCH_DEVELOPER, L"Developer", NULL), ULONG_MAX);
     //PhInsertEMenuItem(menuInfo->Menu, channelMenuItem, 0);
-    PhInsertEMenuItem(menuInfo->Menu, PhPluginCreateEMenuItem(PluginInstance, 0, UPDATE_MENUITEM_UPDATE, L"Check for &updates", NULL), 0);
+    PhInsertEMenuItem(menuInfo->Menu, PhPluginCreateEMenuItem(PluginInstance, 0, UPDATE_MENUITEM_UPDATE, L"检查更新(&U)", NULL), 0);
 
     //switch (PhGetBuildhReleaseChannel())
     //{
@@ -205,7 +205,7 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"Updater",
+        L"更新器",
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_OPTIONS),
         OptionsDlgProc,
@@ -234,7 +234,7 @@ LOGICAL DllMain(
             PPH_PLUGIN_INFORMATION info;
             PH_SETTING_CREATE settings[] =
             {
-                { IntegerSettingType, SETTING_NAME_AUTO_CHECK, L"1" },
+                { IntegerSettingType, SETTING_NAME_AUTO_CHECK, L"0" },
                 { IntegerSettingType, SETTING_NAME_LAST_CHECK, L"0" },
                 { IntegerSettingType, SETTING_NAME_UPDATE_INTERVAL, L"1" },
                 { IntegerPairSettingType, SETTING_NAME_CHANGELOG_WINDOW_POSITION, L"0,0" },
@@ -257,8 +257,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Update Checker";
-            info->Description = L"Plugin for checking new System Informer releases via the Help menu.";
+            info->DisplayName = L"更新检查器";
+            info->Description = L"通过帮助菜单检查新版 System Informer 发布的插件。";
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),

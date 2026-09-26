@@ -210,6 +210,9 @@
 #define IDD_PCAPROC                     9005
 #define IDD_PCAPRC                      9005
 #define IDC_POWER_GRID_SUMMARY          9006
+#define IDC_POWER_GRID_MODE             9007
+#define IDC_POWER_GRID_PROVINCE         9008
+#define IDD_POWER_GRID_TARIFF           9009
 #define IDD_CACHE_LATENCY               9010
 #define IDC_CACHE_LATENCY_LIST          9011
 #define IDC_CACHE_LATENCY_STATUS        9012
@@ -265,6 +268,8 @@
 #define IDC_ENV_EDITTEXT                60042
 #define IDC_ENV_NAME                    60043
 #define IDC_ENV_VALUE                   60044
+#define IDC_POWER_GRID_TARIFF_EDIT      60045
+#define IDC_POWER_GRID_TARIFF_CFG       60046
 
 // Next default values for new objects
 // 

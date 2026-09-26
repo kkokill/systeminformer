@@ -12,8 +12,8 @@
 #include <peview.h>
 #include <strsrch.h>
 
-static PH_STRINGREF EmptyStringsText = PH_STRINGREF_INIT(L"There are no strings to display.");
-static PH_STRINGREF LoadingStringsText = PH_STRINGREF_INIT(L"Loading strings from image...");
+static PH_STRINGREF EmptyStringsText = PH_STRINGREF_INIT(L"没有要显示的字符串。");
+static PH_STRINGREF LoadingStringsText = PH_STRINGREF_INIT(L"正在从映像加载字符串...");
 
 typedef struct _PV_STRINGS_SETTINGS
 {
@@ -238,7 +238,7 @@ BOOLEAN NTAPI PvpStringSearchCallback(
     {
         if (!Context->FileSystemNode)
         {
-            Context->FileSystemNode = PhpCreateStringsCategoryNode(L"File System");
+            Context->FileSystemNode = PhpCreateStringsCategoryNode(L"文件系统");
             PhAddItemList(Context->SearchResults, Context->FileSystemNode);
         }
 
@@ -248,7 +248,7 @@ BOOLEAN NTAPI PvpStringSearchCallback(
     {
         if (!Context->RegistryNode)
         {
-            Context->RegistryNode = PhpCreateStringsCategoryNode(L"Registry");
+            Context->RegistryNode = PhpCreateStringsCategoryNode(L"注册表");
             PhAddItemList(Context->SearchResults, Context->RegistryNode);
         }
 
@@ -867,11 +867,11 @@ VOID PvpInitializeStringsTree(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
 
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_INDEX, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_SECTION, TRUE, L"Section", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_SECTION, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_SECTION, TRUE, L"节", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_SECTION, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_RVA, TRUE, L"RVA", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_RVA, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_TYPE, TRUE, L"Type", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_TYPE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_LENGTH, TRUE, L"Length", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_LENGTH, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_STRING, TRUE, L"String", 600, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_STRING, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_TYPE, TRUE, L"类型", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_TYPE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_LENGTH, TRUE, L"长度", 80, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_LENGTH, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_STRING, TRUE, L"字符串", 600, PH_ALIGN_LEFT, PV_STRINGS_TREE_COLUMN_ITEM_STRING, 0, 0);
 
     TreeNew_SetRedraw(TreeNewHandle, TRUE);
     TreeNew_SetSort(TreeNewHandle, PV_STRINGS_TREE_COLUMN_ITEM_INDEX, AscendingSortOrder);
@@ -942,7 +942,7 @@ INT_PTR CALLBACK PvpStringsMinimumLengthDlgProc(
 
                     if (!minimumLength || minimumLength > MAXULONG32)
                     {
-                        PhShowError2(hwndDlg, L"Invalid minimum length", L"%s", L"");
+                        PhShowError2(hwndDlg, L"无效的最小长度", L"%s", L"");
                         break;
                     }
 
@@ -1020,7 +1020,7 @@ INT_PTR CALLBACK PvStringsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Strings (Ctrl+K)",
+                L"搜索字符串 (Ctrl+K)",
                 PvpStringsSearchControlCallback,
                 context
                 );
@@ -1105,7 +1105,7 @@ INT_PTR CALLBACK PvStringsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1163,13 +1163,13 @@ INT_PTR CALLBACK PvStringsDlgProc(
                     ansi = PhCreateEMenuItem(0, 1, L"ANSI", NULL, NULL);
                     utf8 = PhCreateEMenuItem(0, 2, L"UTF-8", NULL, NULL);
                     unicode = PhCreateEMenuItem(0, 3, L"UTF-16", NULL, NULL);
-                    extendedUnicode = PhCreateEMenuItem(0, 4, L"Extended character set", NULL, NULL);
-                    skipExecutableSection = PhCreateEMenuItem(0, 5, L"Skip .text section", NULL, NULL);
-                    skipHighEntropySections = PhCreateEMenuItem(0, 6, L"Skip high entropy sections", NULL, NULL);
-                    skipStringsWithNumbers = PhCreateEMenuItem(0, 7, L"Skip strings with numbers", NULL, NULL);
-                    skipStringsWithSymbols = PhCreateEMenuItem(0, 8, L"Skip strings with symbols", NULL, NULL);
-                    minimumLength = PhCreateEMenuItem(0, 9, L"Minimum length...", NULL, NULL);
-                    refresh = PhCreateEMenuItem(0, 10, L"Refresh", NULL, NULL);
+                    extendedUnicode = PhCreateEMenuItem(0, 4, L"扩展字符集", NULL, NULL);
+                    skipExecutableSection = PhCreateEMenuItem(0, 5, L"跳过 .text 节", NULL, NULL);
+                    skipHighEntropySections = PhCreateEMenuItem(0, 6, L"跳过高熵节", NULL, NULL);
+                    skipStringsWithNumbers = PhCreateEMenuItem(0, 7, L"跳过包含数字的字符串", NULL, NULL);
+                    skipStringsWithSymbols = PhCreateEMenuItem(0, 8, L"跳过包含符号的字符串", NULL, NULL);
+                    minimumLength = PhCreateEMenuItem(0, 9, L"最小长度...", NULL, NULL);
+                    refresh = PhCreateEMenuItem(0, 10, L"刷新", NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, ansi, ULONG_MAX);

@@ -2314,13 +2314,13 @@ BOOLEAN InitializeScanning(
     ScanVirusTotalPAT = PhGetStringSetting(SETTING_NAME_VIRUSTOTAL_DEFAULT_PAT);
     ScanHybridAnalysisPAT = PhGetStringSetting(SETTING_NAME_HYBRIDANALYSIS_DEFAULT_PAT);
 
-    ScanScanningString = PhCreateString(L"Scanning...");
-    ScanUnauthorizedString = PhCreateString(L"Unauthorized");
-    ScanCleanString = PhCreateString(L"Clean");
-    ScanUnknownString = PhCreateString(L"Unknown");
-    ScanRateLimitedString = PhCreateString(L"Rate limited...");
-    ScanFileTooLarge = PhCreateString(L"File too large");
-    ScanSubmittingString = PhCreateString(L"Submitting...");
+    ScanScanningString = PhCreateString(L"扫描中...");
+    ScanUnauthorizedString = PhCreateString(L"未授权");
+    ScanCleanString = PhCreateString(L"安全");
+    ScanUnknownString = PhCreateString(L"未知");
+    ScanRateLimitedString = PhCreateString(L"已限流...");
+    ScanFileTooLarge = PhCreateString(L"文件过大");
+    ScanSubmittingString = PhCreateString(L"提交中...");
 
     result = FALSE;
     if (!!SystemInformer_IsPortableMode())

@@ -484,7 +484,7 @@ VOID ShowFindDialog(
 
     if (!FindText_I)
     {
-        PhShowStatus(OwnerWindow, L"Unable to display Find dialog.", 0, ERROR_PROC_NOT_FOUND);
+        PhShowStatus(OwnerWindow, L"无法显示查找对话框。", 0, ERROR_PROC_NOT_FOUND);
         return;
     }
 

@@ -84,7 +84,7 @@ VOID ShowCheckForUpdatesDialog(
 {
     static TASKDIALOG_BUTTON UpdateTaskDialogButtonArray[] =
     {
-        { IDOK, L"Check" }
+        { IDOK, L"检查(&C)" }
     };
     //static TASKDIALOG_BUTTON SwitchTaskDialogButtonArray[] =
     //{
@@ -92,8 +92,8 @@ VOID ShowCheckForUpdatesDialog(
     //};
     static TASKDIALOG_BUTTON checkForUpdatesRadioButtons[] =
     {
-        { IDOK, L"Stable\n - Recommended" },
-        { IDRETRY, L"Canary\n - Preview" },
+        { IDOK, L"稳定版\n - 推荐" },
+        { IDRETRY, L"金丝雀版\n - 预览" },
         //{ IDIGNORE, L"Stable\n - Recommended" },
         //{ IDCONTINUE, L"Canary\n - Preview" },
     };
@@ -110,7 +110,7 @@ VOID ShowCheckForUpdatesDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.cxWidth = 200;
 
-    config.pszWindowTitle = L"System Informer - Updater";
+    config.pszWindowTitle = L"System Informer - 更新器";
 
     switch (Context->Channel)
     {
@@ -160,8 +160,8 @@ VOID ShowCheckForUpdatesDialog(
     {
         config.pButtons = UpdateTaskDialogButtonArray;
         config.cButtons = RTL_NUMBER_OF(UpdateTaskDialogButtonArray);
-        config.pszMainInstruction = L"Check for an updated System Informer release?";
-        config.pszContent = L"Click Check to continue.";
+        config.pszMainInstruction = L"检查 System Informer 更新版本？";
+        config.pszContent = L"点击“检查”以继续。";
     }
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);

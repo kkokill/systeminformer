@@ -64,7 +64,7 @@ VOID AtpGetProcessIoRates(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The ExtendedTools plugin is not loaded, so nothing is accumulating per-process I/O."
+            L"ExtendedTools 插件未加载，因此无法累计每进程 I/O 数据。"
             );
         return;
     }
@@ -78,7 +78,7 @@ VOID AtpGetProcessIoRates(
             Result,
             "not_found",
             STATUS_NOT_FOUND,
-            L"ExtendedTools has no I/O counters for this process."
+            L"ExtendedTools 没有此进程的 I/O 计数器。"
             );
         AtDeleteTarget(&target);
         return;
@@ -152,7 +152,7 @@ VOID AtIoInvokeTool(
         AtpGetProcessIoRates(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

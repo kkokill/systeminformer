@@ -56,7 +56,7 @@ VOID PhShowHandleStatisticsDialog(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(ParentWindowHandle, L"Unable to open the process", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法打开进程。", status, 0);
         return;
     }
 
@@ -70,7 +70,7 @@ VOID PhShowHandleStatisticsDialog(
     if (!NT_SUCCESS(status))
     {
         NtClose(processHandle);
-        PhShowStatus(ParentWindowHandle, L"Unable to enumerate process handles", status, 0);
+        PhShowStatus(ParentWindowHandle, L"无法枚举进程句柄。", status, 0);
         return;
     }
 
@@ -157,8 +157,8 @@ INT_PTR CALLBACK PhpHandleStatisticsDlgProc(
             context->ListViewHandle = GetDlgItem(hwndDlg, IDC_LIST);
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"Type");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Count");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"类型");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"计数");
 
             PhSetExtendedListView(context->ListViewHandle);
             ExtendedListView_SetCompareFunction(context->ListViewHandle, 1, PhpTypeCountCompareFunction);
@@ -227,7 +227,7 @@ INT_PTR CALLBACK PhpHandleStatisticsDlgProc(
 
                 if (PhIsNullOrEmptyString(entry->Name))
                 {
-                    unknownType = PhFormatString(L"(unknown: %lu)", (ULONG)i);
+                    unknownType = PhFormatString(L"（未知：%lu）", (ULONG)i);
                     lvItemIndex = PhAddListViewItem(
                         context->ListViewHandle,
                         MAXINT,

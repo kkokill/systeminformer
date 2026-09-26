@@ -523,16 +523,16 @@ LRESULT CALLBACK PhScrollNewWndProc(
                 }
 
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_HERE, L"Scroll Here", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_HERE, L"滚动到此处", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_TOP,         isHorz ? L"Left Edge"    : L"Top",         NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_BOTTOM,      isHorz ? L"Right Edge"   : L"Bottom",      NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_TOP,         isHorz ? L"左端"    : L"顶部",         NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_BOTTOM,      isHorz ? L"右端"   : L"底部",      NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_PAGE_UP,     isHorz ? L"Page Left"    : L"Page Up",     NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_PAGE_DOWN,   isHorz ? L"Page Right"   : L"Page Down",   NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_PAGE_UP,     isHorz ? L"向左翻页"    : L"向上翻页",     NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_PAGE_DOWN,   isHorz ? L"向右翻页"   : L"向下翻页",   NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_UP,   isHorz ? L"Scroll Left"  : L"Scroll Up",   NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_DOWN, isHorz ? L"Scroll Right" : L"Scroll Down", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_UP,   isHorz ? L"向左滚动"  : L"向上滚动",   NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_SCROLLNEW_IDM_SCROLL_DOWN, isHorz ? L"向右滚动" : L"向下滚动", NULL, NULL), ULONG_MAX);
 
                 selectedItem = PhShowEMenu(
                     menu,

@@ -133,12 +133,12 @@ VOID PvLoadGeneralPage(
     //PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_WARNINGS, L"Enable warnings", NULL);
     //PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_PLUGINS, L"Enable plugins", NULL);
     //PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_UNDECORATE_SYMBOLS, L"Enable undecorated symbols", NULL);
-    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_THEME_SUPPORT, L"Enable theme support", NULL);
+    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_THEME_SUPPORT, L"启用主题支持", NULL);
     //PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_START_ASADMIN, L"Enable start as admin", NULL);
     //PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_SHOW_ADVANCED_OPTIONS, L"Show advanced options", NULL);
-    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_LEGACY_TABS, L"Enable legacy properties window", NULL);
-    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_THEME_BORDER, L"Enable view borders", NULL);
-    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_LASTTAB_SUPPORT, L"Remember last selected window", NULL);
+    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_LEGACY_TABS, L"启用旧版属性窗口", NULL);
+    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_THEME_BORDER, L"启用视图边框", NULL);
+    PhAddListViewItem(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_LASTTAB_SUPPORT, L"记住上次选择的窗口", NULL);
 
     //SetLvItemCheckForSetting(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_WARNINGS, L"EnableWarnings");
     //SetLvItemCheckForSetting(Context->ListViewHandle, PHP_OPTIONS_INDEX_ENABLE_PLUGINS, L"EnablePlugins");
@@ -186,8 +186,8 @@ VOID PvGeneralPageSave(
             Context->WindowHandle,
             TD_YES_BUTTON | TD_NO_BUTTON,
             TD_INFORMATION_ICON,
-            L"One or more options you have changed requires a restart of PE Viewer.",
-            L"Do you want to restart PE Viewer now?"
+            L"您更改的一个或多个选项需要重新启动 PE Viewer。",
+            L"是否要立即重新启动 PE Viewer？"
             ) == IDYES)
         {
             if (PvShellExecuteRestart(Context->WindowHandle))
@@ -294,7 +294,7 @@ INT_PTR CALLBACK PvOptionsWndProc(
                         hwndDlg,
                         TD_YES_BUTTON | TD_NO_BUTTON,
                         TD_WARNING_ICON,
-                        L"Do you want to reset all settings and restart PE Viewer?",
+                        L"是否要重置所有设置并重新启动 PE Viewer？",
                         L""
                         ) == IDYES)
                     {
@@ -315,7 +315,7 @@ INT_PTR CALLBACK PvOptionsWndProc(
                         hwndDlg,
                         TD_YES_BUTTON | TD_NO_BUTTON,
                         TD_INFORMATION_ICON,
-                        L"Do you want to clean up unused settings?",
+                        L"是否要清理未使用的设置？",
                         L""
                         ) == IDYES)
                     {

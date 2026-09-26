@@ -895,7 +895,7 @@ VOID AtpListScheduledTasks(
     if (HR_FAILED(result))
     {
         AtSetToolError(Result, "failed", AtHResultToStatus(result),
-            L"The task scheduler could not be reached (0x%08x).", result);
+            L"无法连接到任务计划程序 (0x%08x)。", result);
         goto CleanupExit;
     }
 
@@ -904,7 +904,7 @@ VOID AtpListScheduledTasks(
     if (HR_FAILED(result))
     {
         AtSetToolError(Result, "failed", AtHResultToStatus(result),
-            L"Connecting to the task scheduler service failed (0x%08x).", result);
+            L"连接任务计划程序服务失败 (0x%08x)。", result);
         goto CleanupExit;
     }
 
@@ -918,7 +918,7 @@ VOID AtpListScheduledTasks(
     if (HR_FAILED(result))
     {
         AtSetToolError(Result, "not_found", AtHResultToStatus(result),
-            L"No task folder named %s could be opened (0x%08x).",
+            L"无法打开名为 %s 的任务文件夹 (0x%08x)。",
             folderName ? PhGetString(folderName) : rootFolder.Buffer, result);
         PhClearReference(&folderName);
         goto CleanupExit;
@@ -982,7 +982,7 @@ VOID AtTaskInvokeTool(
         AtpListScheduledTasks(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具未实现。");
         break;
     }
 }

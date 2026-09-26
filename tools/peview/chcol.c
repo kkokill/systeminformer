@@ -288,7 +288,7 @@ INT_PTR CALLBACK PvColumnsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchInactiveHandle,
-                L"Inactive columns...",
+                L"非活动列...",
                 PvpInactiveColumnsSearchControlCallback,
                 context
                 );
@@ -296,7 +296,7 @@ INT_PTR CALLBACK PvColumnsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchActiveHandle,
-                L"Active columns...",
+                L"活动列...",
                 PvpActiveColumnsSearchControlCallback,
                 context
                 );

@@ -3583,11 +3583,11 @@ PPH_STRING PhpDevSysPowerPowerDataString(
         { L"PDCAP_D1_SUPPORTED", PDCAP_D1_SUPPORTED, FALSE, FALSE, L"D1" },
         { L"PDCAP_D2_SUPPORTED", PDCAP_D2_SUPPORTED, FALSE, FALSE, L"D2" },
         { L"PDCAP_D3_SUPPORTED", PDCAP_D3_SUPPORTED, FALSE, FALSE, L"D3" },
-        { L"PDCAP_WAKE_FROM_D0_SUPPORTED", PDCAP_WAKE_FROM_D0_SUPPORTED, FALSE, FALSE, L"Wake from D0" },
-        { L"PDCAP_WAKE_FROM_D1_SUPPORTED", PDCAP_WAKE_FROM_D1_SUPPORTED, FALSE, FALSE, L"Wake from D1" },
-        { L"PDCAP_WAKE_FROM_D2_SUPPORTED", PDCAP_WAKE_FROM_D2_SUPPORTED, FALSE, FALSE, L"Wake from D2" },
-        { L"PDCAP_WAKE_FROM_D3_SUPPORTED", PDCAP_WAKE_FROM_D3_SUPPORTED, FALSE, FALSE, L"Wake from D3" },
-        { L"PDCAP_WARM_EJECT_SUPPORTED", PDCAP_WARM_EJECT_SUPPORTED, FALSE, FALSE, L"Warm eject" },
+        { L"PDCAP_WAKE_FROM_D0_SUPPORTED", PDCAP_WAKE_FROM_D0_SUPPORTED, FALSE, FALSE, L"支持从 D0 唤醒" },
+        { L"PDCAP_WAKE_FROM_D1_SUPPORTED", PDCAP_WAKE_FROM_D1_SUPPORTED, FALSE, FALSE, L"支持从 D1 唤醒" },
+        { L"PDCAP_WAKE_FROM_D2_SUPPORTED", PDCAP_WAKE_FROM_D2_SUPPORTED, FALSE, FALSE, L"支持从 D2 唤醒" },
+        { L"PDCAP_WAKE_FROM_D3_SUPPORTED", PDCAP_WAKE_FROM_D3_SUPPORTED, FALSE, FALSE, L"支持从 D3 唤醒" },
+        { L"PDCAP_WARM_EJECT_SUPPORTED", PDCAP_WARM_EJECT_SUPPORTED, FALSE, FALSE, L"热弹出" },
     };
 
     PH_FORMAT format[29];
@@ -3600,19 +3600,19 @@ PPH_STRING PhpDevSysPowerPowerDataString(
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D1Latency);
-        PhInitFormatS(&format[count++], L" D1 latency");
+        PhInitFormatS(&format[count++], L" D1 延迟");
     }
     if (PowerData->PD_D2Latency)
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D2Latency);
-        PhInitFormatS(&format[count++], L" D2 latency");
+        PhInitFormatS(&format[count++], L" D2 延迟");
     }
     if (PowerData->PD_D2Latency)
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D3Latency);
-        PhInitFormatS(&format[count++], L" D3 latency");
+        PhInitFormatS(&format[count++], L" D3 延迟");
     }
     PhInitFormatS(&format[count++], L", S0->");
     PhInitFormatSR(&format[count++], *PhpDevPowerStateString(PowerData->PD_PowerStateMapping[PowerSystemWorking]));
@@ -3634,7 +3634,7 @@ PPH_STRING PhpDevSysPowerPowerDataString(
     PhInitFormatS(&format[count++], L"))");
     if (PowerData->PD_DeepestSystemWake != PowerSystemUnspecified)
     {
-        PhInitFormatS(&format[count++], L", Deepest wake ");
+        PhInitFormatS(&format[count++], L"，最深唤醒状态 ");
         PhInitFormatSR(&format[count++], *PhpDevSysPowerStateString(PowerData->PD_DeepestSystemWake));
     }
 
@@ -3684,80 +3684,80 @@ VOID NTAPI PhpDevPropFillUInt32Flags(
 
     static const PH_ACCESS_ENTRY deviceCapabilities[] =
     {
-        PH_DEVICE_FLAG(CM_DEVCAP_LOCKSUPPORTED, L"Lock supported"),
-        PH_DEVICE_FLAG(CM_DEVCAP_EJECTSUPPORTED, L"Eject supported"),
-        PH_DEVICE_FLAG(CM_DEVCAP_REMOVABLE, L"Removable"),
-        PH_DEVICE_FLAG(CM_DEVCAP_DOCKDEVICE, L"Dock device"),
-        PH_DEVICE_FLAG(CM_DEVCAP_UNIQUEID, L"Unique ID"),
-        PH_DEVICE_FLAG(CM_DEVCAP_SILENTINSTALL, L"Silent install"),
-        PH_DEVICE_FLAG(CM_DEVCAP_RAWDEVICEOK, L"Raw device ok"),
-        PH_DEVICE_FLAG(CM_DEVCAP_SURPRISEREMOVALOK, L"Surprise removal ok"),
-        PH_DEVICE_FLAG(CM_DEVCAP_HARDWAREDISABLED, L"Hardware disabled"),
-        PH_DEVICE_FLAG(CM_DEVCAP_NONDYNAMIC, L"No dynamic"),
-        PH_DEVICE_FLAG(CM_DEVCAP_SECUREDEVICE, L"Secure device"),
+        PH_DEVICE_FLAG(CM_DEVCAP_LOCKSUPPORTED, L"支持锁定"),
+        PH_DEVICE_FLAG(CM_DEVCAP_EJECTSUPPORTED, L"支持弹出"),
+        PH_DEVICE_FLAG(CM_DEVCAP_REMOVABLE, L"可移动"),
+        PH_DEVICE_FLAG(CM_DEVCAP_DOCKDEVICE, L"对接设备"),
+        PH_DEVICE_FLAG(CM_DEVCAP_UNIQUEID, L"唯一 ID"),
+        PH_DEVICE_FLAG(CM_DEVCAP_SILENTINSTALL, L"静默安装"),
+        PH_DEVICE_FLAG(CM_DEVCAP_RAWDEVICEOK, L"原始设备可用"),
+        PH_DEVICE_FLAG(CM_DEVCAP_SURPRISEREMOVALOK, L"支持意外移除"),
+        PH_DEVICE_FLAG(CM_DEVCAP_HARDWAREDISABLED, L"硬件已禁用"),
+        PH_DEVICE_FLAG(CM_DEVCAP_NONDYNAMIC, L"非动态设备"),
+        PH_DEVICE_FLAG(CM_DEVCAP_SECUREDEVICE, L"安全设备"),
     };
 
     static const PH_ACCESS_ENTRY devNodeStatus[] =
     {
-        PH_DEVICE_FLAG(DN_ROOT_ENUMERATED, L"Enumerated"),
-        PH_DEVICE_FLAG(DN_DRIVER_LOADED, L"Driver loaded"),
-        PH_DEVICE_FLAG(DN_ENUM_LOADED, L"Enumerator loaded"),
-        PH_DEVICE_FLAG(DN_STARTED, L"Started"),
-        PH_DEVICE_FLAG(DN_MANUAL, L"Manually installed"),
-        PH_DEVICE_FLAG(DN_NEED_TO_ENUM, L"Needs enumerated"),
-        PH_DEVICE_FLAG(DN_DRIVER_BLOCKED, L"Driver blocked"),
-        PH_DEVICE_FLAG(DN_HARDWARE_ENUM, L"Hardware enum"),
-        PH_DEVICE_FLAG(DN_NEED_RESTART, L"Needs reboot"),
-        PH_DEVICE_FLAG(DN_CHILD_WITH_INVALID_ID, L"Child with invalid ID"),
-        PH_DEVICE_FLAG(DN_HAS_PROBLEM, L"Has problem"),
-        PH_DEVICE_FLAG(DN_FILTERED, L"Filtered"),
-        PH_DEVICE_FLAG(DN_LEGACY_DRIVER, L"Legacy driver"),
-        PH_DEVICE_FLAG(DN_DISABLEABLE, L"Disabled"),
-        PH_DEVICE_FLAG(DN_REMOVABLE, L"Removable"),
-        PH_DEVICE_FLAG(DN_PRIVATE_PROBLEM, L"Has problem"),
-        PH_DEVICE_FLAG(DN_QUERY_REMOVE_PENDING, L"Query remove pending"),
-        PH_DEVICE_FLAG(DN_QUERY_REMOVE_ACTIVE, L"Query remove active"),
-        PH_DEVICE_FLAG(DN_WILL_BE_REMOVED, L"Being removed"),
-        PH_DEVICE_FLAG(DN_NOT_FIRST_TIMEE, L"Received config"),
-        PH_DEVICE_FLAG(DN_STOP_FREE_RES, L"To be freed"),
-        PH_DEVICE_FLAG(DN_REBAL_CANDIDATE, L"Rebalance candidate"),
-        PH_DEVICE_FLAG(DN_BAD_PARTIAL, L"Bad partial"),
-        PH_DEVICE_FLAG(DN_NT_ENUMERATOR, L"NT enumerator"),
-        PH_DEVICE_FLAG(DN_NT_DRIVER, L"NT driver"),
-        PH_DEVICE_FLAG(DN_DEVICE_DISCONNECTED, L"Disconnected"),
-        PH_DEVICE_FLAG(DN_ARM_WAKEUP, L"Wakeup device"),
-        PH_DEVICE_FLAG(DN_APM_ENUMERATOR, L"Advanced power enumerator"),
-        PH_DEVICE_FLAG(DN_APM_DRIVER, L"Advanced power aware"),
-        PH_DEVICE_FLAG(DN_SILENT_INSTALL, L"Silent install"),
-        PH_DEVICE_FLAG(DN_NO_SHOW_IN_DM, L"Hidden from device manager"),
-        PH_DEVICE_FLAG(DN_BOOT_LOG_PROB, L"Boot log problem"),
+        PH_DEVICE_FLAG(DN_ROOT_ENUMERATED, L"已枚举"),
+        PH_DEVICE_FLAG(DN_DRIVER_LOADED, L"驱动已加载"),
+        PH_DEVICE_FLAG(DN_ENUM_LOADED, L"枚举器已加载"),
+        PH_DEVICE_FLAG(DN_STARTED, L"已启动"),
+        PH_DEVICE_FLAG(DN_MANUAL, L"手动安装"),
+        PH_DEVICE_FLAG(DN_NEED_TO_ENUM, L"需要枚举"),
+        PH_DEVICE_FLAG(DN_DRIVER_BLOCKED, L"驱动已阻止"),
+        PH_DEVICE_FLAG(DN_HARDWARE_ENUM, L"硬件枚举"),
+        PH_DEVICE_FLAG(DN_NEED_RESTART, L"需要重启"),
+        PH_DEVICE_FLAG(DN_CHILD_WITH_INVALID_ID, L"子设备 ID 无效"),
+        PH_DEVICE_FLAG(DN_HAS_PROBLEM, L"存在问题"),
+        PH_DEVICE_FLAG(DN_FILTERED, L"已过滤"),
+        PH_DEVICE_FLAG(DN_LEGACY_DRIVER, L"旧版驱动"),
+        PH_DEVICE_FLAG(DN_DISABLEABLE, L"已禁用"),
+        PH_DEVICE_FLAG(DN_REMOVABLE, L"可移动"),
+        PH_DEVICE_FLAG(DN_PRIVATE_PROBLEM, L"存在问题"),
+        PH_DEVICE_FLAG(DN_QUERY_REMOVE_PENDING, L"查询移除挂起"),
+        PH_DEVICE_FLAG(DN_QUERY_REMOVE_ACTIVE, L"查询移除进行中"),
+        PH_DEVICE_FLAG(DN_WILL_BE_REMOVED, L"正在移除"),
+        PH_DEVICE_FLAG(DN_NOT_FIRST_TIMEE, L"已接收配置"),
+        PH_DEVICE_FLAG(DN_STOP_FREE_RES, L"待释放"),
+        PH_DEVICE_FLAG(DN_REBAL_CANDIDATE, L"重新平衡候选"),
+        PH_DEVICE_FLAG(DN_BAD_PARTIAL, L"部分无效"),
+        PH_DEVICE_FLAG(DN_NT_ENUMERATOR, L"NT 枚举器"),
+        PH_DEVICE_FLAG(DN_NT_DRIVER, L"NT 驱动"),
+        PH_DEVICE_FLAG(DN_DEVICE_DISCONNECTED, L"已断开连接"),
+        PH_DEVICE_FLAG(DN_ARM_WAKEUP, L"唤醒设备"),
+        PH_DEVICE_FLAG(DN_APM_ENUMERATOR, L"高级电源枚举器"),
+        PH_DEVICE_FLAG(DN_APM_DRIVER, L"感知高级电源"),
+        PH_DEVICE_FLAG(DN_SILENT_INSTALL, L"静默安装"),
+        PH_DEVICE_FLAG(DN_NO_SHOW_IN_DM, L"在设备管理器中隐藏"),
+        PH_DEVICE_FLAG(DN_BOOT_LOG_PROB, L"启动日志问题"),
     };
 
     static const PH_ACCESS_ENTRY characteristics[] =
     {
-        PH_DEVICE_FLAG(FILE_REMOVABLE_MEDIA, L"Removable media"),
-        PH_DEVICE_FLAG(FILE_READ_ONLY_DEVICE, L"Read only device"),
-        PH_DEVICE_FLAG(FILE_FLOPPY_DISKETTE, L"Floppy disk"),
-        PH_DEVICE_FLAG(FILE_WRITE_ONCE_MEDIA, L"Write once media"),
-        PH_DEVICE_FLAG(FILE_REMOTE_DEVICE, L"Remote device"),
-        PH_DEVICE_FLAG(FILE_DEVICE_IS_MOUNTED, L"Mounted"),
-        PH_DEVICE_FLAG(FILE_VIRTUAL_VOLUME, L"Virtual volume"),
-        PH_DEVICE_FLAG(FILE_AUTOGENERATED_DEVICE_NAME, L"Autogenerated device name"),
-        PH_DEVICE_FLAG(FILE_DEVICE_SECURE_OPEN, L"Secure open"),
-        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_PNP_DEVICE, L"PnP device"),
-        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_TS_DEVICE, L"Terminal services device"),
-        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_WEBDAV_DEVICE, L"WebDAV device"),
-        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_CSV, L"Cluster shared volume"),
-        PH_DEVICE_FLAG(FILE_DEVICE_ALLOW_APPCONTAINER_TRAVERSAL, L"Allow app container traversal"),
-        PH_DEVICE_FLAG(FILE_PORTABLE_DEVICE, L"Portable device"),
-        PH_DEVICE_FLAG(FILE_REMOTE_DEVICE_VSMB, L"Virtual SCSI device"),
-        PH_DEVICE_FLAG(FILE_DEVICE_REQUIRE_SECURITY_CHECK, L"Require security check"),
+        PH_DEVICE_FLAG(FILE_REMOVABLE_MEDIA, L"可移动介质"),
+        PH_DEVICE_FLAG(FILE_READ_ONLY_DEVICE, L"只读设备"),
+        PH_DEVICE_FLAG(FILE_FLOPPY_DISKETTE, L"软盘"),
+        PH_DEVICE_FLAG(FILE_WRITE_ONCE_MEDIA, L"一次写入介质"),
+        PH_DEVICE_FLAG(FILE_REMOTE_DEVICE, L"远程设备"),
+        PH_DEVICE_FLAG(FILE_DEVICE_IS_MOUNTED, L"已装载"),
+        PH_DEVICE_FLAG(FILE_VIRTUAL_VOLUME, L"虚拟卷"),
+        PH_DEVICE_FLAG(FILE_AUTOGENERATED_DEVICE_NAME, L"自动生成的设备名称"),
+        PH_DEVICE_FLAG(FILE_DEVICE_SECURE_OPEN, L"安全打开"),
+        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_PNP_DEVICE, L"PnP 设备"),
+        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_TS_DEVICE, L"终端服务设备"),
+        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_WEBDAV_DEVICE, L"WebDAV 设备"),
+        PH_DEVICE_FLAG(FILE_CHARACTERISTIC_CSV, L"群集共享卷"),
+        PH_DEVICE_FLAG(FILE_DEVICE_ALLOW_APPCONTAINER_TRAVERSAL, L"允许应用容器遍历"),
+        PH_DEVICE_FLAG(FILE_PORTABLE_DEVICE, L"便携设备"),
+        PH_DEVICE_FLAG(FILE_REMOTE_DEVICE_VSMB, L"虚拟 SCSI 设备"),
+        PH_DEVICE_FLAG(FILE_DEVICE_REQUIRE_SECURITY_CHECK, L"需要安全检查"),
     };
 
     static const PH_ACCESS_ENTRY nameAttributes[] =
     {
-        PH_DEVICE_FLAG(CM_NAME_ATTRIBUTE_NAME_RETRIEVED_FROM_DEVICE, L"Retrieved from device"),
-        PH_DEVICE_FLAG(CM_NAME_ATTRIBUTE_USER_ASSIGNED_NAME, L"User assigned name"),
+        PH_DEVICE_FLAG(CM_NAME_ATTRIBUTE_NAME_RETRIEVED_FROM_DEVICE, L"从设备检索"),
+        PH_DEVICE_FLAG(CM_NAME_ATTRIBUTE_USER_ASSIGNED_NAME, L"用户分配的名称"),
     };
 
     PPH_ACCESS_ENTRY entries = NULL;

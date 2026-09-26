@@ -110,9 +110,9 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PvConfigListViewFont(hwndDlg, context->ListViewHandle);
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 220, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"Value");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 360, L"Symbol");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 220, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 200, L"值");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 360, L"符号");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(L"CHPEListViewColumns", context->ListViewHandle);
             PvConfigTreeBorders(context->ListViewHandle);
@@ -129,67 +129,67 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                 {
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Version",
+                        L"版本",
                         PhFormatString(L"%lu", chpe32->Version),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code address range offset",
+                        L"代码地址范围偏移",
                         PhFormatString(L"0x%lx", chpe32->CHPECodeAddressRangeOffset),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code address range count",
+                        L"代码地址范围数量",
                         PhFormatString(L"%lu", chpe32->CHPECodeAddressRangeCount),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Exception handler",
+                        L"异常处理程序",
                         PhFormatString(L"0x%lx", chpe32->WowA64ExceptionHandlerFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64ExceptionHandlerFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch call",
+                        L"调度调用",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchCallFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchCallFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch indirect call",
+                        L"调度间接调用",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchIndirectCallFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchIndirectCallFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch indirect call guard",
+                        L"调度间接调用防护",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchIndirectCallCfgFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchIndirectCallCfgFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch return",
+                        L"调度返回",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchRetFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchRetFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch return leaf",
+                        L"调度返回叶",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchRetLeafFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchRetLeafFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch jump",
+                        L"调度跳转",
                         PhFormatString(L"0x%lx", chpe32->WowA64DispatchJumpFunctionPointer),
                         PvpCHPERvaToSymbol(chpe32->WowA64DispatchJumpFunctionPointer)
                         );
                     if (chpe32->Version >= 2)
                     {
-                        PvpCHPAddValue(lvHandle, L"Compiler IAT", PhFormatString(L"0x%lx", chpe32->CompilerIATPointer), NULL);
+                        PvpCHPAddValue(lvHandle, L"编译器 IAT", PhFormatString(L"0x%lx", chpe32->CompilerIATPointer), NULL);
                     }
                     if (chpe32->Version >= 3)
                     {
@@ -215,7 +215,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 {
                                     PvpCHPAddValue(
                                         lvHandle,
-                                        PhFormatString(L"Code range %lu Native", i)->Buffer,
+                                        PhFormatString(L"代码范围 %lu Native", i)->Buffer,
                                         PhFormatString(L"[0x%lx, 0x%lx]", start, end),
                                         PhReferenceEmptyString()
                                         );
@@ -224,7 +224,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 {
                                     PvpCHPAddValue(
                                         lvHandle,
-                                        PhFormatString(L"Code range %lu", i)->Buffer,
+                                        PhFormatString(L"代码范围 %lu", i)->Buffer,
                                         PhFormatString(L"[0x%lx, 0x%lx]", start, end),
                                         PhReferenceEmptyString()
                                         );
@@ -243,120 +243,120 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                 {
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Version",
+                        L"版本",
                         PhFormatString(L"%lu", chpe64->Version),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code map",
+                        L"代码映射",
                         PhFormatString(L"0x%lx", chpe64->CodeMap),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code map count",
+                        L"代码映射数量",
                         PhFormatString(L"%lu", chpe64->CodeMapCount),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code ranges to entry points",
+                        L"入口点代码范围",
                         PhFormatString(L"0x%lx", chpe64->CodeRangesToEntryPoints),
                         NULL);
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Code ranges to entry points count",
+                        L"入口点代码范围数量",
                         PhFormatString(L"%lu", chpe64->CodeRangesToEntryPointsCount),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Redirection metadata",
+                        L"重定向元数据",
                         PhFormatString(L"0x%lx", chpe64->RedirectionMetadata),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Redirection metadata count",
+                        L"重定向元数据数量",
                         PhFormatString(L"%lu", chpe64->RedirectionMetadataCount),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Auxiliary IAT",
+                        L"辅助 IAT",
                         PhFormatString(L"0x%lx", chpe64->AuxiliaryIAT),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Auxiliary IAT copy",
+                        L"辅助 IAT 副本",
                         PhFormatString(L"0x%lx", chpe64->AuxiliaryIATCopy),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Extra RFE table",
+                        L"额外 RFE 表",
                         PhFormatString(L"0x%lx", chpe64->ExtraRFETable),
                         NULL
                        );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Extra RFE table size",
+                        L"额外 RFE 表大小",
                         PhFormatString(L"0x%lx", chpe64->ExtraRFETableSize),
                         NULL
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Alternate entry point",
+                        L"备用入口点",
                         PhFormatString(L"0x%lx", chpe64->AlternateEntryPoint),
                         PvpCHPERvaToSymbol(chpe64->AlternateEntryPoint)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Get x64 information",
+                        L"获取 x64 信息",
                         PhFormatString(L"0x%lx", chpe64->GetX64InformationFunctionPointer),
                         PvpCHPERvaToSymbol(chpe64->GetX64InformationFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Set x64 information",
+                        L"设置 x64 信息",
                         PhFormatString(L"0x%lx", chpe64->SetX64InformationFunctionPointer),
                         PvpCHPERvaToSymbol(chpe64->SetX64InformationFunctionPointer)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch call no redirect",
+                        L"调度调用（无重定向）",
                         PhFormatString(L"0x%lx", chpe64->tbd__os_arm64x_dispatch_call_no_redirect),
                         PvpCHPERvaToSymbol(chpe64->tbd__os_arm64x_dispatch_call_no_redirect)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch return",
+                        L"调度返回",
                         PhFormatString(L"0x%lx", chpe64->tbd__os_arm64x_dispatch_ret),
                         PvpCHPERvaToSymbol(chpe64->tbd__os_arm64x_dispatch_ret)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch call",
+                        L"调度调用",
                         PhFormatString(L"0x%lx", chpe64->tbd__os_arm64x_dispatch_call),
                         PvpCHPERvaToSymbol(chpe64->tbd__os_arm64x_dispatch_call)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch indirect call",
+                        L"调度间接调用",
                         PhFormatString(L"0x%lx", chpe64->tbd__os_arm64x_dispatch_icall),
                         PvpCHPERvaToSymbol(chpe64->tbd__os_arm64x_dispatch_icall)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch indirect call guard",
+                        L"调度间接调用防护",
                         PhFormatString(L"0x%lx", chpe64->tbd__os_arm64x_dispatch_icall_cfg),
                         PvpCHPERvaToSymbol(chpe64->tbd__os_arm64x_dispatch_icall_cfg)
                         );
                     PvpCHPAddValue(
                         lvHandle,
-                        L"Dispatch function pointer",
+                        L"调度函数指针",
                         PhFormatString(L"0x%lx", chpe64->__os_arm64x_dispatch_fptr),
                         PvpCHPERvaToSymbol(chpe64->__os_arm64x_dispatch_fptr)
                         );
@@ -375,16 +375,16 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 switch (table[i].Type)
                                 {
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_ARM64:
-                                    type = PhFormatString(L"Code range %lu ARM64", i);
+                                    type = PhFormatString(L"代码范围 %lu ARM64", i);
                                     break;
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_ARM64EC:
-                                    type = PhFormatString(L"Code range %lu ARM64EC", i);
+                                    type = PhFormatString(L"代码范围 %lu ARM64EC", i);
                                     break;
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_AMD64:
-                                    type = PhFormatString(L"Code range %lu AMD64", i);
+                                    type = PhFormatString(L"代码范围 %lu AMD64", i);
                                     break;
                                 default:
-                                    type = PhFormatString(L"Code range %lu UNKNOWN (%lu)", i, table[i].Type);
+                                    type = PhFormatString(L"代码范围 %lu UNKNOWN (%lu)", i, table[i].Type);
                                     break;
                                 }
 
@@ -410,7 +410,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
 
                                 PvpCHPAddValue(
                                     lvHandle,
-                                    PhFormatString(L"Redirection entry %lu", i)->Buffer,
+                                    PhFormatString(L"重定向条目 %lu", i)->Buffer,
                                     PhFormatString(L"0x%lx -> 0x%lx", table[i].Source, table[i].Destination),
                                     PhFormatString(L"%ls -> %ls", source->Buffer, dest->Buffer)
                                     );
@@ -432,7 +432,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
 
                                 PvpCHPAddValue(
                                     lvHandle,
-                                    PhFormatString(L"Code entry range %lu", i)->Buffer,
+                                    PhFormatString(L"代码入口范围 %lu", i)->Buffer,
                                     PhFormatString(
                                         L"[0x%lx, 0x%lx] 0x%lx",
                                         table[i].StartRva,

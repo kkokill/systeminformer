@@ -71,8 +71,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Agent Tools";
-            info->Description = L"Exposes System Informer's process data and actions to AI agents over the Model Context Protocol.";
+            info->DisplayName = L"智能体工具";
+            info->Description = L"通过模型上下文协议向 AI 智能体暴露 System Informer 的进程数据和操作。";
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),
@@ -179,14 +179,14 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"Agent Tools",
+        L"智能体工具",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_OPTIONS),
         AtOptionsDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"Agent Tools - Agents",
+        L"智能体工具 - 智能体",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_OPTIONS_AGENTS),
         AtAgentsDlgProc,

@@ -144,13 +144,13 @@ VOID ShowErrorPageDialog(
     config.dwCommonButtons = TDCBF_CLOSE_BUTTON;
     config.hMainIcon = Context->IconLargeHandle;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Setup failed with an error.";
+    config.pszMainInstruction = L"安装失败，发生错误。";
     config.cxWidth = 200;
 
     if (string = PhGetStatusMessage(Context->LastStatus, 0))
-        config.pszContent = PhaFormatString(L"%s\r\n\r\nSelect Close to exit setup.", PhGetString(string))->Buffer;
+        config.pszContent = PhaFormatString(L"%s\r\n\r\n单击关闭退出安装程序。", PhGetString(string))->Buffer;
     else
-        config.pszContent = L"Select Close to exit setup.";
+        config.pszContent = L"单击关闭退出安装程序。";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -338,9 +338,9 @@ VOID ShowCompletedPageDialog(
     config.pfCallback = SetupCompletePageCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = PhaConcatStrings2(PhApplicationName, L" complete.")->Buffer;
-    config.pszContent = L"Select Close to exit setup.";
-    config.pszVerificationText = L"Start program when setup exits";
+    config.pszMainInstruction = PhaConcatStrings2(PhApplicationName, L" 安装完成。")->Buffer;
+    config.pszContent = L"单击关闭退出安装程序。";
+    config.pszVerificationText = L"安装程序退出后启动程序";
     config.cxWidth = 200;
 
 #ifdef FORCE_TEST_UPDATE_LOCAL_INSTALL
@@ -528,9 +528,9 @@ VOID ShowConfigDirectoryNonEmptyDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"WARNING";
-    config.pszContent = L"The selected installation directory already contains files and data. "
-        L"If you continue this directory and files will be deleted.\r\n\r\nDo you want to change the directory?";
+    config.pszMainInstruction = L"警告";
+    config.pszContent = L"所选安装目录已包含文件和数据。"
+        L"如果继续，该目录及其中的文件将被删除。\r\n\r\n是否更改目录？";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -596,7 +596,7 @@ VOID ShowInstallPageDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Preparing to install...";
+    config.pszMainInstruction = L"正在准备安装...";
     config.pszContent = L" ";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);

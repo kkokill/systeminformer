@@ -20,6 +20,20 @@
 #include <procprv.h>
 #include <thrdprv.h>
 
+#define PHP_AFFINITY_SELECT_PERFCORES 0
+#define PHP_AFFINITY_SELECT_ECORES 1
+#define PHP_AFFINITY_SELECT_LPECORES 2
+#define PHP_AFFINITY_SELECT_HTCORES 3
+
+typedef struct _PH_AFFINITY_CPU_INFO
+{
+    BOOLEAN Present;
+    BOOLEAN SmT;
+    UCHAR EfficiencyClass;
+    ULONG CoreNumber;
+    USHORT Group;
+} PH_AFFINITY_CPU_INFO, *PPH_AFFINITY_CPU_INFO;
+
 typedef struct _PH_AFFINITY_DIALOG_CONTEXT
 {
     HWND WindowHandle;
@@ -33,6 +47,16 @@ typedef struct _PH_AFFINITY_DIALOG_CONTEXT
     USHORT AffinityGroup;
     KAFFINITY AffinityMask;
     KAFFINITY SystemAffinityMask;
+
+    // Processor core topology
+    PPH_AFFINITY_CPU_INFO* CoreInfoGroups;
+    USHORT NumberOfCoreInfoGroups;
+    UCHAR MinimumEfficiencyClass;
+    UCHAR MaximumEfficiencyClass;
+    BOOLEAN HasMidEfficiencyClass;
+    BOOLEAN HasSmtCore;
+    HWND TooltipHandle;
+    PPH_LIST TooltipStringList;
 
     // Multiple selected items (dmex)
     PPH_THREAD_ITEM* Threads;
@@ -154,7 +178,7 @@ static BOOLEAN PhpShowProcessErrorAffinity(
     return PhShowContinueStatus(
         hWnd,
         PhaFormatString(
-        L"Unable to change affinity of process %lu",
+        L"无法更改进程 %lu 的亲和性",
         HandleToUlong(Process->ProcessId)
         )->Buffer,
         Status,
@@ -172,7 +196,7 @@ static BOOLEAN PhpShowThreadErrorAffinity(
     return PhShowContinueStatus(
         hWnd,
         PhaFormatString(
-        L"Unable to change affinity of thread %lu",
+        L"无法更改线程 %lu 的亲和性",
         HandleToUlong(Thread->ThreadId)
         )->Buffer,
         Status,
@@ -194,7 +218,7 @@ VOID PhpShowThreadErrorAffinityList(
         PhAppendFormatStringBuilder(
             &stringBuilder,
             L"%s\n",
-            PhGetStringOrDefault(AffinityErrorsList->Items[i], L"An unknown error occurred.")
+            PhGetStringOrDefault(AffinityErrorsList->Items[i], L"发生未知错误。")
             );
     }
 
@@ -203,8 +227,8 @@ VOID PhpShowThreadErrorAffinityList(
 
     PhShowInformation2(
         Context->WindowHandle,
-        L"Unable to update affinity for thread(s)",
-        L"Unable to update affinity for thread(s):\r\n%s",
+        L"无法更新线程亲和性",
+        L"无法更新线程亲和性：\r\n%s",
         PhGetString(PhFinalStringBuilderString(&stringBuilder))
         );
 
@@ -248,6 +272,301 @@ BOOLEAN PhpCheckThreadsHaveSameAffinity(
     }
 
     return result;
+}
+
+static BOOLEAN PhpQueryProcessorCoreTopology(
+    _In_ PPH_AFFINITY_DIALOG_CONTEXT Context
+    )
+{
+    ULONG returnLength = 0;
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX buffer;
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX entry;
+    USHORT numberOfGroups;
+    ULONG coreNumber = 0;
+    UCHAR minimumEfficiencyClass = 0xff;
+    UCHAR maximumEfficiencyClass = 0;
+
+    numberOfGroups = PhSystemProcessorInformation.NumberOfProcessorGroups;
+
+    if (numberOfGroups == 0)
+        numberOfGroups = 1;
+
+    Context->CoreInfoGroups = PhAllocateZero(numberOfGroups * sizeof(PPH_AFFINITY_CPU_INFO));
+
+    for (USHORT group = 0; group < numberOfGroups; group++)
+    {
+        Context->CoreInfoGroups[group] = PhAllocateZero(MAXIMUM_PROC_PER_GROUP * sizeof(PH_AFFINITY_CPU_INFO));
+    }
+
+    Context->NumberOfCoreInfoGroups = numberOfGroups;
+
+    GetLogicalProcessorInformationEx(RelationProcessorCore, NULL, &returnLength);
+
+    if (returnLength == 0)
+        return FALSE;
+
+    buffer = PhAllocateZero(returnLength);
+
+    if (!GetLogicalProcessorInformationEx(RelationProcessorCore, buffer, &returnLength))
+    {
+        PhFree(buffer);
+        return FALSE;
+    }
+
+    entry = buffer;
+
+    while ((PBYTE)entry < (PBYTE)buffer + returnLength)
+    {
+        if (entry->Relationship == RelationProcessorCore && entry->Processor.GroupCount > 0)
+        {
+            BOOLEAN isSmt = (entry->Processor.Flags & LTP_PC_SMT) != 0;
+            UCHAR efficiencyClass = entry->Processor.EfficiencyClass;
+
+            for (ULONG groupIndex = 0; groupIndex < entry->Processor.GroupCount; groupIndex++)
+            {
+                PGROUP_AFFINITY groupAffinity = &entry->Processor.GroupMask[groupIndex];
+
+                if (groupAffinity->Group >= numberOfGroups)
+                    continue;
+
+                for (ULONG bit = 0; bit < MAXIMUM_PROC_PER_GROUP; bit++)
+                {
+                    if ((groupAffinity->Mask >> bit) & 0x1)
+                    {
+                        PPH_AFFINITY_CPU_INFO info = &Context->CoreInfoGroups[groupAffinity->Group][bit];
+
+                        info->Present = TRUE;
+                        info->SmT = isSmt;
+                        info->EfficiencyClass = efficiencyClass;
+                        info->CoreNumber = coreNumber;
+                        info->Group = (USHORT)groupAffinity->Group;
+                    }
+                }
+            }
+
+            if (efficiencyClass < minimumEfficiencyClass)
+                minimumEfficiencyClass = efficiencyClass;
+            if (efficiencyClass > maximumEfficiencyClass)
+                maximumEfficiencyClass = efficiencyClass;
+
+            if (isSmt)
+                Context->HasSmtCore = TRUE;
+
+            coreNumber++;
+        }
+
+        entry = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX)((PBYTE)entry + entry->Size);
+    }
+
+    PhFree(buffer);
+
+    if (coreNumber == 0)
+        return FALSE;
+
+    Context->MinimumEfficiencyClass = minimumEfficiencyClass;
+    Context->MaximumEfficiencyClass = maximumEfficiencyClass;
+
+    // A middle efficiency class indicates a platform with three or more
+    // core tiers (e.g. P/E/LPE cores).
+    for (USHORT group = 0; group < numberOfGroups && !Context->HasMidEfficiencyClass; group++)
+    {
+        for (ULONG bit = 0; bit < MAXIMUM_PROC_PER_GROUP; bit++)
+        {
+            PPH_AFFINITY_CPU_INFO info = &Context->CoreInfoGroups[group][bit];
+
+            if (info->Present &&
+                info->EfficiencyClass > Context->MinimumEfficiencyClass &&
+                info->EfficiencyClass < Context->MaximumEfficiencyClass)
+            {
+                Context->HasMidEfficiencyClass = TRUE;
+                break;
+            }
+        }
+    }
+
+    return TRUE;
+}
+
+static USHORT PhpGetCurrentAffinityGroup(
+    _In_ PPH_AFFINITY_DIALOG_CONTEXT Context
+    )
+{
+    if (Context->GroupComboHandle)
+    {
+        LONG index = ComboBox_GetCurSel(Context->GroupComboHandle);
+
+        if (index != CB_ERR)
+            return (USHORT)index;
+    }
+
+    return Context->AffinityGroup;
+}
+
+static VOID PhpSelectAffinityCoreClass(
+    _In_ PPH_AFFINITY_DIALOG_CONTEXT Context,
+    _In_ ULONG SelectionType
+    )
+{
+    USHORT group;
+
+    if (!Context->CoreInfoGroups)
+        return;
+
+    group = PhpGetCurrentAffinityGroup(Context);
+
+    if (group >= Context->NumberOfCoreInfoGroups)
+        return;
+
+    for (ULONG i = 0; i < MAXIMUM_PROC_PER_GROUP; i++)
+    {
+        HWND checkBox = Context->CpuControlList->Items[i];
+        PPH_AFFINITY_CPU_INFO info = &Context->CoreInfoGroups[group][i];
+        BOOLEAN select = FALSE;
+
+        if (!info->Present)
+            continue;
+
+        switch (SelectionType)
+        {
+        case PHP_AFFINITY_SELECT_PERFCORES:
+            select = info->EfficiencyClass == Context->MaximumEfficiencyClass;
+            break;
+        case PHP_AFFINITY_SELECT_ECORES:
+            // On platforms with two core tiers (e.g. P/E) the efficient cores
+            // are the lowest class; with three or more tiers (e.g. P/E/LPE)
+            // they are the middle class. (dmex)
+            if (Context->HasMidEfficiencyClass)
+                select = info->EfficiencyClass > Context->MinimumEfficiencyClass &&
+                    info->EfficiencyClass < Context->MaximumEfficiencyClass;
+            else
+                select = info->EfficiencyClass == Context->MinimumEfficiencyClass;
+            break;
+        case PHP_AFFINITY_SELECT_LPECORES:
+            select = Context->HasMidEfficiencyClass &&
+                info->EfficiencyClass == Context->MinimumEfficiencyClass;
+            break;
+        case PHP_AFFINITY_SELECT_HTCORES:
+            select = info->SmT;
+            break;
+        }
+
+        if (IsWindowEnabled(checkBox))
+        {
+            Button_SetCheck(checkBox, select ? BST_CHECKED : BST_UNCHECKED);
+        }
+    }
+}
+
+static VOID PhpAddAffinityTooltip(
+    _In_ PPH_AFFINITY_DIALOG_CONTEXT Context,
+    _In_ HWND ControlHandle,
+    _In_ PWSTR Text
+    )
+{
+    TOOLINFO toolInfo;
+
+    if (!Context->TooltipHandle)
+    {
+        Context->TooltipHandle = PhCreateWindowEx(
+            TOOLTIPS_CLASS,
+            NULL,
+            WS_POPUP | TTS_ALWAYSTIP | TTS_NOPREFIX | TTS_NOANIMATE | TTS_NOFADE,
+            WS_EX_TOPMOST,
+            CW_USEDEFAULT,
+            CW_USEDEFAULT,
+            CW_USEDEFAULT,
+            CW_USEDEFAULT,
+            Context->WindowHandle,
+            NULL,
+            NULL,
+            NULL
+            );
+
+        SetWindowPos(
+            Context->TooltipHandle,
+            HWND_TOPMOST,
+            0, 0, 0, 0,
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE
+            );
+    }
+
+    memset(&toolInfo, 0, sizeof(TOOLINFO));
+    toolInfo.cbSize = sizeof(TOOLINFO);
+    toolInfo.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+    toolInfo.hwnd = Context->WindowHandle;
+    toolInfo.uId = (UINT_PTR)ControlHandle;
+    toolInfo.lpszText = Text;
+
+    SendMessage(Context->TooltipHandle, TTM_ADDTOOL, 0, (LPARAM)&toolInfo);
+}
+
+static PPH_STRING PhpCreateCpuTooltipText(
+    _In_ PPH_AFFINITY_DIALOG_CONTEXT Context,
+    _In_ USHORT Group,
+    _In_ ULONG ProcessorIndex
+    )
+{
+    PH_STRING_BUILDER stringBuilder;
+    PPH_AFFINITY_CPU_INFO info;
+    BOOLEAN hybrid;
+
+    info = &Context->CoreInfoGroups[Group][ProcessorIndex];
+    hybrid = Context->MinimumEfficiencyClass != Context->MaximumEfficiencyClass;
+
+    PhInitializeStringBuilder(&stringBuilder, 60);
+    PhAppendFormatStringBuilder(&stringBuilder, L"CPU %lu：", ProcessorIndex);
+
+    if (hybrid)
+    {
+        if (info->EfficiencyClass == Context->MaximumEfficiencyClass)
+            PhAppendStringBuilder2(&stringBuilder, L"性能核（P-core）");
+        else if (
+            info->EfficiencyClass > Context->MinimumEfficiencyClass &&
+            info->EfficiencyClass < Context->MaximumEfficiencyClass
+            )
+            PhAppendStringBuilder2(&stringBuilder, L"能效核（E-core）");
+        else if (Context->HasMidEfficiencyClass)
+            PhAppendStringBuilder2(&stringBuilder, L"低功耗能效核（LP E-core）");
+        else
+            PhAppendStringBuilder2(&stringBuilder, L"能效核（E-core）");
+
+        if (info->SmT)
+            PhAppendStringBuilder2(&stringBuilder, L"；超线程核心");
+        else
+            PhAppendStringBuilder2(&stringBuilder, L"；独立物理核心");
+    }
+    else
+    {
+        if (info->SmT)
+            PhAppendStringBuilder2(&stringBuilder, L"超线程核心");
+        else
+            PhAppendStringBuilder2(&stringBuilder, L"独立物理核心");
+    }
+
+    if (info->SmT)
+    {
+        BOOLEAN firstSibling = TRUE;
+
+        PhAppendStringBuilder2(&stringBuilder, L"（与 ");
+
+        for (ULONG i = 0; i < MAXIMUM_PROC_PER_GROUP; i++)
+        {
+            PPH_AFFINITY_CPU_INFO sibling = &Context->CoreInfoGroups[Group][i];
+
+            if (i == ProcessorIndex || !sibling->Present || sibling->CoreNumber != info->CoreNumber)
+                continue;
+
+            if (!firstSibling)
+                PhAppendStringBuilder2(&stringBuilder, L"、");
+
+            PhAppendFormatStringBuilder(&stringBuilder, L"CPU %lu", i);
+            firstSibling = FALSE;
+        }
+
+        PhAppendStringBuilder2(&stringBuilder, L" 共享同一物理核心）");
+    }
+
+    return PhFinalStringBuilderString(&stringBuilder);
 }
 
 INT_PTR CALLBACK PhpProcessAffinityDlgProc(
@@ -300,7 +619,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                 for (USHORT processorGroup = 0; processorGroup < PhSystemProcessorInformation.NumberOfProcessorGroups; processorGroup++)
                 {
-                    ComboBox_AddString(context->GroupComboHandle, PhaFormatString(L"Group %hu", processorGroup)->Buffer);
+                    ComboBox_AddString(context->GroupComboHandle, PhaFormatString(L"组 %hu", processorGroup)->Buffer);
                 }
 
                 ShowWindow(context->GroupComboHandle, SW_SHOW);
@@ -396,7 +715,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                 windowText = PH_AUTO(PhGetWindowText(hwndDlg));
                 PhSetWindowText(hwndDlg, PhaFormatString(
-                    L"%s (%lu threads)",
+                    L"%s（%lu 个线程）",
                     windowText->Buffer,
                     context->NumberOfThreads
                     )->Buffer);
@@ -471,7 +790,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(hwndDlg, L"Unable to query the current affinity.", status, 0);
+                PhShowStatus(hwndDlg, L"无法查询当前的亲和性。", status, 0);
                 EndDialog(hwndDlg, IDCANCEL);
                 break;
             }
@@ -497,12 +816,76 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
                 }
             }
 
+            // Query the processor core topology for P/E/LPE core
+            // selection and hyper-threading identification. (dmex)
+            if (PhpQueryProcessorCoreTopology(context))
+            {
+                BOOLEAN hybrid = context->MinimumEfficiencyClass != context->MaximumEfficiencyClass;
+                USHORT currentGroup;
+                PPH_STRING tooltipText;
+
+                currentGroup = PhpGetCurrentAffinityGroup(context);
+
+                EnableWindow(GetDlgItem(hwndDlg, IDC_PERFCORES), hybrid);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_ECORES), hybrid);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_LPECORES), context->HasMidEfficiencyClass);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_HTCORES), context->HasSmtCore);
+
+                context->TooltipStringList = PhCreateList(16);
+
+                // Add tooltips which identify the core type of each logical processor.
+                if (currentGroup < context->NumberOfCoreInfoGroups)
+                {
+                    for (ULONG i = 0; i < MAXIMUM_PROC_PER_GROUP; i++)
+                    {
+                        PPH_AFFINITY_CPU_INFO info = &context->CoreInfoGroups[currentGroup][i];
+
+                        if (!info->Present)
+                            continue;
+
+                        tooltipText = PhpCreateCpuTooltipText(context, currentGroup, i);
+                        PhAddItemList(context->TooltipStringList, tooltipText);
+                        PhpAddAffinityTooltip(context, context->CpuControlList->Items[i], PhGetString(tooltipText));
+                    }
+                }
+
+                PhpAddAffinityTooltip(context, GetDlgItem(hwndDlg, IDC_PERFCORES), L"选中全部性能核（P-core）逻辑处理器");
+                PhpAddAffinityTooltip(context, GetDlgItem(hwndDlg, IDC_ECORES), L"选中全部能效核（E-core）逻辑处理器");
+                PhpAddAffinityTooltip(context, GetDlgItem(hwndDlg, IDC_LPECORES), L"选中全部低功耗能效核（LP E-core）逻辑处理器");
+                PhpAddAffinityTooltip(context, GetDlgItem(hwndDlg, IDC_HTCORES), L"选中全部属于超线程核心（SMT）的逻辑处理器");
+            }
+            else
+            {
+                EnableWindow(GetDlgItem(hwndDlg, IDC_PERFCORES), FALSE);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_ECORES), FALSE);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_LPECORES), FALSE);
+                EnableWindow(GetDlgItem(hwndDlg, IDC_HTCORES), FALSE);
+            }
+
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
         }
         break;
     case WM_DESTROY:
         {
             PhRemoveWindowContext(hwndDlg, PH_WINDOW_CONTEXT_DEFAULT);
+
+            if (context->CoreInfoGroups)
+            {
+                for (USHORT group = 0; group < context->NumberOfCoreInfoGroups; group++)
+                {
+                    PhFree(context->CoreInfoGroups[group]);
+                }
+
+                PhFree(context->CoreInfoGroups);
+                context->CoreInfoGroups = NULL;
+            }
+
+            if (context->TooltipStringList)
+            {
+                PhDereferenceObjects(context->TooltipStringList->Items, context->TooltipStringList->Count);
+                PhDereferenceObject(context->TooltipStringList);
+                context->TooltipStringList = NULL;
+            }
 
             if (context->ThreadHandles)
             {
@@ -552,7 +935,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                     if (affinityMask == 0)
                     {
-                        PhShowError2(hwndDlg, L"Unable to change affinity settings.", L"%s", L"You must select at least one CPU.");
+                        PhShowError2(hwndDlg, L"无法更改亲和性设置。", L"%s", L"必须至少选择一个 CPU。");
                         break;
                     }
 
@@ -702,6 +1085,18 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
                             Button_SetCheck(checkBox, GET_WM_COMMAND_ID(wParam, lParam) == IDC_SELECTALL ? BST_CHECKED : BST_UNCHECKED);
                     }
                 }
+                break;
+            case IDC_PERFCORES:
+                PhpSelectAffinityCoreClass(context, PHP_AFFINITY_SELECT_PERFCORES);
+                break;
+            case IDC_ECORES:
+                PhpSelectAffinityCoreClass(context, PHP_AFFINITY_SELECT_ECORES);
+                break;
+            case IDC_LPECORES:
+                PhpSelectAffinityCoreClass(context, PHP_AFFINITY_SELECT_LPECORES);
+                break;
+            case IDC_HTCORES:
+                PhpSelectAffinityCoreClass(context, PHP_AFFINITY_SELECT_HTCORES);
                 break;
             case IDC_GROUPCPU:
                 {

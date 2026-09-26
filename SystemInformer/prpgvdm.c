@@ -272,10 +272,10 @@ INT_PTR CALLBACK PhpProcessVdmHostProcessDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"Module name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 180, L"File name");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"Thread Id");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 80, L"Task Id");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"模块名");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 180, L"文件名");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"线程 ID");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 80, L"任务 ID");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(SETTING_VDM_HOST_LIST_VIEW_COLUMNS, context->ListViewHandle);
 
@@ -353,13 +353,13 @@ INT_PTR CALLBACK PhpProcessVdmHostProcessDlgProc(
                     PPH_EMENU menu;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Terminate", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"终止", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"Open &file location", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"打开文件位置(&F)", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"&Inspect", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"&检查", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     selectedItem = PhShowEMenu(
@@ -393,7 +393,7 @@ INT_PTR CALLBACK PhpProcessVdmHostProcessDlgProc(
                             {
                                 if (!PhpTerminateVdmTask(processItem, entry->Task16))
                                 {
-                                    PhShowStatus(hwndDlg, L"Unable to terminate the task.", 0, PhGetLastError());
+                                    PhShowStatus(hwndDlg, L"无法终止任务。", 0, PhGetLastError());
                                 }
                             }
                             break;
@@ -406,7 +406,7 @@ INT_PTR CALLBACK PhpProcessVdmHostProcessDlgProc(
                                         SETTING_FILE_BROWSE_EXECUTABLE,
                                         PhGetString(entry->FileName),
                                         FALSE,
-                                        L"Make sure the Explorer executable file is present."
+                                        L"请确保 Explorer 可执行文件存在。"
                                         );
                                 }
                             }
@@ -420,7 +420,7 @@ INT_PTR CALLBACK PhpProcessVdmHostProcessDlgProc(
                                         SETTING_PROGRAM_INSPECT_EXECUTABLES,
                                         PhGetString(entry->FileName),
                                         FALSE,
-                                        L"Make sure the PE Viewer executable file is present."
+                                        L"请确保 PE Viewer 可执行文件存在。"
                                         );
                                 }
                             }

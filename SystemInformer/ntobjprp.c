@@ -172,22 +172,22 @@ static VOID PhpRefreshEventPageInfo(
         )))
     {
         EVENT_BASIC_INFORMATION basicInfo;
-        PWSTR eventType = L"Unknown";
-        PWSTR eventState = L"Unknown";
+        PWSTR eventType = L"未知";
+        PWSTR eventState = L"未知";
 
         if (NT_SUCCESS(PhGetEventBasicInformation(eventHandle, &basicInfo)))
         {
             switch (basicInfo.EventType)
             {
             case NotificationEvent:
-                eventType = L"Notification";
+                eventType = L"通知";
                 break;
             case SynchronizationEvent:
-                eventType = L"Synchronization";
+                eventType = L"同步";
                 break;
             }
 
-            eventState = basicInfo.EventState > 0 ? L"True" : L"False";
+            eventState = basicInfo.EventState > 0 ? L"是" : L"否";
         }
 
         PhSetDialogItemText(hwndDlg, IDC_TYPE, eventType);
@@ -255,7 +255,7 @@ INT_PTR CALLBACK PhpEventPageProc(
                     PhpRefreshEventPageInfo(hwndDlg, pageContext);
 
                     if (!NT_SUCCESS(status))
-                        PhShowStatus(hwndDlg, L"Unable to open the event", status, 0);
+                        PhShowStatus(hwndDlg, L"无法打开事件。", status, 0);
                 }
                 break;
             }
@@ -332,7 +332,7 @@ INT_PTR CALLBACK PhpEventPairPageProc(
                     }
 
                     if (!NT_SUCCESS(status))
-                        PhShowStatus(hwndDlg, L"Unable to open the event pair", status, 0);
+                        PhShowStatus(hwndDlg, L"无法打开事件对。", status, 0);
                 }
                 break;
             }
@@ -380,8 +380,8 @@ static VOID PhpRefreshSemaphorePageInfo(
         }
         else
         {
-            PhSetDialogItemText(hwndDlg, IDC_CURRENTCOUNT, L"Unknown");
-            PhSetDialogItemText(hwndDlg, IDC_MAXIMUMCOUNT, L"Unknown");
+            PhSetDialogItemText(hwndDlg, IDC_CURRENTCOUNT, L"未知");
+            PhSetDialogItemText(hwndDlg, IDC_MAXIMUMCOUNT, L"未知");
         }
 
         NtClose(semaphoreHandle);
@@ -447,7 +447,7 @@ INT_PTR CALLBACK PhpSemaphorePageProc(
                     PhpRefreshSemaphorePageInfo(hwndDlg, pageContext);
 
                     if (!NT_SUCCESS(status))
-                        PhShowStatus(hwndDlg, L"Unable to open the semaphore", status, 0);
+                        PhShowStatus(hwndDlg, L"无法打开信号量。", status, 0);
                 }
                 break;
             }
@@ -490,11 +490,11 @@ static VOID PhpRefreshTimerPageInfo(
 
         if (NT_SUCCESS(PhGetTimerBasicInformation(timerHandle, &basicInfo)))
         {
-            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, basicInfo.TimerState ? L"True" : L"False");
+            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, basicInfo.TimerState ? L"是" : L"否");
         }
         else
         {
-            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, L"Unknown");
+            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, L"未知");
         }
 
         NtClose(timerHandle);
@@ -551,7 +551,7 @@ INT_PTR CALLBACK PhpTimerPageProc(
                     PhpRefreshTimerPageInfo(hwndDlg, pageContext);
 
                     if (!NT_SUCCESS(status))
-                        PhShowStatus(hwndDlg, L"Unable to open the timer", status, 0);
+                        PhShowStatus(hwndDlg, L"无法打开计时器。", status, 0);
                 }
                 break;
             }
@@ -591,7 +591,7 @@ VOID PhpEnumerateMappingsEntries(
         ShowWindow(statusWindow, SW_SHOW);
 
         statusText = PhGetKsiNotConnectedString(
-            L"Viewing active mappings requires a connection to the kernel driver."
+            L"查看活动映射需要连接到内核驱动程序。"
             );
         PhSetWindowText(statusWindow, PhGetString(statusText));
         //SendMessage(statusWindow, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
@@ -639,15 +639,15 @@ VOID PhpEnumerateMappingsEntries(
         }
         else if (info->ViewMapType == VIEW_MAP_TYPE_SESSION)
         {
-            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"Session", info);
+            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"会话", info);
         }
         else if (info->ViewMapType == VIEW_MAP_TYPE_SYSTEM_CACHE)
         {
-            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"System", info);
+            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"系统", info);
         }
         else
         {
-            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"Unknown", info);
+            lvItemIndex = PhAddListViewItem(Context->ListViewHandle, MAXINT, L"未知", info);
         }
 
         PhPrintPointer(value, info->StartVa);
@@ -679,7 +679,7 @@ VOID PhpShowProcessForMapping(
     }
     else
     {
-        PhShowStatus(hwndDlg, L"The process does not exist.", STATUS_INVALID_CID, 0);
+        PhShowStatus(hwndDlg, L"该进程不存在。", STATUS_INVALID_CID, 0);
     }
 }
 
@@ -706,10 +706,10 @@ INT_PTR CALLBACK PhpMappingsPageProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"View");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Start");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"End");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_RIGHT, 60, L"Size");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 140, L"视图");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"起始");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"结束");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_RIGHT, 60, L"大小");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhpEnumerateMappingsEntries(context);
@@ -745,10 +745,10 @@ INT_PTR CALLBACK PhpMappingsPageProc(
             menu = PhCreateEMenu();
             if (info && info->ViewMapType == VIEW_MAP_TYPE_PROCESS)
             {
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&Go to process", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&转到进程", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
             }
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&复制", NULL, NULL), ULONG_MAX);
             PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
             item = PhShowEMenu(
@@ -1008,7 +1008,7 @@ VOID PhSetSocketListViewItemBoolean(
     _In_ ULONG Value
     )
 {
-    PhSetSocketListViewItem(Context, Index, Value ? L"True" : L"False");
+    PhSetSocketListViewItem(Context, Index, Value ? L"是" : L"否");
 }
 
 VOID PhSetSocketListViewItemBytes(
@@ -1047,7 +1047,7 @@ VOID PhSetSocketListViewItemTimeSpan(
 
     if (TimeSpan == 0)
     {
-        PhSetSocketListViewItem(Context, Index, L"None");
+        PhSetSocketListViewItem(Context, Index, L"无");
         return;
     }
 
@@ -1074,7 +1074,7 @@ VOID PhSetSocketListViewItemTimeAgo(
 
     relativeTimeString = PhFormatTimeSpanRelative(Duration);
     absoluteTimeString = PhFormatDateTime(&absoluteTimeFields);
-    itemString = PhFormatString(L"%s ago (%s)", PhGetString(relativeTimeString), PhGetString(absoluteTimeString));
+    itemString = PhFormatString(L"%s 前（%s）", PhGetString(relativeTimeString), PhGetString(absoluteTimeString));
     PhDereferenceObject(relativeTimeString);
     PhDereferenceObject(absoluteTimeString);
 
@@ -1128,11 +1128,11 @@ static NTSTATUS PhpAfdQueryFormatTdiDeviceNameWithTimeout(
 
     if (hTdiDevice == INVALID_HANDLE_VALUE)
     {
-        *TdiDeviceName = PhCreateString(L"N/A (transport is not TDI)");
+        *TdiDeviceName = PhCreateString(L"N/A（传输层不是 TDI）");
     }
     else if (hTdiDevice == NULL)
     {
-        *TdiDeviceName = PhCreateString(L"None");
+        *TdiDeviceName = PhCreateString(L"无");
     }
     else
     {
@@ -1238,7 +1238,7 @@ static VOID PhpRefreshAfdSocketPageInfo(
         switch (sharedInfo.SendTimeout)
         {
         case 0:
-            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_SEND_TIMEOUT, L"Unlimited");
+            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_SEND_TIMEOUT, L"无限制");
             break;
         default:
             PhSetSocketListViewItemTimeSpan(Context, PH_AFD_SOCKET_ITEM_SEND_TIMEOUT, PH_TICKS_PER_MS * sharedInfo.SendTimeout);
@@ -1248,7 +1248,7 @@ static VOID PhpRefreshAfdSocketPageInfo(
         switch (sharedInfo.ReceiveTimeout)
         {
         case 0:
-            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_RECEIVE_TIMEOUT, L"Unlimited");
+            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_RECEIVE_TIMEOUT, L"无限制");
             break;
         default:
             PhSetSocketListViewItemTimeSpan(Context, PH_AFD_SOCKET_ITEM_RECEIVE_TIMEOUT, PH_TICKS_PER_MS * sharedInfo.ReceiveTimeout);
@@ -1301,7 +1301,7 @@ static VOID PhpRefreshAfdSocketPageInfo(
         switch (simpleInfo.Information.Ulong)
         {
         case ULONG_MAX:
-            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_CONNECT_TIME, L"N/A (not connected)");
+            PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_CONNECT_TIME, L"N/A（未连接）");
             break;
         default:
             PhSetSocketListViewItemTimeAgo(Context, PH_AFD_SOCKET_ITEM_CONNECT_TIME, PH_TICKS_PER_SEC * simpleInfo.Information.Ulong);
@@ -1695,7 +1695,7 @@ static VOID PhpRefreshAfdSocketPageInfo(
             switch (optionValue)
             {
             case ULONG_MAX:
-                PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRT, L"Unlimited");
+                PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRT, L"无限制");
                 break;
             default:
                 PhSetSocketListViewItemTimeSpan(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRT, PH_TICKS_PER_SEC * optionValue);
@@ -1750,7 +1750,7 @@ static VOID PhpRefreshAfdSocketPageInfo(
             switch (optionValue)
             {
             case ULONG_MAX:
-                PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRTMS, L"Unlimited");
+                PhSetSocketListViewItem(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRTMS, L"无限制");
                 break;
             default:
                 PhSetSocketListViewItemTimeSpan(Context, PH_AFD_SOCKET_ITEM_TCP_MAXRTMS, PH_TICKS_PER_MS * optionValue);
@@ -1970,152 +1970,152 @@ INT_PTR CALLBACK PhpAfdSocketPageProc(
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhSetExtendedListView(context->ListViewHandle);
-            PhListView_AddColumn(context->ListViewContext, 0, 0, 0, LVCFMT_LEFT, 145, L"Name");
-            PhListView_AddColumn(context->ListViewContext, 1, 1, 1, LVCFMT_LEFT, 225, L"Value");
+            PhListView_AddColumn(context->ListViewContext, 0, 0, 0, LVCFMT_LEFT, 145, L"名称");
+            PhListView_AddColumn(context->ListViewContext, 1, 1, 1, LVCFMT_LEFT, 225, L"值");
             PhListView_EnableGroupView(context->ListViewContext, TRUE);
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_SHARED, L"Shared Winsock context");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_STATE, L"Socket state");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_TYPE, L"Socket type");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_ADDRESS_FAMILY, L"Address family");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROTOCOL, L"Protocol");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_CATALOG_ENTRY_ID, L"Catalog entry ID");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROVIDER_ID, L"Provider ID");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROVIDER_FLAGS, L"Provider flags");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SERVICE_FLAGS, L"Service flags");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SEND_TIMEOUT, L"Send timeout");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_RECEIVE_TIMEOUT, L"Receive timeout");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SEND_BUFFER_SIZE, L"Send buffer size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_RECEIVE_BUFFER_SIZE, L"Receive buffer size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_CREATION_FLAGS, L"Creation flags");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_FLAGS, L"Flags");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_SHARED, L"共享 Winsock 上下文");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_STATE, L"套接字状态");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_TYPE, L"套接字类型");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_ADDRESS_FAMILY, L"地址族");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROTOCOL, L"协议");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_CATALOG_ENTRY_ID, L"目录条目 ID");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROVIDER_ID, L"提供程序 ID");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_PROVIDER_FLAGS, L"提供程序标志");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SERVICE_FLAGS, L"服务标志");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SEND_TIMEOUT, L"发送超时");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_RECEIVE_TIMEOUT, L"接收超时");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_SEND_BUFFER_SIZE, L"发送缓冲区大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_RECEIVE_BUFFER_SIZE, L"接收缓冲区大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_CREATION_FLAGS, L"创建标志");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SHARED, PH_AFD_SOCKET_ITEM_FLAGS, L"标志");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_ADDRESSES, L"Addresses");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_ADDRESSES, PH_AFD_SOCKET_ITEM_ADDRESS, L"Local address");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_ADDRESSES, PH_AFD_SOCKET_ITEM_REMOTE_ADDRESS, L"Remote address");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_ADDRESSES, L"地址");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_ADDRESSES, PH_AFD_SOCKET_ITEM_ADDRESS, L"本地地址");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_ADDRESSES, PH_AFD_SOCKET_ITEM_REMOTE_ADDRESS, L"远程地址");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_INFOCLASS, L"AFD info classes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_CONNECT_TIME, L"Connect time");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_DELIVERY_AVAILABLE, L"Delivery available");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_PENDED_RECEIVE_REQUESTS, L"Pending receive requests");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_SENDS_PENDING, L"Pending sends");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_RECEIVE_WINDOW_SIZE, L"Receive window size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_SEND_WINDOW_SIZE, L"Send window size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_MAX_SEND_SIZE, L"Maximum send size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_GROUP_ID, L"Group ID");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_GROUP_TYPE, L"Group type");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_INFOCLASS, L"AFD 信息类");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_CONNECT_TIME, L"连接时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_DELIVERY_AVAILABLE, L"传递可用");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_PENDED_RECEIVE_REQUESTS, L"挂起的接收请求");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_SENDS_PENDING, L"挂起的发送");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_RECEIVE_WINDOW_SIZE, L"接收窗口大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_SEND_WINDOW_SIZE, L"发送窗口大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_MAX_SEND_SIZE, L"最大发送大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_GROUP_ID, L"组 ID");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_INFOCLASS, PH_AFD_SOCKET_ITEM_GROUP_TYPE, L"组类型");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TDI, L"TDI devices");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TDI, PH_AFD_SOCKET_ITEM_TDI_ADDRESS_DEVICE, L"TDI address device");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TDI, PH_AFD_SOCKET_ITEM_TDI_CONNECTION_DEVICE, L"TDI connection device");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TDI, L"TDI 设备");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TDI, PH_AFD_SOCKET_ITEM_TDI_ADDRESS_DEVICE, L"TDI 地址设备");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TDI, PH_AFD_SOCKET_ITEM_TDI_CONNECTION_DEVICE, L"TDI 连接设备");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_SO, L"Socket-level options");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_REUSEADDR, L"Reuse address");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_KEEPALIVE, L"Keep alive");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_DONTROUTE, L"Don't route");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_BROADCAST, L"Broadcast");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_OOBINLINE, L"OOB in line");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_RCVBUF, L"Receive buffer size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_MAX_MSG_SIZE, L"Maximum message size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_PAUSE_ACCEPT, L"Pause accept");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_COMPARTMENT_ID, L"Compartment ID");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_RANDOMIZE_PORT, L"Randomize port");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_PORT_SCALABILITY, L"Port scalability");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_REUSE_UNICASTPORT, L"Reuse unicast port");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_EXCLUSIVEADDRUSE, L"Exclusive address use");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_SO, L"套接字级选项");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_REUSEADDR, L"重用地址");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_KEEPALIVE, L"保持活动");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_DONTROUTE, L"不路由");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_BROADCAST, L"广播");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_OOBINLINE, L"OOB 内联");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_RCVBUF, L"接收缓冲区大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_MAX_MSG_SIZE, L"最大消息大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_PAUSE_ACCEPT, L"暂停接受");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_COMPARTMENT_ID, L"隔离区 ID");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_RANDOMIZE_PORT, L"随机化端口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_PORT_SCALABILITY, L"端口可伸缩性");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_REUSE_UNICASTPORT, L"重用单播端口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_SO, PH_AFD_SOCKET_ITEM_SO_EXCLUSIVEADDRUSE, L"独占地址使用");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_IP, L"IP-level options");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_HDRINCL, L"Header included");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_TOS, L"Type-of-service");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_TTL, L"Unicast TTL");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_IF, L"Multicast interface");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_TTL, L"Multicast TTL");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_LOOP, L"Multicast loopback");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_DONTFRAGMENT, L"Don't fragment");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PKTINFO, L"Receive packet info");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVTTL, L"Receive TTL");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECEIVE_BROADCAST, L"Broadcast reception");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PROTECTION_LEVEL, L"IPv6 protection level");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVIF, L"Receive arrival interface");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVDSTADDR, L"Receive dest. address");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_V6ONLY, L"IPv6-only");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_IFLIST, L"Interface list");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_UNICAST_IF, L"Unicast interface");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVRTHDR, L"Receive routing header");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVTOS, L"Receive type-of-service");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_ORIGINAL_ARRIVAL_IF, L"Original arrival interface");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVECN, L"Receive ECN");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PKTINFO_EX, L"Recveive ext. packet info");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_WFP_REDIRECT_RECORDS, L"WFP redirect records");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_WFP_REDIRECT_CONTEXT, L"WFP redirect context");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MTU_DISCOVER, L"MTU discovery");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MTU, L"Path MTU");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVERR, L"Receive ICMP errors");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_USER_MTU, L"Upper MTU bound");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_IP, L"IP 级选项");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_HDRINCL, L"包含标头");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_TOS, L"服务类型");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_TTL, L"单播 TTL");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_IF, L"多播接口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_TTL, L"多播 TTL");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MULTICAST_LOOP, L"多播环回");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_DONTFRAGMENT, L"不分片");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PKTINFO, L"接收数据包信息");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVTTL, L"接收 TTL");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECEIVE_BROADCAST, L"广播接收");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PROTECTION_LEVEL, L"IPv6 保护级别");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVIF, L"接收到达接口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVDSTADDR, L"接收目标地址");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_V6ONLY, L"仅 IPv6");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_IFLIST, L"接口列表");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_UNICAST_IF, L"单播接口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVRTHDR, L"接收路由标头");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVTOS, L"接收服务类型");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_ORIGINAL_ARRIVAL_IF, L"原始到达接口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVECN, L"接收 ECN");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_PKTINFO_EX, L"接收扩展数据包信息");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_WFP_REDIRECT_RECORDS, L"WFP 重定向记录");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_WFP_REDIRECT_CONTEXT, L"WFP 重定向上下文");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MTU_DISCOVER, L"MTU 发现");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_MTU, L"路径 MTU");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_RECVERR, L"接收 ICMP 错误");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_IP, PH_AFD_SOCKET_ITEM_IP_USER_MTU, L"MTU 上限");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TCP, L"TCP-level options");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NODELAY, L"No delay");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_EXPEDITED, L"Expedited data");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPALIVE, L"Keep alive");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXSEG, L"Maximum segment size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXRT, L"Retry timeout");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_STDURG, L"URG interpretation");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NOURG, L"No URG");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_ATMARK, L"At mark");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NOSYNRETRIES, L"No SYN retries");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_TIMESTAMPS, L"Timestamps");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_CONGESTION_ALGORITHM, L"Congestion algorithm");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_DELAY_FIN_ACK, L"Delay FIN ACK");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXRTMS, L"Retry timeout (precise)");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_FASTOPEN, L"Fast open");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPCNT, L"Keep alive count");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPINTVL, L"Keep alive interval");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_FAIL_CONNECT_ON_ICMP_ERROR, L"Fail on ICMP error");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TCP, L"TCP 级选项");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NODELAY, L"无延迟");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_EXPEDITED, L"加速数据");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPALIVE, L"保持活动");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXSEG, L"最大段大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXRT, L"重试超时");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_STDURG, L"URG 解释");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NOURG, L"无 URG");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_ATMARK, L"处于标记");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_NOSYNRETRIES, L"无 SYN 重试");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_TIMESTAMPS, L"时间戳");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_CONGESTION_ALGORITHM, L"拥塞算法");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_DELAY_FIN_ACK, L"延迟 FIN ACK");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_MAXRTMS, L"重试超时（精确）");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_FASTOPEN, L"快速打开");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPCNT, L"保持活动计数");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_KEEPINTVL, L"保持活动间隔");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP, PH_AFD_SOCKET_ITEM_TCP_FAIL_CONNECT_ON_ICMP_ERROR, L"ICMP 错误时失败");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TCP_INFO, L"TCP information");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_STATE, L"TCP state");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_MSS, L"Maximum segment size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONNECTION_TIME, L"Connection time");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_TIMESTAMPS_ENABLED, L"Timestamps enabled");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RTT, L"Estimated round-trip");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_MINRTT, L"Minimal round-trip");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_IN_FLIGHT, L"Bytes in flight");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_WINDOW, L"Congestion window");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SEND_WINDOW, L"Send window");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVE_WINDOW, L"Receive window");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVE_BUFFER, L"Receive buffer");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_OUT, L"Bytes sent");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_IN, L"Bytes received");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_REORDERED, L"Bytes reordered");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_RETRANSMITTED, L"Bytes retransmitted");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_FAST_RETRANSMIT, L"Fast retransmits");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_DUPLICATE_ACKS_IN, L"Duplicate ACKs");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_TIMEOUT_EPISODES, L"Timeout episodes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SYN_RETRANSMITS, L"SYN retransmits");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_TRANSITIONS, L"Receiver-limited episodes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_TIME, L"Receiver-limited time");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_BYTES, L"Receiver-limited bytes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_TRANSITIONS, L"Congestion-limited episodes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_TIME, L"Congestion-limited time");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_BYTES, L"Congestion-limited bytes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_TRANSITIONS, L"Sender-limited episodes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_TIME, L"Sender-limited time");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_BYTES, L"Sender-limited bytes");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_OUT_OF_ORDER_PACKETS, L"Out-of-order packets");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_ECN_NEGOTIATED, L"ECN negotiated");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_ECE_ACKS_IN, L"ECE ACKs");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_PTO_EPISODES, L"Probe timeout episodes");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_TCP_INFO, L"TCP 信息");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_STATE, L"TCP 状态");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_MSS, L"最大段大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONNECTION_TIME, L"连接时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_TIMESTAMPS_ENABLED, L"已启用时间戳");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RTT, L"估计往返时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_MINRTT, L"最小往返时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_IN_FLIGHT, L"传输中字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_WINDOW, L"拥塞窗口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SEND_WINDOW, L"发送窗口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVE_WINDOW, L"接收窗口");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVE_BUFFER, L"接收缓冲区");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_OUT, L"已发送字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_IN, L"已接收字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_REORDERED, L"重排字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_BYTES_RETRANSMITTED, L"重传字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_FAST_RETRANSMIT, L"快速重传");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_DUPLICATE_ACKS_IN, L"重复 ACK");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_TIMEOUT_EPISODES, L"超时次数");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SYN_RETRANSMITS, L"SYN 重传");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_TRANSITIONS, L"接收方受限次数");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_TIME, L"接收方受限时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_RECEIVER_LIMITED_BYTES, L"接收方受限字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_TRANSITIONS, L"拥塞受限次数");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_TIME, L"拥塞受限时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_CONGESTION_LIMITED_BYTES, L"拥塞受限字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_TRANSITIONS, L"发送方受限次数");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_TIME, L"发送方受限时间");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_SENDER_LIMITED_BYTES, L"发送方受限字节");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_OUT_OF_ORDER_PACKETS, L"乱序数据包");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_ECN_NEGOTIATED, L"已协商 ECN");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_ECE_ACKS_IN, L"ECE ACK");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_TCP_INFO, PH_AFD_SOCKET_ITEM_TCP_INFO_PTO_EPISODES, L"探测超时次数");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_UDP, L"UDP-level options");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_NOCHECKSUM, L"No checksum");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_SEND_MSG_SIZE, L"Maximum message size");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_RECV_MAX_COALESCED_SIZE, L"Maximum coalesced size");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_UDP, L"UDP 级选项");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_NOCHECKSUM, L"无校验和");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_SEND_MSG_SIZE, L"最大消息大小");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_UDP, PH_AFD_SOCKET_ITEM_UDP_RECV_MAX_COALESCED_SIZE, L"最大合并大小");
 
-            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_HVSOCKET, L"Hyper-V-level options");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONNECT_TIMEOUT, L"Connect timeout");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONTAINER_PASSTHRU, L"Container passthru");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONNECTED_SUSPEND, L"Connected suspend");
-            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_HIGH_VTL, L"High VTL");
+            PhListView_AddGroup(context->ListViewContext, PH_AFD_SOCKET_GROUP_HVSOCKET, L"Hyper-V 级选项");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONNECT_TIMEOUT, L"连接超时");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONTAINER_PASSTHRU, L"容器直通");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_CONNECTED_SUSPEND, L"连接时挂起");
+            PhAddSocketListViewItem(context, PH_AFD_SOCKET_GROUP_HVSOCKET, PH_AFD_SOCKET_ITEM_HVSOCKET_HIGH_VTL, L"高 VTL");
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
@@ -2163,7 +2163,7 @@ INT_PTR CALLBACK PhpAfdSocketPageProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&复制", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

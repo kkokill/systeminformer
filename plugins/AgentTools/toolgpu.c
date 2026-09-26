@@ -354,14 +354,14 @@ VOID AtpGetGpuUsage(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The ExtendedTools plugin is not loaded, so nothing is collecting GPU utilization."
+            L"ExtendedTools 插件未加载，因此无法收集 GPU 利用率数据。"
             );
         return;
     }
 
     if (!AtpEnumerateGraphicsAdapters(&adapters, &adapterCount, &status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the graphics adapters");
+        AtSetToolStatusError(Result, status, L"枚举图形适配器");
         return;
     }
 
@@ -641,7 +641,7 @@ VOID AtpListGpuAdapters(
 
     if (!AtpEnumerateGraphicsAdapters(&adapters, &adapterCount, &status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the graphics adapters");
+        AtSetToolStatusError(Result, status, L"枚举图形适配器");
         return;
     }
 
@@ -765,7 +765,7 @@ VOID AtpGetProcessGpuStats(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The ExtendedTools plugin is not loaded, so nothing is collecting per-process GPU usage."
+            L"ExtendedTools 插件未加载，因此无法收集每进程 GPU 使用情况。"
             );
         return;
     }
@@ -779,7 +779,7 @@ VOID AtpGetProcessGpuStats(
             Result,
             "unavailable",
             STATUS_NOT_SUPPORTED,
-            L"GPU monitoring is not running in this System Informer instance."
+            L"此 System Informer 实例未运行 GPU 监控。"
             );
         AtDeleteTarget(&target);
         return;
@@ -850,7 +850,7 @@ VOID AtGpuInvokeTool(
         AtpGetProcessGpuStats(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

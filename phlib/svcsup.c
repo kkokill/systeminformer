@@ -15,85 +15,85 @@
 #include <svcsup.h>
 #include <mapldr.h>
 
-static CONST PH_STRINGREF PhpServiceUnknownString = PH_STRINGREF_INIT(L"Unknown");
+static CONST PH_STRINGREF PhpServiceUnknownString = PH_STRINGREF_INIT(L"未知");
 
 static CONST PH_KEY_VALUE_PAIR PhpServiceStatePairs[] =
 {
-    SIP(SREF(L"Unknown"), 0),
-    SIP(SREF(L"Stopped"), SERVICE_STOPPED),
-    SIP(SREF(L"Start pending"), SERVICE_START_PENDING),
-    SIP(SREF(L"Stop pending"), SERVICE_STOP_PENDING),
-    SIP(SREF(L"Running"), SERVICE_RUNNING),
-    SIP(SREF(L"Continue pending"), SERVICE_CONTINUE_PENDING),
-    SIP(SREF(L"Pause pending"), SERVICE_PAUSE_PENDING),
-    SIP(SREF(L"Paused"), SERVICE_PAUSED)
+    SIP(SREF(L"未知"), 0),
+    SIP(SREF(L"已停止"), SERVICE_STOPPED),
+    SIP(SREF(L"正在启动"), SERVICE_START_PENDING),
+    SIP(SREF(L"正在停止"), SERVICE_STOP_PENDING),
+    SIP(SREF(L"正在运行"), SERVICE_RUNNING),
+    SIP(SREF(L"正在恢复"), SERVICE_CONTINUE_PENDING),
+    SIP(SREF(L"正在暂停"), SERVICE_PAUSE_PENDING),
+    SIP(SREF(L"已暂停"), SERVICE_PAUSED)
 };
 
 static CONST PH_KEY_VALUE_PAIR PhpServiceTypePairs[] =
 {
-    SIP(SREF(L"Unknown"), 0),
-    SIP(SREF(L"Driver"), SERVICE_KERNEL_DRIVER),
-    SIP(SREF(L"FS driver"), SERVICE_FILE_SYSTEM_DRIVER),
-    SIP(SREF(L"Own process"), SERVICE_WIN32_OWN_PROCESS),
-    SIP(SREF(L"Share process"), SERVICE_WIN32_SHARE_PROCESS),
-    SIP(SREF(L"Own interactive process"), SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS),
-    SIP(SREF(L"Share interactive process"), SERVICE_WIN32_SHARE_PROCESS | SERVICE_INTERACTIVE_PROCESS),
-    SIP(SREF(L"User own process"), SERVICE_USER_OWN_PROCESS),
-    SIP(SREF(L"User own process (instance)"), SERVICE_USER_OWN_PROCESS | SERVICE_USERSERVICE_INSTANCE),
-    SIP(SREF(L"User share process"), SERVICE_USER_SHARE_PROCESS),
-    SIP(SREF(L"User share process (instance)"), SERVICE_USER_SHARE_PROCESS | SERVICE_USERSERVICE_INSTANCE),
-    SIP(SREF(L"Package own process"), SERVICE_PKG_SERVICE | SERVICE_WIN32_OWN_PROCESS),
-    SIP(SREF(L"Package share process"), SERVICE_PKG_SERVICE | SERVICE_WIN32_SHARE_PROCESS),
+    SIP(SREF(L"未知"), 0),
+    SIP(SREF(L"驱动程序"), SERVICE_KERNEL_DRIVER),
+    SIP(SREF(L"文件系统驱动程序"), SERVICE_FILE_SYSTEM_DRIVER),
+    SIP(SREF(L"独立进程"), SERVICE_WIN32_OWN_PROCESS),
+    SIP(SREF(L"共享进程"), SERVICE_WIN32_SHARE_PROCESS),
+    SIP(SREF(L"交互式独立进程"), SERVICE_WIN32_OWN_PROCESS | SERVICE_INTERACTIVE_PROCESS),
+    SIP(SREF(L"交互式共享进程"), SERVICE_WIN32_SHARE_PROCESS | SERVICE_INTERACTIVE_PROCESS),
+    SIP(SREF(L"用户独立进程"), SERVICE_USER_OWN_PROCESS),
+    SIP(SREF(L"用户独立进程（实例）"), SERVICE_USER_OWN_PROCESS | SERVICE_USERSERVICE_INSTANCE),
+    SIP(SREF(L"用户共享进程"), SERVICE_USER_SHARE_PROCESS),
+    SIP(SREF(L"用户共享进程（实例）"), SERVICE_USER_SHARE_PROCESS | SERVICE_USERSERVICE_INSTANCE),
+    SIP(SREF(L"程序包独立进程"), SERVICE_PKG_SERVICE | SERVICE_WIN32_OWN_PROCESS),
+    SIP(SREF(L"程序包共享进程"), SERVICE_PKG_SERVICE | SERVICE_WIN32_SHARE_PROCESS),
 };
 
 static CONST PH_KEY_VALUE_PAIR PhpServiceStartTypePairs[] =
 {
-    SIP(SREF(L"Boot start"), SERVICE_BOOT_START),
-    SIP(SREF(L"System start"), SERVICE_SYSTEM_START),
-    SIP(SREF(L"Auto start"), SERVICE_AUTO_START),
-    SIP(SREF(L"Demand start"), SERVICE_DEMAND_START),
-    SIP(SREF(L"Disabled"), SERVICE_DISABLED),
+    SIP(SREF(L"引导启动"), SERVICE_BOOT_START),
+    SIP(SREF(L"系统启动"), SERVICE_SYSTEM_START),
+    SIP(SREF(L"自动启动"), SERVICE_AUTO_START),
+    SIP(SREF(L"手动启动"), SERVICE_DEMAND_START),
+    SIP(SREF(L"已禁用"), SERVICE_DISABLED),
 };
 
 static CONST PH_KEY_VALUE_PAIR PhpServiceErrorControlPairs[] =
 {
-    SIP(SREF(L"Ignore"), SERVICE_ERROR_IGNORE),
-    SIP(SREF(L"Normal"), SERVICE_ERROR_NORMAL),
-    SIP(SREF(L"Severe"), SERVICE_ERROR_SEVERE),
-    SIP(SREF(L"Critical"), SERVICE_ERROR_CRITICAL)
+    SIP(SREF(L"忽略"), SERVICE_ERROR_IGNORE),
+    SIP(SREF(L"正常"), SERVICE_ERROR_NORMAL),
+    SIP(SREF(L"严重"), SERVICE_ERROR_SEVERE),
+    SIP(SREF(L"危急"), SERVICE_ERROR_CRITICAL)
 };
 
 CONST PPH_STRINGREF PhServiceTypeStrings[] =
 {
-    SREF(L"Driver"),
-    SREF(L"FS driver"),
-    SREF(L"Own process"),
-    SREF(L"Share process"),
-    SREF(L"Own interactive process"),
-    SREF(L"Share interactive process"),
-    SREF(L"User own process"),
-    SREF(L"User own process (instance)"),
-    SREF(L"User share process"),
-    SREF(L"User share process (instance)"),
-    SREF(L"Package own process"),
-    SREF(L"Package share process"),
+    SREF(L"驱动程序"),
+    SREF(L"文件系统驱动程序"),
+    SREF(L"独立进程"),
+    SREF(L"共享进程"),
+    SREF(L"交互式独立进程"),
+    SREF(L"交互式共享进程"),
+    SREF(L"用户独立进程"),
+    SREF(L"用户独立进程（实例）"),
+    SREF(L"用户共享进程"),
+    SREF(L"用户共享进程（实例）"),
+    SREF(L"程序包独立进程"),
+    SREF(L"程序包共享进程"),
 };
 
 CONST PPH_STRINGREF PhServiceStartTypeStrings[5] =
 {
-    SREF(L"Disabled"),
-    SREF(L"Boot start"),
-    SREF(L"System start"),
-    SREF(L"Auto start"),
-    SREF(L"Demand start"),
+    SREF(L"已禁用"),
+    SREF(L"引导启动"),
+    SREF(L"系统启动"),
+    SREF(L"自动启动"),
+    SREF(L"手动启动"),
 };
 
 CONST PPH_STRINGREF PhServiceErrorControlStrings[4] =
 {
-    SREF(L"Ignore"),
-    SREF(L"Normal"),
-    SREF(L"Severe"),
-    SREF(L"Critical"),
+    SREF(L"忽略"),
+    SREF(L"正常"),
+    SREF(L"严重"),
+    SREF(L"危急"),
 };
 
 /**

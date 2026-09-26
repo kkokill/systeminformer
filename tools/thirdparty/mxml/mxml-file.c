@@ -512,7 +512,7 @@ mxml_add_char(mxml_options_t *options,	// I - Options
 
     if ((newbuffer = realloc(*buffer, *bufsize)) == NULL)
     {
-      _mxml_error(options, "Unable to expand string buffer to %lu bytes.", (unsigned long)*bufsize);
+      _mxml_error(options, "无法将字符串缓冲区扩展至 %lu 字节。", (unsigned long)*bufsize);
 
       return (false);
     }
@@ -585,7 +585,7 @@ mxml_get_entity(
     }
     else
     {
-      _mxml_error(options, "Entity name too long under parent <%s> on line %d.", mxmlGetElement(parent), *line);
+      _mxml_error(options, "父元素 <%s> 第 %d 行的实体名称过长。", mxmlGetElement(parent), *line);
       break;
     }
   }
@@ -594,7 +594,7 @@ mxml_get_entity(
 
   if (ch != ';')
   {
-    _mxml_error(options, "Character entity '%s' not terminated under parent <%s> on line %d.", entity, mxmlGetElement(parent), *line);
+    _mxml_error(options, "父元素 <%s> 第 %d 行的字符实体 '%s' 未以 ; 结束。", entity, mxmlGetElement(parent), *line);
 
     if (ch == '\n')
       (*line)++;
@@ -604,13 +604,13 @@ mxml_get_entity(
 
   if ((ch = _mxml_entity_value(options, entity)) < 0)
   {
-    _mxml_error(options, "Entity '&%s;' not supported under parent <%s> on line %d.", entity, mxmlGetElement(parent), *line);
+    _mxml_error(options, "父元素 <%s> 第 %d 行不支持实体 '&%s;'。", entity, mxmlGetElement(parent), *line);
     return (EOF);
   }
 
   if (mxml_bad_char(ch))
   {
-    _mxml_error(options, "Bad control character 0x%02x under parent <%s> on line %d not allowed by XML standard.", ch, mxmlGetElement(parent), *line);
+    _mxml_error(options, "父元素 <%s> 第 %d 行的控制字符 0x%02x 为 XML 标准所不允许。", ch, mxmlGetElement(parent), *line);
     return (EOF);
   }
 
@@ -690,7 +690,7 @@ mxml_getc(mxml_options_t   *options,	// I  - Options
 
 	  if (ch < 0x80)
 	  {
-	    _mxml_error(options, "Invalid UTF-8 sequence for character 0x%04x.", ch);
+	    _mxml_error(options, "字符 0x%04x 的 UTF-8 序列无效。", ch);
 	    return (EOF);
 	  }
 	}
@@ -707,7 +707,7 @@ mxml_getc(mxml_options_t   *options,	// I  - Options
 
 	  if (ch < 0x800)
 	  {
-	    _mxml_error(options, "Invalid UTF-8 sequence for character 0x%04x.", ch);
+	    _mxml_error(options, "字符 0x%04x 的 UTF-8 序列无效。", ch);
 	    return (EOF);
 	  }
 
@@ -728,7 +728,7 @@ mxml_getc(mxml_options_t   *options,	// I  - Options
 
 	  if (ch < 0x10000)
 	  {
-	    _mxml_error(options, "Invalid UTF-8 sequence for character 0x%04x.", ch);
+	    _mxml_error(options, "字符 0x%04x 的 UTF-8 序列无效。", ch);
 	    return (EOF);
 	  }
 	}
@@ -789,7 +789,7 @@ mxml_getc(mxml_options_t   *options,	// I  - Options
 
   if (mxml_bad_char(ch))
   {
-    _mxml_error(options, "Bad control character 0x%02x not allowed by XML standard.", ch);
+    _mxml_error(options, "控制字符 0x%02x 为 XML 标准所不允许。", ch);
     return (EOF);
   }
 
@@ -838,7 +838,7 @@ mxml_load_data(
   // Read elements and other nodes from the file...
   if ((buffer = malloc(64)) == NULL)
   {
-    _mxml_error(options, "Unable to allocate string buffer.");
+    _mxml_error(options, "无法分配字符串缓冲区。");
     return (NULL);
   }
 
@@ -862,7 +862,7 @@ mxml_load_data(
   else if (ch != '<' && !top)
   {
     free(buffer);
-    _mxml_error(options, "XML does not start with '<' (saw '%c').", ch);
+    _mxml_error(options, "XML 未以 '<' 开头（遇到 '%c'）。", ch);
     return (NULL);
   }
 
@@ -899,7 +899,7 @@ mxml_load_data(
 
 	      if (!(options->custload_cb)(options->cust_cbdata, node, buffer))
 	      {
-	        _mxml_error(options, "Bad custom value '%s' in parent <%s> on line %d.", buffer, parent ? parent->value.element.name : "null", line);
+	        _mxml_error(options, "父元素 <%s> 第 %d 行存在无效的自定义值 '%s'。", buffer, parent ? parent->value.element.name : "null", line);
 		mxmlDelete(node);
 		node = NULL;
 	      }
@@ -914,7 +914,7 @@ mxml_load_data(
       if (*bufptr)
       {
         // Bad integer/real number value...
-        _mxml_error(options, "Bad %s value '%s' in parent <%s> on line %d.", type == MXML_TYPE_INTEGER ? "integer" : "real", buffer, parent ? parent->value.element.name : "null", line);
+        _mxml_error(options, "父元素 <%s> 第 %d 行存在无效的 %s 值 '%s'。", type == MXML_TYPE_INTEGER ? "整数" : "实数", buffer, parent ? parent->value.element.name : "null", line);
 	break;
       }
 
@@ -926,7 +926,7 @@ mxml_load_data(
       if (!node && type != MXML_TYPE_IGNORE)
       {
         // Print error and return...
-	_mxml_error(options, "Unable to add value node of type %s to parent <%s> on line %d.", types[type], parent ? parent->value.element.name : "null", line);
+	_mxml_error(options, "无法将类型为 %s 的值节点添加到父元素 <%s>（第 %d 行）。", types[type], parent ? parent->value.element.name : "null", line);
 	goto error;
       }
 
@@ -986,7 +986,7 @@ mxml_load_data(
 	}
 	else if (ch == '<')
 	{
-	  _mxml_error(options, "Bare < in element.");
+	  _mxml_error(options, "元素中存在孤立的 <。");
 	  goto error;
 	}
 	else if (ch == '&')
@@ -1034,7 +1034,7 @@ mxml_load_data(
         if (ch != '>')
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Early EOF in comment node on line %d.", line);
+	  _mxml_error(options, "第 %d 行的注释节点提前遇到文件结束。", line);
 	  goto error;
 	}
 
@@ -1044,14 +1044,14 @@ mxml_load_data(
         if (!parent && first)
 	{
 	  // There can only be one root element!
-	  _mxml_error(options, "<%s--> cannot be a second root node after <%s> on line %d.", buffer, first->value.element.name, line);
+	  _mxml_error(options, "<%s--> 不能作为 <%s> 之后的第二个根节点（第 %d 行）。", buffer, first->value.element.name, line);
           goto error;
 	}
 
 	if ((node = mxmlNewComment(parent, buffer + 3)) == NULL)
 	{
 	  // Just print error for now...
-	  _mxml_error(options, "Unable to add comment node to parent <%s> on line %d.", parent ? parent->value.element.name : "null", line);
+	  _mxml_error(options, "无法将注释节点添加到父元素 <%s>（第 %d 行）。", parent ? parent->value.element.name : "null", line);
 	  break;
 	}
 
@@ -1093,7 +1093,7 @@ mxml_load_data(
         if (ch != '>')
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Early EOF in CDATA node on line %d.", line);
+	  _mxml_error(options, "第 %d 行的 CDATA 节点提前遇到文件结束。", line);
 	  goto error;
 	}
 
@@ -1103,14 +1103,14 @@ mxml_load_data(
         if (!parent && first)
 	{
 	  // There can only be one root element!
-	  _mxml_error(options, "<%s]]> cannot be a second root node after <%s> on line %d.", buffer, first->value.element.name, line);
+	  _mxml_error(options, "<%s]]> 不能作为 <%s> 之后的第二个根节点（第 %d 行）。", buffer, first->value.element.name, line);
           goto error;
 	}
 
 	if ((node = mxmlNewCDATA(parent, buffer + 8)) == NULL)
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Unable to add CDATA node to parent <%s> on line %d.", parent ? parent->value.element.name : "null", line);
+	  _mxml_error(options, "无法将 CDATA 节点添加到父元素 <%s>（第 %d 行）。", parent ? parent->value.element.name : "null", line);
 	  goto error;
 	}
 
@@ -1146,7 +1146,7 @@ mxml_load_data(
         if (ch != '>')
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Early EOF in processing instruction node on line %d.", line);
+	  _mxml_error(options, "第 %d 行的处理指令节点提前遇到文件结束。", line);
 	  goto error;
 	}
 
@@ -1156,14 +1156,14 @@ mxml_load_data(
         if (!parent && first)
 	{
 	  // There can only be one root element!
-	  _mxml_error(options, "<%s?> cannot be a second root node after <%s> on line %d.", buffer, first->value.element.name, line);
+	  _mxml_error(options, "<%s?> 不能作为 <%s> 之后的第二个根节点（第 %d 行）。", buffer, first->value.element.name, line);
           goto error;
 	}
 
 	if ((node = mxmlNewDirective(parent, buffer + 1)) == NULL)
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Unable to add processing instruction node to parent <%s> on line %d.", parent ? parent->value.element.name : "null", line);
+	  _mxml_error(options, "无法将处理指令节点添加到父元素 <%s>（第 %d 行）。", parent ? parent->value.element.name : "null", line);
 	  goto error;
 	}
 
@@ -1226,7 +1226,7 @@ mxml_load_data(
         if (ch != '>')
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Early EOF in declaration node on line %d.", line);
+	  _mxml_error(options, "第 %d 行的声明节点提前遇到文件结束。", line);
 	  goto error;
 	}
 
@@ -1236,14 +1236,14 @@ mxml_load_data(
         if (!parent && first)
 	{
 	  // There can only be one root element!
-	  _mxml_error(options, "<%s> cannot be a second root node after <%s> on line %d.", buffer, first->value.element.name, line);
+	  _mxml_error(options, "<%s> 不能作为 <%s> 之后的第二个根节点（第 %d 行）。", buffer, first->value.element.name, line);
           goto error;
 	}
 
 	if ((node = mxmlNewDeclaration(parent, buffer + 1)) == NULL)
 	{
 	  // Print error and return...
-	  _mxml_error(options, "Unable to add declaration node to parent <%s> on line %d.", parent ? parent->value.element.name : "null", line);
+	  _mxml_error(options, "无法将声明节点添加到父元素 <%s>（第 %d 行）。", parent ? parent->value.element.name : "null", line);
 	  goto error;
 	}
 
@@ -1284,7 +1284,7 @@ mxml_load_data(
         if (!parent || strcmp(buffer + 1, parent->value.element.name))
 	{
 	  // Close tag doesn't match tree; print an error for now...
-	  _mxml_error(options, "Mismatched close tag <%s> under parent <%s> on line %d.", buffer, parent ? parent->value.element.name : "(null)", line);
+	  _mxml_error(options, "父元素 <%s> 第 %d 行存在不匹配的关闭标记 <%s>。", parent ? parent->value.element.name : "(null)", buffer, line);
           goto error;
 	}
 
@@ -1321,14 +1321,14 @@ mxml_load_data(
         if (!parent && first)
 	{
 	  // There can only be one root element!
-	  _mxml_error(options, "<%s> cannot be a second root node after <%s> on line %d.", buffer, first->value.element.name, line);
+	  _mxml_error(options, "<%s> 不能作为 <%s> 之后的第二个根节点（第 %d 行）。", buffer, first->value.element.name, line);
           goto error;
 	}
 
         if ((node = mxmlNewElement(parent, buffer)) == NULL)
 	{
 	  // Just print error for now...
-	  _mxml_error(options, "Unable to add element node to parent <%s> on line %d.", parent ? parent->value.element.name : "null", line);
+	  _mxml_error(options, "无法将元素节点添加到父元素 <%s>（第 %d 行）。", parent ? parent->value.element.name : "null", line);
 	  goto error;
 	}
 
@@ -1345,7 +1345,7 @@ mxml_load_data(
 
 	  if ((ch = mxml_getc(options, io_cb, io_cbdata, &encoding)) != '>')
 	  {
-	    _mxml_error(options, "Expected > but got '%c' instead for element <%s/> on line %d.", ch, buffer, line);
+	    _mxml_error(options, "元素 <%s/> 第 %d 行应出现 >，但遇到的是 '%c'。", buffer, ch, line);
             mxmlDelete(node);
             node = NULL;
             goto error;
@@ -1426,7 +1426,7 @@ mxml_load_data(
 
     if (node != parent)
     {
-      _mxml_error(options, "Missing close tag </%s> under parent <%s> on line %d.", mxmlGetElement(node), node->parent ? node->parent->value.element.name : "(null)", line);
+      _mxml_error(options, "父元素 <%s> 第 %d 行缺少关闭标记 </%s>。", node->parent ? node->parent->value.element.name : "(null)", mxmlGetElement(node), line);
 
       mxmlDelete(first);
 
@@ -1475,7 +1475,7 @@ mxml_parse_element(
   // Initialize the name and value buffers...
   if ((name = malloc(64)) == NULL)
   {
-    _mxml_error(options, "Unable to allocate memory for name.");
+    _mxml_error(options, "无法为名称分配内存。");
     return (EOF);
   }
 
@@ -1484,7 +1484,7 @@ mxml_parse_element(
   if ((value = malloc(64)) == NULL)
   {
     free(name);
-    _mxml_error(options, "Unable to allocate memory for value.");
+    _mxml_error(options, "无法为值分配内存。");
     return (EOF);
   }
 
@@ -1512,7 +1512,7 @@ mxml_parse_element(
 
       if (quote != '>')
       {
-        _mxml_error(options, "Expected '>' after '%c' for element %s, but got '%c' on line %d.", ch, mxmlGetElement(node), quote, *line);
+       _mxml_error(options, "元素 %s 中 '%c' 后应为 '>'，但第 %d 行遇到的是 '%c'。", mxmlGetElement(node), ch, *line, quote);
         goto error;
       }
 
@@ -1520,7 +1520,7 @@ mxml_parse_element(
     }
     else if (ch == '<')
     {
-      _mxml_error(options, "Bare < in element %s on line %d.", mxmlGetElement(node), *line);
+      _mxml_error(options, "元素 %s 第 %d 行中存在孤立的 <。", mxmlGetElement(node), *line);
       goto error;
     }
     else if (ch == '>')
@@ -1586,7 +1586,7 @@ mxml_parse_element(
 
     if (mxmlElementGetAttr(node, name))
     {
-      _mxml_error(options, "Duplicate attribute '%s' in element %s on line %d.", name, mxmlGetElement(node), *line);
+      _mxml_error(options, "元素 %s 第 %d 行存在重复的属性 '%s'。", mxmlGetElement(node), *line, name);
       goto error;
     }
 
@@ -1609,7 +1609,7 @@ mxml_parse_element(
 
       if (ch == EOF)
       {
-        _mxml_error(options, "Missing value for attribute '%s' in element %s on line %d.", name, mxmlGetElement(node), *line);
+        _mxml_error(options, "元素 %s 第 %d 行的属性 '%s' 缺少值。", mxmlGetElement(node), *line, name);
         goto error;
       }
 
@@ -1682,7 +1682,7 @@ mxml_parse_element(
     }
     else
     {
-      _mxml_error(options, "Missing value for attribute '%s' in element %s on line %d.", name, mxmlGetElement(node), *line);
+      _mxml_error(options, "元素 %s 第 %d 行的属性 '%s' 缺少值。", mxmlGetElement(node), *line, name);
       goto error;
     }
 
@@ -1694,7 +1694,7 @@ mxml_parse_element(
 
       if (quote != '>')
       {
-        _mxml_error(options, "Expected '>' after '%c' for element %s, but got '%c' on line %d.", ch, mxmlGetElement(node), quote, *line);
+       _mxml_error(options, "元素 %s 中 '%c' 后应为 '>'，但第 %d 行遇到的是 '%c'。", mxmlGetElement(node), ch, *line, quote);
         ch = EOF;
       }
 

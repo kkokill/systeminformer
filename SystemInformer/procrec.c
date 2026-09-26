@@ -64,7 +64,7 @@ PPH_STRING PhpaGetRelativeTimeString(
     PhLargeIntegerToLocalSystemTime(&timeFields, &time);
     timeString = PhaFormatDateTime(&timeFields);
 
-    return PhaFormatString(L"%s ago (%s)", timeRelativeString->Buffer, timeString->Buffer);
+    return PhaFormatString(L"%s 前（%s）", timeRelativeString->Buffer, timeString->Buffer);
 }
 
 INT_PTR CALLBACK PhpProcessRecordDlgProc(
@@ -139,7 +139,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                 }
                 else
                 {
-                    PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"Non-existent process (%u)",
+                    PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"不存在的进程（%u）",
                         HandleToUlong(context->Record->ParentProcessId))->Buffer);
                 }
 
@@ -147,7 +147,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
             }
             else
             {
-                PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"Unknown process (%u)",
+                PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"未知进程（%u）",
                     HandleToUlong(context->Record->ParentProcessId))->Buffer);
 
                 EnableWindow(GetDlgItem(hwndDlg, IDC_PROPERTIES), FALSE);
@@ -250,7 +250,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                             SETTING_FILE_BROWSE_EXECUTABLE,
                             context->Record->FileName->Buffer,
                             FALSE,
-                            L"Make sure the Explorer executable file is present."
+                            L"请确保 Explorer 可执行文件存在。"
                             );
                     }
                 }
@@ -273,7 +273,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                                 PhAppendFormatStringBuilder(&sb, L"[%d] %s\r\n\r\n", i, PhGetString(commandLineList->Items[i]));
                             }
 
-                            PhAppendFormatStringBuilder(&sb, L"[FULL] %s\r\n", PhGetString(context->Record->CommandLine));
+                            PhAppendFormatStringBuilder(&sb, L"[完整] %s\r\n", PhGetString(context->Record->CommandLine));
 
                             commandLineString = PhFinalStringBuilderString(&sb);
 
@@ -304,9 +304,9 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                     {
                         PhShowError2(
                             hwndDlg,
-                            L"Unable to show the process properties.",
+                            L"无法显示进程属性。",
                             L"%s",
-                            L"The process has already terminated; only the process record is available."
+                            L"进程已终止；仅进程记录可用。"
                             );
                     }
                 }

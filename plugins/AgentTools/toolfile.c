@@ -200,7 +200,7 @@ VOID AtpGetFileInfo(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -225,14 +225,14 @@ VOID AtpGetFileInfo(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhDereferenceObject(path);
         return;
     }
 
     if (!NT_SUCCESS(status = PhGetFileAllInformation(fileHandle, &allInformation)))
     {
-        AtSetToolStatusError(Result, status, L"Querying the file");
+        AtSetToolStatusError(Result, status, L"查询文件");
         NtClose(fileHandle);
         PhDereferenceObject(path);
         return;
@@ -388,7 +388,7 @@ VOID AtpGetFileScanResultCached(
             Result,
             "plugin_missing",
             STATUS_NOT_SUPPORTED,
-            L"The OnlineChecks plugin is not loaded, so there is no scan database to read."
+            L"OnlineChecks 插件未加载，因此没有可读取的扫描数据库。"
             );
         AtSetToolHint(Result, AT_HINT_PLUGIN_MISSING);
         return;
@@ -413,7 +413,7 @@ VOID AtpGetFileScanResultCached(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            path ? L"The file could not be read to hash it." : L"sha256 or path is required."
+            path ? L"无法读取文件以计算哈希。" : L"需要提供 sha256 或 path。"
             );
         PhClearReference(&sha256);
         PhClearReference(&path);
@@ -535,7 +535,7 @@ PPH_STRING AtpResolveLookupHash(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            sha256 ? L"sha256 must be 64 hexadecimal characters." : L"sha256 or a readable path is required."
+            sha256 ? L"sha256 必须为 64 个十六进制字符。" : L"需要提供 sha256 或可读取的 path。"
             );
         PhClearReference(&sha256);
         return NULL;
@@ -562,7 +562,7 @@ VOID AtpLookupFileHashVirusTotal(
             Result,
             "plugin_missing",
             STATUS_NOT_SUPPORTED,
-            L"The OnlineChecks plugin is not loaded, so there is nothing to ask VirusTotal with."
+            L"OnlineChecks 插件未加载，因此无法向 VirusTotal 发起查询。"
             );
         AtSetToolHint(Result, AT_HINT_PLUGIN_MISSING);
         return;
@@ -612,7 +612,7 @@ VOID AtpLookupFileHashVirusTotal(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Asking VirusTotal");
+        AtSetToolStatusError(Result, status, L"查询 VirusTotal");
         PhFreeJsonObject(structured);
         PhDereferenceObject(sha256);
         return;
@@ -659,7 +659,7 @@ VOID AtpLookupFileHashHybridAnalysis(
             Result,
             "plugin_missing",
             STATUS_NOT_SUPPORTED,
-            L"The OnlineChecks plugin is not loaded, so there is nothing to ask Hybrid Analysis with."
+            L"OnlineChecks 插件未加载，因此无法向 Hybrid Analysis 发起查询。"
             );
         AtSetToolHint(Result, AT_HINT_PLUGIN_MISSING);
         return;
@@ -711,7 +711,7 @@ VOID AtpLookupFileHashHybridAnalysis(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Asking Hybrid Analysis");
+        AtSetToolStatusError(Result, status, L"查询 Hybrid Analysis");
         PhFreeJsonObject(structured);
         PhDereferenceObject(sha256);
         return;
@@ -989,7 +989,7 @@ VOID AtpReadRegistryKey(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -1008,7 +1008,7 @@ VOID AtpReadRegistryKey(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the key");
+        AtSetToolStatusError(Result, status, L"打开注册表键");
         PhDereferenceObject(subKey);
         PhClearReference(&context.NameContains);
         PhDereferenceObject(path);
@@ -1152,7 +1152,7 @@ VOID AtpListDirectory(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         return;
     }
 
@@ -1172,7 +1172,7 @@ VOID AtpListDirectory(
     if (context.DirectoriesOnly && context.FilesOnly)
     {
         AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-            L"directories_only and files_only cannot both be set.");
+            L"directories_only 与 files_only 不能同时设置。");
         goto CleanupExit;
     }
 
@@ -1190,7 +1190,7 @@ VOID AtpListDirectory(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the directory");
+        AtSetToolStatusError(Result, status, L"打开目录");
         goto CleanupExit;
     }
 
@@ -1205,7 +1205,7 @@ VOID AtpListDirectory(
     // Nothing matched is not a failure; the pattern being nonsense is.
     if (!NT_SUCCESS(status) && status != STATUS_NO_MORE_FILES && status != STATUS_NO_SUCH_FILE)
     {
-        AtSetToolStatusError(Result, status, L"Listing the directory");
+        AtSetToolStatusError(Result, status, L"列出目录");
         AtDeleteRows(&rows);
         goto CleanupExit;
     }

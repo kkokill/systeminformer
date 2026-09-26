@@ -275,14 +275,14 @@ VOID UpdateTracertNodePingText(
 
             // %.2f ms
             PhInitFormatF(&format[0], Node->PingList[Index], 2);
-            PhInitFormatS(&format[1], L" ms");
+            PhInitFormatS(&format[1], L" 毫秒");
 
             PhMoveReference(&Node->PingString[Index], PhFormat(format, RTL_NUMBER_OF(format), 0));
             CellText->Text = PhGetStringRef(Node->PingString[Index]);
         }
         else
         {
-            PhInitializeStringRef(&CellText->Text, L"<1 ms");
+            PhInitializeStringRef(&CellText->Text, L"<1 毫秒");
         }
     }
     else if (Node->PingStatus[Index] == IP_REQ_TIMED_OUT)
@@ -291,7 +291,7 @@ VOID UpdateTracertNodePingText(
     }
     else if (Node->PingStatus[Index] == IP_DEST_NO_ROUTE)
     {
-        PhInitializeStringRef(&CellText->Text, L"The destination address route is unreachable.");
+        PhInitializeStringRef(&CellText->Text, L"目标地址路由不可达。");
     }
     else
     {
@@ -495,7 +495,7 @@ BOOLEAN NTAPI TracertTreeNewCallback(
             }
             else if (!GeoDbInitialized)
             {
-                DrawText(hdc, L"Geoip database not found.", -1, &rect, DT_LEFT | DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE);
+                DrawText(hdc, L"GeoIP 数据库未找到。", -1, &rect, DT_LEFT | DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE);
             }
         }
         return TRUE;
@@ -596,13 +596,13 @@ VOID InitializeTracertTree(
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
     PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_TTL, TRUE, L"TTL", 30, PH_ALIGN_LEFT, -2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING1, TRUE, L"Time 1", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING1, DT_RIGHT);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING2, TRUE, L"Time 2", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING2, DT_RIGHT);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING3, TRUE, L"Time 3", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING3, DT_RIGHT);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING4, TRUE, L"Time 4", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING4, DT_RIGHT);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_IPADDR, TRUE, L"IP Address", 120, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_IPADDR, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_HOSTNAME, TRUE, L"Hostname", 150, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_HOSTNAME, 0);
-    PhAddTreeNewColumnEx2(Context->TreeNewHandle, TREE_COLUMN_ITEM_COUNTRY, TRUE, L"Country", 130, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_COUNTRY, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING1, TRUE, L"时间 1", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING1, DT_RIGHT);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING2, TRUE, L"时间 2", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING2, DT_RIGHT);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING3, TRUE, L"时间 3", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING3, DT_RIGHT);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_PING4, TRUE, L"时间 4", 70, PH_ALIGN_RIGHT, TREE_COLUMN_ITEM_PING4, DT_RIGHT);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_IPADDR, TRUE, L"IP 地址", 120, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_IPADDR, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, TREE_COLUMN_ITEM_HOSTNAME, TRUE, L"主机名", 150, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_HOSTNAME, 0);
+    PhAddTreeNewColumnEx2(Context->TreeNewHandle, TREE_COLUMN_ITEM_COUNTRY, TRUE, L"国家", 130, PH_ALIGN_LEFT, TREE_COLUMN_ITEM_COUNTRY, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
 
     //for (INT i = 0; i < MAX_PINGS; i++)
     //    PhAddTreeNewColumn(context->TreeNewHandle, i + 1, i + 1, i + 1, LVCFMT_RIGHT, 50, L"Time");

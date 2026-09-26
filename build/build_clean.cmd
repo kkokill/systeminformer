@@ -33,6 +33,9 @@ if errorlevel 1 exit /b %errorlevel%
 call :RunCustomBuildTool "-cleanup"
 if errorlevel 1 exit /b %errorlevel%
 
+call :RemovePortableDirectory
+if errorlevel 1 exit /b %errorlevel%
+
 exit /b 0
 
 REM -----------------------------------------------------------------------------
@@ -53,6 +56,19 @@ REM ----------------------------------------------------------------------------
 :RunCustomBuildTool
 start /B /W "" "%CustomBuildTool%" %*
 exit /b %errorlevel%
+
+REM -----------------------------------------------------------------------------
+REM Function: RemovePortableDirectory
+REM Description: Removes the bin\portable directory produced by portable builds.
+REM -----------------------------------------------------------------------------
+:RemovePortableDirectory
+if not exist "bin\portable" exit /b 0
+rd /s /q "bin\portable"
+if exist "bin\portable" (
+    echo Failed to remove bin\portable. Ensure no portable instance is running.
+    exit /b 1
+)
+exit /b 0
 
 REM -----------------------------------------------------------------------------
 REM Function: DetectCi

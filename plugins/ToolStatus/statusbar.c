@@ -157,42 +157,42 @@ PWSTR StatusBarGetText(
     switch (CommandID)
     {
     case ID_STATUS_CPUUSAGE:
-        return L"CPU usage";
+        return L"CPU 使用率";
     case ID_STATUS_PHYSICALMEMORY:
-        return L"Physical memory";
+        return L"物理内存";
     case ID_STATUS_NUMBEROFPROCESSES:
-        return L"Number of processes";
+        return L"进程数";
     case ID_STATUS_COMMITCHARGE:
-        return L"Commit charge";
+        return L"已提交内存";
     case ID_STATUS_FREEMEMORY:
-        return L"Free physical memory";
+        return L"可用物理内存";
     case ID_STATUS_NUMBEROFTHREADS:
-        return L"Number of threads";
+        return L"线程数";
     case ID_STATUS_NUMBEROFHANDLES:
-        return L"Number of handles";
+        return L"句柄数";
     case ID_STATUS_NUMBEROFVISIBLEITEMS:
-        return L"Number of visible items";
+        return L"可见项数";
     case ID_STATUS_NUMBEROFSELECTEDITEMS:
-        return L"Number of selected items";
+        return L"选中项数";
     case ID_STATUS_INTERVALSTATUS:
-        return L"Interval status";
+        return L"刷新间隔状态";
     case ID_STATUS_IO_RO:
-        return L"I/O read+other";
+        return L"I/O 读取+其他";
     case ID_STATUS_IO_W:
-        return L"I/O write";
+        return L"I/O 写入";
     case ID_STATUS_MAX_CPU_PROCESS:
-        return L"Max. CPU process";
+        return L"最高 CPU 进程";
     case ID_STATUS_MAX_IO_PROCESS:
-        return L"Max. I/O process";
+        return L"最高 I/O 进程";
     case ID_STATUS_SELECTEDWORKINGSET:
-        return L"Selected process WS";
+        return L"选中进程工作集";
     case ID_STATUS_SELECTEDPRIVATEBYTES:
-        return L"Selected process private bytes";
+        return L"选中进程私有字节";
     case ID_STATUS_KSICOUNTER:
-        return L"KSI status";
+        return L"KSI 状态";
     }
 
-    return L"ERROR";
+    return L"错误";
 }
 
 VOID StatusBarShowMenu(
@@ -208,7 +208,7 @@ VOID StatusBarShowMenu(
         return;
 
     menu = PhCreateEMenu();
-    menuItem = PhCreateEMenuItem(0, COMMAND_ID_ENABLE_SEARCHBOX, L"Customize...", NULL, NULL);
+    menuItem = PhCreateEMenuItem(0, COMMAND_ID_ENABLE_SEARCHBOX, L"自定义...", NULL, NULL);
     PhInsertEMenuItem(menu, menuItem, ULONG_MAX);
 
     selectedItem = PhShowEMenu(
@@ -295,7 +295,7 @@ VOID StatusBarUpdate(
                 FLOAT cpuUsage = SystemStatistics.CpuKernelUsage + SystemStatistics.CpuUserUsage;
                 PH_FORMAT format[3];
 
-                PhInitFormatS(&format[0], L"CPU usage: ");
+                PhInitFormatS(&format[0], L"CPU 使用率：");
                 PhInitFormatF(&format[1], cpuUsage * 100, 2);
                 PhInitFormatS(&format[2], L"%");
 
@@ -314,7 +314,7 @@ VOID StatusBarUpdate(
                 commitUsage = SystemStatistics.Performance->CommittedPages;
                 commitFraction = (FLOAT)commitUsage / SystemStatistics.Performance->CommitLimit * 100;
 
-                PhInitFormatS(&format[0], L"Commit charge: ");
+                PhInitFormatS(&format[0], L"已提交内存：");
                 PhInitFormatSize(&format[1], UInt32x32To64(commitUsage, PAGE_SIZE));
                 PhInitFormatS(&format[2], L" (");
                 PhInitFormatF(&format[3], commitFraction, 2);
@@ -335,7 +335,7 @@ VOID StatusBarUpdate(
                 physicalUsage = PhSystemBasicInformation.NumberOfPhysicalPages - SystemStatistics.Performance->AvailablePages;
                 physicalFraction = (FLOAT)physicalUsage / PhSystemBasicInformation.NumberOfPhysicalPages * 100;
 
-                PhInitFormatS(&format[0], L"Physical memory: ");
+                PhInitFormatS(&format[0], L"物理内存：");
                 PhInitFormatSize(&format[1], UInt32x32To64(physicalUsage, PAGE_SIZE));
                 PhInitFormatS(&format[2], L" (");
                 PhInitFormatF(&format[3], physicalFraction, 2);
@@ -356,7 +356,7 @@ VOID StatusBarUpdate(
                 physicalFree = SystemStatistics.Performance->AvailablePages;
                 physicalFreeFraction = (FLOAT)physicalFree / PhSystemBasicInformation.NumberOfPhysicalPages * 100;
 
-                PhInitFormatS(&format[0], L"Free memory: ");
+                PhInitFormatS(&format[0], L"可用物理内存：");
                 PhInitFormatSize(&format[1], UInt32x32To64(physicalFree, PAGE_SIZE));
                 PhInitFormatS(&format[2], L" (");
                 PhInitFormatF(&format[3], physicalFreeFraction, 2);
@@ -369,7 +369,7 @@ VOID StatusBarUpdate(
             {
                 PH_FORMAT format[2];
 
-                PhInitFormatS(&format[0], L"Processes: ");
+                PhInitFormatS(&format[0], L"进程数：");
                 PhInitFormatI64UGroupDigits(&format[1], SystemStatistics.NumberOfProcesses);
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -379,7 +379,7 @@ VOID StatusBarUpdate(
             {
                 PH_FORMAT format[2];
 
-                PhInitFormatS(&format[0], L"Threads: ");
+                PhInitFormatS(&format[0], L"线程数：");
                 PhInitFormatI64UGroupDigits(&format[1], SystemStatistics.NumberOfThreads);
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -389,7 +389,7 @@ VOID StatusBarUpdate(
             {
                 PH_FORMAT format[2];
 
-                PhInitFormatS(&format[0], L"Handles: ");
+                PhInitFormatS(&format[0], L"句柄数：");
                 PhInitFormatI64UGroupDigits(&format[1], SystemStatistics.NumberOfHandles);
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -399,7 +399,7 @@ VOID StatusBarUpdate(
             {
                 PH_FORMAT format[2];
 
-                PhInitFormatS(&format[0], L"I/O R+O: ");
+                PhInitFormatS(&format[0], L"I/O 读取+其他：");
                 PhInitFormatSize(&format[1], (SystemStatistics.IoReadDelta.Delta + SystemStatistics.IoOtherDelta.Delta));
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -409,7 +409,7 @@ VOID StatusBarUpdate(
             {
                 PH_FORMAT format[2];
 
-                PhInitFormatS(&format[0], L"I/O W: ");
+                PhInitFormatS(&format[0], L"I/O 写入：");
                 PhInitFormatSize(&format[1], SystemStatistics.IoWriteDelta.Delta);
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -507,7 +507,7 @@ VOID StatusBarUpdate(
                 {
                     PH_FORMAT format[2];
 
-                    PhInitFormatS(&format[0], L"Visible: ");
+                    PhInitFormatS(&format[0], L"可见项数：");
                     PhInitFormatI64UGroupDigits(&format[1], TreeNew_GetFlatNodeCount(tnHandle));
 
                     PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -516,7 +516,7 @@ VOID StatusBarUpdate(
                 {
                     PH_FORMAT format[1];
 
-                    PhInitFormatS(&format[0], L"Visible: N/A");
+                    PhInitFormatS(&format[0], L"可见项数：N/A");
 
                     PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
                 }
@@ -530,7 +530,7 @@ VOID StatusBarUpdate(
                 {
                     PH_FORMAT format[2];
 
-                    PhInitFormatS(&format[0], L"Selected: ");
+                    PhInitFormatS(&format[0], L"选中项数：");
                     PhInitFormatI64UGroupDigits(&format[1], TreeNew_GetSelectedNodeCount(tnHandle));
 
                     PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -539,7 +539,7 @@ VOID StatusBarUpdate(
                 {
                     PH_FORMAT format[1];
 
-                    PhInitFormatS(&format[0], L"Selected: N/A");
+                    PhInitFormatS(&format[0], L"选中项数：N/A");
 
                     PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
                 }
@@ -554,28 +554,28 @@ VOID StatusBarUpdate(
                     switch (PhGetIntegerSetting(SETTING_UPDATE_INTERVAL))
                     {
                     case 500:
-                        PhInitFormatS(&format[0], L"Interval: Fast");
+                        PhInitFormatS(&format[0], L"间隔：快");
                         break;
                     case 1000:
-                        PhInitFormatS(&format[0], L"Interval: Normal");
+                        PhInitFormatS(&format[0], L"间隔：正常");
                         break;
                     case 2000:
-                        PhInitFormatS(&format[0], L"Interval: Below normal");
+                        PhInitFormatS(&format[0], L"间隔：低于正常");
                         break;
                     case 5000:
-                        PhInitFormatS(&format[0], L"Interval: Slow");
+                        PhInitFormatS(&format[0], L"间隔：慢");
                         break;
                     case 10000:
-                        PhInitFormatS(&format[0], L"Interval: Very slow");
+                        PhInitFormatS(&format[0], L"间隔：很慢");
                         break;
                     default:
-                        PhInitFormatS(&format[0], L"Interval: N/A");
+                        PhInitFormatS(&format[0], L"间隔：N/A");
                         break;
                     }
                 }
                 else
                 {
-                    PhInitFormatS(&format[0], L"Interval: Paused");
+                    PhInitFormatS(&format[0], L"间隔：已暂停");
                 }
 
                 PhFormatToBuffer(format, RTL_NUMBER_OF(format), text[count], sizeof(text[count]), &textLength[count]);
@@ -598,13 +598,13 @@ VOID StatusBarUpdate(
 
                 if (value)
                 {
-                    PhInitFormatS(&format[0], L"Selected WS: ");
+                    PhInitFormatS(&format[0], L"选中进程工作集：");
                     PhInitFormatSize(&format[1], value);
                     PhFormatToBuffer(format, 2, text[count], sizeof(text[count]), &textLength[count]);
                 }
                 else
                 {
-                    PhInitFormatS(&format[0], L"Selected WS: N/A");
+                    PhInitFormatS(&format[0], L"选中进程工作集：N/A");
                     PhFormatToBuffer(format, 1, text[count], sizeof(text[count]), &textLength[count]);
                 }
 
@@ -629,13 +629,13 @@ VOID StatusBarUpdate(
 
                 if (value)
                 {
-                    PhInitFormatS(&format[0], L"Selected private bytes: ");
+                    PhInitFormatS(&format[0], L"选中进程私有字节：");
                     PhInitFormatSize(&format[1], value);
                     PhFormatToBuffer(format, 2, text[count], sizeof(text[count]), &textLength[count]);
                 }
                 else
                 {
-                    PhInitFormatS(&format[0], L"Selected private bytes: N/A");
+                    PhInitFormatS(&format[0], L"选中进程私有字节：N/A");
                     PhFormatToBuffer(format, 1, text[count], sizeof(text[count]), &textLength[count]);
                 }
 
@@ -656,7 +656,7 @@ VOID StatusBarUpdate(
 
                 if (KsiLevel() == KphLevelNone)
                 {
-                    PhInitFormatS(&format[1], L"not connected");
+                    PhInitFormatS(&format[1], L"未连接");
                     PhFormatToBuffer(format, 2, text[count], sizeof(text[count]), &textLength[count]);
                 }
                 else

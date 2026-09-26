@@ -393,7 +393,7 @@ PPH_STRING PhSystemIdentificationToString(
 
     PhMoveReference(&identifier, PhFormatString(
         L"%s (%s)",
-        PhGetStringOrDefault(identifier, L"Unknown"),
+        PhGetStringOrDefault(identifier, L"未知"),
         string
         ));
 

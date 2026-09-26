@@ -277,7 +277,7 @@ VOID AtpListWindows(
             context.Scope = AtWindowScopeMessageOnly;
         else if (!PhEqualString2(scope, L"top_level", TRUE))
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"scope must be top_level, all or message_only.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"scope 必须为 top_level、all 或 message_only。");
             PhDereferenceObject(scope);
             AtDeleteRows(&context.Rows);
             return;
@@ -402,7 +402,7 @@ VOID AtpGetWindowInfo(
 
     if (!AtGetArgumentPointer(Call->Arguments, "handle", &handleValue) || handleValue == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"handle is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 handle。");
         return;
     }
 
@@ -410,7 +410,7 @@ VOID AtpGetWindowInfo(
 
     if (!IsWindow(windowHandle))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"That window handle does not name a window.");
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"该窗口句柄不是有效的窗口。");
         return;
     }
 
@@ -514,7 +514,7 @@ VOID AtpControlWindow(
 
     if (!IsWindow(windowHandle))
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"That window handle does not name a window.");
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"该窗口句柄不是有效的窗口。");
         return;
     }
 
@@ -526,7 +526,7 @@ VOID AtpControlWindow(
             Result,
             "identity_mismatch",
             STATUS_INVALID_HANDLE,
-            L"That window belongs to pid %lu, not to pid %lu; window handles are reused. Re-list and try again.",
+            L"该窗口属于 pid %lu 而非 pid %lu；窗口句柄会被复用。请重新列举后再试。",
             HandleToUlong(windowProcessId),
             HandleToUlong(Target->ProcessItem->ProcessId)
             );
@@ -614,7 +614,7 @@ VOID AtWindowInvokeTool(
         AtpGetWindowInfo(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具尚未实现。");
         break;
     }
 }

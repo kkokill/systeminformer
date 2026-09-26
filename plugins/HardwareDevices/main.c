@@ -91,7 +91,7 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"Disk Devices",
+        L"磁盘设备",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_DISKDRIVE_OPTIONS),
         DiskDriveOptionsDlgProc,
@@ -99,7 +99,7 @@ VOID NTAPI ShowOptionsCallback(
         );
 
     optionsEntry->CreateSection(
-        L"Graphics Devices",
+        L"图形设备",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_GPUDEVICE_OPTIONS),
         GraphicsDeviceOptionsDlgProc,
@@ -107,7 +107,7 @@ VOID NTAPI ShowOptionsCallback(
         );
 
     optionsEntry->CreateSection(
-        L"Network Devices",
+        L"网络设备",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_NETADAPTER_OPTIONS),
         NetworkAdapterOptionsDlgProc,
@@ -115,7 +115,7 @@ VOID NTAPI ShowOptionsCallback(
         );
 
     optionsEntry->CreateSection(
-        L"RAPL Devices",
+        L"RAPL 设备",
         PluginInstance->DllBase,
         MAKEINTRESOURCE(IDD_RAPLDEVICE_OPTIONS),
         RaplDeviceOptionsDlgProc,
@@ -269,7 +269,7 @@ BOOLEAN HardwareDeviceEnableDisable(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to change the device state.", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
+        PhShowStatus(ParentWindow, L"无法更改设备状态。", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
         return FALSE;
     }
 
@@ -280,7 +280,7 @@ BOOLEAN HardwareDeviceEnableDisable(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to change the device state.", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
+        PhShowStatus(ParentWindow, L"无法更改设备状态。", 0, CM_MapCrToWin32Err(result, ERROR_INVALID_HANDLE_STATE));
         return FALSE;
     }
 
@@ -303,7 +303,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"无法重新启动设备。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -317,7 +317,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"无法重新启动设备。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -328,7 +328,7 @@ BOOLEAN HardwareDeviceRestart(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to restart the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"无法重新启动设备。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -351,7 +351,7 @@ BOOLEAN HardwareDeviceUninstall(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to uninstall the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"无法卸载设备。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -359,7 +359,7 @@ BOOLEAN HardwareDeviceUninstall(
 
     if (result != CR_SUCCESS)
     {
-        PhShowStatus(ParentWindow, L"Failed to uninstall the device.", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
+        PhShowStatus(ParentWindow, L"无法卸载设备。", 0, CM_MapCrToWin32Err(result, ERROR_UNKNOWN_PROPERTY));
         return FALSE;
     }
 
@@ -514,7 +514,7 @@ BOOLEAN HardwareDeviceShowSecurity(
     PhEditSecurityEx(
         ParentWindow,
         PhGetString(DeviceInstance),
-        L"Device",
+        L"设备",
         NULL,
         HardwareDeviceCloseObjectSecurity,
         HardwareDeviceGetObjectSecurity,
@@ -674,24 +674,24 @@ VOID ShowDeviceMenu(
         return;
 
     menu = PhCreateEMenu();
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"Enable", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Disable", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Restart", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"Uninstall", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"启用", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"禁用", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"重新启动", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"卸载", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SEARCH_ONLINE, L"Search &online\bCtrl+M", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SEARCH_DRIVER_UPDATE, L"Search driver update", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SEARCH_ONLINE, L"在线搜索(&O)\bCtrl+M", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SEARCH_DRIVER_UPDATE, L"搜索驱动更新", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    subMenu = PhCreateEMenuItem(0, 0, L"Open key", NULL, NULL);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_HARDWARE, L"Hardware", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_SOFTWARE, L"Software", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_USER, L"User", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_CONFIG, L"Config", NULL, NULL), ULONG_MAX);
+    subMenu = PhCreateEMenuItem(0, 0, L"打开项", NULL, NULL);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_HARDWARE, L"硬件", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_SOFTWARE, L"软件", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_USER, L"用户", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(subMenu, PhCreateEMenuItem(0, HW_KEY_INDEX_CONFIG, L"配置", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, subMenu, ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SECURITY, L"Secu&rity", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DEVICE_SECURITY, L"安全(&R)", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"Properties", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"属性", NULL, NULL), ULONG_MAX);
 
     selectedItem = PhShowEMenu(
         menu,
@@ -866,8 +866,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Hardware Devices";
-            info->Description = L"Plugin for monitoring hardware devices like Disk drives and Network adapters via the System Information window.";
+            info->DisplayName = L"硬件设备";
+            info->Description = L"用于在系统信息窗口中监控磁盘驱动器和网络适配器等硬件设备的插件。";
 
             PhRegisterCallback(
                 PhGetPluginCallback(PluginInstance, PluginCallbackLoad),

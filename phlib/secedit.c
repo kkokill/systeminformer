@@ -298,7 +298,7 @@ ISecurityInformation *PhSecurityInformation_Create(
     if (PhIsNullOrEmptyString(info->ObjectNameString))
     {
         // Note: The ACUI dialog doesn't allow empty strings for the object name. (dmex)  
-        PhMoveReference(&info->ObjectNameString, PhCreateString(L"Unknown"));
+        PhMoveReference(&info->ObjectNameString, PhCreateString(L"未知"));
     }
 
     return &info->Interface;
@@ -649,9 +649,9 @@ HRESULT STDMETHODCALLTYPE PhSecurityInformation_GetInheritTypes(
     {
         static const SI_INHERIT_TYPE inheritTypes[] =
         {
-            { NULL, 0, L"This namespace only" },
-            { NULL, CONTAINER_INHERIT_ACE, L"This namespace and subnamespaces" },
-            { NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE, L"Subnamespaces only" },
+            { NULL, 0, L"仅此命名空间" },
+            { NULL, CONTAINER_INHERIT_ACE, L"此命名空间及子命名空间" },
+            { NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE, L"仅子命名空间" },
         };
 
         *InheritTypes = (PSI_INHERIT_TYPE)inheritTypes;
@@ -662,9 +662,9 @@ HRESULT STDMETHODCALLTYPE PhSecurityInformation_GetInheritTypes(
     {
         static const SI_INHERIT_TYPE inheritTypes[] =
         {
-            { NULL, 0, L"This folder only" },
-            { NULL, CONTAINER_INHERIT_ACE, L"This folder, subfolders and files" },
-            { NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE, L"Subfolders and files only" },
+            { NULL, 0, L"仅此文件夹" },
+            { NULL, CONTAINER_INHERIT_ACE, L"此文件夹、子文件夹及文件" },
+            { NULL, INHERIT_ONLY_ACE | CONTAINER_INHERIT_ACE, L"仅子文件夹及文件" },
         };
 
         *InheritTypes = (PSI_INHERIT_TYPE)inheritTypes;

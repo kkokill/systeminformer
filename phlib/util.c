@@ -273,7 +273,7 @@ LCID PhGetSystemDefaultLCID(
     if (NT_SUCCESS(NtQueryDefaultLocale(FALSE, &localeId)))
         return localeId;
 
-    return MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+    return MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED), SORT_DEFAULT);
 #endif
 }
 
@@ -295,7 +295,7 @@ LCID PhGetUserDefaultLCID(
     if (NT_SUCCESS(NtQueryDefaultLocale(TRUE, &localeId)))
         return localeId;
 
-    return MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+    return MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED), SORT_DEFAULT);
 #endif
 }
 
@@ -340,9 +340,9 @@ LCID PhGetCurrentThreadLCID(
     if (!currentTeb->CurrentLocale)
         currentTeb->CurrentLocale = PhGetUserDefaultLCID();
     if (currentTeb->CurrentLocale == LOCALE_CUSTOM_DEFAULT)
-        currentTeb->CurrentLocale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+        currentTeb->CurrentLocale = MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED), SORT_DEFAULT);
     if (currentTeb->CurrentLocale == LOCALE_CUSTOM_UNSPECIFIED)
-        currentTeb->CurrentLocale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+        currentTeb->CurrentLocale = MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED), SORT_DEFAULT);
 
     return currentTeb->CurrentLocale;
 #endif
@@ -695,7 +695,7 @@ static PPH_STRING PhpFindMessageString(
         status = RtlFindMessage(
             DllHandle,
             MessageTableId,
-            MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
+            MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED),
             MessageId,
             &messageEntry
             );
@@ -1228,7 +1228,7 @@ BOOLEAN PhpShowMessageOneTime(
     config.pszMainIcon = Icon;
     config.pszMainInstruction = Title;
     config.pszContent = PhGetString(message);
-    config.pszVerificationText = L"Don't show this message again";
+    config.pszVerificationText = L"不再显示此消息";
     config.cxWidth = 200;
 
     if (PhShowTaskDialog(
@@ -1460,16 +1460,16 @@ VOID PhShowStatus(
         if (Message)
             PhShowError2(WindowHandle, Message, L"%s", PhGetString(statusMessage));
         else
-            PhShowError2(WindowHandle, L"Unable to perform the operation.", L"%s", PhGetString(statusMessage));
+            PhShowError2(WindowHandle, L"无法执行该操作。", L"%s", PhGetString(statusMessage));
 
         PhDereferenceObject(statusMessage);
     }
     else
     {
         if (Message)
-            PhShowError2(WindowHandle, L"Unable to perform the operation.", L"%s", Message);
+            PhShowError2(WindowHandle, L"无法执行该操作。", L"%s", Message);
         else
-            PhShowStatus(WindowHandle, L"Unable to perform the operation.", STATUS_UNSUCCESSFUL, 0);
+            PhShowStatus(WindowHandle, L"无法执行该操作。", STATUS_UNSUCCESSFUL, 0);
     }
 }
 
@@ -1495,16 +1495,16 @@ VOID PhShowStatusHR(
         if (Message)
             PhShowError2(WindowHandle, Message, L"%s", PhGetString(statusMessage));
         else
-            PhShowError2(WindowHandle, L"Unable to perform the operation.", L"%s", PhGetString(statusMessage));
+            PhShowError2(WindowHandle, L"无法执行该操作。", L"%s", PhGetString(statusMessage));
 
         PhDereferenceObject(statusMessage);
     }
     else
     {
         if (Message)
-            PhShowError2(WindowHandle, L"Unable to perform the operation.", L"%s", Message);
+            PhShowError2(WindowHandle, L"无法执行该操作。", L"%s", Message);
         else
-            PhShowStatusHR(WindowHandle, L"Unable to perform the operation.", E_FAIL, 0);
+            PhShowStatusHR(WindowHandle, L"无法执行该操作。", E_FAIL, 0);
     }
 }
 
@@ -1533,11 +1533,11 @@ BOOLEAN PhShowContinueStatus(
     if (Message && statusMessage)
         result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CLOSE_BUTTON, TD_ERROR_ICON, Message, L"%s", PhGetString(statusMessage));
     else if (Message)
-        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"Unable to perform the operation.", L"%s", Message);
+        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"无法执行该操作。", L"%s", Message);
     else if (statusMessage)
-        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"Unable to perform the operation.", L"%s", PhGetString(statusMessage));
+        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"无法执行该操作。", L"%s", PhGetString(statusMessage));
     else
-        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"Unable to perform the operation.", L"");
+        result = PhShowMessage2(WindowHandle, TD_OK_BUTTON | TD_CANCEL_BUTTON, TD_ERROR_ICON, L"无法执行该操作。", L"");
 
     if (statusMessage) PhDereferenceObject(statusMessage);
 
@@ -1579,11 +1579,11 @@ BOOLEAN PhShowConfirmMessage(
     if (verbCaps->Length > 0) verbCaps->Buffer[0] = PhUpcaseUnicodeChar(verbCaps->Buffer[0]);
 
     // "terminate", "the process" -> "terminate the process"
-    action = PhConcatStrings(3, verb->Buffer, L" ", Object);
-    mainInstruction = PhConcatStrings(3, L"Do you want to ", action->Buffer, L"?");
+    action = PhConcatStrings(2, verb->Buffer, Object);
+    mainInstruction = PhConcatStrings(3, L"是否要", action->Buffer, L"？");
 
     if (Message)
-        content = PhConcatStrings2(Message, L" Are you sure you want to continue?");
+        content = PhConcatStrings2(Message, L"\n确定要继续吗？");
 
     {
         ULONG button;
@@ -1603,7 +1603,7 @@ BOOLEAN PhShowConfirmMessage(
         buttons[0].nButtonID = IDYES;
         buttons[0].pszButtonText = verbCaps->Buffer;
         buttons[1].nButtonID = IDNO;
-        buttons[1].pszButtonText = L"Cancel";
+        buttons[1].pszButtonText = L"取消";
 
         config.cButtons = 2;
         config.pButtons = buttons;
@@ -1624,7 +1624,7 @@ BOOLEAN PhShowConfirmMessage(
         else if (PhShowMessage(
             WindowHandle,
             MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2,
-            L"Are you sure you want to %s?",
+            L"确定要%s吗？",
             action->Buffer
             ) == IDYES)
         {
@@ -2750,23 +2750,23 @@ PPH_STRING PhFormatTimeSpanRelative(
 
     if (centuries >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)centuries, (ULONG)centuries == 1 ? L"century" : L"centuries");
+        string = PhFormatString(L"%u %s", (ULONG)centuries, L"世纪");
     }
     else if (years >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)years, (ULONG)years == 1 ? L"year" : L"years");
+        string = PhFormatString(L"%u %s", (ULONG)years, L"年");
     }
     else if (months >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)months, (ULONG)months == 1 ? L"month" : L"months");
+        string = PhFormatString(L"%u %s", (ULONG)months, L"月");
     }
     else if (fortnights >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)fortnights, (ULONG)fortnights == 1 ? L"fortnight" : L"fortnights");
+        string = PhFormatString(L"%u %s", (ULONG)fortnights, L"两星期");
     }
     else if (weeks >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)weeks, (ULONG)weeks == 1 ? L"week" : L"weeks");
+        string = PhFormatString(L"%u %s", (ULONG)weeks, L"周");
     }
     else
     {
@@ -2790,16 +2790,16 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (hoursPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s and %u %s",
+                    L"%u %s 又 %u %s",
                     (ULONG)days,
-                    (ULONG)days == 1 ? L"day" : L"days",
+                    L"天",
                     hoursPartial,
-                    hoursPartial == 1 ? L"hour" : L"hours"
+                    L"小时"
                     );
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)days, (ULONG)days == 1 ? L"day" : L"days");
+                string = PhFormatString(L"%u %s", (ULONG)days, L"天");
             }
         }
         else if (hours >= 1)
@@ -2809,16 +2809,16 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (minutesPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s and %u %s",
+                    L"%u %s 又 %u %s",
                     (ULONG)hours,
-                    (ULONG)hours == 1 ? L"hour" : L"hours",
+                    L"小时",
                     (ULONG)minutesPartial,
-                    (ULONG)minutesPartial == 1 ? L"minute" : L"minutes"
+                    L"分钟"
                     );
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)hours, (ULONG)hours == 1 ? L"hour" : L"hours");
+                string = PhFormatString(L"%u %s", (ULONG)hours, L"小时");
             }
         }
         else if (minutes >= 1)
@@ -2828,40 +2828,30 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (secondsPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s and %u %s",
+                    L"%u %s 又 %u %s",
                     (ULONG)minutes,
-                    (ULONG)minutes == 1 ? L"minute" : L"minutes",
+                    L"分钟",
                     (ULONG)secondsPartial,
-                    (ULONG)secondsPartial == 1 ? L"second" : L"seconds"
+                    L"秒"
                     );
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)minutes, (ULONG)minutes == 1 ? L"minute" : L"minutes");
+                string = PhFormatString(L"%u %s", (ULONG)minutes, L"分钟");
             }
         }
         else if (seconds >= 1)
         {
-            string = PhFormatString(L"%u %s", (ULONG)seconds, (ULONG)seconds == 1 ? L"second" : L"seconds");
+            string = PhFormatString(L"%u %s", (ULONG)seconds, L"秒");
         }
         else if (milliseconds >= 1)
         {
-            string = PhFormatString(L"%u %s", (ULONG)milliseconds, (ULONG)milliseconds == 1 ? L"millisecond" : L"milliseconds");
+            string = PhFormatString(L"%u %s", (ULONG)milliseconds, L"毫秒");
         }
         else
         {
-            string = PhCreateString(L"a very short time");
+            string = PhCreateString(L"极短时间");
         }
-    }
-
-    // Turn 1 into "a", e.g. 1 minute -> a minute
-    if (PhStartsWithString2(string, L"1 ", FALSE))
-    {
-        // Special vowel case: a hour -> an hour
-        if (string->Buffer[2] != L'h')
-            PhMoveReference(&string, PhConcatStrings2(L"a ", &string->Buffer[2]));
-        else
-            PhMoveReference(&string, PhConcatStrings2(L"an ", &string->Buffer[2]));
     }
 
     return string;
@@ -3547,7 +3537,7 @@ ULONG PhGetFileVersionInfoLangCodePage(
         return ((ULONG)codePage[0].Language << 16) + codePage[0].CodePage; // Combine the language ID and code page.
     }
 
-    return (MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US) << 16) + 1252;
+    return (MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED) << 16) + 1252;
 }
 
 /**
@@ -3679,15 +3669,15 @@ PPH_STRING PhGetFileVersionInfoStringEx(
         return string;
 
     // Use the default language (US English).
-    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US) << 16) + 1252, KeyName))
+    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED) << 16) + 1252, KeyName))
         return string;
 
     // Use the default language (US English).
-    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US) << 16) + 1200, KeyName))
+    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED) << 16) + 1200, KeyName))
         return string;
 
     // Use the default language (US English).
-    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US) << 16) + 0, KeyName))
+    if (string = PhGetFileVersionInfoString2(VersionInfo, (MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED) << 16) + 0, KeyName))
         return string;
 
     return NULL;
@@ -6776,7 +6766,7 @@ VOID PhShellExecute(
 
     if (!PhShellExecuteWin32(&info))
     {
-        PhShowStatus(WindowHandle, L"Unable to execute the program.", 0, PhGetLastError());
+        PhShowStatus(WindowHandle, L"无法执行程序。", 0, PhGetLastError());
     }
 }
 
@@ -6938,7 +6928,7 @@ VOID PhShellProperties(
 
     if (!PhShellExecuteWin32(&info))
     {
-        PhShowStatus(WindowHandle, L"Unable to execute the program.", 0, PhGetLastError());
+        PhShowStatus(WindowHandle, L"无法执行程序。", 0, PhGetLastError());
     }
 }
 

@@ -26,7 +26,7 @@
 #include <procprv.h>
 
 static PPH_OBJECT_TYPE PhMemoryContextType = NULL;
-static PH_STRINGREF EmptyMemoryText = PH_STRINGREF_INIT(L"There are no memory regions to display.");
+static PH_STRINGREF EmptyMemoryText = PH_STRINGREF_INIT(L"没有可显示的内存区域。");
 
 _Function_class_(USER_THREAD_START_ROUTINE)
 NTSTATUS PhpRefreshProcessMemoryThread(
@@ -147,16 +147,16 @@ VOID PhShowMemoryContextMenu(
         PH_PLUGIN_MENU_INFORMATION menuInfo;
 
         menu = PhCreateEMenu();
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_READWRITEMEMORY, L"&Read/Write memory...", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_CHANGEPROTECTION, L"Change &protection...", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_EMPTYWORKINGSET, L"&Empty working set...", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_READWRITEMEMORY, L"&读/写内存...", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_CHANGEPROTECTION, L"&更改保护...", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_EMPTYWORKINGSET, L"&清空工作集...", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_FREE, L"&Free", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_DECOMMIT, L"&Decommit", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_FREE, L"&释放", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_DECOMMIT, L"&解除提交", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_SAVE, L"&Save...", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_SAVE, L"&保存...", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_COPY, L"&复制\bCtrl+C", NULL, NULL), ULONG_MAX);
         PhSetFlagsEMenuItem(menu, ID_MEMORY_READWRITEMEMORY, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
         PhpInitializeMemoryMenu(menu, ProcessItem->ProcessId, memoryNodes, numberOfMemoryNodes);
         PhInsertCopyCellEMenuItem(menu, ID_MEMORY_COPY, Context->ListContext.TreeNewHandle, ContextMenu->Column);
@@ -408,9 +408,9 @@ VOID PhpProcessMemorySave(
 {
     static PH_FILETYPE_FILTER filters[] =
     {
-        { L"Text files (*.txt;*.log)", L"*.txt;*.log" },
-        { L"Comma-separated values (*.csv)", L"*.csv" },
-        { L"All files (*.*)", L"*.*" }
+        { L"文本文件 (*.txt;*.log)", L"*.txt;*.log" },
+        { L"逗号分隔值文件 (*.csv)", L"*.csv" },
+        { L"所有文件 (*.*)", L"*.*" }
     };
     PVOID fileDialog = PhCreateSaveFileDialog();
     PH_FORMAT format[4];
@@ -418,8 +418,8 @@ VOID PhpProcessMemorySave(
 
     processItem = PhReferenceProcessItem(MemoryContext->ProcessId);
     PhInitFormatS(&format[0], L"System Informer (");
-    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"Unknown process") : L"Unknown process");
-    PhInitFormatS(&format[2], L") Memory");
+    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"未知进程") : L"未知进程");
+    PhInitFormatS(&format[2], L") 内存");
     PhInitFormatS(&format[3], L".txt");
     if (processItem) PhDereferenceObject(processItem);
 
@@ -482,7 +482,7 @@ VOID PhpProcessMemorySave(
         }
 
         if (!NT_SUCCESS(status))
-            PhShowStatus(MemoryContext->WindowHandle, L"Unable to create the file", status, 0);
+            PhShowStatus(MemoryContext->WindowHandle, L"无法创建文件", status, 0);
     }
 
     PhFreeFileDialog(fileDialog);
@@ -595,7 +595,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 memoryContext->SearchboxHandle,
-                L"Search Memory (Ctrl+K)",
+                L"搜索内存 (Ctrl+K)",
                 SETTING_SEARCH_MEMORY_REGEX,
                 SETTING_SEARCH_MEMORY_CASE_SENSITIVE,
                 PhpProcessMemorySearchControlCallback,
@@ -712,7 +712,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                         processItem->ProcessId
                         )))
                     {
-                        PhShowStatus(hwndDlg, L"Unable to open the process", status, 0);
+                        PhShowStatus(hwndDlg, L"无法打开进程", status, 0);
                         break;
                     }
 
@@ -722,8 +722,8 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                     {
                         static PH_FILETYPE_FILTER filters[] =
                         {
-                            { L"Binary files (*.bin)", L"*.bin" },
-                            { L"All files (*.*)", L"*.*" }
+                            { L"二进制文件 (*.bin)", L"*.bin" },
+                            { L"所有文件 (*.*)", L"*.*" }
                         };
                         PVOID fileDialog;
 
@@ -785,7 +785,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                             }
 
                             if (!NT_SUCCESS(status))
-                                PhShowStatus(hwndDlg, L"Unable to create the file", status, 0);
+                                PhShowStatus(hwndDlg, L"无法创建文件", status, 0);
                         }
 
                         PhFreeFileDialog(fileDialog);
@@ -909,22 +909,22 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                     } PH_MEMORY_FILTER_MENU_ITEM;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, freeItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_FREE, L"Hide free pages", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, reservedItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_RESERVED, L"Hide reserved pages", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, guardItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_GUARD, L"Hide guard pages", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, freeItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_FREE, L"隐藏空闲页", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, reservedItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_RESERVED, L"隐藏保留页", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, guardItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIDE_GUARD, L"隐藏保护页", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, privateItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_PRIVATE, L"Highlight private pages", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_SYSTEM, L"Highlight system pages", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, cfgItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_CFG, L"Highlight CFG pages", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, typeItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_EXECUTE, L"Highlight executable pages", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, privateItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_PRIVATE, L"突出显示私有页", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_SYSTEM, L"突出显示系统页", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, cfgItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_CFG, L"突出显示 CFG 页", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, typeItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HIGHLIGHT_EXECUTE, L"突出显示可执行页", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, zeroPadItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_ZERO_PAD_ADDRESSES, L"Zero pad addresses", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, zeroPadItem = PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_ZERO_PAD_ADDRESSES, L"地址补零", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_READ_ADDRESS, L"Read/Write &address...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HEAPS, L"Heaps...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_MODIFIED, L"Modified...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_STRINGS, L"Strings...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_SAVE, L"Save...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_READ_ADDRESS, L"&读/写地址...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_HEAPS, L"堆...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_MODIFIED, L"已修改...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_STRINGS, L"字符串...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_MEMORY_FILTER_MENU_SAVE, L"保存...", NULL, NULL), ULONG_MAX);
 
                     if (memoryContext->ListContext.HideFreeRegions)
                         freeItem->Flags |= PH_EMENU_CHECKED;
@@ -1033,8 +1033,8 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
 
                             while (PhaChoiceDialog(
                                 hwndDlg,
-                                L"Read/Write Address",
-                                L"Enter an address:",
+                                L"读/写地址",
+                                L"请输入地址：",
                                 NULL,
                                 0,
                                 NULL,
@@ -1073,7 +1073,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                                     }
                                     else
                                     {
-                                        PhShowStatus(hwndDlg, L"Unable to find the memory region for the selected address.", STATUS_UNSUCCESSFUL, 0);
+                                        PhShowStatus(hwndDlg, L"无法找到所选地址对应的内存区域。", STATUS_UNSUCCESSFUL, 0);
                                     }
                                 }
                             }
@@ -1116,7 +1116,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                 PPH_STRING message;
 
                 message = PhGetStatusMessage(memoryContext->LastRunStatus, 0);
-                PhMoveReference(&memoryContext->ErrorMessage, PhFormatString(L"Unable to query memory information:\n%s", PhGetStringOrDefault(message, L"Unknown error.")));
+                PhMoveReference(&memoryContext->ErrorMessage, PhFormatString(L"无法查询内存信息：\n%s", PhGetStringOrDefault(message, L"未知错误。")));
                 TreeNew_SetEmptyText(memoryContext->ListContext.TreeNewHandle, &memoryContext->ErrorMessage->sr, 0);
 
                 PhReplaceMemoryList(&memoryContext->ListContext, NULL);

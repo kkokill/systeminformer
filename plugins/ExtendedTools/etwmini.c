@@ -25,12 +25,12 @@ VOID EtEtwMiniInformationInitializing(
 
     memset(&section, 0, sizeof(PH_MINIINFO_LIST_SECTION));
     section.Callback = EtpDiskListSectionCallback;
-    Pointers->CreateListSection(L"Disk", 0, &section);
+    Pointers->CreateListSection(L"磁盘", 0, &section);
 
     memset(&section, 0, sizeof(PH_MINIINFO_LIST_SECTION));
     section.Callback = EtpNetworkListSectionCallback;
 
-    Pointers->CreateListSection(L"Network", 0, &section);
+    Pointers->CreateListSection(L"网络", 0, &section);
 }
 
 /**
@@ -55,7 +55,7 @@ BOOLEAN EtpDiskListSectionCallback(
         {
             PH_FORMAT format[4];
 
-            PhInitFormatS(&format[0], L"Disk    R: ");
+            PhInitFormatS(&format[0], L"磁盘    R: ");
             PhInitFormatSize(&format[1], EtDiskReadDelta.Delta);
             format[1].Type |= FormatUsePrecision;
             format[1].Precision = 0;
@@ -198,7 +198,7 @@ BOOLEAN EtpNetworkListSectionCallback(
         {
             PH_FORMAT format[4];
 
-            PhInitFormatS(&format[0], L"Network    R: ");
+            PhInitFormatS(&format[0], L"网络    R: ");
             PhInitFormatSize(&format[1], EtNetworkReceiveDelta.Delta);
             format[1].Type |= FormatUsePrecision;
             format[1].Precision = 0;

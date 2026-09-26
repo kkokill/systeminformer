@@ -140,7 +140,7 @@ VOID NTAPI ShowOptionsCallback(
     if (optionsEntry)
     {
         optionsEntry->CreateSection(
-            L"ExtendedTools",
+            L"扩展工具",
             PluginInstance->DllBase,
             MAKEINTRESOURCE(IDD_OPTIONS),
             OptionsDlgProc,
@@ -304,22 +304,22 @@ VOID NTAPI MainMenuInitializingCallback(
 
     if (!(systemMenu = PhFindEMenuItem(menuInfo->Menu, 0, L"System", 0)))
     {
-        PhInsertEMenuItem(menuInfo->Menu, systemMenu = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"&System", NULL), ULONG_MAX);
+        PhInsertEMenuItem(menuInfo->Menu, systemMenu = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"系统(&S)", NULL), ULONG_MAX);
     }
 
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_POOL_TABLE, L"Poo&l Table", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_POOL_TABLE, L"内存池表(&L)", NULL), ULONG_MAX);
     //PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_OBJMGR, L"&Object Manager", NULL), ULONG_MAX);
     PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_SMBIOS, L"SM&BIOS", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_ACPI, L"&ACPI Tables", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, bootMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_FIRMWARE, L"Firm&ware Table", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, tpmMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_TPM, L"&Trusted Platform Module", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_WBCL, L"Boot Configuration &Log", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_POWER_GRID, L"Power &Forecast", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_CACHE_LATENCY, L"Cache &Latency", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_PIPE_ENUM, L"&Named Pipes", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, reparsePointsMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_POINTS, L"NTFS Reparse Points", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, reparseObjIdMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_OBJID, L"NTFS Object Identifiers", NULL), ULONG_MAX);
-    PhInsertEMenuItem(systemMenu, reparseSsdlMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_SDDL, L"NTFS Security Descriptors", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_ACPI, L"ACPI 表(&A)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, bootMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_FIRMWARE, L"固件表(&W)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, tpmMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_TPM, L"可信平台模块(&T)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_WBCL, L"启动配置日志(&L)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_POWER_GRID, L"电源预测(&F)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_CACHE_LATENCY, L"缓存延迟(&L)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, PhPluginCreateEMenuItem(PluginInstance, 0, ID_PIPE_ENUM, L"命名管道(&N)", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, reparsePointsMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_POINTS, L"NTFS 重分析点", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, reparseObjIdMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_OBJID, L"NTFS 对象标识符", NULL), ULONG_MAX);
+    PhInsertEMenuItem(systemMenu, reparseSsdlMenu = PhPluginCreateEMenuItem(PluginInstance, 0, ID_REPARSE_SDDL, L"NTFS 安全描述符", NULL), ULONG_MAX);
 
     if (!PhGetOwnTokenAttributes().Elevated)
     {
@@ -447,9 +447,9 @@ VOID NTAPI ProcessMenuInitializingCallback(
 
     if (miscMenu)
     {
-        PhInsertEMenuItem(miscMenu, PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_UNLOADEDMODULES, L"&Unloaded modules", processItem), ULONG_MAX);
-        PhInsertEMenuItem(miscMenu, PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_WSWATCH, L"&WS watch", processItem), ULONG_MAX);
-        menuItem = PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_WAITCHAIN, L"Wait Chain Tra&versal", processItem);
+        PhInsertEMenuItem(miscMenu, PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_UNLOADEDMODULES, L"已卸载的模块(&U)", processItem), ULONG_MAX);
+        PhInsertEMenuItem(miscMenu, PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_WSWATCH, L"WS 监视(&W)", processItem), ULONG_MAX);
+        menuItem = PhPluginCreateEMenuItem(PluginInstance, flags, ID_PROCESS_WAITCHAIN, L"等待链遍历(&V)", processItem);
         PhInsertEMenuItem(miscMenu, menuItem, ULONG_MAX);
 
         if (!processItem || !processItem->QueryHandle || processItem->ProcessId == NtCurrentProcessId())
@@ -481,7 +481,7 @@ VOID NTAPI ThreadMenuInitializingCallback(
     else
         insertIndex = ULONG_MAX;
 
-    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_CANCELIO, L"Ca&ncel I/O", threadItem);
+    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_CANCELIO, L"取消 I/O(&N)", threadItem);
     PhInsertEMenuItem(menuInfo->Menu, menuItem, insertIndex);
 
     if (!threadItem)
@@ -494,7 +494,7 @@ VOID NTAPI ThreadMenuInitializingCallback(
     else
         insertIndex = ULONG_MAX;
 
-    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_WAITCHAIN, L"Wait Chain Tra&versal", threadItem);
+    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_THREAD_WAITCHAIN, L"等待链遍历(&V)", threadItem);
     PhInsertEMenuItem(menuInfo->Menu, menuItem, insertIndex);
 
     if (!threadItem)
@@ -541,7 +541,7 @@ VOID NTAPI ModuleMenuInitializingCallback(
 
     ModuleProcessId = menuInfo->u.Module.ProcessId;
 
-    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_MODULE_SERVICES, L"Ser&vices", moduleItem);
+    menuItem = PhPluginCreateEMenuItem(PluginInstance, 0, ID_MODULE_SERVICES, L"服务(&V)", moduleItem);
     PhInsertEMenuItem(menuInfo->Menu, PhCreateEMenuSeparator(), insertIndex);
     PhInsertEMenuItem(menuInfo->Menu, menuItem, insertIndex + 1);
 
@@ -723,149 +723,149 @@ VOID NTAPI ProcessStatsEventCallback(
             block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU] = PhAddListViewGroup(
                 listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"GPU");
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALDEDICATED] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"Dedicated memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"专用内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALDEDICATED],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUTOTALDEDICATED)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALSHARED] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"Shared memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"共享内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALSHARED],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUTOTALSHARED)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALCOMMIT] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"Commit memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"提交内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTALCOMMIT],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUTOTALCOMMIT)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTAL] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"Total memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPU], MAXINT, L"总内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUTOTAL],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUTOTAL)));
 
             block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK] = PhAddListViewGroup(
-                listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"Disk I/O");
+                listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"磁盘 I/O");
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADS] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Reads", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"读取数", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADS],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKREADS)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Read bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"读取字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKREADBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Read bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"读取字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKREADBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKREADBYTESDELTA)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Writes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"写入数", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKWRITES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Write bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"写入字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Write bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"写入字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKWRITEBYTESDELTA)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTAL] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Total", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"总计", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTAL],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKTOTAL)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Total bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"总字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"Total bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_DISK], MAXINT, L"总字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_DISKTOTALBYTESDELTA)));
 
             block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK] = PhAddListViewGroup(
-                listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"Network I/O");
+                listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"网络 I/O");
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADS] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Receives", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"接收数", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADS],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKREADS)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Receive bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"接收字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Receive bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"接收字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKREADBYTESDELTA)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Sends", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"发送数", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKWRITES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Send bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"发送字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Send bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"发送字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKWRITEBYTESDELTA)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTAL] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Total", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"总计", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTAL],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKTOTAL)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTES] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Total bytes", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"总字节", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTES],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTES)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTESDELTA] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"Total bytes delta", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NETWORK], MAXINT, L"总字节增量", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTESDELTA],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NETWORKTOTALBYTESDELTA)));
 
             block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU] = PhAddListViewGroup(
                 listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"NPU");
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALDEDICATED] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"Dedicated memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"专用内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALDEDICATED],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NPUTOTALDEDICATED)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALSHARED] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"Shared memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"共享内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALSHARED],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NPUTOTALSHARED)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALCOMMIT] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"Commit memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"提交内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTALCOMMIT],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NPUTOTALCOMMIT)));
             block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTAL] = PhAddListViewGroupItem(
-                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"Total memory", NULL);
+                listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_NPU], MAXINT, L"总内存", NULL);
             PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_NPUTOTAL],
                 UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_NPUTOTAL)));
 
             if (EtGpuAdapterStatsEnabled)
             {
                 block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER] = PhAddListViewGroup(
-                    listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"GPU adapter");
+                    listViewHandle, (LONG)ListView_GetGroupCount(listViewHandle), L"GPU 适配器");
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUVIRTUALMEMORY] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"Virtual memory", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"虚拟内存", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUVIRTUALMEMORY],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUVIRTUALMEMORY)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUEVICTED] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"Evicted bytes", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"逐出字节", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUEVICTED],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUEVICTED)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMASIZE] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA buffer size", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA 缓冲区大小", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMASIZE],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUDMASIZE)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMAALLOCLIST] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA allocation list", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA 分配列表", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMAALLOCLIST],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUDMAALLOCLIST)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMAPATCHLIST] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA patch list", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"DMA 修补列表", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUDMAPATCHLIST],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUDMAPATCHLIST)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUINTERFERENCE] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"Contention events", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"争用事件", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUINTERFERENCE],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUINTERFERENCE)));
                 block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUVIDPNSOURCES] = PhAddListViewGroupItem(
-                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"Display outputs", NULL);
+                    listViewHandle, block->ListViewGroupCache[ET_PROCESS_STATISTICS_CATEGORY_GPUADAPTER], MAXINT, L"显示输出", NULL);
                 PhSetListViewItemParam(listViewHandle, block->ListViewRowCache[ET_PROCESS_STATISTICS_INDEX_GPUVIDPNSOURCES],
                     UlongToPtr(ET_PROCESS_STATISTICS_PARAM(ET_PROCESS_STATISTICS_INDEX_GPUVIDPNSOURCES)));
             }
@@ -1641,6 +1641,10 @@ LOGICAL DllMain(
                 { IntegerPairSettingType, SETTING_NAME_POWER_GRID_WINDOW_POSITION, L"0,0" },
                 { ScalableIntegerPairSettingType, SETTING_NAME_POWER_GRID_WINDOW_SIZE, L"@96|600,400" },
                 { StringSettingType, SETTING_NAME_POWER_GRID_LISTVIEW_COLUMNS, L"" },
+                { IntegerSettingType, SETTING_NAME_POWER_GRID_MODE, L"0" },
+                { StringSettingType, SETTING_NAME_POWER_GRID_TARIFF_TEMPLATE, L"通用两峰" },
+                { StringSettingType, SETTING_NAME_POWER_GRID_TARIFF_CUSTOM, L"" },
+                { StringSettingType, SETTING_NAME_POWER_GRID_TARIFF_LISTVIEW_COLUMNS, L"" },
                 { IntegerPairSettingType, SETTING_NAME_CACHE_LATENCY_WINDOW_POSITION, L"0,0" },
                 { ScalableIntegerPairSettingType, SETTING_NAME_CACHE_LATENCY_WINDOW_SIZE, L"@96|760,380" },
                 { StringSettingType, SETTING_NAME_CACHE_LATENCY_LISTVIEW_COLUMNS, L"" },
@@ -1661,8 +1665,8 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"Extended Tools";
-            info->Description = L"Extended functionality for Windows 7 and above, including ETW, GPU, Disk and Firewall monitoring tabs.";
+            info->DisplayName = L"扩展工具";
+            info->Description = L"适用于 Windows 7 及以上版本的扩展功能，包括 ETW、GPU、磁盘和防火墙监控选项卡。";
             info->Interface = &PluginInterface;
 
             PhRegisterCallback(

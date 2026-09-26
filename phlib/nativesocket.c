@@ -451,11 +451,11 @@ NTSTATUS PhAfdQueryFormatTdiDeviceName(
 
     if (hTdiDevice == INVALID_HANDLE_VALUE)
     {
-        *TdiDeviceName = PhCreateString(L"N/A (transport is not TDI)");
+        *TdiDeviceName = PhCreateString(L"N/A（传输不是 TDI）");
     }
     else if (hTdiDevice == NULL)
     {
-        *TdiDeviceName = PhCreateString(L"None");
+        *TdiDeviceName = PhCreateString(L"无");
     }
     else
     {
@@ -756,17 +756,17 @@ PCWSTR PhpAfdGetSocketStateString(
     switch (SocketState)
     {
     case SocketStateInitializing:
-        return L"Initializing";
+        return L"初始化中";
     case SocketStateOpen:
-        return L"Open";
+        return L"打开";
     case SocketStateBound:
-        return L"Bound";
+        return L"已绑定";
     case SocketStateBoundSpecific:
-        return L"Bound (specific)";
+        return L"已绑定（特定）";
     case SocketStateConnected:
-        return L"Connected";
+        return L"已连接";
     case SocketStateClosing:
-        return L"Closing";
+        return L"关闭中";
     default:
         return NULL;
     }
@@ -787,7 +787,7 @@ PPH_STRING PhAfdFormatSocketState(
     if (knownName)
         return PhCreateString(knownName);
     else
-        return PhFormatString(L"Invalid state (%d)", SocketState);
+        return PhFormatString(L"无效状态 (%d)", SocketState);
 }
 
 /**
@@ -804,15 +804,15 @@ PCWSTR PhpAfdGetSocketTypeString(
     switch (SocketType)
     {
     case SOCK_STREAM:
-        return L"Stream";
+        return L"流";
     case SOCK_DGRAM:
-        return L"Datagram";
+        return L"数据报";
     case SOCK_RAW:
-        return L"Raw";
+        return L"原始";
     case SOCK_RDM:
-        return L"Reliably-delivered message";
+        return L"可靠传递消息";
     case SOCK_SEQPACKET:
-        return L"Pseudo-stream";
+        return L"伪流";
     default:
         return NULL;
     }
@@ -833,7 +833,7 @@ PPH_STRING PhAfdFormatSocketType(
     if (knownName)
         return PhCreateString(knownName);
     else
-        return PhFormatString(L"Unknown (%d)", SocketType);
+        return PhFormatString(L"未知 (%d)", SocketType);
 }
 
 /**
@@ -850,11 +850,11 @@ PPH_STRING PhAfdFormatProviderFlags(
 
     static const PH_ACCESS_ENTRY providerFlags[] =
     {
-        PH_AFD_PROVIDER_FLAG(PFL_MULTIPLE_PROTO_ENTRIES, L"Multiple entries"),
-        PH_AFD_PROVIDER_FLAG(PFL_RECOMMENDED_PROTO_ENTRY, L"Recommended entry"),
-        PH_AFD_PROVIDER_FLAG(PFL_HIDDEN, L"Hidden"),
-        PH_AFD_PROVIDER_FLAG(PFL_MATCHES_PROTOCOL_ZERO, L"Matches protocol zero"),
-        PH_AFD_PROVIDER_FLAG(PFL_NETWORKDIRECT_PROVIDER, L"Network direct"),
+        PH_AFD_PROVIDER_FLAG(PFL_MULTIPLE_PROTO_ENTRIES, L"多条目"),
+        PH_AFD_PROVIDER_FLAG(PFL_RECOMMENDED_PROTO_ENTRY, L"推荐条目"),
+        PH_AFD_PROVIDER_FLAG(PFL_HIDDEN, L"隐藏"),
+        PH_AFD_PROVIDER_FLAG(PFL_MATCHES_PROTOCOL_ZERO, L"匹配协议零"),
+        PH_AFD_PROVIDER_FLAG(PFL_NETWORKDIRECT_PROVIDER, L"网络直连"),
     };
 
     PPH_STRING string;
@@ -874,7 +874,7 @@ PPH_STRING PhAfdFormatProviderFlags(
     }
     else
     {
-        string = PhCreateString(L"None");
+        string = PhCreateString(L"无");
     }
 
     return string;
@@ -894,25 +894,25 @@ PPH_STRING PhAfdFormatServiceFlags(
 
     static const PH_ACCESS_ENTRY serviceFlags[] =
     {
-        PH_AFD_SERVICE_FLAG(XP1_CONNECTIONLESS, L"Connectionless"),
-        PH_AFD_SERVICE_FLAG(XP1_GUARANTEED_DELIVERY, L"Guaranteed delivery"),
-        PH_AFD_SERVICE_FLAG(XP1_GUARANTEED_ORDER, L"Guaranteed order"),
-        PH_AFD_SERVICE_FLAG(XP1_MESSAGE_ORIENTED, L"Message-oriented"),
-        PH_AFD_SERVICE_FLAG(XP1_PSEUDO_STREAM, L"Pseudo-stream"),
-        PH_AFD_SERVICE_FLAG(XP1_GRACEFUL_CLOSE, L"Graceful close"),
-        PH_AFD_SERVICE_FLAG(XP1_EXPEDITED_DATA, L"Expedited data"),
-        PH_AFD_SERVICE_FLAG(XP1_CONNECT_DATA, L"Connect data"),
-        PH_AFD_SERVICE_FLAG(XP1_DISCONNECT_DATA, L"Disconnect data"),
-        PH_AFD_SERVICE_FLAG(XP1_SUPPORT_BROADCAST, L"Broadcast"),
-        PH_AFD_SERVICE_FLAG(XP1_SUPPORT_MULTIPOINT, L"Support multipoint"),
-        PH_AFD_SERVICE_FLAG(XP1_MULTIPOINT_CONTROL_PLANE, L"Multipoint control plane"),
-        PH_AFD_SERVICE_FLAG(XP1_MULTIPOINT_DATA_PLANE, L"Multipoint data plane"),
-        PH_AFD_SERVICE_FLAG(XP1_QOS_SUPPORTED, L"QoS supported"),
-        PH_AFD_SERVICE_FLAG(XP1_INTERRUPT, L"Interrupt"),
-        PH_AFD_SERVICE_FLAG(XP1_UNI_SEND, L"Unidirectional send"),
-        PH_AFD_SERVICE_FLAG(XP1_UNI_RECV, L"Unidirectional receive"),
-        PH_AFD_SERVICE_FLAG(XP1_IFS_HANDLES, L"IFS handles"),
-        PH_AFD_SERVICE_FLAG(XP1_PARTIAL_MESSAGE, L"Partial message"),
+        PH_AFD_SERVICE_FLAG(XP1_CONNECTIONLESS, L"无连接"),
+        PH_AFD_SERVICE_FLAG(XP1_GUARANTEED_DELIVERY, L"保证传递"),
+        PH_AFD_SERVICE_FLAG(XP1_GUARANTEED_ORDER, L"保证顺序"),
+        PH_AFD_SERVICE_FLAG(XP1_MESSAGE_ORIENTED, L"面向消息"),
+        PH_AFD_SERVICE_FLAG(XP1_PSEUDO_STREAM, L"伪流"),
+        PH_AFD_SERVICE_FLAG(XP1_GRACEFUL_CLOSE, L"优雅关闭"),
+        PH_AFD_SERVICE_FLAG(XP1_EXPEDITED_DATA, L"加急数据"),
+        PH_AFD_SERVICE_FLAG(XP1_CONNECT_DATA, L"连接数据"),
+        PH_AFD_SERVICE_FLAG(XP1_DISCONNECT_DATA, L"断开数据"),
+        PH_AFD_SERVICE_FLAG(XP1_SUPPORT_BROADCAST, L"广播"),
+        PH_AFD_SERVICE_FLAG(XP1_SUPPORT_MULTIPOINT, L"支持多点"),
+        PH_AFD_SERVICE_FLAG(XP1_MULTIPOINT_CONTROL_PLANE, L"多点控制平面"),
+        PH_AFD_SERVICE_FLAG(XP1_MULTIPOINT_DATA_PLANE, L"多点数据平面"),
+        PH_AFD_SERVICE_FLAG(XP1_QOS_SUPPORTED, L"支持 QoS"),
+        PH_AFD_SERVICE_FLAG(XP1_INTERRUPT, L"中断"),
+        PH_AFD_SERVICE_FLAG(XP1_UNI_SEND, L"单向发送"),
+        PH_AFD_SERVICE_FLAG(XP1_UNI_RECV, L"单向接收"),
+        PH_AFD_SERVICE_FLAG(XP1_IFS_HANDLES, L"IFS 句柄"),
+        PH_AFD_SERVICE_FLAG(XP1_PARTIAL_MESSAGE, L"部分消息"),
         PH_AFD_SERVICE_FLAG(XP1_SAN_SUPPORT_SDP, L"SAN"),
     };
 
@@ -933,7 +933,7 @@ PPH_STRING PhAfdFormatServiceFlags(
     }
     else
     {
-        string = PhCreateString(L"None");
+        string = PhCreateString(L"无");
     }
 
     return string;
@@ -953,14 +953,14 @@ PPH_STRING PhAfdFormatCreationFlags(
 
     static const PH_ACCESS_ENTRY creationFlags[] =
     {
-        PH_AFD_CREATION_FLAG(WSA_FLAG_OVERLAPPED, L"Overlapped"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_C_ROOT, L"Multipoint control root"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_C_LEAF, L"Multipoint control leaf"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_D_ROOT, L"Multipoint data root"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_D_LEAF, L"Multipoint data leaf"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_ACCESS_SYSTEM_SECURITY, L"Access SACL"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_NO_HANDLE_INHERIT, L"No handle inherit"),
-        PH_AFD_CREATION_FLAG(WSA_FLAG_REGISTERED_IO, L"Registered I/O"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_OVERLAPPED, L"重叠"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_C_ROOT, L"多点控制根"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_C_LEAF, L"多点控制叶"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_D_ROOT, L"多点数据根"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_MULTIPOINT_D_LEAF, L"多点数据叶"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_ACCESS_SYSTEM_SECURITY, L"访问 SACL"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_NO_HANDLE_INHERIT, L"不继承句柄"),
+        PH_AFD_CREATION_FLAG(WSA_FLAG_REGISTERED_IO, L"注册 I/O"),
     };
 
     PPH_STRING string;
@@ -980,7 +980,7 @@ PPH_STRING PhAfdFormatCreationFlags(
     }
     else
     {
-        string = PhCreateString(L"None");
+        string = PhCreateString(L"无");
     }
 
     return string;
@@ -999,34 +999,34 @@ PPH_STRING PhAfdFormatSharedInfoFlags(
     PH_STRING_BUILDER stringBuilder;
 
     if (!SharedInfo->Flags)
-        return PhCreateString(L"None");
+        return PhCreateString(L"无");
 
     PhInitializeStringBuilder(&stringBuilder, 80);
 
     PhAppendFormatStringBuilder(&stringBuilder, L"0x%x (", SharedInfo->Flags);
 
     if (SharedInfo->Listening)
-        PhAppendStringBuilder2(&stringBuilder, L"Listening, ");
+        PhAppendStringBuilder2(&stringBuilder, L"监听, ");
     if (SharedInfo->Broadcast)
-        PhAppendStringBuilder2(&stringBuilder, L"Broadcast, ");
+        PhAppendStringBuilder2(&stringBuilder, L"广播, ");
     if (SharedInfo->Debug)
-        PhAppendStringBuilder2(&stringBuilder, L"Debug, ");
+        PhAppendStringBuilder2(&stringBuilder, L"调试, ");
     if (SharedInfo->OobInline)
-        PhAppendStringBuilder2(&stringBuilder, L"OOB in line, ");
+        PhAppendStringBuilder2(&stringBuilder, L"内联 OOB, ");
     if (SharedInfo->ReuseAddresses)
-        PhAppendStringBuilder2(&stringBuilder, L"Reuse addresses, ");
+        PhAppendStringBuilder2(&stringBuilder, L"重用地址, ");
     if (SharedInfo->ExclusiveAddressUse)
-        PhAppendStringBuilder2(&stringBuilder, L"Exclusive address use, ");
+        PhAppendStringBuilder2(&stringBuilder, L"独占地址使用, ");
     if (SharedInfo->NonBlocking)
-        PhAppendStringBuilder2(&stringBuilder, L"Non-blocking, ");
+        PhAppendStringBuilder2(&stringBuilder, L"非阻塞, ");
     if (SharedInfo->DontUseWildcard)
-        PhAppendStringBuilder2(&stringBuilder, L"Don't use wildcard, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不使用通配符, ");
     if (SharedInfo->ReceiveShutdown)
-        PhAppendStringBuilder2(&stringBuilder, L"Receive shutdown, ");
+        PhAppendStringBuilder2(&stringBuilder, L"接收关闭, ");
     if (SharedInfo->SendShutdown)
-        PhAppendStringBuilder2(&stringBuilder, L"Send shutdown, ");
+        PhAppendStringBuilder2(&stringBuilder, L"发送关闭, ");
     if (SharedInfo->ConditionalAccept)
-        PhAppendStringBuilder2(&stringBuilder, L"Conditional accept, ");
+        PhAppendStringBuilder2(&stringBuilder, L"条件接受, ");
     if (SharedInfo->IsSANSocket)
         PhAppendStringBuilder2(&stringBuilder, L"SAN, ");
     if (SharedInfo->fIsTLI)
@@ -1034,9 +1034,9 @@ PPH_STRING PhAfdFormatSharedInfoFlags(
     if (SharedInfo->Rio)
         PhAppendStringBuilder2(&stringBuilder, L"RIO, ");
     if (SharedInfo->ReceiveBufferSizeSet)
-        PhAppendStringBuilder2(&stringBuilder, L"Receive buffer size set, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已设置接收缓冲区大小, ");
     if (SharedInfo->SendBufferSizeSet)
-        PhAppendStringBuilder2(&stringBuilder, L"Send buffer size set, ");
+        PhAppendStringBuilder2(&stringBuilder, L"已设置发送缓冲区大小, ");
 
     // Remove the trailing comma
     PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -1060,7 +1060,7 @@ PCWSTR PhpAfdGetAddressFamilyString(
     switch (AddressFamily)
     {
     case AF_UNSPEC:
-        return L"Unspecified";
+        return L"未指定";
     case AF_UNIX:
         return L"Unix";
     case AF_INET:
@@ -1068,7 +1068,7 @@ PCWSTR PhpAfdGetAddressFamilyString(
     case AF_INET6:
         return L"Internet v6";
     case AF_BTH:
-        return L"Bluetooth";
+        return L"蓝牙";
     case AF_HYPERV:
         return L"Hyper-V";
     default:
@@ -1091,7 +1091,7 @@ PPH_STRING PhAfdFormatAddressFamily(
     if (knownName)
         return PhCreateString(knownName);
     else
-        return PhFormatString(L"Unrecognized address family %d", AddressFamily);
+        return PhFormatString(L"无法识别的地址族 %d", AddressFamily);
 }
 
 /**
@@ -1183,7 +1183,7 @@ PPH_STRING PhAfdFormatProtocol(
     if (knownName)
         return PhCreateString(knownName);
     else
-        return PhFormatString(L"Unrecognized protocol %d", Protocol);
+        return PhFormatString(L"无法识别的协议 %d", Protocol);
 }
 
 /**
@@ -1260,11 +1260,11 @@ PCWSTR PhpAfdGetGroupTypeString(
     switch (GroupType)
     {
     case GroupTypeNeither:
-        return L"Neither";
+        return L"两者都不";
     case GroupTypeUnconstrained:
-        return L"Unconstrained";
+        return L"无约束";
     case GroupTypeConstrained:
-        return L"Constrained";
+        return L"受约束";
     default:
         return NULL;
     }
@@ -1285,7 +1285,7 @@ PPH_STRING PhAfdFormatGroupType(
     if (knownName)
         return PhCreateString(knownName);
     else
-        return PhFormatString(L"Unrecognized type (%d)", GroupType);
+        return PhFormatString(L"无法识别的类型 (%d)", GroupType);
 }
 
 /**
@@ -1302,13 +1302,13 @@ PCWSTR PhpAfdGetProtectionLevelString(
     switch (ProtectionLevel)
     {
     case PROTECTION_LEVEL_UNRESTRICTED:
-        return L"Unrestricted";
+        return L"无限制";
     case PROTECTION_LEVEL_EDGERESTRICTED:
-        return L"Edge-restricted";
+        return L"边缘受限";
     case PROTECTION_LEVEL_RESTRICTED:
-        return L"Restricted";
+        return L"受限";
     case PROTECTION_LEVEL_DEFAULT:
-        return L"Default";
+        return L"默认";
     default:
         return NULL;
     }
@@ -1331,7 +1331,7 @@ PPH_STRING PhAfdFormatProtectionLevel(
         return PhCreateString(knownName);
     }
 
-    return PhFormatString(L"Unrecognized value (%d)", ProtectionLevel);
+    return PhFormatString(L"无法识别的值 (%d)", ProtectionLevel);
 }
 
 /**
@@ -1348,13 +1348,13 @@ PCWSTR PhpAfdGetMtuDiscoveryString(
     switch (MtuDiscover)
     {
     case IP_PMTUDISC_NOT_SET:
-        return L"Not set";
+        return L"未设置";
     case IP_PMTUDISC_DO:
-        return L"Perform";
+        return L"执行";
     case IP_PMTUDISC_DONT:
-        return L"Don't perform";
+        return L"不执行";
     case IP_PMTUDISC_PROBE:
-        return L"Probe";
+        return L"探测";
     default:
         return NULL;
     }
@@ -1377,7 +1377,7 @@ PPH_STRING PhAfdFormatMtuDiscoveryMode(
         return PhCreateString(knownName);
     }
 
-    return PhFormatString(L"Unrecognized value (%d)", MtuDiscover);
+    return PhFormatString(L"无法识别的值 (%d)", MtuDiscover);
 }
 
 /**
@@ -1394,27 +1394,27 @@ PCWSTR PhpAfdGetTcpStateString(
     switch (TcpState)
     {
     case TCPSTATE_CLOSED:
-        return L"Closed";
+        return L"已关闭";
     case TCPSTATE_LISTEN:
-        return L"Listen";
+        return L"监听";
     case TCPSTATE_SYN_SENT:
-        return L"SYN sent";
+        return L"SYN 已发送";
     case TCPSTATE_SYN_RCVD:
-        return L"SYN received";
+        return L"SYN 已接收";
     case TCPSTATE_ESTABLISHED:
-        return L"Established";
+        return L"已建立";
     case TCPSTATE_FIN_WAIT_1:
-        return L"FIN wait 1";
+        return L"FIN 等待 1";
     case TCPSTATE_FIN_WAIT_2:
-        return L"FIN wait 2";
+        return L"FIN 等待 2";
     case TCPSTATE_CLOSE_WAIT:
-        return L"Close wait";
+        return L"关闭等待";
     case TCPSTATE_CLOSING:
-        return L"Closing";
+        return L"关闭中";
     case TCPSTATE_LAST_ACK:
-        return L"Last ACK";
+        return L"最后 ACK";
     case TCPSTATE_TIME_WAIT:
-        return L"Time wait";
+        return L"时间等待";
     default:
         return NULL;
     }
@@ -1437,7 +1437,7 @@ PPH_STRING PhAfdFormatTcpState(
         return PhCreateString(knownName);
     }
 
-    return PhFormatString(L"Unrecognized state (%d)", TcpState);
+    return PhFormatString(L"无法识别的状态 (%d)", TcpState);
 }
 
 /**
@@ -1477,7 +1477,7 @@ PPH_STRING PhAfdFormatInterfaceOption(
             return PhCreateString2(&string);
         }
 
-        return PhFormatString(L"Error: %lu", status);
+        return PhFormatString(L"错误: %lu", status);
     }
     else if (Interface)
     {
@@ -1491,7 +1491,7 @@ PPH_STRING PhAfdFormatInterfaceOption(
     else
     {
         // The zero interface is special
-        return PhCreateString(L"Default");
+        return PhCreateString(L"默认");
     }
 }
 
@@ -1536,7 +1536,7 @@ PPH_STRING PhAfdFormatSocketBestName(
     PPH_STRING addressString = NULL;
     PPH_STRING remoteAddressString = NULL;
 
-    PhInitFormatS(&format[count++], L"AFD socket:");
+    PhInitFormatS(&format[count++], L"AFD 套接字:");
 
     if (AddressInfo->HasSharedInfo)
     {
@@ -1562,7 +1562,7 @@ PPH_STRING PhAfdFormatSocketBestName(
         NT_SUCCESS(PhAfdFormatAddress(&AddressInfo->LocalAddress, &addressString, PH_AFD_ADDRESS_SIMPLIFY)) &&
         !PhIsNullOrEmptyString(addressString))
     {
-        PhInitFormatS(&format[count++], L" on ");
+        PhInitFormatS(&format[count++], L" 在 ");
         PhInitFormatSR(&format[count++], addressString->sr);
     }
 
@@ -1571,7 +1571,7 @@ PPH_STRING PhAfdFormatSocketBestName(
         NT_SUCCESS(PhAfdFormatAddress(&AddressInfo->RemoteAddress, &remoteAddressString, PH_AFD_ADDRESS_SIMPLIFY)) &&
         !PhIsNullOrEmptyString(remoteAddressString))
     {
-        PhInitFormatS(&format[count++], L" to ");
+        PhInitFormatS(&format[count++], L" 到 ");
         PhInitFormatSR(&format[count++], remoteAddressString->sr);
     }
 

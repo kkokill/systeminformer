@@ -274,7 +274,7 @@ static BOOLEAN NTAPI EtPipeTreeNewCallback(
             PPH_EMENU_ITEM selectedItem;
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"&Copy", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"&复制", NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, USHRT_MAX, WindowHandle, contextMenu->Column);
 
             selectedItem = PhShowEMenu(
@@ -346,21 +346,21 @@ static VOID EtInitializePipeTree(
 
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_END, Context->UseKph, L"End", 50, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_NAME, TRUE, L"Name", 200, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_PROCESS, TRUE, L"Process", 200, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_HANDLE, Context->UseKph, L"Handle", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_GRANTEDACCESS, Context->UseKph, L"Granted access", 140, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_TYPE, TRUE, L"Type", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_CONFIGURATION, TRUE, L"Configuration", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_MAXIMUMINSTANCES, TRUE, L"Max instances", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_CURRENTINSTANCES, TRUE, L"Current instances", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_READDATAAVAILABLE, TRUE, L"Read data available", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_OUTBOUNDQUOTA, TRUE, L"Outbound quota", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_STATE, TRUE, L"State", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_REMOTECLIENTS, TRUE, L"Remote clients", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_READMODE, TRUE, L"Read mode", 80, PH_ALIGN_LEFT, index++, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_COMPLETIONMODE, TRUE, L"Completion mode", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_END, Context->UseKph, L"端", 50, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_NAME, TRUE, L"名称", 200, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_PROCESS, TRUE, L"进程", 200, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_HANDLE, Context->UseKph, L"句柄", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_GRANTEDACCESS, Context->UseKph, L"授予的访问权限", 140, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_TYPE, TRUE, L"类型", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_CONFIGURATION, TRUE, L"配置", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_MAXIMUMINSTANCES, TRUE, L"最大实例数", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_CURRENTINSTANCES, TRUE, L"当前实例数", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_READDATAAVAILABLE, TRUE, L"可读数据", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_OUTBOUNDQUOTA, TRUE, L"出站配额", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_STATE, TRUE, L"状态", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_REMOTECLIENTS, TRUE, L"远程客户端", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_READMODE, TRUE, L"读取模式", 80, PH_ALIGN_LEFT, index++, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ET_PIPE_COLUMN_COMPLETIONMODE, TRUE, L"完成模式", 80, PH_ALIGN_LEFT, index++, 0);
 
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
 
@@ -520,28 +520,28 @@ VOID EtEnumerateNamedPipeDirectory(
                 switch (pipeLocalInfo.NamedPipeType & ~FILE_PIPE_REJECT_REMOTE_CLIENTS)
                 {
                 case FILE_PIPE_BYTE_STREAM_TYPE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"Stream");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"流");
                     break;
                 case FILE_PIPE_MESSAGE_TYPE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"Message");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"消息");
                     break;
                 }
 
                 switch (pipeLocalInfo.NamedPipeConfiguration)
                 {
                 case FILE_PIPE_INBOUND:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Inbound");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"入站");
                     break;
                 case FILE_PIPE_OUTBOUND:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Outbound");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"出站");
                     break;
                 case FILE_PIPE_FULL_DUPLEX:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Duplex");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"双工");
                     break;
                 }
 
                 if (pipeLocalInfo.MaximumInstances == FILE_PIPE_UNLIMITED_INSTANCES)
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, L"Unlimited");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, L"无限制");
                 else
                     EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, PhaFormatUInt64(pipeLocalInfo.MaximumInstances, FALSE)->Buffer);
                 EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CURRENTINSTANCES, PhaFormatUInt64(pipeLocalInfo.CurrentInstances, FALSE)->Buffer);
@@ -551,23 +551,23 @@ VOID EtEnumerateNamedPipeDirectory(
                 switch (pipeLocalInfo.NamedPipeState)
                 {
                 case FILE_PIPE_DISCONNECTED_STATE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Disconnected");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"已断开");
                     break;
                 case FILE_PIPE_LISTENING_STATE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Listening");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"监听中");
                     break;
                 case FILE_PIPE_CONNECTED_STATE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Connected");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"已连接");
                     break;
                 case FILE_PIPE_CLOSING_STATE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Closing");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"关闭中");
                     break;
                 }
 
                 if (pipeLocalInfo.NamedPipeType & FILE_PIPE_REJECT_REMOTE_CLIENTS)
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"Reject");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"拒绝");
                 else
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"Accept");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"接受");
             }
 
             if (NT_SUCCESS(NtQueryInformationFile(pipeHandle, &isb, &pipeInfo, sizeof(pipeInfo), FilePipeInformation)))
@@ -575,20 +575,20 @@ VOID EtEnumerateNamedPipeDirectory(
                 switch (pipeInfo.ReadMode)
                 {
                 case FILE_PIPE_BYTE_STREAM_MODE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"Stream");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"流");
                     break;
                 case FILE_PIPE_MESSAGE_MODE:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"Message");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"消息");
                     break;
                 }
 
                 switch (pipeInfo.CompletionMode)
                 {
                 case FILE_PIPE_QUEUE_OPERATION:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"Queue");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"队列");
                     break;
                 case FILE_PIPE_COMPLETE_OPERATION:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"Complete");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"完成");
                     break;
                 }
             }
@@ -639,9 +639,9 @@ VOID EtAddNamedPipeHandleNode(
     node = EtCreatePipeNode(Context);
 
     if (pipeLocalInfo.NamedPipeEnd == FILE_PIPE_CLIENT_END)
-        EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_END, L"Client");
+        EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_END, L"客户端");
     else if (pipeLocalInfo.NamedPipeEnd == FILE_PIPE_SERVER_END)
-        EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_END, L"Server");
+        EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_END, L"服务器");
     else
         EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_END, L"");
 
@@ -684,28 +684,28 @@ VOID EtAddNamedPipeHandleNode(
         switch (pipeLocalInfo.NamedPipeType & ~FILE_PIPE_REJECT_REMOTE_CLIENTS)
         {
             case FILE_PIPE_BYTE_STREAM_TYPE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"Stream");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"流");
                 break;
             case FILE_PIPE_MESSAGE_TYPE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"Message");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_TYPE, L"消息");
                 break;
         }
 
         switch (pipeLocalInfo.NamedPipeConfiguration)
         {
             case FILE_PIPE_INBOUND:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Inbound");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"入站");
                 break;
             case FILE_PIPE_OUTBOUND:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Outbound");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"出站");
                 break;
             case FILE_PIPE_FULL_DUPLEX:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"Duplex");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"双工");
                 break;
         }
 
         if (pipeLocalInfo.MaximumInstances == FILE_PIPE_UNLIMITED_INSTANCES)
-            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, L"Unlimited");
+            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, L"无限制");
         else
             EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_MAXIMUMINSTANCES, PhaFormatUInt64(pipeLocalInfo.MaximumInstances, FALSE)->Buffer);
 
@@ -716,23 +716,23 @@ VOID EtAddNamedPipeHandleNode(
         switch (pipeLocalInfo.NamedPipeState)
         {
             case FILE_PIPE_DISCONNECTED_STATE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Disconnected");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"已断开");
                 break;
             case FILE_PIPE_LISTENING_STATE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Listening");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"监听中");
                 break;
             case FILE_PIPE_CONNECTED_STATE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Connected");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"已连接");
                 break;
             case FILE_PIPE_CLOSING_STATE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"Closing");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_STATE, L"关闭中");
                 break;
         }
 
         if (pipeLocalInfo.NamedPipeType & FILE_PIPE_REJECT_REMOTE_CLIENTS)
-            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"Reject");
+            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"拒绝");
         else
-            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"Accept");
+            EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_REMOTECLIENTS, L"接受");
     }
 
     if (NT_SUCCESS(PhCallKphQueryFileInformationWithTimeout(
@@ -747,20 +747,20 @@ VOID EtAddNamedPipeHandleNode(
         switch (pipeInfo.ReadMode)
         {
             case FILE_PIPE_BYTE_STREAM_MODE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"Stream");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"流");
                 break;
             case FILE_PIPE_MESSAGE_MODE:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"Message");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_READMODE, L"消息");
                 break;
         }
 
         switch (pipeInfo.CompletionMode)
         {
             case FILE_PIPE_QUEUE_OPERATION:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"Queue");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"队列");
                 break;
             case FILE_PIPE_COMPLETE_OPERATION:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"Complete");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_COMPLETIONMODE, L"完成");
                 break;
         }
     }
@@ -882,7 +882,7 @@ INT_PTR CALLBACK EtPipeEnumDlgProc(
             PhCreateSearchControl(
                 WindowHandle,
                 context->SearchBoxHandle,
-                L"Search Named Pipes (Ctrl+K)",
+                L"搜索命名管道 (Ctrl+K)",
                 EtPipeSearchControlCallback,
                 context
                 );

@@ -53,9 +53,9 @@ VOID AtSetToolStatusError(
         Result,
         Status == STATUS_ACCESS_DENIED ? "access_denied" : "failed",
         Status,
-        L"%s failed: %s",
+        L"%s 失败: %s",
         Operation,
-        PhGetStringOrDefault(message, L"unknown error")
+        PhGetStringOrDefault(message, L"未知错误")
         );
 
     PhClearReference(&message);
@@ -408,7 +408,7 @@ BOOLEAN AtInitializeBatch(
 
     if (Batch->Count == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"pids must not be empty.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"pids 不能为空。");
         return FALSE;
     }
 
@@ -418,7 +418,7 @@ BOOLEAN AtInitializeBatch(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"pids holds %lu entries; at most %lu can be asked about in one call.",
+            L"pids 包含 %lu 个条目；一次调用最多只能询问 %lu 个。",
             Batch->Count,
             (ULONG)AT_MAX_BATCH_PIDS
             );
@@ -496,7 +496,7 @@ BOOLEAN AtGetArgumentEncoding(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"encoding must be ansi, utf8 or utf16."
+            L"encoding 必须为 ansi、utf8 或 utf16。"
             );
         PhDereferenceObject(encoding);
         return FALSE;
@@ -905,7 +905,7 @@ BOOLEAN AtCheckDriveAbsolutePath(
         Result,
         "invalid_arguments",
         STATUS_INVALID_PARAMETER,
-        L"path must be an absolute path beginning with a drive letter, such as C:\\Windows\\System32\\ntdll.dll."
+        L"path 必须是以盘符开头的绝对路径，例如 C:\\Windows\\System32\\ntdll.dll。"
         );
 
     return FALSE;
@@ -1218,19 +1218,19 @@ PCWSTR AtVerifyResultString(
     switch (Result)
     {
     case VrNoSignature:
-        return L"No signature";
+        return L"无签名";
     case VrTrusted:
-        return L"Trusted";
+        return L"受信任";
     case VrExpired:
-        return L"Expired certificate";
+        return L"证书已过期";
     case VrRevoked:
-        return L"Revoked certificate";
+        return L"证书已吊销";
     case VrDistrust:
-        return L"Not trusted";
+        return L"不受信任";
     case VrSecuritySettings:
-        return L"Security policy failure";
+        return L"安全策略检查失败";
     case VrBadSignature:
-        return L"Invalid hash";
+        return L"无效哈希";
     }
 
     return NULL;
@@ -1243,15 +1243,15 @@ PCWSTR AtIoPriorityString(
     switch (IoPriority)
     {
     case IoPriorityVeryLow:
-        return L"Very low";
+        return L"极低";
     case IoPriorityLow:
-        return L"Low";
+        return L"低";
     case IoPriorityNormal:
-        return L"Normal";
+        return L"正常";
     case IoPriorityHigh:
-        return L"High";
+        return L"高";
     case IoPriorityCritical:
-        return L"Critical";
+        return L"严重";
     }
 
     return NULL;
@@ -1287,17 +1287,17 @@ PCWSTR AtPriorityClassString(
     switch (PriorityClass)
     {
     case PROCESS_PRIORITY_CLASS_IDLE:
-        return L"Idle";
+        return L"空闲";
     case PROCESS_PRIORITY_CLASS_BELOW_NORMAL:
-        return L"Below normal";
+        return L"低于标准";
     case PROCESS_PRIORITY_CLASS_NORMAL:
-        return L"Normal";
+        return L"标准";
     case PROCESS_PRIORITY_CLASS_ABOVE_NORMAL:
-        return L"Above normal";
+        return L"高于标准";
     case PROCESS_PRIORITY_CLASS_HIGH:
-        return L"High";
+        return L"高";
     case PROCESS_PRIORITY_CLASS_REALTIME:
-        return L"Real time";
+        return L"实时";
     }
 
     return NULL;
@@ -1656,7 +1656,7 @@ BOOLEAN AtpValidatePagingArguments(
                 Result,
                 "invalid_arguments",
                 STATUS_INVALID_PARAMETER,
-                L"%hs must be a number, not a string or any other type.",
+                L"%hs 必须是数字，不能是字符串或其他类型。",
                 numeric[i]
                 );
             return FALSE;
@@ -1668,7 +1668,7 @@ BOOLEAN AtpValidatePagingArguments(
         if (PhGetJsonObjectType(member) != PH_JSON_OBJECT_TYPE_BOOLEAN)
         {
             AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                L"descending must be true or false.");
+                L"descending 必须为 true 或 false。");
             return FALSE;
         }
     }
@@ -1678,7 +1678,7 @@ BOOLEAN AtpValidatePagingArguments(
         if (PhGetJsonObjectType(member) != PH_JSON_OBJECT_TYPE_STRING)
         {
             AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER,
-                L"sort_by must be a string.");
+                L"sort_by 必须是字符串。");
             return FALSE;
         }
 
@@ -1690,7 +1690,7 @@ BOOLEAN AtpValidatePagingArguments(
                 Result,
                 "invalid_arguments",
                 STATUS_INVALID_PARAMETER,
-                L"%hs does not sort by \"%s\"; the values it accepts are in its own sort_by schema.",
+                L"%hs 不支持按 \"%s\" 排序；可接受的值以其自身 sort_by 架构为准。",
                 Tool->Name,
                 PhGetString(sortBy)
                 );
@@ -1894,7 +1894,7 @@ VOID AtInvokeTool(
         AtPeInvokeTool(Tool, Call, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具未实现。");
         break;
     }
 
@@ -1906,7 +1906,7 @@ VOID AtInvokeTool(
             Call->Connection,
             action,
             Target,
-            Result->ErrorCode ? PhaFormatString(L"failed (%S)", Result->ErrorCode)->Buffer : L"succeeded"
+            Result->ErrorCode ? PhaFormatString(L"失败 (%S)", Result->ErrorCode)->Buffer : L"成功"
             );
     }
 }

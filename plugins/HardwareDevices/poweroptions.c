@@ -718,7 +718,7 @@ VOID FindRaplDevices(
         {
             PPH_STRING description;
 
-            if (description = PhCreateString(L"Unknown device"))
+            if (description = PhCreateString(L"未知设备"))
             {
                 AddRaplDeviceToListView(
                     Context,
@@ -937,13 +937,13 @@ INT_PTR CALLBACK RaplDeviceOptionsDlgProc(
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             ListView_SetExtendedListViewStyleEx(context->ListViewHandle, LVS_EX_CHECKBOXES, LVS_EX_CHECKBOXES);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"RAPL Drives");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 350, L"RAPL 设备");
             PhSetExtendedListView(context->ListViewHandle);
             LoadRaplDeviceImages(context);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 0, L"Connected");
-            PhAddListViewGroup(context->ListViewHandle, 1, L"Disconnected");
+            PhAddListViewGroup(context->ListViewHandle, 0, L"已连接");
+            PhAddListViewGroup(context->ListViewHandle, 1, L"已断开");
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->ListViewHandle, NULL, PH_ANCHOR_ALL);

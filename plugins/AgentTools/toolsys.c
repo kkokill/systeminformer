@@ -230,7 +230,7 @@ VOID AtpListKernelDrivers(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating kernel modules");
+        AtSetToolStatusError(Result, status, L"正在枚举内核模块");
         return;
     }
 
@@ -442,7 +442,7 @@ VOID AtpGetPagefileInfo(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Querying pagefile information");
+        AtSetToolStatusError(Result, status, L"正在查询页面文件信息");
         PhFree(buffer);
         return;
     }
@@ -637,7 +637,7 @@ VOID AtpGetUefiVariables(
 
     if (AtpGetFirmwareType() != FirmwareTypeUefi)
     {
-        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"This machine did not boot in UEFI mode; firmware variables are not available.");
+        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"该计算机未以 UEFI 模式启动；固件变量不可用。");
         return;
     }
 
@@ -647,7 +647,7 @@ VOID AtpGetUefiVariables(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enabling SeSystemEnvironmentPrivilege");
+        AtSetToolStatusError(Result, status, L"正在启用 SeSystemEnvironmentPrivilege");
         return;
     }
 
@@ -656,7 +656,7 @@ VOID AtpGetUefiVariables(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating firmware environment variables");
+        AtSetToolStatusError(Result, status, L"正在枚举固件环境变量");
         return;
     }
 
@@ -1064,7 +1064,7 @@ VOID AtpGetMemoryDetails(
 
     if (!NT_SUCCESS(status = NtQuerySystemInformation(SystemBasicInformation, &basicInfo, sizeof(SYSTEM_BASIC_INFORMATION), NULL)))
     {
-        AtSetToolStatusError(Result, status, L"Reading the system memory information");
+        AtSetToolStatusError(Result, status, L"正在读取系统内存信息");
         return;
     }
 
@@ -1651,7 +1651,7 @@ VOID AtpGetCpuInfo(
 
     if (!NT_SUCCESS(status = NtQuerySystemInformation(SystemBasicInformation, &basicInfo, sizeof(SYSTEM_BASIC_INFORMATION), NULL)))
     {
-        AtSetToolStatusError(Result, status, L"Reading the processor information");
+        AtSetToolStatusError(Result, status, L"正在读取处理器信息");
         return;
     }
 
@@ -1771,7 +1771,7 @@ VOID AtpListPoolTags(
 
     if (!NT_SUCCESS(status = PhEnumPoolTagInformation(&poolTable)))
     {
-        AtSetToolStatusError(Result, status, L"Reading the pool tag table");
+        AtSetToolStatusError(Result, status, L"正在读取池标记表");
         return;
     }
 
@@ -1780,7 +1780,7 @@ VOID AtpListPoolTags(
 
     if (!NT_SUCCESS(RtlSizeTMult(sizeof(AT_POOL_TAG_ENTRY), poolTable->Count, &entriesSize)))
     {
-        AtSetToolError(Result, "failed", STATUS_INTEGER_OVERFLOW, L"The pool tag table is too large to read.");
+        AtSetToolError(Result, "failed", STATUS_INTEGER_OVERFLOW, L"池标记表过大，无法读取。");
         PhFree(poolTable);
         return;
     }
@@ -1960,7 +1960,7 @@ VOID AtSystemInvokeTool(
         AtpGetCpuInfo(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"该工具尚未实现。");
         break;
     }
 }

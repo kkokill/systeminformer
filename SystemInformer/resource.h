@@ -555,6 +555,10 @@
 #define IDC_SELECTALL                   1365
 #define IDC_ZLISTSTANDBY6_V             1366
 #define IDC_DESELECTALL                 1366
+#define IDC_PERFCORES                   1520
+#define IDC_ECORES                      1521
+#define IDC_LPECORES                    1522
+#define IDC_HTCORES                     1523
 #define IDC_ZLISTSTANDBY7_V             1367
 #define IDC_INSPECT                     1367
 #define IDC_ZPAGINGPAGEFAULTSDELTA_V    1368

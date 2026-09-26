@@ -905,7 +905,7 @@ VOID PhpProcessQueryStage1(
 
         if (PhEnableCycleCpuUsage && processId == INTERRUPTS_PROCESS_ID)
         {
-            static CONST PH_STRINGREF descriptionText = PH_STRINGREF_INIT(L"Interrupts and DPCs");
+            static CONST PH_STRINGREF descriptionText = PH_STRINGREF_INIT(L"中断和 DPC");
             PhMoveReference(&Data->VersionInfo.FileDescription, PhCreateString2(&descriptionText));
         }
     }
@@ -2237,7 +2237,7 @@ PPH_STRING PhGetStatisticsTimeString(
     }
     else
     {
-        return PhCreateString(L"Unknown time");
+        return PhCreateString(L"未知时间");
     }
 }
 
@@ -4605,7 +4605,7 @@ PPH_PROCESS_ITEM PhCreateProcessItemFromHandle(
     if (processItem->FileName)
         processItem->ProcessName = PhGetBaseName(processItem->FileName);
     else
-        processItem->ProcessName = PhCreateString(L"Unknown");
+        processItem->ProcessName = PhCreateString(L"未知");
 
     // Basic process information and not-so-dynamic information.
 

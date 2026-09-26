@@ -98,13 +98,13 @@ PCWSTR EtCacheLatencyTypeString(
     switch (Type)
     {
     case 1:
-        return L"Data";
+        return L"数据";
     case 2:
-        return L"Instruction";
+        return L"指令";
     case 3:
-        return L"Unified";
+        return L"统一";
     default:
-        return L"Unknown";
+        return L"未知";
     }
 }
 
@@ -1021,7 +1021,7 @@ VOID EtCacheLatencyAddSummaryRows(
         }
 
         PhSetWindowText(Context->SummaryLabelHandles[slot], PhaFormatString(
-            L"L%lu %s latency: %lu cycles (%lu KB)",
+            L"L%lu %s 延迟：%lu 周期 (%lu KB)",
             cache->Level,
             EtCacheLatencyTypeString(cache->Type),
             samples ? (ULONG)(sum / samples) : 0,
@@ -1047,7 +1047,7 @@ VOID EtCacheLatencyAddSummaryRows(
     }
 
     PhSetWindowText(Context->SummaryLabelHandles[3], PhaFormatString(
-        L"DRAM latency: %lu cycles (%lu KB)",
+        L"DRAM 延迟：%lu 周期 (%lu KB)",
         dramSamples ? (ULONG)(dramSum / dramSamples) : 0,
         1u << dramRow
         )->Buffer);
@@ -1210,7 +1210,7 @@ INT_PTR CALLBACK EtCacheLatencyDlgProc(
                     PhPrintUInt32(context->RowData[row].SizeText, 1u << row);
                 }
 
-                PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 135, L"size (KB) [cycles]");
+                PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 135, L"大小 (KB) [周期]");
 
                 for (column = 0; column < strideCount; column++)
                 {

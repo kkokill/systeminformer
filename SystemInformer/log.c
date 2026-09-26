@@ -292,25 +292,25 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[8];
 
-            // Process created: %s (%lu) started by %s (%lu)
-            //PhInitFormatS(&format[0], L"Process created: ");
+            // 进程已创建：%s (%lu) 由 %s (%lu) 启动
+            //PhInitFormatS(&format[0], L"进程已创建：");
             PhInitFormatSR(&format[0], Entry->Process.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatU(&format[2], HandleToUlong(Entry->Process.ProcessId));
-            PhInitFormatS(&format[3], L") started by ");
+            PhInitFormatS(&format[3], L"）由 ");
             if (Entry->Process.ParentName)
                 PhInitFormatSR(&format[4], Entry->Process.ParentName->sr);
             else
-                PhInitFormatS(&format[4], L"Unknown process");
-            PhInitFormatS(&format[5], L" (");
+                PhInitFormatS(&format[4], L"未知进程");
+            PhInitFormatS(&format[5], L"（");
             PhInitFormatU(&format[6], HandleToUlong(Entry->Process.ParentProcessId));
-            PhInitFormatC(&format[7], L')');
+            PhInitFormatC(&format[7], L'）');
 
             //return PhFormatString(
-            //    L"Process created: %s (%lu) started by %s (%lu)",
+            //    L"进程已创建：%s (%lu) 由 %s (%lu) 启动",
             //    Entry->Process.Name->Buffer,
             //    HandleToUlong(Entry->Process.ProcessId),
-            //    PhGetStringOrDefault(Entry->Process.ParentName, L"Unknown process"),
+            //    PhGetStringOrDefault(Entry->Process.ParentName, L"未知进程"),
             //    HandleToUlong(Entry->Process.ParentProcessId)
             //    );
             return PhpFormatLogEntryToBuffer(format, RTL_NUMBER_OF(format));
@@ -319,16 +319,16 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[5];
 
-            // Process terminated: %s (%lu); exit status 0x%x
-            //PhInitFormatS(&format[0], L"Process terminated: ");
+            // 进程已终止：%s (%lu)；退出状态 0x%x
+            //PhInitFormatS(&format[0], L"进程已终止：");
             PhInitFormatSR(&format[0], Entry->Process.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatU(&format[2], HandleToUlong(Entry->Process.ProcessId));
-            PhInitFormatS(&format[3], L"); exit status ");
+            PhInitFormatS(&format[3], L"）；退出状态 ");
             PhInitFormatX(&format[4], Entry->Process.ExitStatus);
 
             //return PhFormatString(
-            //    L"Process terminated: %s (%lu); exit status 0x%x",
+            //    L"进程已终止：%s (%lu)；退出状态 0x%x",
             //    Entry->Process.Name->Buffer,
             //    HandleToUlong(Entry->Process.ProcessId),
             //    Entry->Process.ExitStatus
@@ -339,15 +339,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service created: %s (%s)
-            //PhInitFormatS(&format[0], L"Service created: ");
+            // 服务已创建：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已创建：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service created: %s (%s)",
+            //    L"服务已创建：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -357,15 +357,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service deleted: %s (%s)
-            //PhInitFormatS(&format[0], L"Service deleted: ");
+            // 服务已删除：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已删除：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service deleted: %s (%s)",
+            //    L"服务已删除：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -375,15 +375,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service started: %s (%s)
-            //PhInitFormatS(&format[0], L"Service started: ");
+            // 服务已启动：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已启动：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service started: %s (%s)",
+            //    L"服务已启动：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -393,15 +393,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service stopped: %s (%s)
-            //PhInitFormatS(&format[0], L"Service stopped: ");
+            // 服务已停止：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已停止：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service stopped: %s (%s)",
+            //    L"服务已停止：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -411,15 +411,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service continued: %s (%s)
-            //PhInitFormatS(&format[0], L"Service continued: ");
+            // 服务已继续：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已继续：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service continued: %s (%s)",
+            //    L"服务已继续：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -429,15 +429,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service paused: %s (%s)
-            //PhInitFormatS(&format[0], L"Service paused: ");
+            // 服务已暂停：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已暂停：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service paused: %s (%s)",
+            //    L"服务已暂停：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -447,15 +447,15 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            // Service modified: %s (%s)
-            //PhInitFormatS(&format[0], L"Service modified: ");
+            // 服务已修改：%s (%s)
+            //PhInitFormatS(&format[0], L"服务已修改：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             //return PhFormatString(
-            //    L"Service modified: %s (%s)",
+            //    L"服务已修改：%s (%s)",
             //    Entry->Service.Name->Buffer,
             //    Entry->Service.DisplayName->Buffer
             //    );
@@ -465,11 +465,11 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            //PhInitFormatS(&format[0], L"Device removed: ");
+            //PhInitFormatS(&format[0], L"设备已移除：");
             PhInitFormatSR(&format[0], Entry->Device.Classification->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Device.Name->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             return PhpFormatLogEntryToBuffer(format, RTL_NUMBER_OF(format));
         }
@@ -477,11 +477,11 @@ PPH_STRING PhFormatLogEntry(
         {
             PH_FORMAT format[4];
 
-            //PhInitFormatS(&format[0], L"Device arrived: ");
+            //PhInitFormatS(&format[0], L"设备已到达：");
             PhInitFormatSR(&format[0], Entry->Device.Classification->sr);
-            PhInitFormatS(&format[1], L" (");
+            PhInitFormatS(&format[1], L"（");
             PhInitFormatSR(&format[2], Entry->Device.Name->sr);
-            PhInitFormatC(&format[3], L')');
+            PhInitFormatC(&format[3], L'）');
 
             return PhpFormatLogEntryToBuffer(format, RTL_NUMBER_OF(format));
         }
@@ -495,7 +495,7 @@ PPH_STRING PhFormatLogEntry(
                 return Entry->Message;
 
             extraString = PH_AUTO_T(PH_STRING, PhpFormatLogEntryExtra(Entry));
-            return PhaFormatString(L"%s [Extra: %s]", Entry->Message->Buffer, extraString->Buffer);
+            return PhaFormatString(L"%s [附加信息：%s]", Entry->Message->Buffer, extraString->Buffer);
         }
     default:
         {
@@ -505,7 +505,7 @@ PPH_STRING PhFormatLogEntry(
                 return PhReferenceEmptyString();
 
             extraString = PH_AUTO_T(PH_STRING, PhpFormatLogEntryExtra(Entry));
-            return PhaFormatString(L"[Extra: %s]", extraString->Buffer);
+            return PhaFormatString(L"[附加信息：%s]", extraString->Buffer);
         }
     }
 }
@@ -514,20 +514,20 @@ PPH_STRING PhFormatLogEntry(
 // indexes the array directly when the type is less than the element count, and only searches beyond it.
 static CONST PH_KEY_VALUE_PAIR PhpLogEntryTypePairs[] =
 {
-    SIP(SREF(L"Unknown"), 0),
-    SIP(SREF(L"Process created"), PH_LOG_ENTRY_PROCESS_CREATE),
-    SIP(SREF(L"Process terminated"), PH_LOG_ENTRY_PROCESS_DELETE),
-    SIP(SREF(L"Service created"), PH_LOG_ENTRY_SERVICE_CREATE),
-    SIP(SREF(L"Service terminated"), PH_LOG_ENTRY_SERVICE_DELETE),
-    SIP(SREF(L"Service started"), PH_LOG_ENTRY_SERVICE_START),
-    SIP(SREF(L"Service terminated"), PH_LOG_ENTRY_SERVICE_STOP),
-    SIP(SREF(L"Service continued"), PH_LOG_ENTRY_SERVICE_CONTINUE),
-    SIP(SREF(L"Service paused"), PH_LOG_ENTRY_SERVICE_PAUSE),
-    SIP(SREF(L"Service modified"), PH_LOG_ENTRY_SERVICE_MODIFIED),
-    SIP(SREF(L"Unknown"), PH_LOG_ENTRY_SERVICE_LAST), // padding, no entry uses this type
-    SIP(SREF(L"Device removed"), PH_LOG_ENTRY_DEVICE_REMOVED),
-    SIP(SREF(L"Device arrived"), PH_LOG_ENTRY_DEVICE_ARRIVED),
-    SIP(SREF(L"Message"), PH_LOG_ENTRY_MESSAGE)
+    SIP(SREF(L"未知"), 0),
+    SIP(SREF(L"进程已创建"), PH_LOG_ENTRY_PROCESS_CREATE),
+    SIP(SREF(L"进程已终止"), PH_LOG_ENTRY_PROCESS_DELETE),
+    SIP(SREF(L"服务已创建"), PH_LOG_ENTRY_SERVICE_CREATE),
+    SIP(SREF(L"服务已删除"), PH_LOG_ENTRY_SERVICE_DELETE),
+    SIP(SREF(L"服务已启动"), PH_LOG_ENTRY_SERVICE_START),
+    SIP(SREF(L"服务已停止"), PH_LOG_ENTRY_SERVICE_STOP),
+    SIP(SREF(L"服务已继续"), PH_LOG_ENTRY_SERVICE_CONTINUE),
+    SIP(SREF(L"服务已暂停"), PH_LOG_ENTRY_SERVICE_PAUSE),
+    SIP(SREF(L"服务已修改"), PH_LOG_ENTRY_SERVICE_MODIFIED),
+    SIP(SREF(L"未知"), PH_LOG_ENTRY_SERVICE_LAST), // padding, no entry uses this type
+    SIP(SREF(L"设备已移除"), PH_LOG_ENTRY_DEVICE_REMOVED),
+    SIP(SREF(L"设备已到达"), PH_LOG_ENTRY_DEVICE_ARRIVED),
+    SIP(SREF(L"消息"), PH_LOG_ENTRY_MESSAGE)
 };
 
 PCPH_STRINGREF PhFormatLogType(

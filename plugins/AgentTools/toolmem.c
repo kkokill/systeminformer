@@ -103,7 +103,7 @@ VOID AtpGetProcessHandles(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating handles");
+        AtSetToolStatusError(Result, status, L"枚举句柄");
         AtDeleteTarget(&localTarget);
         return;
     }
@@ -300,7 +300,7 @@ VOID AtpCloseHandle(
 
     if (FlagOn(Target->HandleAttributes, OBJ_PROTECT_CLOSE))
     {
-        AtSetToolError(Result, "protected", STATUS_HANDLE_NOT_CLOSABLE, L"This handle is marked protect-from-close and cannot be closed.");
+        AtSetToolError(Result, "protected", STATUS_HANDLE_NOT_CLOSABLE, L"该句柄已标记为防止关闭，无法将其关闭。");
         return;
     }
 
@@ -317,7 +317,7 @@ VOID AtpCloseHandle(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Closing the handle");
+        AtSetToolStatusError(Result, status, L"关闭句柄");
         return;
     }
 
@@ -621,7 +621,7 @@ VOID AtpGetProcessMemoryRegions(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Querying memory");
+        AtSetToolStatusError(Result, status, L"查询内存");
         AtDeleteTarget(&target);
         return;
     }
@@ -778,7 +778,7 @@ VOID AtpCreateProcessMinidump(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Creating the dump file");
+        AtSetToolStatusError(Result, status, L"创建转储文件");
         return;
     }
 
@@ -800,7 +800,7 @@ VOID AtpCreateProcessMinidump(
         // Delete the partial file so a failed dump leaves nothing behind.
         PhSetFileDelete(fileHandle);
         NtClose(fileHandle);
-        AtSetToolError(Result, "failed", (NTSTATUS)result, L"Writing the dump failed (0x%08x).", result);
+        AtSetToolError(Result, "failed", (NTSTATUS)result, L"写入转储文件失败（0x%08x）。", result);
         return;
     }
 
@@ -1059,7 +1059,7 @@ VOID AtpSearchProcessStrings(
 
     if (!NT_SUCCESS(PhQueryMemoryItemList(Target->ProcessItem->ProcessId, PH_QUERY_MEMORY_IGNORE_FREE, &list)))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The process memory could not be enumerated.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法枚举进程内存。");
         PhClearReference(&context.Contains);
         return;
     }
@@ -1067,7 +1067,7 @@ VOID AtpSearchProcessStrings(
     // PhAllocatePage returns NULL rather than raising, so this is checked before anything is built.
     if (!(context.Buffer = PhAllocatePage(AT_MEMORY_STRINGS_BUFFER, NULL)))
     {
-        AtSetToolError(Result, "failed", STATUS_NO_MEMORY, L"The scan buffer could not be allocated.");
+        AtSetToolError(Result, "failed", STATUS_NO_MEMORY, L"无法分配扫描缓冲区。");
         PhDeleteMemoryItemList(&list);
         PhClearReference(&context.Contains);
         return;
@@ -1133,7 +1133,7 @@ VOID AtMemoryInvokeTool(
         AtpCloseHandle(Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

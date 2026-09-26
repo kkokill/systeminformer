@@ -667,13 +667,13 @@ VOID DotNetAsmShowContextMenu(
         return;
 
     menu = PhCreateEMenu();
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_INSPECT, L"&Inspect", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_INSPECTNATIVE, L"Inspect native image", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_INSPECT, L"&检查", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_INSPECTNATIVE, L"检查本机映像", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_OPENFILELOCATION, L"Open &file location", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_OPENNATIVELOCATION, L"Open native file location", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_OPENFILELOCATION, L"打开文件位置(&F)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_OPENNATIVELOCATION, L"打开本机文件位置", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_CLR_COPY, L"&复制", NULL, NULL), ULONG_MAX);
     PhInsertCopyCellEMenuItem(menu, ID_CLR_COPY, Context->TreeNewHandle, ContextMenuEvent->Column);
     PhSetFlagsEMenuItem(menu, ID_CLR_INSPECT, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
 
@@ -717,7 +717,7 @@ VOID DotNetAsmShowContextMenu(
                             SETTING_PROGRAM_INSPECT_EXECUTABLES,
                             PhGetString(node->PathText),
                             FALSE,
-                            L"Make sure the PE Viewer executable file is present."
+                            L"请确保 PE Viewer 可执行文件存在。"
                             );
                     }
                 }
@@ -731,7 +731,7 @@ VOID DotNetAsmShowContextMenu(
                             SETTING_PROGRAM_INSPECT_EXECUTABLES,
                             PhGetString(node->NativePathText),
                             FALSE,
-                            L"Make sure the PE Viewer executable file is present."
+                            L"请确保 PE Viewer 可执行文件存在。"
                             );
                     }
                 }
@@ -745,7 +745,7 @@ VOID DotNetAsmShowContextMenu(
                             SETTING_FILE_BROWSE_EXECUTABLE,
                             PhGetString(node->PathText),
                             FALSE,
-                            L"Make sure the Explorer executable file is present."
+                            L"请确保 Explorer 可执行文件存在。"
                             );
                     }
                 }
@@ -759,7 +759,7 @@ VOID DotNetAsmShowContextMenu(
                             SETTING_FILE_BROWSE_EXECUTABLE,
                             PhGetString(node->NativePathText),
                             FALSE,
-                            L"Make sure the Explorer executable file is present."
+                            L"请确保 Explorer 可执行文件存在。"
                             );
                     }
                 }
@@ -1061,7 +1061,7 @@ BOOLEAN NTAPI DotNetAsmTreeNewCallback(
                     SETTING_PROGRAM_INSPECT_EXECUTABLES,
                     PhGetString(node->PathText),
                     FALSE,
-                    L"Make sure the PE Viewer executable file is present."
+                    L"请确保 PE Viewer 可执行文件存在。"
                     );
             }
         }
@@ -1111,12 +1111,12 @@ VOID DotNetAsmInitializeTreeList(
     TreeNew_SetCallback(Context->TreeNewHandle, DotNetAsmTreeNewCallback, Context);
     SendMessage(TreeNew_GetTooltips(Context->TreeNewHandle), TTM_SETMAXTIPWIDTH, 0, MAXSHORT);
 
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_STRUCTURE, TRUE, L"Structure", 240, PH_ALIGN_LEFT, -2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_ADDRESS, TRUE, L"Address", 50, PH_ALIGN_RIGHT, 1, DT_RIGHT);
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_FLAGS, TRUE, L"Flags", 80, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_PATH, TRUE, L"File name", 600, PH_ALIGN_LEFT, 3, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_NATIVEPATH, FALSE, L"Native image path", 600, PH_ALIGN_LEFT, 4, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_BASEADDRESS, FALSE, L"Base address", 100, PH_ALIGN_LEFT, 5, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_STRUCTURE, TRUE, L"结构", 240, PH_ALIGN_LEFT, -2, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_ADDRESS, TRUE, L"地址", 50, PH_ALIGN_RIGHT, 1, DT_RIGHT);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_FLAGS, TRUE, L"标志", 80, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_PATH, TRUE, L"文件名", 600, PH_ALIGN_LEFT, 3, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_NATIVEPATH, FALSE, L"本机映像路径", 600, PH_ALIGN_LEFT, 4, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_BASEADDRESS, FALSE, L"基址", 100, PH_ALIGN_LEFT, 5, DT_PATH_ELLIPSIS);
     PhAddTreeNewColumn(Context->TreeNewHandle, DNATNC_MVID, FALSE, L"MVID", 100, PH_ALIGN_LEFT, 6, DT_PATH_ELLIPSIS);
 
     PhInitializeTreeNewFilterSupport(&Context->TreeFilterSupport, Context->TreeNewHandle, Context->NodeList);
@@ -2013,7 +2013,7 @@ NTSTATUS DotNetSosTraceQueryThreadStart(
         parentNode->u.AppDomain.DisplayName = PhFormatString(L"%s%s [%s]",
             string.Buffer,
             PhGetStringOrDefault(entry->AppDomainName, L""),
-            PhGetStringOrDefault(entry->AppDomainStage, L"Unknown")
+            PhGetStringOrDefault(entry->AppDomainStage, L"未知")
             );
         parentNode->StructureText = parentNode->u.AppDomain.DisplayName->sr;
         parentNode->IdText = FormatToHexString(entry->AppDomainID);
@@ -2236,7 +2236,7 @@ VOID DotNetAsmRefreshTraceQuery(
     _In_ BOOLEAN EnableTrace
     )
 {
-    PhMoveReference(&Context->TreeErrorMessage, PhCreateString(L"Loading .NET assemblies..."));
+    PhMoveReference(&Context->TreeErrorMessage, PhCreateString(L"正在加载 .NET 程序集..."));
     TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->TreeErrorMessage->sr, 0);
 
     // Note: Process suspension cannot be reliably determined on Windows NT. (dmex)
@@ -2378,7 +2378,7 @@ INT_PTR CALLBACK DotNetAsmPageDlgProc(
             PhCreateSearchControl(
                 hwndDlg,
                 context->SearchBoxHandle,
-                L"Search Assemblies (Ctrl+K)",
+                L"搜索程序集 (Ctrl+K)",
                 DotNetAsmSearchControlCallback,
                 context
                 );
@@ -2460,11 +2460,11 @@ INT_PTR CALLBACK DotNetAsmPageDlgProc(
                         break;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, dynamicItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIDE_DYNAMIC_OPTION, L"Hide dynamic", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, nativeItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIDE_NATIVE_OPTION, L"Hide native", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, dynamicItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIDE_DYNAMIC_OPTION, L"隐藏动态", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, nativeItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIDE_NATIVE_OPTION, L"隐藏本机", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, highlightDynamicItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIGHLIGHT_DYNAMIC_OPTION, L"Highlight dynamic", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, highlightNativeItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIGHLIGHT_NATIVE_OPTION, L"Highlight native", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, highlightDynamicItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIGHLIGHT_DYNAMIC_OPTION, L"高亮动态", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, highlightNativeItem = PhCreateEMenuItem(0, DN_ASM_MENU_HIGHLIGHT_NATIVE_OPTION, L"高亮本机", NULL, NULL), ULONG_MAX);
 
                     if (context->HideDynamicModules)
                         dynamicItem->Flags |= PH_EMENU_CHECKED;
@@ -2536,7 +2536,7 @@ INT_PTR CALLBACK DotNetAsmPageDlgProc(
                         );
                 }
 
-                PhMoveReference(&context->TreeErrorMessage, PhCreateString(L"There are no assemblies to display."));
+                PhMoveReference(&context->TreeErrorMessage, PhCreateString(L"没有可显示的程序集。"));
                 TreeNew_SetEmptyText(context->TreeNewHandle, &context->TreeErrorMessage->sr, 0);
 
                 PhApplyTreeNewFilters(&context->TreeFilterSupport);
@@ -2547,8 +2547,8 @@ INT_PTR CALLBACK DotNetAsmPageDlgProc(
                 PPH_STRING errorMessage = PhGetWin32Message(result);
 
                 PhMoveReference(&context->TreeErrorMessage, PhConcatStrings2(
-                    L"Unable to start the event tracing session: ",
-                    PhGetStringOrDefault(errorMessage, L"Unknown error")
+                    L"无法启动事件跟踪会话：",
+                    PhGetStringOrDefault(errorMessage, L"未知错误")
                     ));
                 TreeNew_SetEmptyText(context->TreeNewHandle, &context->TreeErrorMessage->sr, 0);
                 TreeNew_NodesStructured(context->TreeNewHandle);

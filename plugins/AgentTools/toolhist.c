@@ -225,7 +225,7 @@ VOID AtpGetSystemHistory(
 
     if (!NT_SUCCESS(NtQuerySystemInformation(SystemBasicInformation, &basicInfo, sizeof(basicInfo), NULL)))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"The system page size could not be read.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"无法读取系统页面大小。");
         return;
     }
 
@@ -480,7 +480,7 @@ VOID AtpRankProcesses(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"rank_by must be cpu, io, io_read, io_write, private_bytes_growth or private_bytes."
+            L"rank_by 必须为 cpu、io、io_read、io_write、private_bytes_growth 或 private_bytes。"
             );
         return;
     }
@@ -623,7 +623,7 @@ VOID AtHistoryInvokeTool(
         AtpRankProcesses(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

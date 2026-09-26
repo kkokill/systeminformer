@@ -867,9 +867,9 @@ static INT_PTR CALLBACK EtEnvSplitDlgProc(
             context->CancelButtonHandle = GetDlgItem(hwndDlg, IDCANCEL);
 
             PhSetApplicationWindowIcon(hwndDlg);
-            PhSetWindowText(hwndDlg, PhaFormatString(L"Edit %s", PhGetString(context->Name))->Buffer);
+            PhSetWindowText(hwndDlg, PhaFormatString(L"编辑 %s", PhGetString(context->Name))->Buffer);
 
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 300, L"Value");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 300, L"值");
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhSetExtendedListView(context->ListViewHandle);
@@ -939,8 +939,8 @@ static INT_PTR CALLBACK EtEnvSplitDlgProc(
 
                     if (PhaChoiceDialog(
                         hwndDlg,
-                        L"New entry",
-                        L"Enter the new value:",
+                        L"新建条目",
+                        L"输入新值：",
                         NULL,
                         0,
                         NULL,
@@ -975,8 +975,8 @@ static INT_PTR CALLBACK EtEnvSplitDlgProc(
 
                     if (PhaChoiceDialog(
                         hwndDlg,
-                        L"Edit entry",
-                        L"Edit the value:",
+                        L"编辑条目",
+                        L"编辑该值：",
                         NULL,
                         0,
                         NULL,
@@ -1200,7 +1200,7 @@ static VOID EtEnvironmentAdd(
     }
     else
     {
-        PhShowStatus(Context->WindowHandle, L"Unable to set the environment variable.", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", status, 0);
     }
 
     PhClearReference(&name);
@@ -1244,7 +1244,7 @@ static VOID EtEnvironmentEdit(
             }
             else
             {
-                PhShowStatus(Context->WindowHandle, L"Unable to set the environment variable.", status, 0);
+                PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", status, 0);
             }
 
             PhClearReference(&newValue);
@@ -1283,7 +1283,7 @@ static VOID EtEnvironmentEdit(
             }
             else
             {
-                PhShowStatus(Context->WindowHandle, L"Unable to set the environment variable.", status, 0);
+                PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", status, 0);
             }
 
             PhClearReference(&name);
@@ -1314,8 +1314,8 @@ static VOID EtEnvironmentDelete(
 
     if (!PhShowConfirmMessage(
         Context->WindowHandle,
-        L"delete",
-        PhaFormatString(L"the environment variable \"%s\"", PhGetString(entry->Name))->Buffer,
+        L"删除",
+        PhaFormatString(L"环境变量 \"%s\"", PhGetString(entry->Name))->Buffer,
         NULL,
         FALSE
         ))
@@ -1332,7 +1332,7 @@ static VOID EtEnvironmentDelete(
     }
     else
     {
-        PhShowStatus(Context->WindowHandle, L"Unable to delete the environment variable.", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法删除环境变量。", status, 0);
     }
 }
 
@@ -1387,22 +1387,22 @@ static INT_PTR CALLBACK EtEnvironmentVariablesDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchBoxHandle,
-                L"Search Environment Variables",
+                L"搜索环境变量",
                 SETTING_SEARCH_ENVIRONMENT_REGEX,
                 SETTING_SEARCH_ENVIRONMENT_CASE_SENSITIVE,
                 EtEnvironmentSearchControlCallback,
                 context
                 );
 
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 160, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 320, L"Value");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 160, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 320, L"值");
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhSetExtendedListView(context->ListViewHandle);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_USER, L"User");
-            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_SYSTEM, L"System");
+            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_USER, L"用户");
+            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_SYSTEM, L"系统");
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->SearchBoxHandle, NULL, PH_ANCHOR_LEFT | PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -1490,10 +1490,10 @@ static INT_PTR CALLBACK EtEnvironmentVariablesDlgProc(
                     PhGetListViewContextMenuPoint(context->ListViewHandle, &point);
 
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_ADD, L"&Add", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_ADD, L"添加(&A)", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_EDIT, L"&Edit", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_DELETE, L"&Delete", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_EDIT, L"编辑(&E)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_DELETE, L"删除(&D)", NULL, NULL), ULONG_MAX);
 
                 {
                     PENV_VARIABLE_ENTRY entry;
@@ -1578,7 +1578,7 @@ static NTSTATUS EtEnvironmentVariablesWindowThreadStart(
 
     if (!EtEnvironmentVariablesWindowHandle)
     {
-        PhShowError2(NULL, L"Unable to create the window.", L"%s", L"");
+        PhShowError2(NULL, L"无法创建窗口。", L"%s", L"");
 
         PhDeleteAutoPool(&autoPool);
 
@@ -1638,7 +1638,7 @@ VOID PhShowEnvironmentVariablesDialog(
     {
         if (!NT_SUCCESS(PhCreateThreadEx(&EtEnvironmentVariablesWindowThreadHandle, EtEnvironmentVariablesWindowThreadStart, ParentWindowHandle)))
         {
-            PhShowError2(NULL, L"Unable to create the window.", L"%s", L"");
+            PhShowError2(NULL, L"无法创建窗口。", L"%s", L"");
         }
 
         return;

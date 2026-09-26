@@ -36,7 +36,7 @@ namespace CustomBuildTool
         public static string BuildLongVersion = "0.0.0.0";
         public static string BuildSourceLink = string.Empty;
         public static string BuildSimdExtensions = string.Empty;
-        public static string BuildVersionMajor = "0";
+        public static string BuildVersionMajor = "4";
         public static string BuildVersionMinor = "0";
 
         /// <summary>
@@ -147,25 +147,34 @@ namespace CustomBuildTool
                 Build.BuildVersionMinor = buildVersionMinor;
             }
 
+            // 提交哈希/分支名取值优先级：CI 环境变量 → 本地 git 查询 → 常量占位（无 git 时避免空值）
             {
                 if (Win32.GetEnvironmentVariable("BUILD_SOURCEVERSION", out var buildSourceVersion))
                 {
                     Build.BuildCommitHash = buildSourceVersion;
                 }
-
-                if (string.IsNullOrWhiteSpace(Build.BuildCommitHash) && !string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
+                else if (!string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
                 {
                     Build.BuildCommitHash = Utils.ExecuteGitCommand(Build.BuildWorkingFolder, ["rev-parse", "HEAD"]);
+                }
+
+                if (string.IsNullOrWhiteSpace(Build.BuildCommitHash))
+                {
+                    Build.BuildCommitHash = new('0', 40);
                 }
 
                 if (Win32.GetEnvironmentVariable("BUILD_SOURCEBRANCHNAME", out var buildBranchName))
                 {
                     Build.BuildCommitBranch = buildBranchName;
                 }
-
-                if (string.IsNullOrWhiteSpace(Build.BuildCommitBranch) && !string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
+                else if (!string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
                 {
                     Build.BuildCommitBranch = Utils.ExecuteGitCommand(Build.BuildWorkingFolder, ["branch", "--show-current"]);
+                }
+
+                if (string.IsNullOrWhiteSpace(Build.BuildCommitBranch))
+                {
+                    Build.BuildCommitBranch = "orphan";
                 }
             }
 
@@ -2507,7 +2516,15 @@ namespace CustomBuildTool
             {
                 if (!string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
                 {
-                    string output = Utils.ExecuteGitCommand(BuildWorkingFolder, ["clean", "-x", "-d", "-f"]);
+                    // Keep the portable package (launcher sources, repack script,
+                    // and packaged output) out of the git-based cleanup.
+                    string output = Utils.ExecuteGitCommand(BuildWorkingFolder,
+                        [
+                            "clean", "-x", "-d", "-f",
+                            "-e", "tools/PortableLauncher",
+                            "-e", "build/build*portable.cmd",
+                            "-e", "bin/portable",
+                        ]);
 
                     Program.PrintColorMessage(output, ConsoleColor.DarkGray);
                 }

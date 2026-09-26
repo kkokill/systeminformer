@@ -12,8 +12,8 @@
 #include <peview.h>
 #include "colmgr.h"
 
-static PH_STRINGREF EmptyResourcesText = PH_STRINGREF_INIT(L"There are no resources to display.");
-static PH_STRINGREF LoadingResourcesText = PH_STRINGREF_INIT(L"Loading resources from image...");
+static PH_STRINGREF EmptyResourcesText = PH_STRINGREF_INIT(L"没有可显示的资源。");
+static PH_STRINGREF LoadingResourcesText = PH_STRINGREF_INIT(L"正在从映像加载资源...");
 
 typedef enum _PV_RESOURCES_TREE_COLUMN_ITEM
 {
@@ -215,8 +215,8 @@ PPH_STRING PvpPeResourceDumpFileName(
 {
     static PH_FILETYPE_FILTER filters[] =
     {
-        { L"Resource data (*.data)", L"*.data" },
-        { L"All files (*.*)", L"*.*" }
+        { L"资源数据 (*.data)", L"*.data" },
+        { L"所有文件 (*.*)", L"*.*" }
     };
     PPH_STRING fileName = NULL;
     PVOID fileDialog;
@@ -321,7 +321,7 @@ VOID PvpPeResourceSaveToFile(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(WindowHandle, L"Unable to save resource.", status, 0);
+                PhShowStatus(WindowHandle, L"无法保存资源。", status, 0);
             }
         }
     }
@@ -412,7 +412,7 @@ VOID PvpPeEnumMappedImageResources(
                 }
                 else
                 {
-                    resourceNode->LcidString = PhCreateString(L"Neutral"); // LOCALE_NEUTRAL
+                    resourceNode->LcidString = PhCreateString(L"中性"); // LOCALE_NEUTRAL
                 }
             }
             else
@@ -597,7 +597,7 @@ INT_PTR CALLBACK PvPeResourcesDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Resources (Ctrl+K)",
+                L"搜索资源 (Ctrl+K)",
                 PvpPeResourcesSearchControlCallback,
                 context
                 );
@@ -686,10 +686,10 @@ INT_PTR CALLBACK PvPeResourcesDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Display resource...", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Save resource...", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"显示资源...", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"保存资源...", NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, USHRT_MAX, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1234,14 +1234,14 @@ VOID PvInitializeResourcesTree(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
 
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_INDEX, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_TYPE, TRUE, L"Type", 150, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_TYPE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_NAME, TRUE, L"Name", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_NAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (start)", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_START, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (end)", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_END, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"Size", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_LCID, TRUE, L"Language", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_LCID, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_HASH, TRUE, L"Hash", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_HASH, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"Entropy", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_TYPE, TRUE, L"类型", 150, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_TYPE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_NAME, TRUE, L"名称", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_NAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (起始)", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_START, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (结束)", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_END, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"大小", 80, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_LCID, TRUE, L"语言", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_LCID, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_HASH, TRUE, L"哈希", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_HASH, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_RESOURCES_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"熵", 100, PH_ALIGN_LEFT, PV_RESOURCES_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
 
     //TreeNew_SetRowHeight(TreeNewHandle, 22);
 

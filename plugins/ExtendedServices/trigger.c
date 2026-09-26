@@ -76,38 +76,38 @@ DEFINE_GUID(SubTypeUnknownGuid, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 static TYPE_ENTRY TypeEntries[] =
 {
-    { SERVICE_TRIGGER_TYPE_DEVICE_INTERFACE_ARRIVAL, L"Device interface arrival" },
-    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, L"IP address availability" },
-    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, L"Domain join" },
-    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, L"Firewall port event" },
-    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, L"Group policy" },
-    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, L"Network endpoint" },
-    { SERVICE_TRIGGER_TYPE_CUSTOM_SYSTEM_STATE_CHANGE, L"Custom system state change" },
-    { SERVICE_TRIGGER_TYPE_CUSTOM, L"Custom" }
+    { SERVICE_TRIGGER_TYPE_DEVICE_INTERFACE_ARRIVAL, L"设备接口到达" },
+    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, L"IP 地址可用性" },
+    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, L"域加入" },
+    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, L"防火墙端口事件" },
+    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, L"组策略" },
+    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, L"网络终结点" },
+    { SERVICE_TRIGGER_TYPE_CUSTOM_SYSTEM_STATE_CHANGE, L"自定义系统状态更改" },
+    { SERVICE_TRIGGER_TYPE_CUSTOM, L"自定义" }
 };
 
 static SUBTYPE_ENTRY SubTypeEntries[] =
 {
-    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, NULL, L"IP address" },
-    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &NetworkManagerFirstIpAddressArrivalGuid, L"IP address: First arrival" },
-    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &NetworkManagerLastIpAddressRemovalGuid, L"IP address: Last removal" },
-    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &SubTypeUnknownGuid, L"IP address: Unknown" },
-    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, NULL, L"Domain" },
-    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &DomainJoinGuid, L"Domain: Join" },
-    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &DomainLeaveGuid, L"Domain: Leave" },
-    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &SubTypeUnknownGuid, L"Domain: Unknown" },
-    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, NULL, L"Firewall port" },
-    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &FirewallPortOpenGuid, L"Firewall port: Open" },
-    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &FirewallPortCloseGuid, L"Firewall port: Close" },
-    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &SubTypeUnknownGuid, L"Firewall port: Unknown" },
-    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, NULL, L"Group policy change" },
-    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &MachinePolicyPresentGuid, L"Group policy change: Machine" },
-    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &UserPolicyPresentGuid, L"Group policy change: User" },
-    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &SubTypeUnknownGuid, L"Group policy change: Unknown" },
-    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, NULL, L"Network endpoint" },
-    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &RpcInterfaceEventGuid, L"Network endpoint: RPC interface" },
-    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &NamedPipeEventGuid, L"Network endpoint: Named pipe" },
-    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &SubTypeUnknownGuid, L"Network endpoint: Unknown" }
+    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, NULL, L"IP 地址" },
+    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &NetworkManagerFirstIpAddressArrivalGuid, L"IP 地址: 首次到达" },
+    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &NetworkManagerLastIpAddressRemovalGuid, L"IP 地址: 最后移除" },
+    { SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY, &SubTypeUnknownGuid, L"IP 地址: 未知" },
+    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, NULL, L"域" },
+    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &DomainJoinGuid, L"域: 加入" },
+    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &DomainLeaveGuid, L"域: 离开" },
+    { SERVICE_TRIGGER_TYPE_DOMAIN_JOIN, &SubTypeUnknownGuid, L"域: 未知" },
+    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, NULL, L"防火墙端口" },
+    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &FirewallPortOpenGuid, L"防火墙端口: 打开" },
+    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &FirewallPortCloseGuid, L"防火墙端口: 关闭" },
+    { SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT, &SubTypeUnknownGuid, L"防火墙端口: 未知" },
+    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, NULL, L"组策略更改" },
+    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &MachinePolicyPresentGuid, L"组策略更改: 计算机" },
+    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &UserPolicyPresentGuid, L"组策略更改: 用户" },
+    { SERVICE_TRIGGER_TYPE_GROUP_POLICY, &SubTypeUnknownGuid, L"组策略更改: 未知" },
+    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, NULL, L"网络终结点" },
+    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &RpcInterfaceEventGuid, L"网络终结点: RPC 接口" },
+    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &NamedPipeEventGuid, L"网络终结点: 命名管道" },
+    { SERVICE_TRIGGER_TYPE_NETWORK_ENDPOINT, &SubTypeUnknownGuid, L"网络终结点: 未知" }
 };
 
 static CONST PH_STRINGREF PublishersKeyName = PH_STRINGREF_INIT(L"Software\\Microsoft\\Windows\\CurrentVersion\\WINEVT\\Publishers\\");
@@ -308,8 +308,8 @@ PES_TRIGGER_CONTEXT EsCreateServiceTriggerContext(
 
     PhSetListViewStyle(TriggersLv, FALSE, TRUE);
     PhSetControlTheme(TriggersLv, L"explorer");
-    PhAddListViewColumn(TriggersLv, 0, 0, 0, LVCFMT_LEFT, 300, L"Trigger");
-    PhAddListViewColumn(TriggersLv, 1, 1, 1, LVCFMT_LEFT, 60, L"Action");
+    PhAddListViewColumn(TriggersLv, 0, 0, 0, LVCFMT_LEFT, 300, L"触发器");
+    PhAddListViewColumn(TriggersLv, 1, 1, 1, LVCFMT_LEFT, 60, L"操作");
     PhSetExtendedListView(TriggersLv);
 
     EnableWindow(GetDlgItem(WindowHandle, IDC_EDIT), FALSE);
@@ -475,12 +475,12 @@ VOID EspFormatTriggerInfo(
 
             if (!Info->Subtype)
             {
-                triggerString = L"Device interface arrival";
+                triggerString = L"设备接口到达";
             }
             else
             {
                 guidString = PhFormatGuid(Info->Subtype);
-                stringUsed = PhConcatStrings2(L"Device interface arrival: ", guidString->Buffer);
+                stringUsed = PhConcatStrings2(L"设备接口到达: ", guidString->Buffer);
                 triggerString = stringUsed->Buffer;
             }
         }
@@ -491,12 +491,12 @@ VOID EspFormatTriggerInfo(
 
             if (!Info->Subtype)
             {
-                triggerString = L"Custom system state change";
+                triggerString = L"自定义系统状态更改";
             }
             else
             {
                 guidString = PhFormatGuid(Info->Subtype);
-                stringUsed = PhConcatStrings2(L"Custom system state change: ", guidString->Buffer);
+                stringUsed = PhConcatStrings2(L"自定义系统状态更改: ", guidString->Buffer);
                 triggerString = stringUsed->Buffer;
             }
         }
@@ -509,13 +509,13 @@ VOID EspFormatTriggerInfo(
 
                 // Try to lookup the publisher name from the GUID. (wj32)
                 publisherName = PhGetEtwPublisherName(Info->Subtype);
-                stringUsed = PhConcatStrings2(L"Custom: ", publisherName->Buffer);
+                stringUsed = PhConcatStrings2(L"自定义: ", publisherName->Buffer);
                 PhDereferenceObject(publisherName);
                 triggerString = stringUsed->Buffer;
             }
             else
             {
-                triggerString = L"Custom";
+                triggerString = L"自定义";
             }
         }
         break;
@@ -552,7 +552,7 @@ VOID EspFormatTriggerInfo(
 
             if (!typeFound)
             {
-                triggerString = L"Unknown";
+                triggerString = L"未知";
             }
         }
         break;
@@ -561,13 +561,13 @@ VOID EspFormatTriggerInfo(
     switch (Info->Action)
     {
     case SERVICE_TRIGGER_ACTION_SERVICE_START:
-        actionString = L"Start";
+        actionString = L"启动";
         break;
     case SERVICE_TRIGGER_ACTION_SERVICE_STOP:
-        actionString = L"Stop";
+        actionString = L"停止";
         break;
     default:
-        actionString = L"Unknown";
+        actionString = L"未知";
         break;
     }
 
@@ -952,12 +952,12 @@ VOID EspFixServiceTriggerControls(
         {
         case SERVICE_TRIGGER_TYPE_DEVICE_INTERFACE_ARRIVAL:
             {
-                ComboBox_AddString(subTypeComboBox, L"Custom");
+                ComboBox_AddString(subTypeComboBox, L"自定义");
             }
             break;
         case SERVICE_TRIGGER_TYPE_CUSTOM_SYSTEM_STATE_CHANGE:
             {
-                ComboBox_AddString(subTypeComboBox, L"Custom");
+                ComboBox_AddString(subTypeComboBox, L"自定义");
             }
             break;
         case SERVICE_TRIGGER_TYPE_CUSTOM:
@@ -965,7 +965,7 @@ VOID EspFixServiceTriggerControls(
                 PETW_PUBLISHER_ENTRY entries;
                 ULONG numberOfEntries;
 
-                ComboBox_AddString(subTypeComboBox, L"Custom");
+                ComboBox_AddString(subTypeComboBox, L"自定义");
 
                 // Display a list of publishers.
                 if (NT_SUCCESS(EspEnumerateEtwPublishers(&entries, &numberOfEntries)))
@@ -1001,7 +1001,7 @@ VOID EspFixServiceTriggerControls(
 
     selectedSubTypeString = PhGetWindowText(subTypeComboBox);
 
-    if (PhEqualString2(selectedSubTypeString, L"Custom", FALSE))
+    if (PhEqualString2(selectedSubTypeString, L"自定义", FALSE))
     {
         EnableWindow(GetDlgItem(WindowHandle, IDC_SUBTYPECUSTOM), TRUE);
         PhSetDialogItemText(WindowHandle, IDC_SUBTYPECUSTOM, Context->LastCustomSubType->Buffer);
@@ -1116,28 +1116,28 @@ VOID EspFormatTriggerData(
         }
         else
         {
-            *Text = PhCreateString(L"(empty string)");
+            *Text = PhCreateString(L"（空字符串）");
         }
     }
     else if (Data->Type == SERVICE_TRIGGER_DATA_TYPE_BINARY)
     {
-        *Text = PhCreateString(L"(binary data)");
+        *Text = PhCreateString(L"（二进制数据）");
     }
     else if (Data->Type == SERVICE_TRIGGER_DATA_TYPE_LEVEL)
     {
-        *Text = PhFormatString(L"(level) %u", Data->Byte);
+        *Text = PhFormatString(L"（级别）%u", Data->Byte);
     }
     else if (Data->Type == SERVICE_TRIGGER_DATA_TYPE_KEYWORD_ANY)
     {
-        *Text = PhFormatString(L"(keyword any) 0x%I64x", Data->UInt64);
+        *Text = PhFormatString(L"（关键字任意）0x%I64x", Data->UInt64);
     }
     else if (Data->Type == SERVICE_TRIGGER_DATA_TYPE_KEYWORD_ALL)
     {
-        *Text = PhFormatString(L"(keyword all) 0x%I64x", Data->UInt64);
+        *Text = PhFormatString(L"（关键字全部）0x%I64x", Data->UInt64);
     }
     else
     {
-        *Text = PhCreateString(L"(unknown type)");
+        *Text = PhCreateString(L"（未知类型）");
     }
 }
 
@@ -1192,8 +1192,8 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                 }
             }
 
-            ComboBox_AddString(actionComboBox, L"Start");
-            ComboBox_AddString(actionComboBox, L"Stop");
+            ComboBox_AddString(actionComboBox, L"启动");
+            ComboBox_AddString(actionComboBox, L"停止");
             ComboBox_SetCurSel(actionComboBox, context->EditingInfo->Action == SERVICE_TRIGGER_ACTION_SERVICE_START ? 0 : 1);
 
             EspFixServiceTriggerControls(WindowHandle, context);
@@ -1233,7 +1233,7 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
             lvHandle = GetDlgItem(WindowHandle, IDC_LIST);
             PhSetListViewStyle(lvHandle, FALSE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
-            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 280, L"Data");
+            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 280, L"数据");
 
             if (context->EditingInfo->DataList)
             {
@@ -1409,7 +1409,7 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                         }
                     }
 
-                    if (!PhEqualString2(subTypeString, L"Custom", FALSE))
+                    if (!PhEqualString2(subTypeString, L"自定义", FALSE))
                     {
                         if (context->EditingInfo->Type != SERVICE_TRIGGER_TYPE_CUSTOM)
                         {
@@ -1430,7 +1430,7 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                         {
                             if (!EspLookupEtwPublisherGuid(&subTypeString->sr, &context->EditingInfo->SubtypeBuffer))
                             {
-                                PhShowError2(WindowHandle, L"Unable to find the ETW publisher GUID.", L"%s", L"");
+                                PhShowError2(WindowHandle, L"无法找到 ETW 发布者 GUID。", L"%s", L"");
                                 goto DoNotClose;
                             }
 
@@ -1460,12 +1460,12 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                         }
                         else
                         {
-                            PhShowError2(WindowHandle, L"The custom subtype is invalid.", L"%s", L"Please ensure that the string is a valid GUID: \"{x-x-x-x-x}\".");
+                            PhShowError2(WindowHandle, L"自定义子类型无效。", L"%s", L"请确保该字符串是有效的 GUID：\"{x-x-x-x-x}\"。");
                             goto DoNotClose;
                         }
                     }
 
-                    if (PhEqualString2(actionString, L"Start", FALSE))
+                    if (PhEqualString2(actionString, L"启动", FALSE))
                         context->EditingInfo->Action = SERVICE_TRIGGER_ACTION_SERVICE_START;
                     else
                         context->EditingInfo->Action = SERVICE_TRIGGER_ACTION_SERVICE_STOP;
@@ -1484,9 +1484,9 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                             WindowHandle,
                             TD_OK_BUTTON | TD_CANCEL_BUTTON,
                             TD_WARNING_ICON,
-                            PhaFormatString(L"The trigger type \"%s\" does not allow data items to be configured.", typeString->Buffer)->Buffer,
+                            PhaFormatString(L"触发器类型 \"%s\" 不允许配置数据项。", typeString->Buffer)->Buffer,
                             L"%s",
-                            L"If you continue, they will be removed."
+                            L"如果继续，它们将被移除。"
                             ) != IDOK)
                         {
                             goto DoNotClose;

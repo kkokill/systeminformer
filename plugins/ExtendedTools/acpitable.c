@@ -406,7 +406,7 @@ VOID EtAddAcpiRawData(
     if (dumpLength < Length)
         PhMoveReference(&string, PhConcatStrings2(PhGetString(string), L"..."));
 
-    EtAddAcpiItem(Context, Group, L"Raw data", PhGetString(string));
+    EtAddAcpiItem(Context, Group, L"原始数据", PhGetString(string));
     PhDereferenceObject(string);
 }
 
@@ -427,15 +427,15 @@ VOID EtAcpiDescriptionHeader(
     )
 {
     ULONG group = Group;
-    ET_ACPI_SIG(L"Signature", Header->Signature);
-    ET_ACPI_UINT32(L"Length", Header->Length);
-    ET_ACPI_UINT32(L"Revision", Header->Revision);
-    ET_ACPI_UINT32IX(L"Checksum", Header->Checksum);
+    ET_ACPI_SIG(L"签名", Header->Signature);
+    ET_ACPI_UINT32(L"长度", Header->Length);
+    ET_ACPI_UINT32(L"修订版本", Header->Revision);
+    ET_ACPI_UINT32IX(L"校验和", Header->Checksum);
     EtAddAcpiAnsiString(Context, group, L"OEM ID", Header->OEMID, sizeof(Header->OEMID));
-    EtAddAcpiAnsiString(Context, group, L"OEM table ID", Header->OEMTableID, sizeof(Header->OEMTableID));
-    ET_ACPI_UINT32(L"OEM revision", Header->OEMRevision);
-    EtAddAcpiAnsiString(Context, group, L"Creator ID", Header->CreatorID, sizeof(Header->CreatorID));
-    ET_ACPI_UINT32(L"Creator revision", Header->CreatorRev);
+    EtAddAcpiAnsiString(Context, group, L"OEM 表 ID", Header->OEMTableID, sizeof(Header->OEMTableID));
+    ET_ACPI_UINT32(L"OEM 修订版本", Header->OEMRevision);
+    EtAddAcpiAnsiString(Context, group, L"创建者 ID", Header->CreatorID, sizeof(Header->CreatorID));
+    ET_ACPI_UINT32(L"创建者修订版本", Header->CreatorRev);
 }
 
 PCWSTR EtAcpiAddressSpaceString(
@@ -445,21 +445,21 @@ PCWSTR EtAcpiAddressSpaceString(
     switch (AddressSpaceId)
     {
     case 0:
-        return L"System memory";
+        return L"系统内存";
     case 1:
-        return L"System I/O";
+        return L"系统 I/O";
     case 2:
-        return L"PCI configuration";
+        return L"PCI 配置";
     case 3:
-        return L"Embedded controller";
+        return L"嵌入式控制器";
     case 4:
         return L"SMBus";
     case 0x0a:
         return L"PCC";
     case 0x7f:
-        return L"Functional fixed hardware";
+        return L"功能性固定硬件";
     default:
-        return L"Unknown";
+        return L"未知";
     }
 }
 
@@ -477,7 +477,7 @@ VOID EtAcpiGenericAddress(
     PhInitFormatI64X(&format[2], Address->Address);
     PhInitFormatS(&format[3], L" (");
     PhInitFormatU(&format[4], Address->BitWidth);
-    PhInitFormatS(&format[5], L" bits)");
+    PhInitFormatS(&format[5], L" 位)");
     string = PhFormat(format, 6, 40);
     EtAddAcpiItem(Context, Group, Name, PhGetString(string));
     PhDereferenceObject(string);
@@ -489,53 +489,53 @@ VOID EtAcpiFadt(
     _In_ ULONG Length
     )
 {
-    ET_ACPI_GROUP(L"Fixed ACPI Description Table (FADT)");
+    ET_ACPI_GROUP(L"固定 ACPI 描述表 (FADT)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Facs))
-        ET_ACPI_UINT32IX(L"FACS address", Table->Facs);
+        ET_ACPI_UINT32IX(L"FACS 地址", Table->Facs);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Dsdt))
-        ET_ACPI_UINT32IX(L"DSDT address", Table->Dsdt);
+        ET_ACPI_UINT32IX(L"DSDT 地址", Table->Dsdt);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, IntModel))
-        ET_ACPI_UINT32(L"Interrupt model", Table->IntModel);
+        ET_ACPI_UINT32(L"中断模型", Table->IntModel);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, PmProfile))
-        ET_ACPI_UINT32(L"Power profile", Table->PmProfile);
+        ET_ACPI_UINT32(L"电源配置文件", Table->PmProfile);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, SciIntVector))
-        ET_ACPI_UINT32(L"SCI interrupt vector", Table->SciIntVector);
+        ET_ACPI_UINT32(L"SCI 中断向量", Table->SciIntVector);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, SmiCmdIoPort))
-        ET_ACPI_UINT32IX(L"SMI command port", Table->SmiCmdIoPort);
+        ET_ACPI_UINT32IX(L"SMI 命令端口", Table->SmiCmdIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, AcpiOnValue))
-        ET_ACPI_UINT32IX(L"ACPI enable value", Table->AcpiOnValue);
+        ET_ACPI_UINT32IX(L"ACPI 启用值", Table->AcpiOnValue);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, AcpiOffValue))
-        ET_ACPI_UINT32IX(L"ACPI disable value", Table->AcpiOffValue);
+        ET_ACPI_UINT32IX(L"ACPI 禁用值", Table->AcpiOffValue);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, S4BiosReq))
-        ET_ACPI_UINT32IX(L"S4BIOS request value", Table->S4BiosReq);
+        ET_ACPI_UINT32IX(L"S4BIOS 请求值", Table->S4BiosReq);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, PstateControl))
-        ET_ACPI_UINT32IX(L"P-state control", Table->PstateControl);
+        ET_ACPI_UINT32IX(L"P-state 控制", Table->PstateControl);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Pm1aEvtBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM1a event block", Table->Pm1aEvtBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM1a 事件块", Table->Pm1aEvtBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Pm1bEvtBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM1b event block", Table->Pm1bEvtBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM1b 事件块", Table->Pm1bEvtBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Pm1aCtrlBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM1a control block", Table->Pm1aCtrlBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM1a 控制块", Table->Pm1aCtrlBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Pm1bCtrlBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM1b control block", Table->Pm1bCtrlBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM1b 控制块", Table->Pm1bCtrlBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Pm2CtrlBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM2 control block", Table->Pm2CtrlBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM2 控制块", Table->Pm2CtrlBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, PmTmrBlkIoPort))
-        ET_ACPI_UINT32IX(L"PM timer block", Table->PmTmrBlkIoPort);
+        ET_ACPI_UINT32IX(L"PM 计时器块", Table->PmTmrBlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Gp0BlkIoPort))
-        ET_ACPI_UINT32IX(L"GP0 block", Table->Gp0BlkIoPort);
+        ET_ACPI_UINT32IX(L"GP0 块", Table->Gp0BlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Gp1BlkIoPort))
-        ET_ACPI_UINT32IX(L"GP1 block", Table->Gp1BlkIoPort);
+        ET_ACPI_UINT32IX(L"GP1 块", Table->Gp1BlkIoPort);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Lvl2Latency))
-        ET_ACPI_UINT32(L"C2 latency (microseconds)", Table->Lvl2Latency);
+        ET_ACPI_UINT32(L"C2 延迟 (微秒)", Table->Lvl2Latency);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Lvl3Latency))
-        ET_ACPI_UINT32(L"C3 latency (microseconds)", Table->Lvl3Latency);
+        ET_ACPI_UINT32(L"C3 延迟 (微秒)", Table->Lvl3Latency);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, BootArch))
-        ET_ACPI_UINT32IX(L"Boot architecture flags", Table->BootArch);
+        ET_ACPI_UINT32IX(L"启动体系结构标志", Table->BootArch);
     if (ET_ACPI_HAS(Length, ET_ACPI_FADT, Flags))
-        ET_ACPI_UINT32IX(L"Flags", Table->Flags);
+        ET_ACPI_UINT32IX(L"标志", Table->Flags);
 }
 
 VOID EtAcpiFacs(
@@ -544,22 +544,22 @@ VOID EtAcpiFacs(
     _In_ ULONG Length
     )
 {
-    ET_ACPI_GROUP(L"Firmware ACPI Control Structure (FACS)");
-    ET_ACPI_SIG(L"Signature", Table->Signature);
+    ET_ACPI_GROUP(L"固件 ACPI 控制结构 (FACS)");
+    ET_ACPI_SIG(L"签名", Table->Signature);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, Length))
-        ET_ACPI_UINT32(L"Length", Table->Length);
+        ET_ACPI_UINT32(L"长度", Table->Length);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, HardwareSignature))
-        ET_ACPI_UINT32IX(L"Hardware signature", Table->HardwareSignature);
+        ET_ACPI_UINT32IX(L"硬件签名", Table->HardwareSignature);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, FirmwareWakingVector))
-        ET_ACPI_UINT32IX(L"Firmware waking vector", Table->FirmwareWakingVector);
+        ET_ACPI_UINT32IX(L"固件唤醒向量", Table->FirmwareWakingVector);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, GlobalLock))
-        ET_ACPI_UINT32IX(L"Global lock", Table->GlobalLock);
+        ET_ACPI_UINT32IX(L"全局锁", Table->GlobalLock);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, Flags))
-        ET_ACPI_UINT32IX(L"Flags", Table->Flags);
+        ET_ACPI_UINT32IX(L"标志", Table->Flags);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, XFirmwareWakingVector))
-        ET_ACPI_UINT64IX(L"Firmware waking vector (64-bit)", Table->XFirmwareWakingVector);
+        ET_ACPI_UINT64IX(L"固件唤醒向量 (64 位)", Table->XFirmwareWakingVector);
     if (ET_ACPI_HAS(Length, ET_ACPI_FACS, Version))
-        ET_ACPI_UINT32(L"Version", Table->Version);
+        ET_ACPI_UINT32(L"版本", Table->Version);
 }
 
 PCWSTR EtAcpiMadtEntryTypeString(
@@ -569,19 +569,19 @@ PCWSTR EtAcpiMadtEntryTypeString(
     switch (Type)
     {
     case ET_MADT_PROCESSOR_LOCAL_APIC:
-        return L"Processor local APIC";
+        return L"处理器本地 APIC";
     case ET_MADT_IO_APIC:
         return L"I/O APIC";
     case ET_MADT_ISA_VECTOR_OVERRIDE:
-        return L"Interrupt source override";
+        return L"中断源覆盖";
     case ET_MADT_IO_NMI_SOURCE:
-        return L"I/O NMI source";
+        return L"I/O NMI 源";
     case ET_MADT_LOCAL_NMI_SOURCE:
-        return L"Local NMI source";
+        return L"本地 NMI 源";
     case ET_MADT_PROCESSOR_LOCAL_X2APIC:
-        return L"Processor local x2APIC";
+        return L"处理器本地 x2APIC";
     default:
-        return L"Other";
+        return L"其他";
     }
 }
 
@@ -596,19 +596,19 @@ VOID EtAcpiMadt(
     ULONG counts[16] = { 0 };
 
     {
-        ET_ACPI_GROUP(L"Multiple APIC Description Table (APIC)");
+        ET_ACPI_GROUP(L"多 APIC 描述表 (APIC)");
         EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
         if (ET_ACPI_HAS(Length, ET_ACPI_MADT, LocalApicAddress))
-            ET_ACPI_UINT32IX(L"Local APIC address", Table->LocalApicAddress);
+            ET_ACPI_UINT32IX(L"本地 APIC 地址", Table->LocalApicAddress);
         if (ET_ACPI_HAS(Length, ET_ACPI_MADT, Flags))
-            ET_ACPI_BOOLEAN(L"PC-AT Compatible", (Table->Flags & 1) != 0);
+            ET_ACPI_BOOLEAN(L"PC-AT 兼容", (Table->Flags & 1) != 0);
 
         if (Length < sizeof(ET_ACPI_MADT))
             return;
     }
     {
-        ET_ACPI_GROUP(L"APIC Interrupt Controllers");
+        ET_ACPI_GROUP(L"APIC 中断控制器");
         entry = (PUCHAR)Table + sizeof(ET_ACPI_MADT);
         end = (PUCHAR)Table + Length;
 
@@ -636,10 +636,10 @@ VOID EtAcpiMadt(
                 {
                     PET_ACPI_MADT_LOCAL_APIC lapic = (PET_ACPI_MADT_LOCAL_APIC)entry;
                     if (entry + sizeof(*lapic) <= end) {
-                        EtAddAcpiUInt32(Context, entryGroup, L"Processor ID", lapic->ProcessorId);
+                        EtAddAcpiUInt32(Context, entryGroup, L"处理器 ID", lapic->ProcessorId);
                         EtAddAcpiUInt32(Context, entryGroup, L"APIC ID", lapic->ApicId);
-                        EtAddAcpiUInt32IX(Context, entryGroup, L"Flags", lapic->Flags);
-                        EtAddAcpiBoolean(Context, entryGroup, L"Enabled", (lapic->Flags & 1) != 0);
+                        EtAddAcpiUInt32IX(Context, entryGroup, L"标志", lapic->Flags);
+                        EtAddAcpiBoolean(Context, entryGroup, L"已启用", (lapic->Flags & 1) != 0);
                     }
                 }
                 break;
@@ -648,8 +648,8 @@ VOID EtAcpiMadt(
                     PET_ACPI_MADT_IO_APIC ioapic = (PET_ACPI_MADT_IO_APIC)entry;
                     if (entry + sizeof(*ioapic) <= end) {
                         EtAddAcpiUInt32(Context, entryGroup, L"I/O APIC ID", ioapic->IoApicId);
-                        EtAddAcpiUInt32IX(Context, entryGroup, L"Memory Address", ioapic->Address);
-                        EtAddAcpiUInt32(Context, entryGroup, L"Global IRQ Base", ioapic->GlobalSystemInterruptBase);
+                        EtAddAcpiUInt32IX(Context, entryGroup, L"内存地址", ioapic->Address);
+                        EtAddAcpiUInt32(Context, entryGroup, L"全局 IRQ 基址", ioapic->GlobalSystemInterruptBase);
                     }
                 }
                 break;
@@ -657,10 +657,10 @@ VOID EtAcpiMadt(
                 {
                     PET_ACPI_MADT_INT_SRC_OVR src = (PET_ACPI_MADT_INT_SRC_OVR)entry;
                     if (entry + sizeof(*src) <= end) {
-                        EtAddAcpiUInt32(Context, entryGroup, L"Bus", src->Bus);
-                        EtAddAcpiUInt32(Context, entryGroup, L"Source IRQ", src->Source);
-                        EtAddAcpiUInt32(Context, entryGroup, L"Global IRQ", src->GlobalSystemInterrupt);
-                        EtAddAcpiUInt32IX(Context, entryGroup, L"Flags", src->Flags);
+                        EtAddAcpiUInt32(Context, entryGroup, L"总线", src->Bus);
+                        EtAddAcpiUInt32(Context, entryGroup, L"源 IRQ", src->Source);
+                        EtAddAcpiUInt32(Context, entryGroup, L"全局 IRQ", src->GlobalSystemInterrupt);
+                        EtAddAcpiUInt32IX(Context, entryGroup, L"标志", src->Flags);
                     }
                 }
                 break;
@@ -669,9 +669,9 @@ VOID EtAcpiMadt(
                     PET_ACPI_MADT_X2APIC x2 = (PET_ACPI_MADT_X2APIC)entry;
                     if (entry + sizeof(*x2) <= end) {
                         EtAddAcpiUInt32IX(Context, entryGroup, L"x2APIC ID", x2->X2ApicId);
-                        EtAddAcpiUInt32IX(Context, entryGroup, L"Flags", x2->Flags);
+                        EtAddAcpiUInt32IX(Context, entryGroup, L"标志", x2->Flags);
                         EtAddAcpiUInt32(Context, entryGroup, L"UID", x2->Uid);
-                        EtAddAcpiBoolean(Context, entryGroup, L"Enabled", (x2->Flags & 1) != 0);
+                        EtAddAcpiBoolean(Context, entryGroup, L"已启用", (x2->Flags & 1) != 0);
                     }
                 }
                 break;
@@ -691,19 +691,19 @@ VOID EtAcpiHpet(
     _In_ ULONG Length
     )
 {
-    ET_ACPI_GROUP(L"High Precision Event Timer (HPET)");
+    ET_ACPI_GROUP(L"高精度事件计时器 (HPET)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (ET_ACPI_HAS(Length, ET_ACPI_HPET, EventTimerBlockId))
-        ET_ACPI_UINT32IX(L"Event timer block ID", Table->EventTimerBlockId);
+        ET_ACPI_UINT32IX(L"事件计时器块 ID", Table->EventTimerBlockId);
     if (ET_ACPI_HAS(Length, ET_ACPI_HPET, Address))
-        EtAcpiGenericAddress(Context, group, L"Base address", &Table->Address);
+        EtAcpiGenericAddress(Context, group, L"基址", &Table->Address);
     if (ET_ACPI_HAS(Length, ET_ACPI_HPET, HpetNumber))
-        ET_ACPI_UINT32(L"HPET number", Table->HpetNumber);
+        ET_ACPI_UINT32(L"HPET 编号", Table->HpetNumber);
     if (ET_ACPI_HAS(Length, ET_ACPI_HPET, MinimumPeriodicTickCount))
-        ET_ACPI_UINT32(L"Minimum tick count", Table->MinimumPeriodicTickCount);
+        ET_ACPI_UINT32(L"最小时钟周期计数", Table->MinimumPeriodicTickCount);
     if (ET_ACPI_HAS(Length, ET_ACPI_HPET, PageProtection))
-        ET_ACPI_UINT32IX(L"Page protection", Table->PageProtection);
+        ET_ACPI_UINT32IX(L"页保护", Table->PageProtection);
 }
 
 VOID EtAcpiMcfg(
@@ -716,7 +716,7 @@ VOID EtAcpiMcfg(
     PUCHAR end;
     ULONG number = 0;
 
-    ET_ACPI_GROUP(L"PCI Memory-Mapped Configuration (MCFG)");
+    ET_ACPI_GROUP(L"PCI 内存映射配置 (MCFG)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (Length < sizeof(ET_ACPI_MCFG))
@@ -731,16 +731,16 @@ VOID EtAcpiMcfg(
         PH_FORMAT format[2];
         PPH_STRING name;
 
-        PhInitFormatS(&format[0], L"Configuration space #");
+        PhInitFormatS(&format[0], L"配置空间 #");
         PhInitFormatU(&format[1], number++);
         name = PhFormat(format, 2, 30);
 
         ULONG group = EtAddAcpiGroup(Context, PhGetString(name));
 
-        ET_ACPI_UINT64IX(L"Base address", item->BaseAddress);
-        ET_ACPI_UINT32(L"Segment", item->SegmentNumber);
-        ET_ACPI_UINT32(L"Start bus", item->StartBusNumber);
-        ET_ACPI_UINT32(L"End bus", item->EndBusNumber);
+        ET_ACPI_UINT64IX(L"基址", item->BaseAddress);
+        ET_ACPI_UINT32(L"段", item->SegmentNumber);
+        ET_ACPI_UINT32(L"起始总线", item->StartBusNumber);
+        ET_ACPI_UINT32(L"结束总线", item->EndBusNumber);
 
         PhDereferenceObject(name);
         entry += sizeof(ET_ACPI_MCFG_ENTRY);
@@ -756,11 +756,11 @@ VOID EtAcpiSrat(
     PUCHAR entry;
     PUCHAR end;
 
-    ET_ACPI_GROUP(L"System Resource Affinity Table (SRAT)");
+    ET_ACPI_GROUP(L"系统资源关联表 (SRAT)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (ET_ACPI_HAS(Length, ET_ACPI_SRAT, TableRevision))
-        ET_ACPI_UINT32(L"Table revision", Table->TableRevision);
+        ET_ACPI_UINT32(L"表修订版本", Table->TableRevision);
 
     if (Length < sizeof(ET_ACPI_SRAT))
         return;
@@ -784,7 +784,7 @@ VOID EtAcpiSrat(
             if (entry + sizeof(*proc) <= end) {
                 ULONG proxDomain = proc->ProximityDomainLo | (proc->ProximityDomainHi[0] << 8) | (proc->ProximityDomainHi[1] << 16) | (proc->ProximityDomainHi[2] << 24);
                 PH_FORMAT fmt[4];
-                PhInitFormatS(&fmt[0], L"Processor APIC (Node: ");
+                PhInitFormatS(&fmt[0], L"处理器 APIC (节点: ");
                 PhInitFormatU(&fmt[1], proxDomain);
                 PhInitFormatS(&fmt[2], L", APIC ID: ");
                 PhInitFormatU(&fmt[3], proc->ApicId);
@@ -792,10 +792,10 @@ VOID EtAcpiSrat(
                 ULONG entryGroup = EtAddAcpiGroup(Context, PhGetString(nameStr));
                 PhDereferenceObject(nameStr);
 
-                EtAddAcpiUInt32(Context, entryGroup, L"Proximity Domain", proxDomain);
+                EtAddAcpiUInt32(Context, entryGroup, L"邻近域", proxDomain);
                 EtAddAcpiUInt32(Context, entryGroup, L"APIC ID", proc->ApicId);
-                EtAddAcpiUInt32IX(Context, entryGroup, L"Flags", proc->Flags);
-                EtAddAcpiBoolean(Context, entryGroup, L"Enabled", (proc->Flags & 1) != 0);
+                EtAddAcpiUInt32IX(Context, entryGroup, L"标志", proc->Flags);
+                EtAddAcpiBoolean(Context, entryGroup, L"已启用", (proc->Flags & 1) != 0);
             }
             break;
         }
@@ -804,25 +804,25 @@ VOID EtAcpiSrat(
                 PET_ACPI_SRAT_MEMORY mem = (PET_ACPI_SRAT_MEMORY)entry;
                 if (entry + sizeof(*mem) <= end) {
                     PH_FORMAT fmt[4];
-                    PhInitFormatS(&fmt[0], L"Memory (Node: ");
+                    PhInitFormatS(&fmt[0], L"内存 (节点: ");
                     PhInitFormatU(&fmt[1], mem->ProximityDomain);
-                    PhInitFormatS(&fmt[2], L", Base: 0x");
+                    PhInitFormatS(&fmt[2], L", 基址: 0x");
                     PhInitFormatI64X(&fmt[3], mem->BaseAddress);
                     PPH_STRING nameStr = PhFormat(fmt, 4, 50);
                     ULONG entryGroup = EtAddAcpiGroup(Context, PhGetString(nameStr));
                     PhDereferenceObject(nameStr);
 
-                    EtAddAcpiUInt32(Context, entryGroup, L"Proximity Domain", mem->ProximityDomain);
-                    EtAddAcpiUInt64IX(Context, entryGroup, L"Base Address", mem->BaseAddress);
-                    EtAddAcpiUInt64IX(Context, entryGroup, L"Length", mem->Length);
-                    EtAddAcpiUInt32IX(Context, entryGroup, L"Flags", mem->Flags);
+                    EtAddAcpiUInt32(Context, entryGroup, L"邻近域", mem->ProximityDomain);
+                    EtAddAcpiUInt64IX(Context, entryGroup, L"基址", mem->BaseAddress);
+                    EtAddAcpiUInt64IX(Context, entryGroup, L"长度", mem->Length);
+                    EtAddAcpiUInt32IX(Context, entryGroup, L"标志", mem->Flags);
                 }
                 break;
             }
         default:
             {
                 PH_FORMAT fmt[2];
-                PhInitFormatS(&fmt[0], L"Unknown SRAT Entry Type ");
+                PhInitFormatS(&fmt[0], L"未知 SRAT 条目类型 ");
                 PhInitFormatU(&fmt[1], type);
                 PPH_STRING nameStr = PhFormat(fmt, 2, 40);
                 ULONG entryGroup = EtAddAcpiGroup(Context, PhGetString(nameStr));
@@ -841,11 +841,11 @@ VOID EtAcpiSlit(
     _In_ ULONG Length
     )
 {
-    ET_ACPI_GROUP(L"System Locality Information Table (SLIT)");
+    ET_ACPI_GROUP(L"系统局部性信息表 (SLIT)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (ET_ACPI_HAS(Length, ET_ACPI_SLIT, LocalityCount))
-        ET_ACPI_UINT64IX(L"Locality count", Table->LocalityCount);
+        ET_ACPI_UINT64IX(L"局部性计数", Table->LocalityCount);
 }
 
 VOID EtAcpiBgrt(
@@ -854,21 +854,21 @@ VOID EtAcpiBgrt(
     _In_ ULONG Length
     )
 {
-    ET_ACPI_GROUP(L"Boot Graphics Resource Table (BGRT)");
+    ET_ACPI_GROUP(L"启动图形资源表 (BGRT)");
     EtAcpiDescriptionHeader(Context, group, &Table->Header);
 
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, Version))
-        ET_ACPI_UINT32(L"Version", Table->Version);
+        ET_ACPI_UINT32(L"版本", Table->Version);
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, Status))
-        ET_ACPI_UINT32IX(L"Status", Table->Status);
+        ET_ACPI_UINT32IX(L"状态", Table->Status);
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, ImageType))
-        ET_ACPI_UINT32(L"Image type", Table->ImageType);
+        ET_ACPI_UINT32(L"图像类型", Table->ImageType);
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, LogoAddress))
-        ET_ACPI_UINT64IX(L"Logo address", Table->LogoAddress);
+        ET_ACPI_UINT64IX(L"徽标地址", Table->LogoAddress);
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, OffsetX))
-        ET_ACPI_UINT32(L"Offset X", Table->OffsetX);
+        ET_ACPI_UINT32(L"X 偏移", Table->OffsetX);
     if (ET_ACPI_HAS(Length, ET_ACPI_BGRT, OffsetY))
-        ET_ACPI_UINT32(L"Offset Y", Table->OffsetY);
+        ET_ACPI_UINT32(L"Y 偏移", Table->OffsetY);
 }
 
 // Fallback for tables without a dedicated decoder: emit the common header
@@ -882,7 +882,7 @@ VOID EtAcpiGenericTable(
     PPH_STRING name;
     PPH_STRING signature;
     signature = EtAcpiSignatureToString(Header->Signature);
-    name = PhConcatStrings2(L"Table ", PhGetString(signature));
+    name = PhConcatStrings2(L"表 ", PhGetString(signature));
 
     ULONG group = EtAddAcpiGroup(Context, PhGetString(name));
 
@@ -1133,8 +1133,8 @@ INT_PTR CALLBACK EtAcpiTableDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 220, L"Name");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 300, L"Value");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 220, L"名称");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 300, L"值");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
@@ -1206,7 +1206,7 @@ INT_PTR CALLBACK EtAcpiTableDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"&复制", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

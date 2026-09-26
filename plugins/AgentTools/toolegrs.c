@@ -149,13 +149,13 @@ VOID AtpPingHost(
 
     if (!AtpInitializeIcmp())
     {
-        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"The ICMP helper is not available.");
+        AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"ICMP 辅助库不可用。");
         return;
     }
 
     if (!(addressString = AtGetArgumentString(Call->Arguments, "address")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"address is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 address。");
         return;
     }
 
@@ -167,7 +167,7 @@ VOID AtpPingHost(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"That is not an IPv4 or IPv6 address. This tool does not resolve host names."
+            L"这不是 IPv4 或 IPv6 地址。此工具不解析主机名。"
             );
         PhDereferenceObject(addressString);
         return;
@@ -189,7 +189,7 @@ VOID AtpPingHost(
     {
         if (!AtpIcmp6CreateFile || !AtpIcmp6SendEcho2)
         {
-            AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"The ICMPv6 helper is not available.");
+            AtSetToolError(Result, "failed", STATUS_NOT_SUPPORTED, L"ICMPv6 辅助库不可用。");
             PhDereferenceObject(addressString);
             return;
         }
@@ -205,7 +205,7 @@ VOID AtpPingHost(
 
     if (icmpHandle == INVALID_HANDLE_VALUE)
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"Opening an ICMP handle failed.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"打开 ICMP 句柄失败。");
         PhDereferenceObject(addressString);
         return;
     }
@@ -359,14 +359,14 @@ VOID AtpWhoisLookup(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The NetworkTools plugin is not loaded, so there is nothing to run the query."
+            L"NetworkTools 插件未加载，因此无法执行查询。"
             );
         return;
     }
 
     if (!(addressString = AtGetArgumentString(Call->Arguments, "address")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"address is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 address。");
         return;
     }
 
@@ -378,7 +378,7 @@ VOID AtpWhoisLookup(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"That is not an IPv4 or IPv6 address. This tool looks up address registrations, not domain names."
+            L"这不是 IPv4 或 IPv6 地址。此工具查询的是地址注册信息，而不是域名。"
             );
         PhDereferenceObject(addressString);
         return;
@@ -386,7 +386,7 @@ VOID AtpWhoisLookup(
 
     if (!pluginInterface->QueryWhois(addressString->Buffer, address.Type == PH_NETWORK_TYPE_IPV6, &response))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"No whois server answered.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"没有 whois 服务器应答。");
         PhDereferenceObject(addressString);
         return;
     }
@@ -421,7 +421,7 @@ VOID AtEgressInvokeTool(
         AtpWhoisLookup(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

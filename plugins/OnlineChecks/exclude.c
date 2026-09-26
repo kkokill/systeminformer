@@ -305,8 +305,8 @@ VOID ScanExclusionsAddFromEdit(
             WindowHandle,
             TD_YES_BUTTON | TD_NO_BUTTON,
             TD_INFORMATION_ICON,
-            L"This looks like a wildcard path, not a regular expression.",
-            L"Convert it to a regular expression? Backslashes will be escaped and wildcards expanded."
+            L"这看起来是通配符路径，不是正则表达式。",
+            L"是否转换为正则表达式？反斜杠将被转义，通配符将被扩展。"
             ) == IDYES)
         {
             PhMoveReference(&pattern, ExcludePathToRegex(&pattern->sr));
@@ -321,7 +321,7 @@ VOID ScanExclusionsAddFromEdit(
     }
     else
     {
-        PhShowError2(WindowHandle, L"The regular expression could not be compiled.", L"%s", message);
+        PhShowError2(WindowHandle, L"无法编译正则表达式。", L"%s", message);
     }
 
     PhDereferenceObject(pattern);

@@ -47,7 +47,7 @@ VOID AtpSetUserNotesMissing(
         Result,
         "plugin_missing",
         STATUS_NOT_FOUND,
-        L"The UserNotes plugin is not loaded, so there are no saved notes."
+        L"UserNotes 插件未加载，因此没有已保存的笔记。"
         );
 }
 
@@ -162,7 +162,7 @@ VOID AtpSetProcessComment(
             Result,
             "invalid_arguments",
             STATUS_INVALID_PARAMETER,
-            L"This process has no command line to file the comment under."
+            L"该进程没有可用于保存备注的命令行。"
             );
         return;
     }
@@ -180,7 +180,7 @@ VOID AtpSetProcessComment(
             Result,
             "not_found",
             STATUS_NOT_FOUND,
-            L"There was no saved entry to change."
+            L"没有可修改的已保存条目。"
             );
         PhClearReference(&comment);
         return;
@@ -214,7 +214,7 @@ VOID AtNoteInvokeTool(
         AtpSetProcessComment(Call, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

@@ -289,9 +289,9 @@ static VOID PhpSymbolProviderEventCallback(
                 PH_FORMAT format[3];
 
                 // Loading symbols for %s...
-                PhInitFormatS(&format[0], L"Loading symbols for ");
-                PhInitFormatS(&format[1], PhGetStringOrDefault(baseName, L"image"));
-                PhInitFormatS(&format[2], L"...");
+                PhInitFormatS(&format[0], L"正在加载 ");
+                PhInitFormatS(&format[1], PhGetStringOrDefault(baseName, L"映像"));
+                PhInitFormatS(&format[2], L" 的符号...");
                 PhMoveReference(&PhSymbolProviderEventMessageText, PhFormat(format, RTL_NUMBER_OF(format), 0));
 
                 PhpSymbolProviderInvokeCallback(PH_SYMBOL_EVENT_TYPE_LOAD_START, PhSymbolProviderEventMessageText, 0);
@@ -304,9 +304,9 @@ static VOID PhpSymbolProviderEventCallback(
                 PH_FORMAT format[3];
 
                 // Loading symbols for %s...
-                PhInitFormatS(&format[0], L"Loading symbols for ");
-                PhInitFormatS(&format[1], L"image");
-                PhInitFormatS(&format[2], L"...");
+                PhInitFormatS(&format[0], L"正在加载 ");
+                PhInitFormatS(&format[1], L"映像");
+                PhInitFormatS(&format[2], L" 的符号...");
 
                 PhMoveReference(&PhSymbolProviderEventMessageText, PhFormat(format, RTL_NUMBER_OF(format), 0));
                 PhpSymbolProviderInvokeCallback(PH_SYMBOL_EVENT_TYPE_LOAD_START, PhSymbolProviderEventMessageText, 0);

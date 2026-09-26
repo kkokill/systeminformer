@@ -1265,7 +1265,7 @@ PPH_STRING PhpQueryWmiProviderStatistics(
         PH_STRING_BUILDER stringBuilder;
 
         PhInitializeStringBuilder(&stringBuilder, 0x100);
-        PhAppendFormatStringBuilder(&stringBuilder, L"Statistics for %s: \r\n\r\n", PhGetString(Entry->ProviderName));
+        PhAppendFormatStringBuilder(&stringBuilder, L"%s 的统计信息：\r\n\r\n", PhGetString(Entry->ProviderName));
 
         // Note: Strings optimized for string pooling (dmex)
         if (string = PhGetWbemClassObjectString(wbemClassObject, L"ProviderOperation_AccessCheck"))
@@ -1593,7 +1593,7 @@ PPH_STRING PhpQueryWmiProviderStatistics(
             PH_STRING_BUILDER stringBuilder;
 
             PhInitializeStringBuilder(&stringBuilder, 0x100);
-            PhAppendFormatStringBuilder(&stringBuilder, L"Statistics for %s: \r\n\r\n", PhGetString(Entry->ProviderName));
+            PhAppendFormatStringBuilder(&stringBuilder, L"%s 的统计信息：\r\n\r\n", PhGetString(Entry->ProviderName));
 
             for (ULONG i = 0; i < RTL_NUMBER_OF(providerStatisticNames); i++)
             {
@@ -1712,8 +1712,8 @@ VOID PhpSetWmiProviderListStatusMessage(
 
     statusMessage = PhGetStatusMessage(0, HRESULT_CODE(Status));
     PhMoveReference(&Context->StatusMessage, PhConcatStrings2(
-        L"Unable to query provider information:\n",
-        PhGetStringOrDefault(statusMessage, L"Unknown error.")
+        L"无法查询提供程序信息：\n",
+        PhGetStringOrDefault(statusMessage, L"未知错误。")
         ));
     TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
     //TreeNew_NodesStructured(Context->TreeNewHandle);
@@ -1784,7 +1784,7 @@ VOID PhpShowWmiProviderStatus(
         }
         else
         {
-            PhShowError2(hWnd, L"Unable to perform the operation.", L"%s", PhGetString(statusMessage));
+            PhShowError2(hWnd, L"无法执行该操作。", L"%s", PhGetString(statusMessage));
         }
 
         PhDereferenceObject(statusMessage);
@@ -1793,11 +1793,11 @@ VOID PhpShowWmiProviderStatus(
     {
         if (Message)
         {
-            PhShowError2(hWnd, Message, L"%s", L"Unknown error.");
+            PhShowError2(hWnd, Message, L"%s", L"未知错误。");
         }
         else
         {
-            PhShowStatus(hWnd, L"Unable to perform the operation.", STATUS_UNSUCCESSFUL, 0);
+            PhShowStatus(hWnd, L"无法执行该操作。", STATUS_UNSUCCESSFUL, 0);
         }
     }
 }
@@ -1821,19 +1821,19 @@ VOID PhpShowWmiProviderNodeContextMenu(
 
     if (PhGetIntegerSetting(SETTING_WMI_PROVIDER_ENABLE_HIDDEN_MENU))
     {
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"&Suspend", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Res&ume", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"Un&load", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"暂停(&S)", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"恢复(&U)", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"卸载(&L)", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
     }
 
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"&Inspect", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"检查(&I)", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"S&tatistics", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"统计信息(&T)", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, L"Open &file location", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, L"打开文件位置(&F)", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
     PhInsertCopyCellEMenuItem(menu, IDC_COPY, Context->TreeNewHandle, ContextMenuEvent->Column);
 
     selectedItem = PhShowEMenu(
@@ -1859,7 +1859,7 @@ VOID PhpShowWmiProviderNodeContextMenu(
 
                     if (FAILED(status))
                     {
-                        PhpShowWmiProviderStatus(Context->WindowHandle, L"Unable to perform the operation.", status);
+                        PhpShowWmiProviderStatus(Context->WindowHandle, L"无法执行该操作。", status);
                     }
                 }
                 break;
@@ -1871,7 +1871,7 @@ VOID PhpShowWmiProviderNodeContextMenu(
 
                     if (FAILED(status))
                     {
-                        PhpShowWmiProviderStatus(Context->WindowHandle, L"Unable to perform the operation.", status);
+                        PhpShowWmiProviderStatus(Context->WindowHandle, L"无法执行该操作。", status);
                     }
                 }
                 break;
@@ -1883,7 +1883,7 @@ VOID PhpShowWmiProviderNodeContextMenu(
 
                     if (FAILED(status))
                     {
-                        PhpShowWmiProviderStatus(Context->WindowHandle, L"Unable to perform the operation.", status);
+                        PhpShowWmiProviderStatus(Context->WindowHandle, L"无法执行该操作。", status);
                     }
                 }
                 break;
@@ -1896,7 +1896,7 @@ VOID PhpShowWmiProviderNodeContextMenu(
                             SETTING_PROGRAM_INSPECT_EXECUTABLES,
                             PhGetString(nodes[0]->Provider->FileName),
                             FALSE,
-                            L"Make sure the PE Viewer executable file is present."
+                            L"请确保 PE Viewer 可执行文件存在。"
                             );
                     }
                 }
@@ -1921,7 +1921,7 @@ VOID PhpShowWmiProviderNodeContextMenu(
                             SETTING_FILE_BROWSE_EXECUTABLE,
                             PhGetString(nodes[0]->Provider->FileName),
                             FALSE,
-                            L"Make sure the Explorer executable file is present."
+                            L"请确保资源管理器可执行文件存在。"
                             );
                     }
                 }
@@ -2486,10 +2486,10 @@ VOID PhpInitializeWmiProviderTree(
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
     // Default columns
-    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_PROVIDER, TRUE, L"Provider", 140, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_NAMESPACE, TRUE, L"Namespace", 180, PH_ALIGN_LEFT, 1, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_FILENAME, TRUE, L"File name", 260, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_USER, TRUE, L"User", 80, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_PROVIDER, TRUE, L"提供程序", 140, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_NAMESPACE, TRUE, L"命名空间", 180, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_FILENAME, TRUE, L"文件名", 260, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PROCESS_WMI_COLUMN_ITEM_USER, TRUE, L"用户", 80, PH_ALIGN_LEFT, 3, 0);
 
     PhCmInitializeManager(&Context->Cm, Context->TreeNewHandle, PHMOTLC_MAXIMUM, PhpWmiProviderTreeNewPostSortFunction);
     PhInitializeTreeNewFilterSupport(&Context->TreeFilterSupport, Context->TreeNewHandle, Context->NodeList);
@@ -2626,7 +2626,7 @@ INT_PTR CALLBACK PhpProcessWmiProvidersDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"Search WMI Providers (Ctrl+K)",
+                L"搜索 WMI 提供程序 (Ctrl+K)",
                 SETTING_SEARCH_WMI_PROVIDERS_REGEX,
                 SETTING_SEARCH_WMI_PROVIDERS_CASE_SENSITIVE,
                 PhpProcessWmiProvidersSearchControlCallback,
@@ -2643,7 +2643,7 @@ INT_PTR CALLBACK PhpProcessWmiProvidersDlgProc(
 
             context->TreeFilterEntry = PhAddTreeNewFilter(&context->TreeFilterSupport, PhpProcessWmiProviderTreeFilterCallback, context);
 
-            PhMoveReference(&context->StatusMessage, PhCreateString(L"There are no providers to display."));
+            PhMoveReference(&context->StatusMessage, PhCreateString(L"没有可显示的提供程序。"));
             TreeNew_SetEmptyText(context->TreeNewHandle, &context->StatusMessage->sr, 0);
             PhLoadSettingsWmiProviderList(context);
 
@@ -2729,8 +2729,8 @@ INT_PTR CALLBACK PhpProcessWmiProvidersDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_OPTIONS), &rect))
                         break;
 
-                    namespaceMenuItem = PhCreateEMenuItem(0, PROCESS_WMI_TREE_MENU_ITEM_HIDE_DEFAULT_NAMESPACE, L"Hide default namespace", NULL, NULL);
-                    highlightNamespaceMenuItem = PhCreateEMenuItem(0, PROCESS_WMI_TREE_MENU_ITEM_HIGHLIGHT_DEFAULT_NAMESPACE, L"Highlight default namespace", NULL, NULL);
+                    namespaceMenuItem = PhCreateEMenuItem(0, PROCESS_WMI_TREE_MENU_ITEM_HIDE_DEFAULT_NAMESPACE, L"隐藏默认命名空间", NULL, NULL);
+                    highlightNamespaceMenuItem = PhCreateEMenuItem(0, PROCESS_WMI_TREE_MENU_ITEM_HIGHLIGHT_DEFAULT_NAMESPACE, L"高亮默认命名空间", NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, namespaceMenuItem, ULONG_MAX);

@@ -148,7 +148,7 @@ PPH_STRINGREF rgUdtKind[] =
 
 PPH_STRINGREF rgDataKind[] =
 {
-    SREF(L"Unknown"),
+    SREF(L"未知"),
     SREF(L"Local"),
     SREF(L"Static Local"),
     SREF(L"Param"),
@@ -353,7 +353,7 @@ VOID PrintLocation(
     case LocIsNull:
         break;
     default:
-        PhAppendFormatStringBuilder(StringBuilder, L"Error - invalid location type: 0x%X", dwLocType);
+        PhAppendFormatStringBuilder(StringBuilder, L"错误 - 无效的位置类型：0x%X", dwLocType);
         break;
     }
 }
@@ -1661,7 +1661,7 @@ VOID PePdbDumpDiaSourceFiles(
             Context,
             categoryNode,
             fileName ? fileName : L"SourceFile",
-            PhFormatString(L"Id: %lu, ChecksumType: %lu", uniqueId, checksumType)
+            PhFormatString(L"ID: %lu，校验和类型: %lu", uniqueId, checksumType)
             );
 
         if (fileName)
@@ -1722,7 +1722,7 @@ VOID PePdbDumpDiaLineNumbers(
         if (fileName)
             name = PhFormatString(L"%s:%lu", fileName, line);
         else
-            name = PhFormatString(L"Line %lu", line);
+            name = PhFormatString(L"行 %lu", line);
 
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
@@ -1979,7 +1979,7 @@ VOID PePdbDumpDiaSegments(
         IDiaSegment_get_write(segment, &write);
         IDiaSegment_get_execute(segment, &execute);
 
-        name = PhFormatString(L"Frame %lu", frame);
+        name = PhFormatString(L"帧 %lu", frame);
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
@@ -2457,7 +2457,7 @@ NTSTATUS PeDumpFileSymbols(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(NULL, L"Unable to load the file.", status, 0);
+                PhShowStatus(NULL, L"无法加载该文件。", status, 0);
                 return status;
             }
 
@@ -2479,7 +2479,7 @@ NTSTATUS PeDumpFileSymbols(
 
         if (!NT_SUCCESS(status))
         {
-            PhShowStatus(NULL, L"Unable to load the file.", status, 0);
+            PhShowStatus(NULL, L"无法加载该文件。", status, 0);
             return status;
         }
     }
@@ -2487,7 +2487,7 @@ NTSTATUS PeDumpFileSymbols(
     if (!baseOfDll)
     {
         PostMessage(Context->WindowHandle, WM_PV_SEARCH_FINISHED, 0, 0);
-        PhShowStatus(NULL, L"Unable to load the file.", STATUS_UNSUCCESSFUL, 0);
+        PhShowStatus(NULL, L"无法加载该文件。", STATUS_UNSUCCESSFUL, 0);
         return STATUS_UNSUCCESSFUL;
     }
 

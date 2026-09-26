@@ -74,33 +74,33 @@ PCWSTR PhpGetGdiHandleTypeName(
     switch (GDI_CLIENT_TYPE_FROM_UNIQUE(Unique))
     {
     case GDI_CLIENT_ALTDC_TYPE:
-        return L"Alt. DC";
+        return L"替代 DC";
     case GDI_CLIENT_BITMAP_TYPE:
-        return L"Bitmap";
+        return L"位图";
     case GDI_CLIENT_BRUSH_TYPE:
-        return L"Brush";
+        return L"画刷";
     case GDI_CLIENT_CLIENTOBJ_TYPE:
-        return L"Client Object";
+        return L"客户端对象";
     case GDI_CLIENT_DIBSECTION_TYPE:
-        return L"DIB Section";
+        return L"DIB 段";
     case GDI_CLIENT_DC_TYPE:
         return L"DC";
     case GDI_CLIENT_EXTPEN_TYPE:
-        return L"ExtPen";
+        return L"扩展画笔";
     case GDI_CLIENT_FONT_TYPE:
-        return L"Font";
+        return L"字体";
     case GDI_CLIENT_METADC16_TYPE:
-        return L"Metafile DC";
+        return L"图元文件 DC";
     case GDI_CLIENT_METAFILE_TYPE:
-        return L"Enhanced Metafile";
+        return L"增强图元文件";
     case GDI_CLIENT_METAFILE16_TYPE:
-        return L"Metafile";
+        return L"图元文件";
     case GDI_CLIENT_PALETTE_TYPE:
-        return L"Palette";
+        return L"调色板";
     case GDI_CLIENT_PEN_TYPE:
-        return L"Pen";
+        return L"画笔";
     case GDI_CLIENT_REGION_TYPE:
-        return L"Region";
+        return L"区域";
     default:
         return NULL;
     }
@@ -127,7 +127,7 @@ PPH_STRING PhpGetGdiHandleInformation(
                 bitmapSize = (SIZE_T)bitmap.bmWidthBytes * (SIZE_T)bitmap.bmHeight;
 
                 return PhFormatString(
-                    L"Width: %u, Height: %u, Depth: %u, Size: %s",
+                    L"宽度：%u，高度：%u，深度：%u，大小：%s",
                     bitmap.bmWidth,
                     bitmap.bmHeight,
                     bitmap.bmBitsPixel,
@@ -143,7 +143,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGBRUSH), &brush))
             {
                 return PhFormatString(
-                    L"Style: %u, Color: 0x%08x, Hatch: 0x%Ix",
+                    L"样式：%u，颜色：0x%08x，影线：0x%Ix",
                     brush.lbStyle,
                     _byteswap_ulong(brush.lbColor),
                     brush.lbHatch
@@ -158,7 +158,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(EXTLOGPEN), &pen))
             {
                 return PhFormatString(
-                    L"Style: 0x%x, Width: %u, Color: 0x%08x",
+                    L"样式：0x%x，宽度：%u，颜色：0x%08x",
                     pen.elpPenStyle,
                     pen.elpWidth,
                     _byteswap_ulong(pen.elpColor)
@@ -173,7 +173,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGFONT), &font))
             {
                 return PhFormatString(
-                    L"Face: %s, Height: %d",
+                    L"字体名：%s，高度：%d",
                     font.lfFaceName,
                     font.lfHeight
                     );
@@ -190,7 +190,7 @@ PPH_STRING PhpGetGdiHandleInformation(
                 paletteSize = (SIZE_T)count * sizeof(PALETTEENTRY);
 
                 return PhFormatString(
-                    L"Entries: %u, Size: %s",
+                    L"条目数：%u，大小：%s",
                     (ULONG)count,
                     PhaFormatSize(paletteSize, ULONG_MAX)->Buffer
                     );
@@ -204,7 +204,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGPEN), &pen))
             {
                 return PhFormatString(
-                    L"Style: %u, Width: %u, Color: 0x%08x",
+                    L"样式：%u，宽度：%u，颜色：0x%08x",
                     pen.lopnStyle,
                     pen.lopnWidth.x,
                     _byteswap_ulong(pen.lopnColor)
@@ -221,7 +221,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (regionSize)
             {
                 return PhFormatString(
-                    L"Size: %s",
+                    L"大小：%s",
                     PhaFormatSize(regionSize, ULONG_MAX)->Buffer
                     );
             }
@@ -269,7 +269,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             }
 
             return PhFormatString(
-                L"Type: %d, HWND: 0x%Ix, Tech: %d, Res: %dx%d, BPP: %dx%d, Org: (%ld,%ld), Clip: %d [%ld,%ld,%ld,%ld], Bitmap: 0x%Ix, Size: %s",
+                L"类型：%d，HWND：0x%Ix，技术：%d，分辨率：%dx%d，BPP：%dx%d，原点：(%ld,%ld)，剪裁：%d [%ld,%ld,%ld,%ld]，位图：0x%Ix，大小：%s",
                 objectType,
                 (ULONG_PTR)windowHandle,
                 technology,
@@ -443,10 +443,10 @@ INT_PTR CALLBACK PhpGdiHandlesDlgProc(
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 100, L"Type");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 80, L"Handle");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 102, L"Object");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 200, L"Information");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 100, L"类型");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 80, L"句柄");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 102, L"对象");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 200, L"信息");
 
             PhSetExtendedListView(context->ListViewHandle);
             ExtendedListView_SetCompareFunction(context->ListViewHandle, 1, PhpGdiHandleHandleCompareFunction);
@@ -554,7 +554,7 @@ INT_PTR CALLBACK PhpGdiHandlesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                     item = PhShowEMenu(

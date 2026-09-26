@@ -603,7 +603,7 @@ VOID AtpEnumerateDisks(
 
     if (!(paths = AtpEnumerateDiskPaths(&status)))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the disk devices");
+        AtSetToolStatusError(Result, status, L"枚举磁盘设备");
         return;
     }
 
@@ -702,7 +702,7 @@ VOID AtDiskInvokeTool(
         AtpEnumerateDisks(Call, Result, AtDiskToolHealth);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

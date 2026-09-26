@@ -786,7 +786,6 @@ namespace CustomBuildTool
                 }
 
                 if (!Build.CopyTextFiles(false, flags)) Environment.Exit(1);
-                if (!Build.BuildPdbZip(false, flags)) Environment.Exit(1);
                 if (!Build.BuildChecksumsFile()) Environment.Exit(1);
 
                 Build.ShowBuildStats();

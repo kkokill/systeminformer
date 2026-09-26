@@ -969,7 +969,7 @@ LRESULT CALLBACK PhPropSheetNewWndProc(
             {
                 context->CloseButton = PhCreateWindow(
                     WC_BUTTON,
-                    L"Close",
+                    L"关闭",
                     WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_PUSHBUTTON,
                     0, 0, 0, 0,
                     WindowHandle,

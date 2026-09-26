@@ -112,7 +112,7 @@ typedef struct _PH_INFORMERW_CONTEXT
     ULONG NodeLimit;
 } PH_INFORMERW_CONTEXT, *PPH_INFORMERW_CONTEXT;
 
-static const PH_STRINGREF PhpInformerEmptyText = PH_STRINGREF_INIT(L"No events to display.");
+static const PH_STRINGREF PhpInformerEmptyText = PH_STRINGREF_INIT(L"没有要显示的事件。");
 static HWND PhpInformerWindowHandle = NULL;
 static PH_LAYOUT_MANAGER PhpInformerLayoutManager;
 static RECT PhpInformerMinimumSize;
@@ -292,7 +292,7 @@ PPH_STRING PhpInformerGetTimeText(
     PhInitFormatI64UWithWidth(&format[4], systemTime.wSecond, 2);
     PhInitFormatC(&format[5], L'.');
     PhInitFormatI64UWithWidth(&format[6], subSecondTicks, 7);
-    PhInitFormatS(&format[7], systemTime.wHour >= 12 ? L" PM" : L" AM");
+    PhInitFormatS(&format[7], systemTime.wHour >= 12 ? L" 下午" : L" 上午");
 
     return PhFormat(format, RTL_NUMBER_OF(format), 24);
 }
@@ -457,23 +457,23 @@ VOID PhpInformerPopulateEventName(
     _Inout_ PPH_INFORMERW_NODE Node
     )
 {
-    static const PH_STRINGREF processCreate = PH_STRINGREF_INIT(L"Process Create");
-    static const PH_STRINGREF processExit = PH_STRINGREF_INIT(L"Process Exit");
-    static const PH_STRINGREF threadCreate = PH_STRINGREF_INIT(L"Thread Create");
-    static const PH_STRINGREF threadExecute = PH_STRINGREF_INIT(L"Thread Execute");
-    static const PH_STRINGREF threadExit = PH_STRINGREF_INIT(L"Thread Exit");
-    static const PH_STRINGREF imageLoad = PH_STRINGREF_INIT(L"Image Load");
-    static const PH_STRINGREF imageVerify = PH_STRINGREF_INIT(L"Image Verify");
-    static const PH_STRINGREF debugPrint = PH_STRINGREF_INIT(L"Debug Print");
-    static const PH_STRINGREF requiredStateFailure = PH_STRINGREF_INIT(L"Required State Failure");
-    static const PH_STRINGREF siloCreate = PH_STRINGREF_INIT(L"Silo Create");
-    static const PH_STRINGREF siloTerminate = PH_STRINGREF_INIT(L"Silo Terminate");
-    static const PH_STRINGREF handleCreateProcess = PH_STRINGREF_INIT(L"Handle Create (Process)");
-    static const PH_STRINGREF handleDuplicateProcess = PH_STRINGREF_INIT(L"Handle Duplicate (Process)");
-    static const PH_STRINGREF handleCreateThread = PH_STRINGREF_INIT(L"Handle Create (Thread)");
-    static const PH_STRINGREF handleDuplicateThread = PH_STRINGREF_INIT(L"Handle Duplicate (Thread)");
-    static const PH_STRINGREF handleCreateDesktop = PH_STRINGREF_INIT(L"Handle Create (Desktop)");
-    static const PH_STRINGREF handleDuplicateDesktop = PH_STRINGREF_INIT(L"Handle Duplicate (Desktop)");
+    static const PH_STRINGREF processCreate = PH_STRINGREF_INIT(L"进程创建");
+    static const PH_STRINGREF processExit = PH_STRINGREF_INIT(L"进程退出");
+    static const PH_STRINGREF threadCreate = PH_STRINGREF_INIT(L"线程创建");
+    static const PH_STRINGREF threadExecute = PH_STRINGREF_INIT(L"线程执行");
+    static const PH_STRINGREF threadExit = PH_STRINGREF_INIT(L"线程退出");
+    static const PH_STRINGREF imageLoad = PH_STRINGREF_INIT(L"映像加载");
+    static const PH_STRINGREF imageVerify = PH_STRINGREF_INIT(L"映像验证");
+    static const PH_STRINGREF debugPrint = PH_STRINGREF_INIT(L"调试输出");
+    static const PH_STRINGREF requiredStateFailure = PH_STRINGREF_INIT(L"所需状态失败");
+    static const PH_STRINGREF siloCreate = PH_STRINGREF_INIT(L"Silo 创建");
+    static const PH_STRINGREF siloTerminate = PH_STRINGREF_INIT(L"Silo 终止");
+    static const PH_STRINGREF handleCreateProcess = PH_STRINGREF_INIT(L"句柄创建（进程）");
+    static const PH_STRINGREF handleDuplicateProcess = PH_STRINGREF_INIT(L"句柄复制（进程）");
+    static const PH_STRINGREF handleCreateThread = PH_STRINGREF_INIT(L"句柄创建（线程）");
+    static const PH_STRINGREF handleDuplicateThread = PH_STRINGREF_INIT(L"句柄复制（线程）");
+    static const PH_STRINGREF handleCreateDesktop = PH_STRINGREF_INIT(L"句柄创建（桌面）");
+    static const PH_STRINGREF handleDuplicateDesktop = PH_STRINGREF_INIT(L"句柄复制（桌面）");
     static const PH_STRINGREF regDeleteKey = PH_STRINGREF_INIT(L"RegDeleteKey");
     static const PH_STRINGREF regSetValue = PH_STRINGREF_INIT(L"RegSetValue");
     static const PH_STRINGREF regDeleteValue = PH_STRINGREF_INIT(L"RegDeleteValue");
@@ -497,7 +497,7 @@ VOID PhpInformerPopulateEventName(
     static const PH_STRINGREF regReplaceKey = PH_STRINGREF_INIT(L"RegReplaceKey");
     static const PH_STRINGREF regQueryKeyName = PH_STRINGREF_INIT(L"RegQueryKeyName");
     static const PH_STRINGREF regSaveMergedKey = PH_STRINGREF_INIT(L"RegSaveMergedKey");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     KPH_MESSAGE_ID msgId = Message->Header.MessageId;
     PCPH_STRINGREF name = NULL;
@@ -659,14 +659,14 @@ PCPH_STRINGREF PhpInformerGetCategoryName(
     _In_ ULONG Category
     )
 {
-    static const PH_STRINGREF process = PH_STRINGREF_INIT(L"Process");
-    static const PH_STRINGREF thread = PH_STRINGREF_INIT(L"Thread");
-    static const PH_STRINGREF file = PH_STRINGREF_INIT(L"File");
-    static const PH_STRINGREF registry = PH_STRINGREF_INIT(L"Registry");
-    static const PH_STRINGREF handle = PH_STRINGREF_INIT(L"Handle");
-    static const PH_STRINGREF image = PH_STRINGREF_INIT(L"Image");
+    static const PH_STRINGREF process = PH_STRINGREF_INIT(L"进程");
+    static const PH_STRINGREF thread = PH_STRINGREF_INIT(L"线程");
+    static const PH_STRINGREF file = PH_STRINGREF_INIT(L"文件");
+    static const PH_STRINGREF registry = PH_STRINGREF_INIT(L"注册表");
+    static const PH_STRINGREF handle = PH_STRINGREF_INIT(L"句柄");
+    static const PH_STRINGREF image = PH_STRINGREF_INIT(L"映像");
     static const PH_STRINGREF silo = PH_STRINGREF_INIT(L"Silo");
-    static const PH_STRINGREF other = PH_STRINGREF_INIT(L"Other");
+    static const PH_STRINGREF other = PH_STRINGREF_INIT(L"其他");
 
     switch (Category)
     {
@@ -765,13 +765,13 @@ PCPH_STRINGREF PhpInformerGetDispositionName(
     _In_ ULONG Disposition
     )
 {
-    static const PH_STRINGREF supersede = PH_STRINGREF_INIT(L"Supersede");
-    static const PH_STRINGREF open = PH_STRINGREF_INIT(L"Open");
-    static const PH_STRINGREF create = PH_STRINGREF_INIT(L"Create");
+    static const PH_STRINGREF supersede = PH_STRINGREF_INIT(L"替换");
+    static const PH_STRINGREF open = PH_STRINGREF_INIT(L"打开");
+    static const PH_STRINGREF create = PH_STRINGREF_INIT(L"创建");
     static const PH_STRINGREF openIf = PH_STRINGREF_INIT(L"OpenIf");
-    static const PH_STRINGREF overwrite = PH_STRINGREF_INIT(L"Overwrite");
+    static const PH_STRINGREF overwrite = PH_STRINGREF_INIT(L"覆盖");
     static const PH_STRINGREF overwriteIf = PH_STRINGREF_INIT(L"OverwriteIf");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     switch (Disposition)
     {
@@ -808,7 +808,7 @@ PCPH_STRINGREF PhpInformerGetRegTypeName(
     static const PH_STRINGREF regFullResDesc = PH_STRINGREF_INIT(L"REG_FULL_RESOURCE_DESCRIPTOR");
     static const PH_STRINGREF regResReqList = PH_STRINGREF_INIT(L"REG_RESOURCE_REQUIREMENTS_LIST");
     static const PH_STRINGREF regQword = PH_STRINGREF_INIT(L"REG_QWORD");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     switch (Type)
     {
@@ -855,7 +855,7 @@ PCPH_STRINGREF PhpInformerGetKeyInfoClassName(
     static const PH_STRINGREF keyHandleTagsInformation = PH_STRINGREF_INIT(L"KeyHandleTagsInformation");
     static const PH_STRINGREF keyTrustInformation = PH_STRINGREF_INIT(L"KeyTrustInformation");
     static const PH_STRINGREF keyLayerInformation = PH_STRINGREF_INIT(L"KeyLayerInformation");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     switch (Class)
     {
@@ -894,7 +894,7 @@ PCPH_STRINGREF PhpInformerGetKeyValueInfoClassName(
     static const PH_STRINGREF keyValueFullInformationAlign64 = PH_STRINGREF_INIT(L"KeyValueFullInformationAlign64");
     static const PH_STRINGREF keyValuePartialInformationAlign64 = PH_STRINGREF_INIT(L"KeyValuePartialInformationAlign64");
     static const PH_STRINGREF keyValueLayerInformation = PH_STRINGREF_INIT(L"KeyValueLayerInformation");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     switch (Class)
     {
@@ -1132,10 +1132,10 @@ PCPH_STRINGREF PhpInformerGetImageTypeName(
     _In_ ULONG ImageType
     )
 {
-    static const PH_STRINGREF elamDriver = PH_STRINGREF_INIT(L"ELAM Driver");
-    static const PH_STRINGREF driver = PH_STRINGREF_INIT(L"Driver");
-    static const PH_STRINGREF platform = PH_STRINGREF_INIT(L"Platform");
-    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"Unknown");
+    static const PH_STRINGREF elamDriver = PH_STRINGREF_INIT(L"ELAM 驱动");
+    static const PH_STRINGREF driver = PH_STRINGREF_INIT(L"驱动");
+    static const PH_STRINGREF platform = PH_STRINGREF_INIT(L"平台");
+    static const PH_STRINGREF unknown = PH_STRINGREF_INIT(L"未知");
 
     switch (ImageType)
     {
@@ -1154,10 +1154,10 @@ PCPH_STRINGREF PhpInformerGetClassificationName(
     _In_ ULONG Classification
     )
 {
-    static const PH_STRINGREF unknownImage = PH_STRINGREF_INIT(L"Unknown");
-    static const PH_STRINGREF knownGood = PH_STRINGREF_INIT(L"Known Good");
-    static const PH_STRINGREF knownBad = PH_STRINGREF_INIT(L"Known Bad");
-    static const PH_STRINGREF knownBadBootCritical = PH_STRINGREF_INIT(L"Known Bad (Boot Critical)");
+    static const PH_STRINGREF unknownImage = PH_STRINGREF_INIT(L"未知");
+    static const PH_STRINGREF knownGood = PH_STRINGREF_INIT(L"已知良好");
+    static const PH_STRINGREF knownBad = PH_STRINGREF_INIT(L"已知损坏");
+    static const PH_STRINGREF knownBadBootCritical = PH_STRINGREF_INIT(L"已知损坏（启动关键）");
 
     switch (Classification)
     {
@@ -1276,20 +1276,20 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
 #define PH_IRP_FLAG(x, n) { TEXT(#x), x, FALSE, FALSE, n }
     static const PH_ACCESS_ENTRY irpFlagEntries[] =
     {
-        PH_IRP_FLAG(IRP_NOCACHE, L"No cache"),
-        PH_IRP_FLAG(IRP_PAGING_IO, L"Paging I/O"),
-        PH_IRP_FLAG(IRP_SYNCHRONOUS_API, L"Synchronous"),
-        PH_IRP_FLAG(IRP_ASSOCIATED_IRP, L"Associated IRP"),
-        PH_IRP_FLAG(IRP_BUFFERED_IO, L"Buffered I/O"),
-        PH_IRP_FLAG(IRP_DEALLOCATE_BUFFER, L"De-allocate buffer"),
-        PH_IRP_FLAG(IRP_CREATE_OPERATION, L"Create"),
-        PH_IRP_FLAG(IRP_READ_OPERATION, L"Read"),
-        PH_IRP_FLAG(IRP_WRITE_OPERATION, L"Write"),
-        PH_IRP_FLAG(IRP_CLOSE_OPERATION, L"Close"),
-        PH_IRP_FLAG(IRP_DEFER_IO_COMPLETION, L"Defer"),
-        PH_IRP_FLAG(IRP_OB_QUERY_NAME, L"Object query name"),
-        PH_IRP_FLAG(IRP_HOLD_DEVICE_QUEUE, L"Hold device queue"),
-        PH_IRP_FLAG(IRP_UM_DRIVER_INITIATED_IO, L"User driver I/O"),
+        PH_IRP_FLAG(IRP_NOCACHE, L"无缓存"),
+        PH_IRP_FLAG(IRP_PAGING_IO, L"分页 I/O"),
+        PH_IRP_FLAG(IRP_SYNCHRONOUS_API, L"同步"),
+        PH_IRP_FLAG(IRP_ASSOCIATED_IRP, L"关联 IRP"),
+        PH_IRP_FLAG(IRP_BUFFERED_IO, L"缓冲 I/O"),
+        PH_IRP_FLAG(IRP_DEALLOCATE_BUFFER, L"释放缓冲区"),
+        PH_IRP_FLAG(IRP_CREATE_OPERATION, L"创建"),
+        PH_IRP_FLAG(IRP_READ_OPERATION, L"读取"),
+        PH_IRP_FLAG(IRP_WRITE_OPERATION, L"写入"),
+        PH_IRP_FLAG(IRP_CLOSE_OPERATION, L"关闭"),
+        PH_IRP_FLAG(IRP_DEFER_IO_COMPLETION, L"延迟"),
+        PH_IRP_FLAG(IRP_OB_QUERY_NAME, L"对象名查询"),
+        PH_IRP_FLAG(IRP_HOLD_DEVICE_QUEUE, L"保持设备队列"),
+        PH_IRP_FLAG(IRP_UM_DRIVER_INITIATED_IO, L"用户驱动 I/O"),
     };
 #undef PH_IRP_FLAG
 
@@ -1348,9 +1348,9 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
     if (hasContent)
         PhAppendStringBuilder(&sb, &separator);
     if (File->RequestorMode == 0)
-        PhAppendStringBuilder2(&sb, L"Mode: Kernel");
+        PhAppendStringBuilder2(&sb, L"模式：内核");
     else
-        PhAppendStringBuilder2(&sb, L"Mode: User");
+        PhAppendStringBuilder2(&sb, L"模式：用户");
     hasContent = TRUE;
 
     //
@@ -1438,7 +1438,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
 
             if (File->DeletePending)
             {
-                PhAppendStringBuilder2(&sb, L"DeletePending");
+                PhAppendStringBuilder2(&sb, L"删除挂起");
                 foHasContent = TRUE;
             }
 
@@ -1446,7 +1446,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             {
                 if (foHasContent)
                     PhAppendStringBuilder2(&sb, L", ");
-                PhAppendStringBuilder2(&sb, L"Busy");
+                PhAppendStringBuilder2(&sb, L"忙碌");
                 foHasContent = TRUE;
             }
 
@@ -1454,7 +1454,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             {
                 if (foHasContent)
                     PhAppendStringBuilder2(&sb, L", ");
-                PhAppendStringBuilder2(&sb, L"LockOperation");
+                PhAppendStringBuilder2(&sb, L"锁定操作");
             }
 
             hasContent = TRUE;
@@ -1471,9 +1471,9 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             PhAppendStringBuilder(&sb, &separator);
 
         if (File->IsSystemPagingFile)
-            PhAppendStringBuilder2(&sb, L"PagingFile: System");
+            PhAppendStringBuilder2(&sb, L"页面文件：系统");
         else
-            PhAppendStringBuilder2(&sb, L"PagingFile: Yes");
+            PhAppendStringBuilder2(&sb, L"页面文件：是");
 
         hasContent = TRUE;
     }
@@ -1665,7 +1665,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"Non-existent process (");
+                PhInitFormatS(&format[count++], L"不存在的进程 (");
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1848,7 +1848,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"Non-existent process (");
+                PhInitFormatS(&format[count++], L"不存在的进程 (");
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1885,7 +1885,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"Non-existent process (");
+                PhInitFormatS(&format[count++], L"不存在的进程 (");
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1928,7 +1928,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"Non-existent process (");
+                PhInitFormatS(&format[count++], L"不存在的进程 (");
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetCid.UniqueProcess));
@@ -1967,7 +1967,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"Non-existent process (");
+                PhInitFormatS(&format[count++], L"不存在的进程 (");
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetCid.UniqueProcess));
@@ -2171,61 +2171,61 @@ PPH_STRING PhpInformerFormatDetailsText(
             {
                 static const PH_STRINGREF shareNames[] =
                 {
-                    PH_STRINGREF_INIT(L"None"),                 // 0
-                    PH_STRINGREF_INIT(L"Read"),                 // 1
-                    PH_STRINGREF_INIT(L"Write"),                // 2
-                    PH_STRINGREF_INIT(L"Read, Write"),          // 3
-                    PH_STRINGREF_INIT(L"Delete"),               // 4
-                    PH_STRINGREF_INIT(L"Read, Delete"),         // 5
-                    PH_STRINGREF_INIT(L"Write, Delete"),        // 6
-                    PH_STRINGREF_INIT(L"Read, Write, Delete"),  // 7
+                    PH_STRINGREF_INIT(L"无"),                 // 0
+                    PH_STRINGREF_INIT(L"读取"),                 // 1
+                    PH_STRINGREF_INIT(L"写入"),                // 2
+                    PH_STRINGREF_INIT(L"读取, 写入"),          // 3
+                    PH_STRINGREF_INIT(L"删除"),               // 4
+                    PH_STRINGREF_INIT(L"读取, 删除"),         // 5
+                    PH_STRINGREF_INIT(L"写入, 删除"),        // 6
+                    PH_STRINGREF_INIT(L"读取, 写入, 删除"),  // 7
                 };
 
 #define PH_CREATE_OPT(x, n) { TEXT(#x), x, FALSE, FALSE, n }
                 static const PH_ACCESS_ENTRY createOptionEntries[] =
                 {
-                    PH_CREATE_OPT(FILE_DIRECTORY_FILE, L"Directory"),
-                    PH_CREATE_OPT(FILE_WRITE_THROUGH, L"Write through"),
-                    PH_CREATE_OPT(FILE_SEQUENTIAL_ONLY, L"Sequential"),
-                    PH_CREATE_OPT(FILE_NO_INTERMEDIATE_BUFFERING, L"No buffering"),
-                    PH_CREATE_OPT(FILE_SYNCHRONOUS_IO_ALERT, L"Sync I/O alert"),
-                    PH_CREATE_OPT(FILE_SYNCHRONOUS_IO_NONALERT, L"Sync I/O"),
-                    PH_CREATE_OPT(FILE_NON_DIRECTORY_FILE, L"Non-directory"),
-                    PH_CREATE_OPT(FILE_CREATE_TREE_CONNECTION, L"Tree connect"),
-                    PH_CREATE_OPT(FILE_COMPLETE_IF_OPLOCKED, L"Complete if oplocked"),
-                    PH_CREATE_OPT(FILE_NO_EA_KNOWLEDGE, L"No EA knowledge"),
-                    PH_CREATE_OPT(FILE_OPEN_REMOTE_INSTANCE, L"Remote instance"),
-                    PH_CREATE_OPT(FILE_RANDOM_ACCESS, L"Random"),
-                    PH_CREATE_OPT(FILE_DELETE_ON_CLOSE, L"Delete on close"),
-                    PH_CREATE_OPT(FILE_OPEN_BY_FILE_ID, L"By file ID"),
-                    PH_CREATE_OPT(FILE_OPEN_FOR_BACKUP_INTENT, L"Backup intent"),
-                    PH_CREATE_OPT(FILE_NO_COMPRESSION, L"No compression"),
-                    PH_CREATE_OPT(FILE_OPEN_REQUIRING_OPLOCK, L"Requiring oplock"),
-                    PH_CREATE_OPT(FILE_DISALLOW_EXCLUSIVE, L"Disallow exclusive"),
-                    PH_CREATE_OPT(FILE_SESSION_AWARE, L"Session aware"),
-                    PH_CREATE_OPT(FILE_RESERVE_OPFILTER, L"Reserve opfilter"),
-                    PH_CREATE_OPT(FILE_OPEN_REPARSE_POINT, L"Reparse point"),
-                    PH_CREATE_OPT(FILE_OPEN_NO_RECALL, L"No recall"),
-                    PH_CREATE_OPT(FILE_OPEN_FOR_FREE_SPACE_QUERY, L"Free space query"),
+                    PH_CREATE_OPT(FILE_DIRECTORY_FILE, L"目录"),
+                    PH_CREATE_OPT(FILE_WRITE_THROUGH, L"直写"),
+                    PH_CREATE_OPT(FILE_SEQUENTIAL_ONLY, L"顺序"),
+                    PH_CREATE_OPT(FILE_NO_INTERMEDIATE_BUFFERING, L"无缓冲"),
+                    PH_CREATE_OPT(FILE_SYNCHRONOUS_IO_ALERT, L"同步 I/O（警报）"),
+                    PH_CREATE_OPT(FILE_SYNCHRONOUS_IO_NONALERT, L"同步 I/O"),
+                    PH_CREATE_OPT(FILE_NON_DIRECTORY_FILE, L"非目录"),
+                    PH_CREATE_OPT(FILE_CREATE_TREE_CONNECTION, L"树连接"),
+                    PH_CREATE_OPT(FILE_COMPLETE_IF_OPLOCKED, L"有 Oplock 即完成"),
+                    PH_CREATE_OPT(FILE_NO_EA_KNOWLEDGE, L"不了解 EA"),
+                    PH_CREATE_OPT(FILE_OPEN_REMOTE_INSTANCE, L"远程实例"),
+                    PH_CREATE_OPT(FILE_RANDOM_ACCESS, L"随机访问"),
+                    PH_CREATE_OPT(FILE_DELETE_ON_CLOSE, L"关闭时删除"),
+                    PH_CREATE_OPT(FILE_OPEN_BY_FILE_ID, L"按文件 ID"),
+                    PH_CREATE_OPT(FILE_OPEN_FOR_BACKUP_INTENT, L"备份意图"),
+                    PH_CREATE_OPT(FILE_NO_COMPRESSION, L"无压缩"),
+                    PH_CREATE_OPT(FILE_OPEN_REQUIRING_OPLOCK, L"需要 Oplock"),
+                    PH_CREATE_OPT(FILE_DISALLOW_EXCLUSIVE, L"禁止独占"),
+                    PH_CREATE_OPT(FILE_SESSION_AWARE, L"会话感知"),
+                    PH_CREATE_OPT(FILE_RESERVE_OPFILTER, L"保留 Opfilter"),
+                    PH_CREATE_OPT(FILE_OPEN_REPARSE_POINT, L"重分析点"),
+                    PH_CREATE_OPT(FILE_OPEN_NO_RECALL, L"不取回"),
+                    PH_CREATE_OPT(FILE_OPEN_FOR_FREE_SPACE_QUERY, L"可用空间查询"),
                 };
 #undef PH_CREATE_OPT
 
 #define PH_FILE_ATTR(x, n) { TEXT(#x), x, FALSE, FALSE, n }
                 static const PH_ACCESS_ENTRY fileAttributeEntries[] =
                 {
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_READONLY, L"Read only"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_HIDDEN, L"Hidden"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_SYSTEM, L"System"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_DIRECTORY, L"Directory"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_ARCHIVE, L"Archive"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_NORMAL, L"Normal"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_TEMPORARY, L"Temporary"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_SPARSE_FILE, L"Sparse"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_REPARSE_POINT, L"Reparse point"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_COMPRESSED, L"Compressed"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_OFFLINE, L"Offline"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_NOT_CONTENT_INDEXED, L"Not indexed"),
-                    PH_FILE_ATTR(FILE_ATTRIBUTE_ENCRYPTED, L"Encrypted"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_READONLY, L"只读"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_HIDDEN, L"隐藏"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_SYSTEM, L"系统"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_DIRECTORY, L"目录"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_ARCHIVE, L"存档"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_NORMAL, L"常规"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_TEMPORARY, L"临时"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_SPARSE_FILE, L"稀疏"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_REPARSE_POINT, L"重分析点"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_COMPRESSED, L"已压缩"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_OFFLINE, L"脱机"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_NOT_CONTENT_INDEXED, L"未编制索引"),
+                    PH_FILE_ATTR(FILE_ATTRIBUTE_ENCRYPTED, L"已加密"),
                 };
 #undef PH_FILE_ATTR
 
@@ -2264,7 +2264,7 @@ PPH_STRING PhpInformerFormatDetailsText(
                 // Disposition
                 //
 
-                PhAppendStringBuilder2(&createSb, L"Disposition: ");
+                PhAppendStringBuilder2(&createSb, L"处置：");
                 PhAppendStringBuilder(&createSb, PhpInformerGetDispositionName(disposition));
 
                 //
@@ -2505,7 +2505,7 @@ PPH_STRING PhpInformerFormatDetailsText(
                 PhInitFormatS(&format[2], L", Length: ");
                 PhInitFormatI64D(&format[3], Message->Kernel.File.Pre.LockControl.Length.QuadPart);
                 PhInitFormatS(&format[4], L", Exclusive: ");
-                PhInitFormatS(&format[5], Message->Kernel.File.Parameters.LockControl.ExclusiveLock ? L"Yes" : L"No");
+                PhInitFormatS(&format[5], Message->Kernel.File.Parameters.LockControl.ExclusiveLock ? L"是" : L"否");
 
                 perOpDetails = PhFormat(format, 6, 60);
             }
@@ -2602,7 +2602,7 @@ PPH_STRING PhpInformerResolveProcessText(
     {
         PH_FORMAT format[3];
 
-        PhInitFormatS(&format[0], L"Non-existent process (");
+        PhInitFormatS(&format[0], L"不存在的进程 (");
         PhInitFormatU(&format[1], HandleToUlong(ProcessId));
         PhInitFormatC(&format[2], L')');
 
@@ -2982,7 +2982,7 @@ BOOLEAN NTAPI PhpInformerTreeNewCallback(
             NT_ASSERT(context);
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, IDC_COPY, context->TreeNewHandle, contextMenu->Column);
 
             selectedItem = PhShowEMenu(
@@ -3046,20 +3046,20 @@ VOID PhpInformerInitializeColumns(
 
     TreeNew_SetSort(tn, PHIC_TIME, NoSortOrder);
 
-    PhAddTreeNewColumn(tn, PHIC_TIME, TRUE, L"Time", 140, PH_ALIGN_RIGHT, 0, DT_RIGHT);
-    PhAddTreeNewColumn(tn, PHIC_DURATION, FALSE, L"Duration", 70, PH_ALIGN_RIGHT, 1, DT_RIGHT);
-    PhAddTreeNewColumn(tn, PHIC_PROCESS,TRUE, L"Process", 120, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(tn, PHIC_TIME, TRUE, L"时间", 140, PH_ALIGN_RIGHT, 0, DT_RIGHT);
+    PhAddTreeNewColumn(tn, PHIC_DURATION, FALSE, L"持续时间", 70, PH_ALIGN_RIGHT, 1, DT_RIGHT);
+    PhAddTreeNewColumn(tn, PHIC_PROCESS,TRUE, L"进程", 120, PH_ALIGN_LEFT, 2, 0);
     PhAddTreeNewColumn(tn, PHIC_PID, TRUE, L"PID", 50, PH_ALIGN_RIGHT, 3, DT_RIGHT);
     PhAddTreeNewColumn(tn, PHIC_TID, TRUE, L"TID", 50, PH_ALIGN_RIGHT, 4, DT_RIGHT);
-    PhAddTreeNewColumn(tn, PHIC_START_KEY, FALSE, L"Start key", 140, PH_ALIGN_LEFT, 5, 0);
-    PhAddTreeNewColumn(tn, PHIC_ATTACHED_PROCESS, FALSE, L"Attached process", 120, PH_ALIGN_LEFT, 6, 0);
-    PhAddTreeNewColumn(tn, PHIC_ATTACHED_PID, FALSE, L"Attached PID", 60, PH_ALIGN_RIGHT, 7, DT_RIGHT);
-    PhAddTreeNewColumn(tn, PHIC_ATTACHED_START_KEY, FALSE, L"Attached start key", 140, PH_ALIGN_LEFT, 8, 0);
-    PhAddTreeNewColumn(tn, PHIC_CATEGORY, TRUE, L"Category", 60, PH_ALIGN_LEFT, 9, 0);
-    PhAddTreeNewColumn(tn, PHIC_EVENT, TRUE, L"Event", 100, PH_ALIGN_LEFT, 10, 0);
-    PhAddTreeNewColumn(tn, PHIC_PATH, TRUE, L"Path", 200, PH_ALIGN_LEFT, 11, DT_PATH_ELLIPSIS);
-    PhAddTreeNewColumn(tn, PHIC_RESULT, TRUE, L"Result", 60, PH_ALIGN_LEFT, 12, 0);
-    PhAddTreeNewColumn(tn, PHIC_DETAILS, TRUE, L"Details", 200, PH_ALIGN_LEFT, 13, 0);
+    PhAddTreeNewColumn(tn, PHIC_START_KEY, FALSE, L"启动键", 140, PH_ALIGN_LEFT, 5, 0);
+    PhAddTreeNewColumn(tn, PHIC_ATTACHED_PROCESS, FALSE, L"附加进程", 120, PH_ALIGN_LEFT, 6, 0);
+    PhAddTreeNewColumn(tn, PHIC_ATTACHED_PID, FALSE, L"附加 PID", 60, PH_ALIGN_RIGHT, 7, DT_RIGHT);
+    PhAddTreeNewColumn(tn, PHIC_ATTACHED_START_KEY, FALSE, L"附加启动键", 140, PH_ALIGN_LEFT, 8, 0);
+    PhAddTreeNewColumn(tn, PHIC_CATEGORY, TRUE, L"类别", 60, PH_ALIGN_LEFT, 9, 0);
+    PhAddTreeNewColumn(tn, PHIC_EVENT, TRUE, L"事件", 100, PH_ALIGN_LEFT, 10, 0);
+    PhAddTreeNewColumn(tn, PHIC_PATH, TRUE, L"路径", 200, PH_ALIGN_LEFT, 11, DT_PATH_ELLIPSIS);
+    PhAddTreeNewColumn(tn, PHIC_RESULT, TRUE, L"结果", 60, PH_ALIGN_LEFT, 12, 0);
+    PhAddTreeNewColumn(tn, PHIC_DETAILS, TRUE, L"详细信息", 200, PH_ALIGN_LEFT, 13, 0);
 
     PhCmInitializeManager(&Context->Cm, tn, PHIC_MAXIMUM, PhpInformerPostSortFunction);
 
@@ -3164,12 +3164,12 @@ PCPH_STRINGREF PhpInformerGetOpenResultName(
     _In_ ULONG_PTR Information
     )
 {
-    static const PH_STRINGREF superseded = PH_STRINGREF_INIT(L"Superseded");
-    static const PH_STRINGREF opened = PH_STRINGREF_INIT(L"Opened");
-    static const PH_STRINGREF created = PH_STRINGREF_INIT(L"Created");
-    static const PH_STRINGREF overwritten = PH_STRINGREF_INIT(L"Overwritten");
-    static const PH_STRINGREF exists = PH_STRINGREF_INIT(L"Exists");
-    static const PH_STRINGREF doesNotExist = PH_STRINGREF_INIT(L"Does Not Exist");
+    static const PH_STRINGREF superseded = PH_STRINGREF_INIT(L"已替换");
+    static const PH_STRINGREF opened = PH_STRINGREF_INIT(L"已打开");
+    static const PH_STRINGREF created = PH_STRINGREF_INIT(L"已创建");
+    static const PH_STRINGREF overwritten = PH_STRINGREF_INIT(L"已覆盖");
+    static const PH_STRINGREF exists = PH_STRINGREF_INIT(L"已存在");
+    static const PH_STRINGREF doesNotExist = PH_STRINGREF_INIT(L"不存在");
 
     switch (Information)
     {
@@ -3195,10 +3195,10 @@ VOID PhpInformerUpdateDetailsFromPostOp(
     _In_ PCKPH_MESSAGE PostMsg
     )
 {
-    static const PH_STRINGREF grantedPrefix = PH_STRINGREF_INIT(L"Granted: ");
-    static const PH_STRINGREF dispCreated = PH_STRINGREF_INIT(L"Disposition: Created");
-    static const PH_STRINGREF dispOpened = PH_STRINGREF_INIT(L"Disposition: Opened");
-    static const PH_STRINGREF openResultPrefix = PH_STRINGREF_INIT(L"OpenResult: ");
+    static const PH_STRINGREF grantedPrefix = PH_STRINGREF_INIT(L"已授予：");
+    static const PH_STRINGREF dispCreated = PH_STRINGREF_INIT(L"处置：已创建");
+    static const PH_STRINGREF dispOpened = PH_STRINGREF_INIT(L"处置：已打开");
+    static const PH_STRINGREF openResultPrefix = PH_STRINGREF_INIT(L"打开结果：");
     static const PH_STRINGREF separator = PH_STRINGREF_INIT(L", ");
     KPH_MESSAGE_ID msgId = PostMsg->Header.MessageId;
 
@@ -3638,7 +3638,7 @@ VOID PhpInformerInitializeDialog(
     Context->CaptureHandle = GetDlgItem(WindowHandle, IDC_CAPTURE);
     Context->FilterHandle = GetDlgItem(WindowHandle, IDC_FILTER);
 
-    Button_SetText(Context->CaptureHandle, L"Pause");
+    Button_SetText(Context->CaptureHandle, L"暂停");
 
     PhSetControlTheme(Context->TreeNewHandle, L"explorer");
     TreeNew_SetCallback(Context->TreeNewHandle, PhpInformerTreeNewCallback, Context);
@@ -3650,7 +3650,7 @@ VOID PhpInformerInitializeDialog(
     PhCreateSearchControl2(
         WindowHandle,
         Context->SearchboxHandle,
-        L"Search Monitor (Ctrl+K)",
+        L"搜索监视器 (Ctrl+K)",
         SETTING_SEARCH_MONITOR_REGEX,
         SETTING_SEARCH_MONITOR_CASE_SENSITIVE,
         PhpInformerSearchCallback,
@@ -3790,14 +3790,14 @@ VOID PhpInformerShowFilterMenu(
         PCWSTR Text;
     } categories[] =
     {
-        { PH_INFORMER_CATEGORY_PROCESS, L"Process" },
-        { PH_INFORMER_CATEGORY_THREAD, L"Thread" },
-        { PH_INFORMER_CATEGORY_FILE, L"File" },
-        { PH_INFORMER_CATEGORY_REGISTRY, L"Registry" },
-        { PH_INFORMER_CATEGORY_HANDLE, L"Handle" },
-        { PH_INFORMER_CATEGORY_IMAGE, L"Image" },
+        { PH_INFORMER_CATEGORY_PROCESS, L"进程" },
+        { PH_INFORMER_CATEGORY_THREAD, L"线程" },
+        { PH_INFORMER_CATEGORY_FILE, L"文件" },
+        { PH_INFORMER_CATEGORY_REGISTRY, L"注册表" },
+        { PH_INFORMER_CATEGORY_HANDLE, L"句柄" },
+        { PH_INFORMER_CATEGORY_IMAGE, L"映像" },
         { PH_INFORMER_CATEGORY_SILO, L"Silo" },
-        { PH_INFORMER_CATEGORY_OTHER, L"Other" },
+        { PH_INFORMER_CATEGORY_OTHER, L"其他" },
     };
 
     RECT rect;
@@ -3889,7 +3889,7 @@ INT_PTR PhpInformerHandleMessage(
             case IDC_CAPTURE:
                 {
                     Context->Capturing = !Context->Capturing;
-                    Button_SetText(Context->CaptureHandle, Context->Capturing ? L"Pause" : L"Resume");
+                    Button_SetText(Context->CaptureHandle, Context->Capturing ? L"暂停" : L"继续");
                 }
                 break;
 
@@ -4098,7 +4098,7 @@ INT_PTR CALLBACK PhpProcessInformerDlgProc(
                 // "global" value of 0.
                 //
                 processStartKey = ULONG64_MAX;
-                PhShowStatus(hwndDlg, L"Failed to get process start key.", status, 0);
+                PhShowStatus(hwndDlg, L"无法获取进程启动键。", status, 0);
             }
 
             context = PhpCreateInformerContext(processStartKey);

@@ -16,11 +16,11 @@
 
 static CONST PH_KEY_VALUE_PAIR PhpMessageBoxIconPairs[] =
 {
-    SIP(L"None", MB_OK),
-    SIP(L"Information", MB_ICONINFORMATION),
-    SIP(L"Warning", MB_ICONWARNING),
-    SIP(L"Error", MB_ICONERROR),
-    SIP(L"Question", MB_ICONQUESTION)
+    SIP(L"无", MB_OK),
+    SIP(L"信息", MB_ICONINFORMATION),
+    SIP(L"警告", MB_ICONWARNING),
+    SIP(L"错误", MB_ICONERROR),
+    SIP(L"问题", MB_ICONQUESTION)
 };
 
 INT_PTR CALLBACK PhpSessionSendMessageDlgProc(
@@ -42,19 +42,19 @@ INT_PTR CALLBACK PhpSessionSendMessageDlgProc(
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             iconComboBox = GetDlgItem(hwndDlg, IDC_TYPE);
-            ComboBox_AddString(iconComboBox, L"None");
-            ComboBox_AddString(iconComboBox, L"Information");
-            ComboBox_AddString(iconComboBox, L"Warning");
-            ComboBox_AddString(iconComboBox, L"Error");
-            ComboBox_AddString(iconComboBox, L"Question");
-            PhSelectComboBoxString(iconComboBox, L"None", FALSE);
+            ComboBox_AddString(iconComboBox, L"无");
+            ComboBox_AddString(iconComboBox, L"信息");
+            ComboBox_AddString(iconComboBox, L"警告");
+            ComboBox_AddString(iconComboBox, L"错误");
+            ComboBox_AddString(iconComboBox, L"问题");
+            PhSelectComboBoxString(iconComboBox, L"无", FALSE);
 
             if (currentUserName = PhGetTokenUserString(PhGetOwnTokenAttributes().TokenHandle, TRUE))
             {
                 PhSetDialogItemText(
                     hwndDlg,
                     IDC_TITLE,
-                    PhaFormatString(L"Message from %s", currentUserName->Buffer)->Buffer
+                    PhaFormatString(L"来自 %s 的消息", currentUserName->Buffer)->Buffer
                     );
                 PhDereferenceObject(currentUserName);
             }
@@ -117,7 +117,7 @@ INT_PTR CALLBACK PhpSessionSendMessageDlgProc(
                     }
                     else
                     {
-                        PhShowStatus(hwndDlg, L"Unable to send the message", 0, GetLastError());
+                        PhShowStatus(hwndDlg, L"无法发送消息。", 0, GetLastError());
                     }
                 }
                 break;

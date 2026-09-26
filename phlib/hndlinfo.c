@@ -1579,16 +1579,16 @@ NTSTATUS PhpGetBestObjectName(
                 if (NT_SUCCESS(status))
                 {
                     PH_FORMAT format[4];
-                    PCWSTR sectionType = L"Unknown";
+                    PCWSTR sectionType = L"未知";
 
                     if (basicInfo.AllocationAttributes & SEC_COMMIT)
-                        sectionType = L"Commit";
+                        sectionType = L"提交";
                     else if (basicInfo.AllocationAttributes & SEC_FILE)
-                        sectionType = L"File";
+                        sectionType = L"文件";
                     else if (basicInfo.AllocationAttributes & SEC_IMAGE)
-                        sectionType = L"Image";
+                        sectionType = L"映像";
                     else if (basicInfo.AllocationAttributes & SEC_RESERVE)
-                        sectionType = L"Reserve";
+                        sectionType = L"保留";
 
                     PhInitFormatS(&format[0], sectionType);
                     PhInitFormatS(&format[1], L" (");

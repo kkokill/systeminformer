@@ -182,14 +182,14 @@ VOID AtpLookupIpCountry(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The NetworkTools plugin is not loaded, so there is no geolocation database to read."
+            L"NetworkTools 插件未加载，因此没有可供读取的地理位置数据库。"
             );
         return;
     }
 
     if (!(address = AtGetArgumentString(Call->Arguments, "address")))
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"address is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 address。");
         return;
     }
 
@@ -209,7 +209,7 @@ VOID AtpLookupIpCountry(
         }
         else
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"That is not an IPv4 or IPv6 address.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"这不是有效的 IPv4 或 IPv6 地址。");
             PhDereferenceObject(address);
             return;
         }
@@ -292,7 +292,7 @@ NTSTATUS AtFindNetworkConnection(
         !AtGetArgumentUInt64(Arguments, "remote_port", &remotePort) ||
         !localString || !remoteString)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"protocol, local_address, local_port, remote_address and remote_port are all required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要同时提供 protocol、local_address、local_port、remote_address 和 remote_port。");
         PhClearReference(&protocolString);
         PhClearReference(&localString);
         PhClearReference(&remoteString);
@@ -303,7 +303,7 @@ NTSTATUS AtFindNetworkConnection(
     // is showing.
     if (!PhGetNetworkConnections(&connections, &numberOfConnections))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"Enumerating the network connections failed.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"枚举网络连接失败。");
         PhClearReference(&protocolString);
         PhClearReference(&localString);
         PhClearReference(&remoteString);
@@ -352,7 +352,7 @@ NTSTATUS AtFindNetworkConnection(
 
     if (!found)
     {
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"No matching connection is in the live table. Re-list the connections and try again.");
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"实时表中没有匹配的连接。请重新列出连接后重试。");
         return STATUS_NOT_FOUND;
     }
 
@@ -468,7 +468,7 @@ VOID AtpListNetworkConnections(
     // is showing. A cached item, when there is one, still supplies the names the provider resolved.
     if (!PhGetNetworkConnections(&connections, &numberOfConnections))
     {
-        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"Enumerating the network connections failed.");
+        AtSetToolError(Result, "failed", STATUS_UNSUCCESSFUL, L"枚举网络连接失败。");
         PhClearReference(&filter.State);
         PhClearReference(&filter.AddressContains);
         return;
@@ -594,7 +594,7 @@ VOID AtpCloseNetworkConnection(
 
     if (Target->NetworkItem->State != MIB_TCP_STATE_ESTAB)
     {
-        AtSetToolError(Result, "invalid_state", STATUS_INVALID_PARAMETER, L"Only an established TCP connection can be closed.");
+        AtSetToolError(Result, "invalid_state", STATUS_INVALID_PARAMETER, L"只能关闭已建立的 TCP 连接。");
         return;
     }
 
@@ -602,7 +602,7 @@ VOID AtpCloseNetworkConnection(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Closing the connection");
+        AtSetToolStatusError(Result, status, L"关闭连接");
         return;
     }
 
@@ -634,7 +634,7 @@ VOID AtNetworkInvokeTool(
         AtpCloseNetworkConnection(Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

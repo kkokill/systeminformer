@@ -42,7 +42,7 @@ VOID PvAddDefaultSettings(
     PhpAddIntegerSetting(L"SearchControlCaseSensitive", L"0");
     PhpAddIntegerSetting(L"GraphColorMode", L"1");
     PhpAddIntegerSetting(L"HashAlgorithm", L"0");
-    PhpAddIntegerSetting(L"MaxSizeUnit", L"6");
+    PhpAddIntegerSetting(L"MaxSizeUnit", L"3"); // GB
     PhpAddIntegerSetting(L"MainWindowPageRestoreEnabled", L"1");
     PhpAddStringSetting(L"MainWindowPage", L"General");
     PhpAddIntegerPairSetting(L"MainWindowPosition", L"0,0");

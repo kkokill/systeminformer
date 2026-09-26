@@ -15,8 +15,8 @@
 #include "../thirdparty/ssdeep/fuzzy.h"
 #include "../thirdparty/tlsh/tlsh_wrapper.h"
 
-static PH_STRINGREF EmptyDirectoriesText = PH_STRINGREF_INIT(L"There are no directories to display.");
-static PH_STRINGREF LoadingDirectoriesText = PH_STRINGREF_INIT(L"Loading directories from image...");
+static PH_STRINGREF EmptyDirectoriesText = PH_STRINGREF_INIT(L"没有可显示的目录。");
+static PH_STRINGREF LoadingDirectoriesText = PH_STRINGREF_INIT(L"正在从映像加载目录...");
 
 typedef enum _PV_DIRECTORY_TREE_COLUMN_ITEM
 {
@@ -350,22 +350,22 @@ NTSTATUS PvpPeDirectoryEnumerateThread(
     )
 {
     // for (ULONG i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; i++)
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXPORT, L"Export");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IMPORT, L"Import");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_RESOURCE, L"Resource");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXCEPTION, L"Exception");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_SECURITY, L"Security");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BASERELOC, L"Base relocation");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DEBUG, L"Debug");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_ARCHITECTURE, L"Architecture");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_GLOBALPTR, L"Global PTR");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXPORT, L"导出");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IMPORT, L"导入");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_RESOURCE, L"资源");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXCEPTION, L"异常");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_SECURITY, L"安全");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BASERELOC, L"基址重定位");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DEBUG, L"调试");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_ARCHITECTURE, L"体系结构");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_GLOBALPTR, L"全局 PTR");
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_TLS, L"TLS");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, L"Load configuration");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT, L"Bound imports");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, L"加载配置");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT, L"绑定导入");
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IAT, L"IAT");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT, L"Delay load imports");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT, L"延迟加载导入");
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR, L"CLR");
-    PvpPeEnumerateImageDataDirectory(Context, 15, L"Reserved");
+    PvpPeEnumerateImageDataDirectory(Context, 15, L"保留");
 
     PostMessage(Context->DialogHandle, WM_PV_SEARCH_FINISHED, 0, 0);
     return STATUS_SUCCESS;
@@ -431,7 +431,7 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"Search Directories (Ctrl+K)",
+                L"搜索目录 (Ctrl+K)",
                 PvpPeDirectorySearchControl,
                 context
                 );
@@ -517,7 +517,7 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Copy", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1120,16 +1120,16 @@ VOID PvInitializeDirectoryTree(
     TreeNew_SetRedraw(TreeNewHandle, FALSE);
 
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_INDEX, TRUE, L"#", 40, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_INDEX, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_NAME, TRUE, L"Name", 130, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_NAME, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_START, TRUE, L"RAW (start)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_START, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_END, TRUE, L"RAW (end)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_END, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (start)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_START, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (end)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_END, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"Size", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_SLACK_SIZE, TRUE, L"Slack space", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_SLACK_SIZE, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_SECTION, TRUE, L"Section", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_SECTION, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_HASH, TRUE, L"Hash", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_HASH, 0, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"Entropy", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_NAME, TRUE, L"名称", 130, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_NAME, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_START, TRUE, L"RAW (起始)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_START, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_END, TRUE, L"RAW (结束)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RAW_END, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_START, TRUE, L"RVA (起始)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_START, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_END, TRUE, L"RVA (结束)", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_END, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_SIZE, TRUE, L"大小", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_RVA_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_SLACK_SIZE, TRUE, L"闲置空间", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_SLACK_SIZE, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_SECTION, TRUE, L"节", 100, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_SECTION, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_HASH, TRUE, L"哈希", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_HASH, 0, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_ENTROPY, TRUE, L"熵", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_ENTROPY, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_SSDEEP, TRUE, L"SSDEEP", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_SSDEEP, 0, 0);
     PhAddTreeNewColumnEx2(TreeNewHandle, PV_DIRECTORY_TREE_COLUMN_ITEM_TLSH, TRUE, L"TLSH", 80, PH_ALIGN_LEFT, PV_DIRECTORY_TREE_COLUMN_ITEM_TLSH, 0, 0);
 

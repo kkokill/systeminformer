@@ -13,10 +13,10 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Chinese (Simplified, China) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -54,16 +54,16 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Serve agent tools (MCP) for this session",IDC_ENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,220,10
+    CONTROL         "为此会话提供智能体工具 (MCP)",IDC_ENABLED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,260,10
     LTEXT           "",IDC_STATUS,7,20,303,10
-    CONTROL         "Ask before allowing an agent to connect",IDC_CONFIRM_CONNECTIONS,
+    CONTROL         "在允许智能体连接前询问",IDC_CONFIRM_CONNECTIONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,33,260,10
-    CONTROL         "Allow sandboxed clients (AppContainer or low integrity)",IDC_ALLOW_SANDBOXED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,46,260,10
+    CONTROL         "允许沙箱客户端（AppContainer 或低完整性级别）",IDC_ALLOW_SANDBOXED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,46,280,10
     EDITTEXT        IDC_SEARCH,7,61,303,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_TOOLS,"PhTreeNew",WS_CLIPCHILDREN | WS_TABSTOP | 0x2,7,79,303,121,WS_EX_CLIENTEDGE
-    LTEXT           "Delegate to client uses the client's prompt. Not required never asks.",IDC_NOTE,7,205,303,16
+    LTEXT           "委托给客户端时使用客户端的提示。“从不询问”则不会弹出询问。",IDC_NOTE,7,203,303,18
 END
 
 IDD_OPTIONS_AGENTS DIALOGEX 0, 0, 317, 225
@@ -71,13 +71,13 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Connected agents",IDC_AGENTS_GROUP,7,7,303,92
+    GROUPBOX        "已连接的智能体",IDC_AGENTS_GROUP,7,7,303,92
     CONTROL         "",IDC_AGENTS,"PhTreeNew",WS_CLIPCHILDREN | WS_TABSTOP | 0x2,14,19,289,58,WS_EX_CLIENTEDGE
-    PUSHBUTTON      "Revoke grants",IDC_REVOKE_GRANTS,192,80,57,13
-    PUSHBUTTON      "Disconnect",IDC_DISCONNECT,253,80,50,13
-    GROUPBOX        "Client configuration",IDC_CONFIG_GROUP,7,104,303,114
+    PUSHBUTTON      "撤销授权",IDC_REVOKE_GRANTS,192,80,57,13
+    PUSHBUTTON      "断开连接",IDC_DISCONNECT,253,80,50,13
+    GROUPBOX        "客户端配置",IDC_CONFIG_GROUP,7,104,303,114
     COMBOBOX        IDC_CONFIG_TARGET,14,116,130,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "Copy",IDC_COPY,253,116,50,13
+    PUSHBUTTON      "复制",IDC_COPY,253,116,50,13
     EDITTEXT        IDC_SNIPPET,14,133,289,78,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
 END
 
@@ -110,7 +110,7 @@ END
 
 
 
-#endif    // English (United States) resources
+#endif    // Chinese (Simplified, China) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

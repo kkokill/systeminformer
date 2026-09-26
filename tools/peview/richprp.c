@@ -48,7 +48,7 @@ PWSTR PvpGetProductIdName(
     else if (ProductId == 1)
         return L"Linker (Import Table)";
 
-    return PhaFormatString(L"Report error (%lu)", ProductId)->Buffer;
+    return PhaFormatString(L"报告错误 (%lu)", ProductId)->Buffer;
 }
 
 PWSTR PvpGetProductIdComponent(
@@ -326,7 +326,7 @@ PWSTR PvpGetProductIdComponent(
         return L"Profile Guided Optimization (Output) (C11)";
     }
 
-    return PhaFormatString(L"Report error (%lu)", ProductId)->Buffer;
+    return PhaFormatString(L"报告错误 (%lu)", ProductId)->Buffer;
 }
 
 VOID PvpPeEnumProdEntries(
@@ -423,9 +423,9 @@ INT_PTR CALLBACK PvpPeProdIdDlgProc(
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Component");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"Version");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"Count");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"组件");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"版本");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"计数");
             //PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 100, L"Product");
             PhSetExtendedListView(context->ListViewHandle);
             PhLoadListViewColumnsFromSetting(L"ImageProdIdListViewColumns", context->ListViewHandle);

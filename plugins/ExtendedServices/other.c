@@ -35,22 +35,22 @@ static _RtlCreateServiceSid RtlCreateServiceSid_I = NULL;
 
 static PH_KEY_VALUE_PAIR EspServiceSidTypePairs[] =
 {
-    SIP(L"None", SERVICE_SID_TYPE_NONE),
-    SIP(L"Restricted", SERVICE_SID_TYPE_RESTRICTED),
-    SIP(L"Unrestricted", SERVICE_SID_TYPE_UNRESTRICTED)
+    SIP(L"无", SERVICE_SID_TYPE_NONE),
+    SIP(L"受限", SERVICE_SID_TYPE_RESTRICTED),
+    SIP(L"不受限", SERVICE_SID_TYPE_UNRESTRICTED)
 };
 
 static PH_KEY_VALUE_PAIR EspServiceLaunchProtectedPairs[] =
 {
-    SIP(L"None", SERVICE_LAUNCH_PROTECTED_NONE),
-    SIP(L"Full (Windows)", SERVICE_LAUNCH_PROTECTED_WINDOWS),
-    SIP(L"Light (Windows)", SERVICE_LAUNCH_PROTECTED_WINDOWS_LIGHT),
-    SIP(L"Light (Antimalware)", SERVICE_LAUNCH_PROTECTED_ANTIMALWARE_LIGHT),
-    SIP(L"Light (StoreApp)", 0x4),
+    SIP(L"无", SERVICE_LAUNCH_PROTECTED_NONE),
+    SIP(L"完全 (Windows)", SERVICE_LAUNCH_PROTECTED_WINDOWS),
+    SIP(L"轻型 (Windows)", SERVICE_LAUNCH_PROTECTED_WINDOWS_LIGHT),
+    SIP(L"轻型 (反恶意软件)", SERVICE_LAUNCH_PROTECTED_ANTIMALWARE_LIGHT),
+    SIP(L"轻型 (StoreApp)", 0x4),
 };
 
-static WCHAR *EspServiceSidTypeStrings[3] = { L"None", L"Restricted", L"Unrestricted" };
-static WCHAR *EspServiceLaunchProtectedStrings[4] = { L"None", L"Full (Windows)", L"Light (Windows)", L"Light (Antimalware)" };
+static WCHAR *EspServiceSidTypeStrings[3] = { L"无", L"受限", L"不受限" };
+static WCHAR *EspServiceLaunchProtectedStrings[4] = { L"无", L"完全 (Windows)", L"轻型 (Windows)", L"轻型 (反恶意软件)" };
 
 PCWSTR EspGetServiceSidTypeString(
     _In_ ULONG SidType
@@ -66,7 +66,7 @@ PCWSTR EspGetServiceSidTypeString(
         ))
         return string;
     else
-        return L"Unknown";
+        return L"未知";
 }
 
 ULONG EspGetServiceSidTypeInteger(
@@ -100,7 +100,7 @@ PCWSTR EspGetServiceLaunchProtectedString(
         ))
         return string;
     else
-        return L"Unknown";
+        return L"未知";
 }
 
 ULONG EspGetServiceLaunchProtectedInteger(
@@ -333,8 +333,8 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
             context->PrivilegesLv = privilegesLv = GetDlgItem(WindowHandle, IDC_PRIVILEGES);
             PhSetListViewStyle(privilegesLv, FALSE, TRUE);
             PhSetControlTheme(privilegesLv, L"explorer");
-            PhAddListViewColumn(privilegesLv, 0, 0, 0, LVCFMT_LEFT, 140, L"Name");
-            PhAddListViewColumn(privilegesLv, 1, 1, 1, LVCFMT_LEFT, 220, L"Display name");
+            PhAddListViewColumn(privilegesLv, 0, 0, 0, LVCFMT_LEFT, 140, L"名称");
+            PhAddListViewColumn(privilegesLv, 1, 1, 1, LVCFMT_LEFT, 220, L"显示名称");
             PhSetExtendedListView(privilegesLv);
 
             context->PrivilegeList = PhCreateList(32);
@@ -366,9 +366,9 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
 
                 PhShowWarning2(
                     WindowHandle,
-                    L"Unable to query service information.",
+                    L"无法查询服务信息。",
                     L"%s",
-                    PhGetStringOrDefault(errorMessage, L"Unknown error.")
+                    PhGetStringOrDefault(errorMessage, L"未知错误。")
                     );
 
                 PhClearReference(&errorMessage);
@@ -416,7 +416,7 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
 
                     if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(WindowHandle, L"Unable to open LSA policy", status, 0);
+                        PhShowStatus(WindowHandle, L"无法打开 LSA 策略", status, 0);
                         break;
                     }
 
@@ -424,8 +424,8 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
 
                     while (PhaChoiceDialog(
                         WindowHandle,
-                        L"Add privilege",
-                        L"Select a privilege to add:",
+                        L"添加特权",
+                        L"请选择要添加的特权：",
                         (PWSTR *)choices->Items,
                         choices->Count,
                         NULL,
@@ -456,7 +456,7 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
                                 WindowHandle,
                                 TD_OK_BUTTON | TD_CANCEL_BUTTON,
                                 TD_ERROR_ICON,
-                                 L"The selected privilege has already been added.",
+                                 L"所选特权已被添加。",
                                  L"%s",
                                  L""
                                  ) == IDOK)
@@ -577,8 +577,8 @@ INT_PTR CALLBACK EspServiceOtherDlgProc(
                         config.hwndParent = WindowHandle;
                         config.pszWindowTitle = SystemInformer_GetWindowName();
                         config.pszMainIcon = TD_WARNING_ICON;
-                        config.pszMainInstruction = L"Setting service protection will prevent the service from being controlled, modified, or deleted.";
-                        config.pszContent = L"Do you want to continue?";
+                        config.pszMainInstruction = L"设置服务保护后将无法控制、修改或删除该服务。";
+                        config.pszContent = L"是否要继续？";
 
                         if (!PhShowTaskDialog(
                             &config,
@@ -700,7 +700,7 @@ Done:
                         {
                             if (PhShowContinueStatus(
                                 WindowHandle,
-                                L"Unable to change service information.",
+                                L"无法更改服务信息。",
                                 status,
                                 0))
                             {

@@ -116,7 +116,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
 
             if (!NT_SUCCESS(status = EtFirmwareQueryVariable(context, context->Name, context->GuidString)))
             {
-                PhShowStatus(context->ParentWindowHandle, L"Unable to query the EFI variable.", status, 0);
+                PhShowStatus(context->ParentWindowHandle, L"无法查询 EFI 变量。", status, 0);
                 DestroyWindow(WindowHandle);
                 return TRUE;
             }
@@ -160,7 +160,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 ULONG bytesPerRow;
 
                 for (ULONG i = 0; i < ARRAYSIZE(bytesPerRowStrings); i++)
-                    bytesPerRowStrings[i] = PhaFormatString(L"%u bytes per row", 1 << (2 + i))->Buffer;
+                    bytesPerRowStrings[i] = PhaFormatString(L"%u 字节/行", 1 << (2 + i))->Buffer;
 
                 PhAddComboBoxStrings(context->BytesPerRowHandle, bytesPerRowStrings, ARRAYSIZE(bytesPerRowStrings));
 
@@ -170,7 +170,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 {
                     HexEdit_SetBytesPerRow(context->HexEditHandle, bytesPerRow);
                     PhSelectComboBoxString(context->BytesPerRowHandle, PhaFormatString(
-                        L"%u bytes per row", bytesPerRow)->Buffer, FALSE);
+                        L"%u 字节/行", bytesPerRow)->Buffer, FALSE);
                 }
             }
 
@@ -211,8 +211,8 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 {
                     static PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Binary files (*.bin)", L"*.bin" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"二进制文件 (*.bin)", L"*.bin" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog;
 
@@ -245,7 +245,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                         }
 
                         if (!NT_SUCCESS(status))
-                            PhShowStatus(WindowHandle, L"Unable to create the file", status, 0);
+                            PhShowStatus(WindowHandle, L"无法创建文件", status, 0);
                     }
 
                     PhFreeFileDialog(fileDialog);
@@ -268,7 +268,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
 
                     if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(NULL, L"Unable to update the EFI variable.", status, 0);
+                        PhShowStatus(NULL, L"无法更新 EFI 变量。", status, 0);
                         return TRUE;
                     }
 
@@ -282,7 +282,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
 
                     if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(NULL, L"Unable to update the EFI variable.", status, 0);
+                        PhShowStatus(NULL, L"无法更新 EFI 变量。", status, 0);
                         return TRUE;
                     }
 
@@ -294,7 +294,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
 
                     if (!NT_SUCCESS(status = EtFirmwareQueryVariable(context, context->Name, context->GuidString)))
                     {
-                        PhShowStatus(NULL, L"Unable to query the EFI variable.", status, 0);
+                        PhShowStatus(NULL, L"无法查询 EFI 变量。", status, 0);
                         return TRUE;
                     }
 

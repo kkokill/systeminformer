@@ -14,22 +14,22 @@
 
 static PH_KEY_VALUE_PAIR GraphTypePairs[] =
 {
-    { L"None", (PVOID)TASKBAR_ICON_NONE },
-    { L"CPU usage", (PVOID)TASKBAR_ICON_CPU_USAGE },
-    { L"CPU history", (PVOID)TASKBAR_ICON_CPU_HISTORY },
-    { L"I/O history", (PVOID)TASKBAR_ICON_IO_HISTORY },
-    { L"Commit charge history", (PVOID)TASKBAR_ICON_COMMIT_HISTORY },
-    { L"Physical memory history", (PVOID)TASKBAR_ICON_PHYSICAL_HISTORY },
+    { L"无", (PVOID)TASKBAR_ICON_NONE },
+    { L"CPU 使用率", (PVOID)TASKBAR_ICON_CPU_USAGE },
+    { L"CPU 历史记录", (PVOID)TASKBAR_ICON_CPU_HISTORY },
+    { L"I/O 历史记录", (PVOID)TASKBAR_ICON_IO_HISTORY },
+    { L"已提交内存历史记录", (PVOID)TASKBAR_ICON_COMMIT_HISTORY },
+    { L"物理内存历史记录", (PVOID)TASKBAR_ICON_PHYSICAL_HISTORY },
 };
 
 static CONST PCWSTR GraphTypeStrings[] =
 {
-    L"None",
-    L"CPU usage",
-    L"CPU history",
-    L"I/O history",
-    L"Commit charge history",
-    L"Physical memory history"
+    L"无",
+    L"CPU 使用率",
+    L"CPU 历史记录",
+    L"I/O 历史记录",
+    L"已提交内存历史记录",
+    L"物理内存历史记录"
 };
 
 PCWSTR GraphTypeGetTypeString(
@@ -48,7 +48,7 @@ PCWSTR GraphTypeGetTypeString(
         return string;
     }
 
-    return L"None";
+    return L"无";
 }
 
 ULONG GraphTypeGetTypeInteger(

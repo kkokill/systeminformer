@@ -1073,13 +1073,13 @@ PH_STRINGREF PhVerifyResultToStringRef(
     static CONST PH_STRINGREF Results[] =
     {
         { 0, NULL },
-        PH_STRINGREF_INIT(L"No signature"),
-        PH_STRINGREF_INIT(L"Trusted"),
-        PH_STRINGREF_INIT(L"Expired certificate"),
-        PH_STRINGREF_INIT(L"Revoked certificate"),
-        PH_STRINGREF_INIT(L"Not trusted"),
-        PH_STRINGREF_INIT(L"Security policy failure"),
-        PH_STRINGREF_INIT(L"Invalid hash"),
+        PH_STRINGREF_INIT(L"无签名"),
+        PH_STRINGREF_INIT(L"受信任"),
+        PH_STRINGREF_INIT(L"证书已过期"),
+        PH_STRINGREF_INIT(L"证书已吊销"),
+        PH_STRINGREF_INIT(L"不受信任"),
+        PH_STRINGREF_INIT(L"安全策略失败"),
+        PH_STRINGREF_INIT(L"哈希无效"),
     };
 
     if (Result < RTL_NUMBER_OF(Results))

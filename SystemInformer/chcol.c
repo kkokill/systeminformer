@@ -654,7 +654,7 @@ INT_PTR CALLBACK PhpColumnsDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchInactiveHandle,
-                L"Inactive columns...",
+                L"隐藏的列...",
                 SETTING_SEARCH_COLUMNS_REGEX,
                 SETTING_SEARCH_COLUMNS_CASE_SENSITIVE,
                 PhpInactiveColumnsSearchControlCallback,
@@ -664,7 +664,7 @@ INT_PTR CALLBACK PhpColumnsDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchActiveHandle,
-                L"Active columns...",
+                L"显示的列...",
                 SETTING_SEARCH_COLUMNS_REGEX,
                 SETTING_SEARCH_COLUMNS_CASE_SENSITIVE,
                 PhpActiveColumnsSearchControlCallback,

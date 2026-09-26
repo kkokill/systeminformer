@@ -548,7 +548,7 @@ VOID InitializePluginsTree(
 
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
-    PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TRUE, L"Plugin", 80, PH_ALIGN_LEFT, 0, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
+    PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TRUE, L"插件", 80, PH_ALIGN_LEFT, 0, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
     //PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_AUTHOR, TRUE, L"Author", 80, PH_ALIGN_LEFT, 1, 0, 0);
     //PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_VERSION, TRUE, L"Version", 80, PH_ALIGN_CENTER, 2, DT_CENTER, 0);
 
@@ -667,7 +667,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
 
             PhEnumeratePlugins(PhpEnumeratePluginCallback, context);
             TreeNew_AutoSizeColumn(context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TN_AUTOSIZE_REMAINING_SPACE);
-            PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"Disabled Plugins (%lu)", PhpDisabledPluginsCount())->Buffer);
+            PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
         }
@@ -700,7 +700,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
                     ClearPluginsTree(context);
                     PhEnumeratePlugins(PhpEnumeratePluginCallback, context);
                     TreeNew_AutoSizeColumn(context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TN_AUTOSIZE_REMAINING_SPACE);
-                    PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"Disabled Plugins (%lu)", PhpDisabledPluginsCount())->Buffer);
+                    PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
                 }
                 break;
             case ID_SHOWCONTEXTMENU:
@@ -717,9 +717,9 @@ INT_PTR CALLBACK PhPluginsDlgProc(
                     menu = PhCreateEMenu();
                     //PhInsertEMenuItem(menu, uninstallItem = PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_UNINSTALL, L"Uninstall", NULL, NULL), ULONG_MAX);
                     //PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_DISABLE, L"Disable", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_DISABLE, L"禁用", NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_PROPERTIES, L"Properties", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_PROPERTIES, L"属性", NULL, NULL), ULONG_MAX);
 
                     //if (!PhGetOwnTokenAttributes().Elevated)
                     //{
@@ -764,7 +764,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
 
                                 RemovePluginsNode(context, selectedNode);
 
-                                PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"Disabled Plugins (%lu)", PhpDisabledPluginsCount())->Buffer);
+                                PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
 
                                 PhDereferenceObject(baseName);
                             }
@@ -926,7 +926,7 @@ VOID PhpRefreshPluginDetails(
     if (fileName = PhGetPluginFileName(SelectedPlugin))
         baseName = PH_AUTO(PhGetBaseName(fileName));
 
-    PhSetDialogItemText(hwndDlg, IDC_NAME, SelectedPlugin->Information.DisplayName ? SelectedPlugin->Information.DisplayName : L"(unnamed)");
+    PhSetDialogItemText(hwndDlg, IDC_NAME, SelectedPlugin->Information.DisplayName ? SelectedPlugin->Information.DisplayName : L"（未命名）");
     PhSetDialogItemText(hwndDlg, IDC_INTERNALNAME, SelectedPlugin->Name.Buffer);
     PhSetDialogItemText(hwndDlg, IDC_AUTHOR, SelectedPlugin->Information.Author);
     PhSetDialogItemText(hwndDlg, IDC_FILENAME, PhGetStringOrEmpty(baseName));
@@ -935,12 +935,12 @@ VOID PhpRefreshPluginDetails(
 
     if (fileName && NT_SUCCESS(PhInitializeImageVersionInfoEx(&versionInfo, &fileName->sr, FALSE)))
     {
-        PhSetDialogItemText(hwndDlg, IDC_VERSION, PhGetStringOrDefault(versionInfo.FileVersion, L"Unknown"));
+        PhSetDialogItemText(hwndDlg, IDC_VERSION, PhGetStringOrDefault(versionInfo.FileVersion, L"未知"));
         PhDeleteImageVersionInfo(&versionInfo);
     }
     else
     {
-        PhSetDialogItemText(hwndDlg, IDC_VERSION, L"Unknown");
+        PhSetDialogItemText(hwndDlg, IDC_VERSION, L"未知");
     }
 
     ShowWindow(GetDlgItem(hwndDlg, IDC_OPENURL), SelectedPlugin->Information.Url ? SW_SHOW : SW_HIDE);
@@ -1142,7 +1142,7 @@ INT_PTR CALLBACK PhpPluginsDisabledDlgProc(
                 LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER,
                 LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_DOUBLEBUFFER);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
-            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 400, L"Property");
+            PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 400, L"属性");
             PhSetExtendedListView(context->ListViewHandle);
 
             PhpAddDisabledPlugins(context);

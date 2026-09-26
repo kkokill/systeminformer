@@ -15,439 +15,439 @@ CONST AT_ACTION_INFO AtActionInfo[AtActionMaximum] =
 {
     {
         AtActionConnect, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_CONFIRM_CONNECTIONS,
-        L"connect", L"Allow this agent to connect to System Informer", L"connect"
+        L"连接到 System Informer", L"允许此智能体连接到 System Informer", L"connect"
     },
     // processes
     {
         AtActionListProcesses, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_processes"),
-        L"list processes", L"Allow listing processes", L"list_processes"
+        L"列出进程", L"允许列出进程", L"list_processes"
     },
     {
         AtActionGetProcess, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process"),
-        L"read process details", L"Allow reading process details", L"get_process"
+        L"读取进程详情", L"允许读取进程详情", L"get_process"
     },
     {
         AtActionGetProcessHistory, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_history"),
-        L"read the recent history of processes", L"Allow reading process history", L"get_process_history"
+        L"读取进程的近期历史记录", L"允许读取进程历史记录", L"get_process_history"
     },
     {
         AtActionRankProcesses, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"rank_processes"),
-        L"rank processes by recent activity", L"Allow ranking processes by recent activity", L"rank_processes"
+        L"按近期活动对进程排序", L"允许按近期活动对进程排序", L"rank_processes"
     },
     {
         AtActionListRecentEvents, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_recent_events"),
-        L"read recently logged events", L"Allow reading recently logged events", L"list_recent_events"
+        L"读取最近记录的事件", L"允许读取最近记录的事件", L"list_recent_events"
     },
     {
         AtActionListRecentProcessExits, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_recent_process_exits"),
-        L"read what recently exited", L"Allow reading what recently exited", L"list_recent_process_exits"
+        L"读取最近退出的进程", L"允许读取最近退出的进程", L"list_recent_process_exits"
     },
     {
         AtActionGetProcessMitigations, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_mitigations"),
-        L"read the exploit mitigations of processes", L"Allow reading process mitigations", L"get_process_mitigations"
+        L"读取进程的漏洞利用缓解措施", L"允许读取进程缓解措施", L"get_process_mitigations"
     },
     {
         AtActionGetProcessModules, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_modules"),
-        L"list the modules of processes", L"Allow listing process modules", L"get_process_modules"
+        L"列出进程的模块", L"允许列出进程模块", L"get_process_modules"
     },
     {
         AtActionGetProcessThreads, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_threads"),
-        L"list the threads of processes", L"Allow listing process threads", L"get_process_threads"
+        L"列出进程的线程", L"允许列出进程线程", L"get_process_threads"
     },
     {
         AtActionGetProcessHandles, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_handles"),
-        L"list the handles of processes", L"Allow listing process handles", L"get_process_handles"
+        L"列出进程的句柄", L"允许列出进程句柄", L"get_process_handles"
     },
     {
         AtActionGetProcessMemoryRegions, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_memory_regions"),
-        L"list the memory regions of processes", L"Allow listing process memory regions", L"get_process_memory_regions"
+        L"列出进程的内存区域", L"允许列出进程内存区域", L"get_process_memory_regions"
     },
     {
         AtActionGetProcessToken, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_token"),
-        L"read the tokens of processes", L"Read the tokens of processes", L"get_process_token"
+        L"读取进程的令牌", L"读取进程的令牌", L"get_process_token"
     },
     {
         AtActionGetProcessWindows, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_windows"),
-        L"list the windows of processes", L"Allow listing process windows", L"get_process_windows"
+        L"列出进程的窗口", L"允许列出进程窗口", L"get_process_windows"
     },
     {
         AtActionListWindows, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_windows"),
-        L"list the windows on the desktop", L"Allow listing windows", L"list_windows"
+        L"列出桌面上的窗口", L"允许列出窗口", L"list_windows"
     },
     {
         AtActionGetWindowInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_window_info"),
-        L"read the details of a window", L"Allow reading window details", L"get_window_info"
+        L"读取窗口详情", L"允许读取窗口详情", L"get_window_info"
     },
     {
         AtActionCloseWindow, AtTierWrite, AtConsentClassNone, AtTargetProcess, 0, SETTING_NAME_TOOL_CONFIRM(L"close_window"),
-        L"ask the following window to close", L"Close a window of", L"close_window"
+        L"请求关闭以下窗口", L"关闭窗口", L"close_window"
     },
     {
         AtActionSetWindowState, AtTierWrite, AtConsentClassNone, AtTargetProcess, 0, SETTING_NAME_TOOL_CONFIRM(L"set_window_state"),
-        L"show, hide or resize the following window", L"Change a window of", L"set_window_state"
+        L"显示、隐藏或调整以下窗口的大小", L"更改窗口", L"set_window_state"
     },
     {
         AtActionGetDotNetAssemblies, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_dotnet_assemblies"),
-        L"read the managed assemblies of processes", L"Read the managed assemblies of processes", L"get_dotnet_assemblies"
+        L"读取进程的托管程序集", L"读取进程的托管程序集", L"get_dotnet_assemblies"
     },
     {
         AtActionGetProcessNotes, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_notes"),
-        L"read the notes saved against processes", L"Allow reading saved process notes", L"get_process_notes"
+        L"读取进程的备注", L"允许读取进程备注", L"get_process_notes"
     },
     {
         AtActionSetProcessComment, AtTierWrite, AtConsentClassNone, AtTargetProcess, 0, SETTING_NAME_TOOL_CONFIRM(L"set_process_comment"),
-        L"save a comment against the following program", L"Save a comment against", L"set_process_comment"
+        L"保存以下程序的备注", L"保存备注", L"set_process_comment"
     },
     {
         AtActionReadProcessEnvironment, AtTierSensitiveRead, AtConsentClassNone, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"get_process_environment"),
-        L"read environment variables of processes", L"Read the environment of", L"get_process_environment"
+        L"读取进程的环境变量", L"读取环境变量", L"get_process_environment"
     },
     {
         AtActionGetProcessHandlesDetailed, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetProcess, PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"get_process_handles_detailed"),
-        L"read the object names behind process handles", L"Read the handle names of", L"get_process_handles_detailed"
+        L"读取进程句柄背后的对象名称", L"读取句柄名称", L"get_process_handles_detailed"
     },
     {
         AtActionFindHandles, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"find_handles"),
-        L"search every process for handles to an object", L"Search every process for handles", L"find_handles"
+        L"在所有进程中搜索指向某对象的句柄", L"在所有进程中搜索句柄", L"find_handles"
     },
     {
         AtActionFindModules, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"find_modules"),
-        L"search every process for a loaded module", L"Allow searching processes for modules", L"find_modules"
+        L"在所有进程中搜索已加载的模块", L"允许在进程中搜索模块", L"find_modules"
     },
     {
         AtActionGetFileUsers, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_file_users"),
-        L"find which processes are using a file", L"Allow finding which processes use a file", L"get_file_users"
+        L"查找哪些进程正在使用某文件", L"允许查找使用文件的进程", L"get_file_users"
     },
     {
         AtActionListObjectDirectory, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_object_directory"),
-        L"list the kernel object namespace", L"Allow listing the object namespace", L"list_object_directory"
+        L"列出内核对象命名空间", L"允许列出对象命名空间", L"list_object_directory"
     },
     {
         AtActionGetObjectInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_object_info"),
-        L"inspect a kernel object", L"Allow inspecting kernel objects", L"get_object_info"
+        L"检查内核对象", L"允许检查内核对象", L"get_object_info"
     },
     {
         AtActionGetAlpcPortInfo, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetHandle, PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"get_alpc_port_info"),
-        L"inspect an ALPC port", L"Allow inspecting ALPC ports of", L"get_alpc_port_info"
+        L"检查 ALPC 端口", L"允许检查 ALPC 端口", L"get_alpc_port_info"
     },
     {
         AtActionGetHandleDetails, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetHandle, PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"get_handle_details"),
-        L"inspect the object behind a handle", L"Inspect the objects held by", L"get_handle_details"
+        L"检查句柄背后的对象", L"检查", L"get_handle_details"
     },
     {
         AtActionListNamedPipes, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_named_pipes"),
-        L"list named pipes", L"Allow listing named pipes", L"list_named_pipes"
+        L"列出命名管道", L"允许列出命名管道", L"list_named_pipes"
     },
     {
         AtActionGetSectionMappings, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_section_mappings"),
-        L"list which processes map a section", L"List which processes map a section", L"get_section_mappings"
+        L"列出哪些进程映射了内存节", L"列出哪些进程映射了内存节", L"get_section_mappings"
     },
     {
         AtActionFindObjectHandles, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"find_object_handles"),
-        L"find every handle to one object", L"Find every handle to an object", L"find_object_handles"
+        L"查找指向某对象的所有句柄", L"查找指向某对象的所有句柄", L"find_object_handles"
     },
     {
         AtActionGetThreadStack, AtTierSensitiveRead, AtConsentClassThreadStacks, AtTargetThread, THREAD_QUERY_INFORMATION | THREAD_GET_CONTEXT | THREAD_SUSPEND_RESUME, SETTING_NAME_TOOL_CONFIRM(L"get_thread_stack"),
-        L"read thread stacks", L"Read the stack of", L"get_thread_stack"
+        L"读取线程调用堆栈", L"读取调用堆栈", L"get_thread_stack"
     },
     {
         AtActionGetProcessStacks, AtTierSensitiveRead, AtConsentClassThreadStacks, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"get_process_stacks"),
-        L"read thread stacks", L"Read the thread stacks of", L"get_process_stacks"
+        L"读取线程调用堆栈", L"读取线程调用堆栈", L"get_process_stacks"
     },
     {
         AtActionGetThreadWaitChain, AtTierSensitiveRead, AtConsentClassNone, AtTargetProcess, PROCESS_QUERY_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"get_thread_wait_chain"),
-        L"read wait chains", L"Read the wait chains of", L"get_thread_wait_chain"
+        L"读取等待链", L"读取等待链", L"get_thread_wait_chain"
     },
     {
         AtActionAnalyzeThreadWait, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetThread, THREAD_GET_CONTEXT | THREAD_QUERY_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"analyze_thread_wait"),
-        L"analyze what a thread is waiting on", L"Analyze the wait of", L"analyze_thread_wait"
+        L"分析线程正在等待的对象", L"分析等待原因", L"analyze_thread_wait"
     },
     {
         AtActionResolveSymbol, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"resolve_symbol"),
-        L"resolve symbols", L"Resolve symbols", L"resolve_symbol"
+        L"解析符号", L"解析符号", L"resolve_symbol"
     },
     {
         AtActionSearchProcessStrings, AtTierSensitiveRead, AtConsentClassProcessMemory, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"search_process_strings"),
-        L"read the strings in the memory of", L"Read the strings in the memory of", L"search_process_strings"
+        L"读取进程内存中的字符串", L"读取内存中的字符串", L"search_process_strings"
     },
     {
         AtActionGetProcessUnloadedModules, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_unloaded_modules"),
-        L"list unloaded modules", L"Allow listing unloaded modules", L"get_process_unloaded_modules"
+        L"列出已卸载模块", L"允许列出已卸载模块", L"get_process_unloaded_modules"
     },
     {
         AtActionGetProcessImageCoherency, AtTierSensitiveRead, AtConsentClassProcessMemory, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"get_process_image_coherency"),
-        L"compare the images in memory with their files for", L"Compare the images in memory with their files for", L"get_process_image_coherency"
+        L"比对进程内存中的映像与其文件", L"比对内存映像与文件", L"get_process_image_coherency"
     },
     {
         AtActionGetImagePageModifications, AtTierSensitiveRead, AtConsentClassProcessMemory, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"get_image_page_modifications"),
-        L"find the modified pages of an image in", L"Find the modified image pages in", L"get_image_page_modifications"
+        L"查找映像在内存中的已修改页", L"查找映像的已修改页", L"get_image_page_modifications"
     },
     {
         AtActionGetProcessJob, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_job"),
-        L"read job objects", L"Read job objects", L"get_process_job"
+        L"读取作业对象", L"读取作业对象", L"get_process_job"
     },
     {
         AtActionTerminateProcess, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_TERMINATE, SETTING_NAME_TOOL_CONFIRM(L"terminate_process"),
-        L"terminate the following process", L"Terminate", L"terminate_process"
+        L"终止以下进程", L"终止", L"terminate_process"
     },
     {
         AtActionSuspendProcess, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_SUSPEND_RESUME, SETTING_NAME_TOOL_CONFIRM(L"suspend_process"),
-        L"suspend the following process", L"Suspend", L"suspend_process"
+        L"挂起以下进程", L"挂起", L"suspend_process"
     },
     {
         AtActionResumeProcess, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_SUSPEND_RESUME, SETTING_NAME_TOOL_CONFIRM(L"resume_process"),
-        L"resume the following process", L"Resume", L"resume_process"
+        L"恢复以下进程", L"恢复", L"resume_process"
     },
     {
         AtActionSetProcessPriority, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_SET_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"set_process_priority"),
-        L"set the priority of the following process", L"Set the priority of", L"set_process_priority"
+        L"设置以下进程的优先级", L"设置优先级", L"set_process_priority"
     },
     {
         AtActionSetProcessIoPriority, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_SET_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"set_process_io_priority"),
-        L"set the I/O priority of the following process", L"Set the I/O priority of", L"set_process_io_priority"
+        L"设置以下进程的 I/O 优先级", L"设置 I/O 优先级", L"set_process_io_priority"
     },
     {
         AtActionCreateProcessMinidump, AtTierWrite, AtConsentClassNone, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_DUP_HANDLE, SETTING_NAME_TOOL_CONFIRM(L"create_process_minidump"),
-        L"write a memory dump of the following process", L"Write a memory dump of", L"create_process_minidump"
+        L"写入以下进程的内存转储", L"写入内存转储", L"create_process_minidump"
     },
     {
         // PROCESS_DUP_HANDLE is all the duplicate-with-close needs, and target.c already ORs in
         // PROCESS_QUERY_LIMITED_INFORMATION for the resolution itself.
         AtActionCloseHandle, AtTierWrite, AtConsentClassNone, AtTargetHandle, PROCESS_DUP_HANDLE, SETTING_NAME_TOOL_CONFIRM(L"close_handle"),
-        L"close the following handle", L"Close", L"close_handle"
+        L"关闭以下句柄", L"关闭", L"close_handle"
     },
     // threads
     {
         AtActionSuspendThread, AtTierWrite, AtConsentClassNone, AtTargetThread, THREAD_SUSPEND_RESUME, SETTING_NAME_TOOL_CONFIRM(L"suspend_thread"),
-        L"suspend the following thread", L"Suspend", L"suspend_thread"
+        L"挂起以下线程", L"挂起", L"suspend_thread"
     },
     {
         AtActionResumeThread, AtTierWrite, AtConsentClassNone, AtTargetThread, THREAD_SUSPEND_RESUME, SETTING_NAME_TOOL_CONFIRM(L"resume_thread"),
-        L"resume the following thread", L"Resume", L"resume_thread"
+        L"恢复以下线程", L"恢复", L"resume_thread"
     },
     {
         AtActionTerminateThread, AtTierWrite, AtConsentClassNone, AtTargetThread, THREAD_TERMINATE, SETTING_NAME_TOOL_CONFIRM(L"terminate_thread"),
-        L"terminate the following thread", L"Terminate", L"terminate_thread"
+        L"终止以下线程", L"终止", L"terminate_thread"
     },
     {
         AtActionCancelThreadIo, AtTierWrite, AtConsentClassNone, AtTargetThread, THREAD_TERMINATE, SETTING_NAME_TOOL_CONFIRM(L"cancel_thread_io"),
-        L"cancel the synchronous I/O of the following thread", L"Cancel the I/O of", L"cancel_thread_io"
+        L"取消以下线程的同步 I/O", L"取消 I/O", L"cancel_thread_io"
     },
     // services
     {
         AtActionListServices, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_services"),
-        L"list services", L"Allow listing services", L"list_services"
+        L"列出服务", L"允许列出服务", L"list_services"
     },
     {
         AtActionGetService, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_service"),
-        L"read service details", L"Allow reading service details", L"get_service"
+        L"读取服务详情", L"允许读取服务详情", L"get_service"
     },
     {
         AtActionStartService, AtTierWrite, AtConsentClassNone, AtTargetService, SERVICE_START | SERVICE_QUERY_STATUS, SETTING_NAME_TOOL_CONFIRM(L"start_service"),
-        L"start the following service", L"Start", L"start_service"
+        L"启动以下服务", L"启动", L"start_service"
     },
     {
         AtActionPauseService, AtTierWrite, AtConsentClassNone, AtTargetService,
         SERVICE_PAUSE_CONTINUE | SERVICE_QUERY_STATUS, SETTING_NAME_TOOL_CONFIRM(L"pause_service"),
-        L"pause the following service", L"Pause", L"pause_service"
+        L"暂停以下服务", L"暂停", L"pause_service"
     },
     {
         AtActionContinueService, AtTierWrite, AtConsentClassNone, AtTargetService,
         SERVICE_PAUSE_CONTINUE | SERVICE_QUERY_STATUS, SETTING_NAME_TOOL_CONFIRM(L"continue_service"),
-        L"continue the following service", L"Continue", L"continue_service"
+        L"继续以下服务", L"继续", L"continue_service"
     },
     {
         AtActionStopService, AtTierWrite, AtConsentClassNone, AtTargetService, SERVICE_STOP | SERVICE_QUERY_STATUS, SETTING_NAME_TOOL_CONFIRM(L"stop_service"),
-        L"stop the following service", L"Stop", L"stop_service"
+        L"停止以下服务", L"停止", L"stop_service"
     },
     {
         AtActionRestartService, AtTierWrite, AtConsentClassNone, AtTargetService, SERVICE_STOP | SERVICE_START | SERVICE_QUERY_STATUS, SETTING_NAME_TOOL_CONFIRM(L"restart_service"),
-        L"restart the following service", L"Restart", L"restart_service"
+        L"重启以下服务", L"重启", L"restart_service"
     },
     {
         AtActionSetServiceConfig, AtTierWrite, AtConsentClassNone, AtTargetService, SERVICE_CHANGE_CONFIG | SERVICE_QUERY_CONFIG, SETTING_NAME_TOOL_CONFIRM(L"set_service_config"),
-        L"change the configuration of the following service", L"Change the configuration of", L"set_service_config"
+        L"更改以下服务的配置", L"更改配置", L"set_service_config"
     },
     // disks
     {
         AtActionGetDiskPerformance, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_disk_performance"),
-        L"read disk performance counters", L"Allow reading disk performance", L"get_disk_performance"
+        L"读取磁盘性能计数器", L"允许读取磁盘性能", L"get_disk_performance"
     },
     {
         AtActionGetDiskIdentity, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_disk_identity"),
-        L"read the make and model of the disks", L"Allow reading disk identity", L"get_disk_identity"
+        L"读取磁盘的品牌与型号", L"允许读取磁盘品牌与型号", L"get_disk_identity"
     },
     {
         AtActionGetDiskHealth, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_disk_health"),
-        L"read the health data of the disks", L"Read the health data of the disks", L"get_disk_health"
+        L"读取磁盘的健康数据", L"读取磁盘的健康数据", L"get_disk_health"
     },
     // network
     {
         AtActionListNetworkAdapters, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_network_adapters"),
-        L"list the network adapters", L"Allow listing network adapters", L"list_network_adapters"
+        L"列出网络适配器", L"允许列出网络适配器", L"list_network_adapters"
     },
     {
         AtActionLookupIpCountry, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"lookup_ip_country"),
-        L"look up which country an address belongs to", L"Allow looking up address countries", L"lookup_ip_country"
+        L"查询地址所属的国家", L"允许查询地址所属国家", L"lookup_ip_country"
     },
     {
         AtActionPingHost, AtTierNetworkEgress, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"ping_host"),
-        L"send ICMP echo requests to the following address", L"Send pings to", L"ping_host"
+        L"向以下地址发送 ICMP 回显请求", L"发送 Ping", L"ping_host"
     },
     {
         AtActionWhoisLookup, AtTierNetworkEgress, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"whois_lookup"),
-        L"query whois servers about the following address", L"Query whois servers about", L"whois_lookup"
+        L"向 whois 服务器查询以下地址", L"查询 whois 服务器", L"whois_lookup"
     },
     {
         AtActionListFirewallEvents, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_firewall_events"),
-        L"read the firewall event log", L"Read the firewall event log", L"list_firewall_events"
+        L"读取防火墙事件日志", L"读取防火墙事件日志", L"list_firewall_events"
     },
     {
         AtActionListNetworkConnections, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_network_connections"),
-        L"list network connections", L"Allow listing network connections", L"list_network_connections"
+        L"列出网络连接", L"允许列出网络连接", L"list_network_connections"
     },
     {
         AtActionCloseNetworkConnection, AtTierWrite, AtConsentClassNone, AtTargetConnection, 0, SETTING_NAME_TOOL_CONFIRM(L"close_network_connection"),
-        L"close the following network connection", L"Close", L"close_network_connection"
+        L"关闭以下网络连接", L"关闭", L"close_network_connection"
     },
     // system
     {
         AtActionGetSystemInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_system_info"),
-        L"read system information", L"Allow reading system information", L"get_system_info"
+        L"读取系统信息", L"允许读取系统信息", L"get_system_info"
     },
     {
         AtActionGetSystemHistory, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_system_history"),
-        L"read the recent history of the system", L"Allow reading system history", L"get_system_history"
+        L"读取系统的近期历史记录", L"允许读取系统历史记录", L"get_system_history"
     },
     {
         AtActionGetGpuUsage, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_gpu_usage"),
-        L"read graphics adapter utilization", L"Allow reading GPU utilization", L"get_gpu_usage"
+        L"读取图形适配器的使用率", L"允许读取 GPU 使用率", L"get_gpu_usage"
     },
     {
         AtActionListGpuAdapters, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_gpu_adapters"),
-        L"list the graphics adapters", L"Allow listing graphics adapters", L"list_gpu_adapters"
+        L"列出图形适配器", L"允许列出图形适配器", L"list_gpu_adapters"
     },
     {
         AtActionGetProcessGpuStats, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_gpu_stats"),
-        L"read the graphics usage of processes", L"Allow reading process GPU usage", L"get_process_gpu_stats"
+        L"读取进程的图形使用情况", L"允许读取进程 GPU 使用情况", L"get_process_gpu_stats"
     },
     {
         AtActionListDevices, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_devices"),
-        L"list the devices installed on this machine", L"Allow listing devices", L"list_devices"
+        L"列出本机安装的设备", L"允许列出设备", L"list_devices"
     },
     {
         AtActionGetDeviceResources, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_device_resources"),
-        L"read the hardware resources of a device", L"Allow reading device resources", L"get_device_resources"
+        L"读取设备的硬件资源", L"允许读取设备资源", L"get_device_resources"
     },
     {
         AtActionSetDeviceEnabled, AtTierWrite, AtConsentClassNone, AtTargetDevice, 0, SETTING_NAME_TOOL_CONFIRM(L"set_device_enabled"),
-        L"enable or disable the following device", L"Change the state of", L"set_device_enabled"
+        L"启用或禁用以下设备", L"更改状态", L"set_device_enabled"
     },
     {
         AtActionGetProcessIoRates, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_io_rates"),
-        L"read the disk and network I/O of processes", L"Allow reading process I/O rates", L"get_process_io_rates"
+        L"读取进程的磁盘与网络 I/O", L"允许读取进程 I/O 速率", L"get_process_io_rates"
     },
     {
         AtActionListKernelDrivers, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_kernel_drivers"),
-        L"list kernel drivers", L"Allow listing kernel drivers", L"list_kernel_drivers"
+        L"列出内核驱动程序", L"允许列出内核驱动程序", L"list_kernel_drivers"
     },
     {
         AtActionGetKsiStatus, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_ksi_status"),
-        L"read the kernel driver status", L"Allow reading the kernel driver status", L"get_ksi_status"
+        L"读取内核驱动程序的状态", L"允许读取内核驱动程序状态", L"get_ksi_status"
     },
     {
         AtActionSystemInformerStatus, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"system_informer_status"),
-        L"read whether System Informer is running", L"Allow reading whether System Informer is running", L"system_informer_status"
+        L"读取 System Informer 是否正在运行", L"允许读取 System Informer 是否正在运行", L"system_informer_status"
     },
     {
         AtActionGetPagefileInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_pagefile_info"),
-        L"read pagefile information", L"Allow reading pagefile information", L"get_pagefile_info"
+        L"读取页面文件信息", L"允许读取页面文件信息", L"get_pagefile_info"
     },
     {
         AtActionListStartupEntries, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_startup_entries"),
-        L"list autostart entries", L"Allow listing autostart entries", L"list_startup_entries"
+        L"列出自启动项", L"允许列出自启动项", L"list_startup_entries"
     },
     {
         AtActionGetSmbiosInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_smbios_info"),
-        L"read SMBIOS information", L"Allow reading SMBIOS information", L"get_smbios_info"
+        L"读取 SMBIOS 信息", L"允许读取 SMBIOS 信息", L"get_smbios_info"
     },
     {
         AtActionGetUefiVariables, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_uefi_variables"),
-        L"read UEFI variables", L"Allow reading UEFI variables", L"get_uefi_variables"
+        L"读取 UEFI 变量", L"允许读取 UEFI 变量", L"get_uefi_variables"
     },
     {
         AtActionGetTpmInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_tpm_info"),
-        L"read TPM information", L"Allow reading TPM information", L"get_tpm_info"
+        L"读取 TPM 信息", L"允许读取 TPM 信息", L"get_tpm_info"
     },
     {
         AtActionGetSystemEnvironment, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_system_environment"),
-        L"read the persisted system and user environment variables", L"Allow reading system environment variables", L"get_system_environment"
+        L"读取持久化的系统与用户环境变量", L"允许读取系统环境变量", L"get_system_environment"
     },
     {
         AtActionGetMemoryDetails, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_memory_details"),
-        L"read where the machine's memory is", L"Allow reading memory details", L"get_memory_details"
+        L"读取内存占用详情", L"允许读取内存详情", L"get_memory_details"
     },
     {
         AtActionGetSecurityPosture, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_security_posture"),
-        L"read the machine's security configuration", L"Allow reading the security configuration", L"get_security_posture"
+        L"读取本机的安全配置", L"允许读取安全配置", L"get_security_posture"
     },
     {
         AtActionGetCpuInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_cpu_info"),
-        L"read the processor layout", L"Allow reading the processor layout", L"get_cpu_info"
+        L"读取处理器布局", L"允许读取处理器布局", L"get_cpu_info"
     },
     {
         AtActionListLogonSessions, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_logon_sessions"),
-        L"list who is logged on", L"List the logon sessions", L"list_logon_sessions"
+        L"列出当前登录的用户", L"列出登录会话", L"list_logon_sessions"
     },
     {
         AtActionListTerminalSessions, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_terminal_sessions"),
-        L"list the terminal services sessions", L"Allow listing terminal sessions", L"list_terminal_sessions"
+        L"列出终端服务会话", L"允许列出终端会话", L"list_terminal_sessions"
     },
     {
         AtActionLookupAccount, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"lookup_account"),
-        L"look up accounts and SIDs", L"Allow looking up accounts", L"lookup_account"
+        L"查询账户与 SID", L"允许查询账户", L"lookup_account"
     },
     {
         AtActionListScheduledTasks, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_scheduled_tasks"),
-        L"list the scheduled tasks", L"Allow listing scheduled tasks", L"list_scheduled_tasks"
+        L"列出计划任务", L"允许列出计划任务", L"list_scheduled_tasks"
     },
     {
         AtActionListWmiSubscriptions, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_wmi_subscriptions"),
-        L"list the WMI event subscriptions", L"Allow listing WMI event subscriptions", L"list_wmi_subscriptions"
+        L"列出 WMI 事件订阅", L"允许列出 WMI 事件订阅", L"list_wmi_subscriptions"
     },
     {
         AtActionListHiddenProcesses, AtTierSensitiveRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_hidden_processes"),
-        L"scan for processes the process list does not report", L"Allow scanning for hidden processes", L"list_hidden_processes"
+        L"扫描进程列表未报告的进程", L"允许扫描隐藏进程", L"list_hidden_processes"
     },
     {
         AtActionGetProcessKsiState, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_process_ksi_state"),
-        L"read the driver's view of a process", L"Allow reading the driver's view of a process", L"get_process_ksi_state"
+        L"读取驱动程序所见的进程信息", L"允许读取驱动程序所见的进程信息", L"get_process_ksi_state"
     },
     {
         AtActionGetDriverObject, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_driver_object"),
-        L"read a driver or device object", L"Allow reading driver and device objects", L"get_driver_object"
+        L"读取驱动程序或设备对象", L"允许读取驱动程序与设备对象", L"get_driver_object"
     },
     {
         AtActionListDirectory, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_directory"),
-        L"list the contents of a directory", L"Allow listing directories", L"list_directory"
+        L"列出目录的内容", L"允许列出目录内容", L"list_directory"
     },
     {
         AtActionGetObjectSecurity, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_object_security"),
-        L"read who is allowed what on an object", L"Allow reading object security", L"get_object_security"
+        L"读取对象上各方的访问权限", L"允许读取对象安全权限", L"get_object_security"
     },
     {
         AtActionListPoolTags, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_pool_tags"),
-        L"read kernel pool usage by tag", L"Allow reading kernel pool usage", L"list_pool_tags"
+        L"按标记读取内核池使用情况", L"允许读取内核池使用情况", L"list_pool_tags"
     },
     {
         AtActionSetProcessAffinity, AtTierWrite, AtConsentClassNone, AtTargetProcess,
         PROCESS_SET_INFORMATION | PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"set_process_affinity"),
-        L"set which processors the following process may run on", L"Set the processor affinity of", L"set_process_affinity"
+        L"设置以下进程可在哪些处理器上运行", L"设置处理器亲和性", L"set_process_affinity"
     },
     {
         AtActionSetProcessPagePriority, AtTierWrite, AtConsentClassNone, AtTargetProcess,
         PROCESS_SET_INFORMATION | PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"set_process_page_priority"),
-        L"set the memory priority of the following process", L"Set the memory priority of", L"set_process_page_priority"
+        L"设置以下进程的内存优先级", L"设置内存优先级", L"set_process_page_priority"
     },
     {
         // Only what the operation needs. The before and after counters want more, and the handler
@@ -455,64 +455,64 @@ CONST AT_ACTION_INFO AtActionInfo[AtActionMaximum] =
         // query right is emptied and simply reports no figures.
         AtActionEmptyProcessWorkingSet, AtTierWrite, AtConsentClassNone, AtTargetProcess,
         PROCESS_SET_QUOTA, SETTING_NAME_TOOL_CONFIRM(L"empty_process_working_set"),
-        L"empty the working set of the following process", L"Empty the working set of", L"empty_process_working_set"
+        L"清空以下进程的工作集", L"清空工作集", L"empty_process_working_set"
     },
     {
         AtActionFreezeProcess, AtTierWrite, AtConsentClassNone, AtTargetProcess,
         PROCESS_SET_INFORMATION | PROCESS_SUSPEND_RESUME | PROCESS_QUERY_LIMITED_INFORMATION,
         SETTING_NAME_TOOL_CONFIRM(L"freeze_process"),
-        L"freeze the following process", L"Freeze", L"freeze_process"
+        L"冻结以下进程", L"冻结", L"freeze_process"
     },
     {
         AtActionThawProcess, AtTierWrite, AtConsentClassNone, AtTargetProcess,
         PROCESS_SET_INFORMATION | PROCESS_SUSPEND_RESUME | PROCESS_QUERY_LIMITED_INFORMATION,
         SETTING_NAME_TOOL_CONFIRM(L"thaw_process"),
-        L"thaw the following process", L"Thaw", L"thaw_process"
+        L"解冻以下进程", L"解冻", L"thaw_process"
     },
     // files and memory
     {
         AtActionVerifyFileSignature, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"verify_file_signature"),
-        L"verify file signatures", L"Allow verifying file signatures", L"verify_file_signature"
+        L"验证文件签名", L"允许验证文件签名", L"verify_file_signature"
     },
     {
         AtActionGetFileHashes, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_file_hashes"),
-        L"hash a file", L"Allow hashing files", L"get_file_hashes"
+        L"计算文件哈希", L"允许计算文件哈希", L"get_file_hashes"
     },
     {
         AtActionGetImageStrings, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_image_strings"),
-        L"read the strings in a file", L"Allow reading strings out of files", L"get_image_strings"
+        L"读取文件中的字符串", L"允许读取文件中的字符串", L"get_image_strings"
     },
     {
         AtActionGetFileInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_file_info"),
-        L"read file metadata", L"Allow reading file metadata", L"get_file_info"
+        L"读取文件元数据", L"允许读取文件元数据", L"get_file_info"
     },
     {
         AtActionGetFileScanResultCached, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_file_scan_result_cached"),
-        L"read a cached scan verdict", L"Allow reading cached scan verdicts", L"get_file_scan_result_cached"
+        L"读取缓存的扫描结论", L"允许读取缓存的扫描结论", L"get_file_scan_result_cached"
     },
     {
         AtActionLookupFileHashVirusTotal, AtTierNetworkEgress, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"lookup_file_hash_virustotal"),
-        L"ask VirusTotal about a file hash", L"Send a file hash to VirusTotal", L"lookup_file_hash_virustotal"
+        L"将文件哈希发送至 VirusTotal 查询", L"发送文件哈希至 VirusTotal", L"lookup_file_hash_virustotal"
     },
     {
         AtActionLookupFileHashHybridAnalysis, AtTierNetworkEgress, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"lookup_file_hash_hybrid_analysis"),
-        L"ask Hybrid Analysis about a file hash", L"Send a file hash to Hybrid Analysis", L"lookup_file_hash_hybrid_analysis"
+        L"将文件哈希发送至 Hybrid Analysis 查询", L"发送文件哈希至 Hybrid Analysis", L"lookup_file_hash_hybrid_analysis"
     },
     {
         AtActionReadRegistryKey, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"read_registry_key"),
-        L"read a registry key", L"Allow reading registry keys", L"read_registry_key"
+        L"读取注册表项", L"允许读取注册表项", L"read_registry_key"
     },
     {
         AtActionGetImageInfo, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"get_image_info"),
-        L"inspect executable images", L"Allow inspecting executable images", L"get_image_info"
+        L"检查可执行映像", L"允许检查可执行映像", L"get_image_info"
     },
     {
         AtActionReadProcessMemory, AtTierSensitiveRead, AtConsentClassProcessMemory, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"read_process_memory"),
-        L"read the memory of processes", L"Read the memory of", L"read_process_memory"
+        L"读取进程的内存", L"读取内存", L"read_process_memory"
     },
     {
         AtActionSearchProcessMemory, AtTierSensitiveRead, AtConsentClassProcessMemory, AtTargetProcess, PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, SETTING_NAME_TOOL_CONFIRM(L"search_process_memory"),
-        L"search the memory of processes", L"Search the memory of", L"search_process_memory"
+        L"搜索进程的内存", L"搜索内存", L"search_process_memory"
     },
 };
 

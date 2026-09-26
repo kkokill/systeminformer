@@ -86,21 +86,21 @@ VOID PhInitializeHandleList(
     TreeNew_SetRedraw(hwnd, FALSE);
 
     // Default columns
-    PhAddTreeNewColumn(hwnd, PHHNTLC_TYPE, TRUE, L"Type", 100, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_NAME, TRUE, L"Name", 200, PH_ALIGN_LEFT, 1, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_GRANTEDACCESSSYMBOLIC, TRUE, L"Granted access (symbolic)", 140, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_TYPE, TRUE, L"类型", 100, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_NAME, TRUE, L"名称", 200, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_GRANTEDACCESSSYMBOLIC, TRUE, L"授予的访问权限（符号）", 140, PH_ALIGN_LEFT, 2, 0);
 
-    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLE, FALSE, L"Handle", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_OBJECTADDRESS, FALSE, L"Object address", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHHNTLC_ATTRIBUTES, FALSE, L"Attributes", 120, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_GRANTEDACCESS, FALSE, L"Granted access", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_ORIGINALNAME, FALSE, L"Original name", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(hwnd, PHHNTLC_FILESHAREACCESS, FALSE, L"File share access", 50, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLEVALUE, FALSE, L"Handle value", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLECOUNT, FALSE, L"Handle count", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_POINTERCOUNT, FALSE, L"Reference count", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_PAGEDSIZE, FALSE, L"Paged size", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(hwnd, PHHNTLC_NONPAGEDSIZE, FALSE, L"Nonpaged size", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLE, FALSE, L"句柄", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_OBJECTADDRESS, FALSE, L"对象地址", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHHNTLC_ATTRIBUTES, FALSE, L"属性", 120, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_GRANTEDACCESS, FALSE, L"授予的访问权限", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_ORIGINALNAME, FALSE, L"原始名称", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(hwnd, PHHNTLC_FILESHAREACCESS, FALSE, L"文件共享访问", 50, PH_ALIGN_LEFT, ULONG_MAX, 0, TRUE);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLEVALUE, FALSE, L"句柄值", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_HANDLECOUNT, FALSE, L"句柄计数", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_POINTERCOUNT, FALSE, L"引用计数", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_PAGEDSIZE, FALSE, L"分页大小", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(hwnd, PHHNTLC_NONPAGEDSIZE, FALSE, L"非分页大小", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     TreeNew_SetRedraw(hwnd, TRUE);
 
@@ -601,7 +601,7 @@ BOOLEAN NTAPI PhpHandleTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
                     }
                 }
                 break;
@@ -623,13 +623,13 @@ BOOLEAN NTAPI PhpHandleTreeNewCallback(
                     switch (handleItem->Attributes & (OBJ_PROTECT_CLOSE | OBJ_INHERIT))
                     {
                     case OBJ_PROTECT_CLOSE:
-                        PhInitializeStringRef(&getCellText->Text, L"Protected");
+                        PhInitializeStringRef(&getCellText->Text, L"受保护");
                         break;
                     case OBJ_INHERIT:
-                        PhInitializeStringRef(&getCellText->Text, L"Inherit");
+                        PhInitializeStringRef(&getCellText->Text, L"继承");
                         break;
                     case OBJ_PROTECT_CLOSE | OBJ_INHERIT:
-                        PhInitializeStringRef(&getCellText->Text, L"Protected, Inherit");
+                        PhInitializeStringRef(&getCellText->Text, L"受保护, 继承");
                         break;
                     }
                 }
@@ -670,7 +670,7 @@ BOOLEAN NTAPI PhpHandleTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Resolving...");
+                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
                     }
                 }
                 break;

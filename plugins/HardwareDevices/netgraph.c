@@ -111,7 +111,7 @@ BOOLEAN NetworkDeviceGraphMessageCallback(
  
      if (mediaState == MediaConnectStateConnected)
      {
-         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"Connected");
+         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"已连接");
  
          //PhInitFormatSR(&format[0], PH_AUTO_T(PH_STRING, NetAdapterFormatBitratePrefix(linkSpeedValue))->sr);
          PhInitFormatSize(&format[0], linkSpeedValue / BITS_IN_ONE_BYTE);
@@ -130,7 +130,7 @@ BOOLEAN NetworkDeviceGraphMessageCallback(
      }
      else
      {
-         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"Disconnected");
+         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"已断开");
          PhSetWindowText(Context->NetAdapterPanelSpeedLabel, L"N/A");
      }
  
@@ -567,16 +567,16 @@ VOID NetworkDeviceUpdateTitle(
     if (Context->AdapterEntry->PendingQuery)
     {
         if (Context->AdapterTextLabel)
-            PhSetWindowText(Context->AdapterTextLabel, L"Pending...");
+            PhSetWindowText(Context->AdapterTextLabel, L"等待中...");
         if (Context->AdapterNameLabel)
-            PhSetWindowText(Context->AdapterNameLabel, L"Pending...");
+            PhSetWindowText(Context->AdapterNameLabel, L"等待中...");
     }
     else
     {
         if (Context->AdapterTextLabel)
-            PhSetWindowText(Context->AdapterTextLabel, PhGetStringOrDefault(Context->AdapterEntry->AdapterAlias, L"Unknown"));
+            PhSetWindowText(Context->AdapterTextLabel, PhGetStringOrDefault(Context->AdapterEntry->AdapterAlias, L"未知"));
         if (Context->AdapterNameLabel)
-            PhSetWindowText(Context->AdapterNameLabel, PhGetStringOrDefault(Context->AdapterEntry->AdapterName, L"Unknown"));
+            PhSetWindowText(Context->AdapterNameLabel, PhGetStringOrDefault(Context->AdapterEntry->AdapterName, L"未知"));
     }
 }
 
@@ -661,7 +661,7 @@ INT_PTR CALLBACK NetworkDeviceDialogProc(
 
             SetWindowFont(context->AdapterTextLabel, context->SysinfoSection->Parameters->LargeFont, FALSE);
             SetWindowFont(context->AdapterNameLabel, context->SysinfoSection->Parameters->MediumFont, FALSE);
-            PhSetWindowText(context->AdapterNameLabel, PhGetStringOrDefault(context->AdapterEntry->AdapterName, L"Unknown"));
+            PhSetWindowText(context->AdapterNameLabel, PhGetStringOrDefault(context->AdapterEntry->AdapterName, L"未知"));
 
             context->PanelWindowHandle = PhCreateDialog(PluginInstance->DllBase, MAKEINTRESOURCE(IDD_NETADAPTER_PANEL), WindowHandle, NetworkDevicePanelDialogProc, context);
             ShowWindow(context->PanelWindowHandle, SW_SHOW);
@@ -885,7 +885,7 @@ BOOLEAN NetworkDeviceSectionCallback(
             PH_FORMAT format[4];
 
             if (context->AdapterEntry->PendingQuery)
-                PhMoveReference(&drawPanel->Title, PhCreateString(L"Pending..."));
+                PhMoveReference(&drawPanel->Title, PhCreateString(L"等待中..."));
             else
             {
                 if (context->AdapterEntry->AdapterAlias)
@@ -895,7 +895,7 @@ BOOLEAN NetworkDeviceSectionCallback(
             }
 
             if (!drawPanel->Title)
-                drawPanel->Title = PhCreateString(L"Unknown");
+                drawPanel->Title = PhCreateString(L"未知");
 
             // R: %s\nS: %s
             PhInitFormatS(&format[0], L"R: ");
@@ -916,7 +916,7 @@ VOID NetworkDeviceSysInfoInitializing(
     _In_ _Assume_refs_(1) PDV_NETADAPTER_ENTRY AdapterEntry
     )
 {
-    static PH_STRINGREF text = PH_STRINGREF_INIT(L"Unknown");
+    static PH_STRINGREF text = PH_STRINGREF_INIT(L"未知");
     PDV_NETADAPTER_SYSINFO_CONTEXT context;
     PH_SYSINFO_SECTION section;
 

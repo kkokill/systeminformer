@@ -188,7 +188,7 @@ VOID PhAddDefaultSettings(
     PhpAddIntegerSetting(SETTING_MAIN_WINDOW_TAB_RESTORE_ENABLED, L"0");
     PhpAddStringSetting(SETTING_MAIN_WINDOW_TAB_RESTORE_NAME, L"");
     PhpAddIntegerSetting(SETTING_MAIN_WINDOW_TAB_RESTORE_INDEX, L"0");
-    PhpAddIntegerSetting(SETTING_MAX_SIZE_UNIT, L"6");
+    PhpAddIntegerSetting(SETTING_MAX_SIZE_UNIT, L"3"); // GB
     PhpAddIntegerSetting(SETTING_MAX_PRECISION_UNIT, L"2");
     PhpAddIntegerSetting(SETTING_MEM_EDIT_BYTES_PER_ROW, L"10"); // 16
     PhpAddStringSetting(SETTING_MEM_EDIT_GOTO_CHOICES, L"");
@@ -269,7 +269,7 @@ VOID PhAddDefaultSettings(
     PhpAddIntegerSetting(SETTING_SAMPLE_COUNT_AUTOMATIC, L"1");
     PhpAddIntegerSetting(SETTING_SCROLL_TO_NEW_PROCESSES, L"0");
     PhpAddIntegerSetting(SETTING_SCROLL_TO_REMOVED_PROCESSES, L"0");
-    PhpAddStringSetting(SETTING_SEARCH_ENGINE, L"https://duckduckgo.com/?q=\"%s\"");
+    PhpAddStringSetting(SETTING_SEARCH_ENGINE, L"https://cn.bing.com/search?q=%s");
     PhpAddStringSetting(SETTING_SEGMENT_HEAP_LIST_VIEW_COLUMNS, L"");
     PhpAddStringSetting(SETTING_SEGMENT_HEAP_LIST_VIEW_SORT, L"0,1");
     PhpAddIntegerPairSetting(SETTING_SEGMENT_HEAP_WINDOW_POSITION, L"0,0");

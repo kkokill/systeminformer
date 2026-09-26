@@ -565,14 +565,14 @@ VOID PhpInitializeHandleObjectTree(
     TreeNew_SetCallback(Context->TreeNewHandle, PhpHandleObjectTreeNewCallback, Context);
 
     // Default columns
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_PROCESS, TRUE, L"Process", 100, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_TYPE, TRUE, L"Type", 100, PH_ALIGN_LEFT, 1, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_NAME, TRUE, L"Name", 200, PH_ALIGN_LEFT, 2, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_HANDLE, TRUE, L"Handle", 80, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_PROCESS, TRUE, L"进程", 100, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_TYPE, TRUE, L"类型", 100, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_NAME, TRUE, L"名称", 200, PH_ALIGN_LEFT, 2, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_HANDLE, TRUE, L"句柄", 80, PH_ALIGN_LEFT, 3, 0);
     // Customizable columns
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_OBJECTADDRESS, FALSE, L"Object address", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_ORIGINALNAME, FALSE, L"Original name", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_GRANTEDACCESS, FALSE, L"Granted access", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_OBJECTADDRESS, FALSE, L"对象地址", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_ORIGINALNAME, FALSE, L"原始名称", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, PH_OBJECT_SEARCH_TREE_COLUMN_GRANTEDACCESS, FALSE, L"授予的访问权限", 200, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     TreeNew_SetTriState(Context->TreeNewHandle, TRUE);
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
@@ -698,7 +698,7 @@ VOID PhpPopulateObjectTypes(
     objectTypeList = PhCreateList(100);
 
     // Add a custom object type for searching all objects.
-    ComboBox_AddString(Context->TypeWindowHandle, L"Everything");
+    ComboBox_AddString(Context->TypeWindowHandle, L"全部");
     ComboBox_SetCurSel(Context->TypeWindowHandle, 0);
 
     // Enumerate the available object types.
@@ -870,7 +870,7 @@ static BOOLEAN MatchTypeString(
     _In_ PPH_STRINGREF Input
     )
 {
-    if (PhEqualString2(Context->SearchTypeString, L"Everything", FALSE))
+    if (PhEqualString2(Context->SearchTypeString, L"全部", FALSE))
         return TRUE;
 
     return PhEqualStringRef(Input, &Context->SearchTypeString->sr, TRUE);
@@ -969,10 +969,10 @@ static BOOLEAN NTAPI EnumModulesCallback(
         switch (Module->Type)
         {
         case PH_MODULE_TYPE_MAPPED_FILE:
-            typeName = L"Mapped file";
+            typeName = L"映射文件";
             break;
         case PH_MODULE_TYPE_MAPPED_IMAGE:
-            typeName = L"Mapped image";
+            typeName = L"映射映像";
             break;
         default:
             typeName = L"DLL";
@@ -1104,7 +1104,7 @@ NTSTATUS PhpFindObjectsThreadStart(
 
                     if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(NULL, L"Unidentified third party object.", status, 0);
+                        PhShowStatus(NULL, L"未识别的第三方对象。", status, 0);
                     }
                 }
             }
@@ -1118,7 +1118,7 @@ NTSTATUS PhpFindObjectsThreadStart(
         goto CleanupExit;
 
     if (PhEqualString2(context->SearchTypeString, L"File", TRUE) ||
-        PhEqualString2(context->SearchTypeString, L"Everything", FALSE))
+        PhEqualString2(context->SearchTypeString, L"全部", FALSE))
     {
         if (NT_SUCCESS(PhEnumProcesses(&processes)))
         {
@@ -1251,7 +1251,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"Find Handles or DLLs",
+                L"查找句柄或 DLL",
                 SETTING_SEARCH_FIND_OBJECTS_REGEX,
                 SETTING_SEARCH_FIND_OBJECTS_CASE_SENSITIVE,
                 PhFindObjectsSearchControlCallback,
@@ -1383,7 +1383,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                             break;
                         }
 
-                        PhSetDialogItemText(hwndDlg, IDOK, L"Cancel");
+                        PhSetDialogItemText(hwndDlg, IDOK, L"取消");
 
                         PhSetCursor(PhLoadCursor(NULL, IDC_APPSTARTING));
                     }
@@ -1413,13 +1413,13 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                     if (numberOfHandleObjectNodes != 0)
                     {
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_CLOSE, L"C&lose\bDel", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_CLOSE, L"关闭(&L)\bDel", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_GOTOOWNINGPROCESS, L"Go to &process...", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_GOTOOWNINGPROCESS, L"转到进程(&P)...", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_PROPERTIES, L"Prope&rties", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_PROPERTIES, L"属性(&R)", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_COPY, L"&Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_OBJECT_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
                         PhInsertCopyCellEMenuItem(menu, ID_OBJECT_COPY, context->TreeNewHandle, contextMenuEvent->Column);
                         PhSetFlagsEMenuItem(menu, ID_OBJECT_PROPERTIES, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
                         PhpInitializeFindObjMenu(menu, handleObjectNodes, numberOfHandleObjectNodes);
@@ -1468,9 +1468,9 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
 
                     if (numberOfHandleObjectNodes != 0 && PhShowConfirmMessage(
                         hwndDlg,
-                        L"close",
-                        numberOfHandleObjectNodes == 1 ? L"the selected handle" : L"the selected handles",
-                        L"Closing handles may cause system instability and data corruption.",
+                        L"关闭",
+                        numberOfHandleObjectNodes == 1 ? L"所选句柄" : L"所选句柄",
+                        L"关闭句柄可能导致系统不稳定和数据损坏。",
                         FALSE
                         ))
                     {
@@ -1529,9 +1529,9 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                                     {
                                         if (!PhShowConfirmMessage(
                                             hwndDlg,
-                                            L"close",
-                                            L"critical handle(s)",
-                                            L"You are about to close one or more handles for a critical process with strict handle checks enabled. This will shut down the operating system immediately.\r\n\r\n",
+                                            L"关闭",
+                                            L"关键句柄",
+                                            L"您即将关闭一个或多个启用了严格句柄检查的关键进程的句柄。这将立即关闭操作系统。\r\n\r\n",
                                             TRUE
                                             ))
                                         {
@@ -1569,7 +1569,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                             if (!NT_SUCCESS(status))
                             {
                                 if (!PhShowContinueStatus(hwndDlg,
-                                    PhaFormatString(L"Unable to close \"%s\"", PhGetStringOrDefault(handleObjectNodes[i]->BestObjectName, L"??"))->Buffer,
+                                    PhaFormatString(L"无法关闭 \"%s\"", PhGetStringOrDefault(handleObjectNodes[i]->BestObjectName, L"??"))->Buffer,
                                     status,
                                     0
                                     ))
@@ -1618,7 +1618,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                         }
                         else
                         {
-                            PhShowStatus(hwndDlg, L"The process does not exist.", STATUS_INVALID_CID, 0);
+                            PhShowStatus(hwndDlg, L"该进程不存在。", STATUS_INVALID_CID, 0);
                         }
                     }
                 }
@@ -1723,7 +1723,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
 
             // Add the result count to the window title. (dmex)
             PhSetWindowText(hwndDlg, PhaFormatString(
-                L"%s (%lu results)",
+                L"%s（%lu 个结果）",
                 PhGetStringOrEmpty(context->WindowText),
                 context->SearchResultsAddIndex
                 )->Buffer);
@@ -1733,7 +1733,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
             context->SearchThreadHandle = NULL;
             context->SearchStop = FALSE;
 
-            PhSetDialogItemText(hwndDlg, IDOK, L"Find");
+            PhSetDialogItemText(hwndDlg, IDOK, L"查找");
             EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
             PhSetCursor(PhLoadCursor(NULL, IDC_ARROW));
 
@@ -1741,9 +1741,9 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
             {
                 PhShowWarning2(
                     hwndDlg,
-                    L"Unable to search for handles because the total number of handles on the system is too large.",
+                    L"由于系统句柄总数过多，无法搜索句柄。",
                     L"%s",
-                    L"Please check if there are any processes with an extremely large number of handles open."
+                    L"请检查是否有进程打开了数量极多的句柄。"
                     );
             }
         }
@@ -1814,7 +1814,7 @@ VOID PhShowFindObjectsDialog(
     {
         if (!NT_SUCCESS(PhCreateThreadEx(&PhFindObjectsThreadHandle, PhpFindObjectsDialogThreadStart, ParentWindowHandle)))
         {
-            PhShowStatus(ParentWindowHandle, L"Unable to create the window.", 0, ERROR_OUTOFMEMORY);
+            PhShowStatus(ParentWindowHandle, L"无法创建窗口。", 0, ERROR_OUTOFMEMORY);
             return;
         }
 

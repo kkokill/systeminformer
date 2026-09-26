@@ -1759,7 +1759,7 @@ NTSTATUS KphGetFileVersion(
 
     status = KphpParseFileVersion(imageBase,
                                   imageSize,
-                                  MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US),
+                                  MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED),
                                   Version);
     if (NT_SUCCESS(status))
     {

@@ -705,7 +705,7 @@ PPH_STRING GraphicsQueryDeviceDescription(
     _In_ PCWSTR DeviceInstanceId
     )
 {
-    static const PH_STRINGREF defaultName = PH_STRINGREF_INIT(L"Unknown Adapter");
+    static const PH_STRINGREF defaultName = PH_STRINGREF_INIT(L"未知适配器");
     PPH_STRING string = NULL;
     const DEVPROPCOMPKEY requestedProperties[] =
     {
@@ -766,7 +766,7 @@ PPH_STRING GraphicsQueryDeviceInterfaceDescription(
     }
 
     {
-        static const PH_STRINGREF defaultName = PH_STRINGREF_INIT(L"Unknown Adapter");
+        static const PH_STRINGREF defaultName = PH_STRINGREF_INIT(L"未知适配器");
         return PhCreateString2(&defaultName);
     }
 }

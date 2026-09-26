@@ -81,8 +81,8 @@ PPH_STRING PhpProcessMiniDumpGetFileName(
 {
     static PH_FILETYPE_FILTER filters[] =
     {
-        { L"Dump files (*.dmp)", L"*.dmp" },
-        { L"All files (*.*)", L"*.*" }
+        { L"转储文件 (*.dmp)", L"*.dmp" },
+        { L"所有文件 (*.*)", L"*.*" }
     };
     PPH_STRING fileName = NULL;
     PVOID fileDialog;
@@ -221,7 +221,7 @@ VOID PhUiCreateDumpFileProcess(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(WindowHandle, L"Unable to open the process", status, 0);
+        PhShowStatus(WindowHandle, L"无法打开进程", status, 0);
         PhDereferenceObject(context);
         return;
     }
@@ -243,7 +243,7 @@ VOID PhUiCreateDumpFileProcess(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(WindowHandle, L"Unable to access the dump file", status, 0);
+        PhShowStatus(WindowHandle, L"无法访问转储文件", status, 0);
         PhDereferenceObject(context);
         return;
     }
@@ -322,7 +322,7 @@ static BOOL CALLBACK PhpProcessMiniDumpCallback(
             }
 
             // Processing module %s...
-            PhInitFormatS(&format[0], L"Processing module ");
+            PhInitFormatS(&format[0], L"正在处理模块 ");
             if (baseName)
                 PhInitFormatSR(&format[1], baseName->sr);
             else
@@ -339,7 +339,7 @@ static BOOL CALLBACK PhpProcessMiniDumpCallback(
             PH_FORMAT format[3];
 
             // Processing thread %lu...
-            PhInitFormatS(&format[0], L"Processing thread ");
+            PhInitFormatS(&format[0], L"正在处理线程 ");
             PhInitFormatU(&format[1], CallbackInput->Thread.ThreadId);
             PhInitFormatS(&format[2], L"...");
 
@@ -353,7 +353,7 @@ static BOOL CALLBACK PhpProcessMiniDumpCallback(
             //CallbackOutput->Continue = TRUE;
 
             // Processing memory %lu...
-            PhInitFormatS(&format[0], L"Processing memory regions");
+            PhInitFormatS(&format[0], L"正在处理内存区域");
             //PhInitFormatI64X(&format[1], CallbackOutput->VmRegion.BaseAddress);
             PhInitFormatS(&format[1], L"...");
 
@@ -398,7 +398,7 @@ static BOOL CALLBACK PhpProcessMiniDumpCallback(
             if (!context->EnableKernelSnapshot)
                 break;
 
-            PhInitFormatS(&format[0], L"Processing kernel minidump");
+            PhInitFormatS(&format[0], L"正在处理内核小型转储");
             PhInitFormatS(&format[1], L"...");
 
             message = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -459,8 +459,8 @@ NTSTATUS PhpProcessMiniDumpThreadStart(
                 context->WindowHandle,
                 TD_YES_BUTTON | TD_NO_BUTTON,
                 TD_WARNING_ICON,
-                L"The 32-bit version of System Informer could not be located.",
-                L"A 64-bit dump will be created instead. Do you want to continue?"
+                L"无法找到 System Informer 的 32 位版本。",
+                L"将改为创建 64 位转储。是否要继续？"
                 ) == IDNO)
             {
                 goto Completed;
@@ -482,10 +482,10 @@ NTSTATUS PhpProcessMiniDumpThreadStart(
         {
             PhShowWarning2(
                 context->WindowHandle,
-                L"Unable to create kernel minidump.",
+                L"无法创建内核小型转储。",
                 L"%s",
-                L"Kernel minidump of processes require administrative privileges. "
-                L"Make sure System Informer is running with administrative privileges."
+                L"进程的内核小型转储需要管理员权限。 "
+                L"请确保 System Informer 以管理员权限运行。"
                 );
         }
     }
@@ -583,8 +583,8 @@ INT_PTR CALLBACK PhpProcessMiniDumpDlgProc(
             PhSetApplicationWindowIcon(hwndDlg);
             PhCenterWindow(hwndDlg, context->ParentWindowHandle);
 
-            PhSetWindowText(hwndDlg, L"Creating the dump file...");
-            PhSetDialogItemText(hwndDlg, IDC_PROGRESSTEXT, L"Creating the dump file...");
+            PhSetWindowText(hwndDlg, L"正在创建转储文件...");
+            PhSetDialogItemText(hwndDlg, IDC_PROGRESSTEXT, L"正在创建转储文件...");
             PhSetWindowStyle(GetDlgItem(hwndDlg, IDC_PROGRESS), PBS_MARQUEE, PBS_MARQUEE);
             SendMessage(GetDlgItem(hwndDlg, IDC_PROGRESS), PBM_SETMARQUEE, TRUE, 75);
 
@@ -628,7 +628,7 @@ INT_PTR CALLBACK PhpProcessMiniDumpDlgProc(
                 {
                     // No status message update for 2 seconds.
 
-                    PhSetDialogItemText(hwndDlg, IDC_PROGRESSTEXT, L"Creating the dump file...");
+                    PhSetDialogItemText(hwndDlg, IDC_PROGRESSTEXT, L"正在创建转储文件...");
 
                     context->LastTickCount = currentTickCount;
                 }
@@ -640,7 +640,7 @@ INT_PTR CALLBACK PhpProcessMiniDumpDlgProc(
         context->LastTickCount = NtGetTickCount64();
         break;
     case WM_PH_MINIDUMP_ERROR:
-        PhShowStatus(hwndDlg, L"Unable to create the minidump", 0, (ULONG)lParam);
+        PhShowStatus(hwndDlg, L"无法创建小型转储", 0, (ULONG)lParam);
         break;
     case WM_PH_MINIDUMP_COMPLETED:
         EndDialog(hwndDlg, IDOK);
@@ -720,8 +720,8 @@ LRESULT CALLBACK PhpProcessMiniDumpTaskDialogSubclassProc(
             config.pfCallback = PhpProcessMiniDumpErrorPageCallbackProc;
             config.lpCallbackData = (LONG_PTR)context;
             config.pszWindowTitle = PhApplicationName;
-            config.pszMainInstruction = L"Unable to create the minidump.";
-            config.pszContent = PhGetStringOrDefault(context->ErrorMessage, L"Unknown error.");
+            config.pszMainInstruction = L"无法创建小型转储。";
+            config.pszContent = PhGetStringOrDefault(context->ErrorMessage, L"未知错误。");
 
             PhTaskDialogNavigatePage(context->WindowHandle, &config);
         }
@@ -787,7 +787,7 @@ HRESULT CALLBACK PhpProcessMiniDumpTaskDialogCallbackProc(
             if (buttonId == IDCANCEL)
             {
                 context->Stop = TRUE;
-                SendMessage(hwndDlg, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"Cancelling...");
+                SendMessage(hwndDlg, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"正在取消...");
                 return S_FALSE;
             }
         }
@@ -813,8 +813,8 @@ NTSTATUS PhpProcessMiniDumpTaskDialogThread(
     config.pfCallback = PhpProcessMiniDumpTaskDialogCallbackProc;
     config.lpCallbackData = (LONG_PTR)context;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"Creating the minidump file...";
-    config.pszContent = L"Creating the minidump file...";
+    config.pszMainInstruction = L"正在创建小型转储文件...";
+    config.pszContent = L"正在创建小型转储文件...";
     config.cxWidth = 200;
 
     PhShowTaskDialog(&config, NULL, NULL, NULL);

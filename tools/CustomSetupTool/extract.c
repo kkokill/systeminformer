@@ -494,7 +494,7 @@ static NTSTATUS SetupExtractBuildStageFiles(
             WCHAR string[MAX_PATH];
             PPH_STRING baseName = PhGetBaseName(extractPath);
 
-            PhInitFormatS(&format[0], L"Extracting: ");
+            PhInitFormatS(&format[0], L"正在提取: ");
             PhInitFormatS(&format[1], PhGetStringOrEmpty(baseName));
 
             if (PhFormatToBuffer(format, 2, string, sizeof(string), NULL))
@@ -502,9 +502,9 @@ static NTSTATUS SetupExtractBuildStageFiles(
                 SetupSetProgressText(Context, string, NULL);
             }
 
-            PhInitFormatS(&format[0], L"Progress: ");
+            PhInitFormatS(&format[0], L"进度: ");
             PhInitFormatSize(&format[1], currentLength);
-            PhInitFormatS(&format[2], L" of ");
+            PhInitFormatS(&format[2], L" / ");
             PhInitFormatSize(&format[3], TotalLength);
             PhInitFormatS(&format[4], L" (");
             PhInitFormatI64U(&format[5], percent);
@@ -558,7 +558,7 @@ static NTSTATUS SetupExtractBuildCommitFiles(
             return status;
         }
 
-        PhInitFormatS(&format[0], L"Finalizing: ");
+        PhInitFormatS(&format[0], L"正在完成: ");
         PhInitFormatS(&format[1], PhGetStringOrEmpty(baseName));
 
         if (PhFormatToBuffer(format, 2, string, sizeof(string), NULL))

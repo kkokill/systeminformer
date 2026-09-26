@@ -138,7 +138,7 @@ PPH_STRING PhGetProcessTooltipText(
 
         if (!PhIsNullOrEmptyString(tempString))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"File:\n");
+            PhAppendStringBuilder2(&stringBuilder, L"文件：\n");
             PhAppendStringBuilder(&stringBuilder, &tempString->sr);
             PhAppendCharStringBuilder(&stringBuilder, L'\n');
         }
@@ -163,7 +163,7 @@ PPH_STRING PhGetProcessTooltipText(
             switch (Process->KnownProcessType & KnownProcessTypeMask)
             {
             case ServiceHostProcessType:
-                PhAppendStringBuilder2(&stringBuilder, L"Service group name:\n    ");
+                PhAppendStringBuilder2(&stringBuilder, L"服务组名：\n    ");
                 PhAppendStringBuilder(&stringBuilder, &knownCommandLine.ServiceHost.GroupName->sr);
                 PhAppendCharStringBuilder(&stringBuilder, L'\n');
                 break;
@@ -185,7 +185,7 @@ PPH_STRING PhGetProcessTooltipText(
 
                         if (!PhIsNullOrEmptyString(tempString))
                         {
-                            PhAppendStringBuilder2(&stringBuilder, L"Run DLL target file:\n");
+                            PhAppendStringBuilder2(&stringBuilder, L"Run DLL 目标文件：\n");
                             PhAppendStringBuilder(&stringBuilder, &tempString->sr);
                             PhAppendCharStringBuilder(&stringBuilder, L'\n');
                         }
@@ -202,7 +202,7 @@ PPH_STRING PhGetProcessTooltipText(
                     PH_IMAGE_VERSION_INFO versionInfo;
                     PPH_STRING guidString;
 
-                    PhAppendStringBuilder2(&stringBuilder, L"COM target:\n");
+                    PhAppendStringBuilder2(&stringBuilder, L"COM 目标：\n");
 
                     if (knownCommandLine.ComSurrogate.Name)
                     {
@@ -233,7 +233,7 @@ PPH_STRING PhGetProcessTooltipText(
 
                         if (!PhIsNullOrEmptyString(tempString))
                         {
-                            PhAppendStringBuilder2(&stringBuilder, L"COM target file:\n");
+                            PhAppendStringBuilder2(&stringBuilder, L"COM 目标文件：\n");
                             PhAppendStringBuilder(&stringBuilder, &tempString->sr);
                             PhAppendCharStringBuilder(&stringBuilder, L'\n');
                         }
@@ -278,7 +278,7 @@ PPH_STRING PhGetProcessTooltipText(
 
         qsort(serviceList->Items, serviceList->Count, sizeof(PPH_SERVICE_ITEM), ServiceForTooltipCompare);
 
-        PhAppendStringBuilder2(&stringBuilder, L"Services:\n");
+        PhAppendStringBuilder2(&stringBuilder, L"服务：\n");
 
         // Add the services.
         for (i = 0; i < serviceList->Count; i++)
@@ -309,7 +309,7 @@ PPH_STRING PhGetProcessTooltipText(
 
             if (tasks.String->Length != 0)
             {
-                PhAppendStringBuilder2(&stringBuilder, L"Tasks:\n");
+                PhAppendStringBuilder2(&stringBuilder, L"任务：\n");
                 PhAppendStringBuilder(&stringBuilder, &tasks.String->sr);
             }
 
@@ -326,7 +326,7 @@ PPH_STRING PhGetProcessTooltipText(
 
             if (drivers.String->Length != 0)
             {
-                PhAppendStringBuilder2(&stringBuilder, L"Drivers:\n");
+                PhAppendStringBuilder2(&stringBuilder, L"驱动程序：\n");
                 PhAppendStringBuilder(&stringBuilder, &drivers.String->sr);
             }
 
@@ -362,7 +362,7 @@ PPH_STRING PhGetProcessTooltipText(
 
             if (provider.String->Length != 0)
             {
-                PhAppendStringBuilder2(&stringBuilder, L"WMI Providers:\n");
+                PhAppendStringBuilder2(&stringBuilder, L"WMI 提供程序：\n");
                 PhAppendStringBuilder(&stringBuilder, &provider.String->sr);
             }
 
@@ -398,9 +398,9 @@ PPH_STRING PhGetProcessTooltipText(
             if (Process->VerifyResult == VrTrusted)
             {
                 if (!PhIsNullOrEmptyString(Process->VerifySignerName))
-                    PhAppendFormatStringBuilder(&notes, L"    Signer: %s\n", Process->VerifySignerName->Buffer);
+                    PhAppendFormatStringBuilder(&notes, L"    签名者：%s\n", Process->VerifySignerName->Buffer);
                 else
-                    PhAppendStringBuilder2(&notes, L"    Signed.\n");
+                    PhAppendStringBuilder2(&notes, L"    已签名。\n");
             }
             else if (Process->VerifyResult == VrUnknown)
             {
@@ -408,7 +408,7 @@ PPH_STRING PhGetProcessTooltipText(
             }
             else if (Process->VerifyResult != VrNoSignature)
             {
-                PhAppendStringBuilder2(&notes, L"    Signature invalid.\n");
+                PhAppendStringBuilder2(&notes, L"    签名无效。\n");
             }
         }
 
@@ -416,11 +416,11 @@ PPH_STRING PhGetProcessTooltipText(
         {
             PhAppendFormatStringBuilder(
                 &notes,
-                L"    Image is probably packed (%lu %ls over %lu %ls).\n",
+                L"    映像可能已加壳（%lu %ls，共 %lu %ls）。\n",
                 Process->ImportFunctions,
-                Process->ImportFunctions == 1 ? L"import" : L"imports",
+                Process->ImportFunctions == 1 ? L"个导入函数" : L"个导入函数",
                 Process->ImportModules,
-                Process->ImportModules == 1 ? L"module" : L"modules"
+                Process->ImportModules == 1 ? L"个模块" : L"个模块"
                 );
         }
 
@@ -428,7 +428,7 @@ PPH_STRING PhGetProcessTooltipText(
         {
             PhAppendFormatStringBuilder(
                 &notes,
-                L"    Low image coherency: %.2f%%\n",
+                L"    映像一致性低：%.2f%%\n",
                 (Process->ImageCoherency * 100.0f)
                 );
         }
@@ -443,23 +443,23 @@ PPH_STRING PhGetProcessTooltipText(
             clientId.UniqueThread = NULL;
 
             if ((ULONG_PTR)Process->ConsoleHostProcessId & 2)
-                description = L"Console application";
+                description = L"控制台应用程序";
             else
-                description = L"Console host";
+                description = L"控制台主机";
 
             clientIdString = PhGetClientIdName(&clientId);
-            PhAppendFormatStringBuilder(&notes, L"    %s: %s\n", description, clientIdString->Buffer);
+            PhAppendFormatStringBuilder(&notes, L"    %s：%s\n", description, clientIdString->Buffer);
             PhDereferenceObject(clientIdString);
         }
 
         if (Process->PackageFullName)
         {
-            PhAppendFormatStringBuilder(&notes, L"    Package name: %s\n", Process->PackageFullName->Buffer);
+            PhAppendFormatStringBuilder(&notes, L"    包名称：%s\n", Process->PackageFullName->Buffer);
         }
 
         if (notes.String->Length != 0)
         {
-            PhAppendStringBuilder2(&stringBuilder, L"Notes:\n");
+            PhAppendStringBuilder2(&stringBuilder, L"备注：\n");
             PhAppendStringBuilder(&stringBuilder, &notes.String->sr);
         }
 
@@ -467,48 +467,48 @@ PPH_STRING PhGetProcessTooltipText(
         PhInitializeStringBuilder(&notes, 40);
 
         if (Process->IsSystemProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a system process (TCB).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是系统进程（TCB）。\n");
         if (Process->IsBeingDebugged)
-            PhAppendStringBuilder2(&notes, L"    Process is being debugged.\n");
+            PhAppendStringBuilder2(&notes, L"    进程正在被调试。\n");
         if (Process->IsSuspended)
-            PhAppendStringBuilder2(&notes, L"    Process is suspended.\n");
+            PhAppendStringBuilder2(&notes, L"    进程已挂起。\n");
         if (Process->IsFrozenProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is in deep freeze (suspended).\n");
+            PhAppendStringBuilder2(&notes, L"    进程处于深度冻结（挂起）状态。\n");
         if (Process->IsDotNet)
-            PhAppendStringBuilder2(&notes, L"    Process is managed (.NET).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是托管进程（.NET）。\n");
         if (Process->IsElevated)
         {
             if (Process->ElevationType == TokenElevationTypeDefault)
-                PhAppendStringBuilder2(&notes, L"    Process is default elevated.\n");
+                PhAppendStringBuilder2(&notes, L"    进程为默认提升。\n");
             else if (Process->ElevationType == TokenElevationTypeFull)
-                PhAppendStringBuilder2(&notes, L"    Process is full elevated.\n");
+                PhAppendStringBuilder2(&notes, L"    进程为完全提升。\n");
             else if (Process->ElevationType == TokenElevationTypeLimited)
-                PhAppendStringBuilder2(&notes, L"    Process is limited elevated.\n");
+                PhAppendStringBuilder2(&notes, L"    进程为受限提升。\n");
             else
-                PhAppendStringBuilder2(&notes, L"    Process is elevated.\n");
+                PhAppendStringBuilder2(&notes, L"    进程已提升。\n");
         }
         if (Process->IsUIAccessEnabled)
-            PhAppendStringBuilder2(&notes, L"    Process is UIAccess.\n");
+            PhAppendStringBuilder2(&notes, L"    进程已启用 UIAccess。\n");
         if (Process->IsImmersive)
-            PhAppendStringBuilder2(&notes, L"    Process is a Modern UI app.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是新式 UI 应用。\n");
         if (Process->IsInJob)
-            PhAppendStringBuilder2(&notes, L"    Process is in a job.\n");
+            PhAppendStringBuilder2(&notes, L"    进程位于作业中。\n");
         if (Process->IsWow64Process)
-            PhAppendStringBuilder2(&notes, L"    Process is 32-bit (WOW64).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是 32 位（WOW64）。\n");
         if (Process->IsProtectedProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a protected process (PP/PPL).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是受保护的进程（PP/PPL）。\n");
         if (Process->IsSecureProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a secure isolated process (IUM).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是安全隔离进程（IUM）。\n");
         if (Process->IsSecureProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a secure virtualization process (HVCI).\n");
+            PhAppendStringBuilder2(&notes, L"    进程是安全虚拟化进程（HVCI）。\n");
         if (Process->IsSubsystemProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a subsystem process.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是子系统进程。\n");
         if (Process->IsPackagedProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a packaged process.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是打包进程。\n");
         if (Process->IsBackgroundProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a background process.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是后台进程。\n");
         if (Process->IsCrossSessionProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a cross session process.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是跨会话进程。\n");
         //
         // TODO(jxy-s) Find a way to identify reflected processes maybe initial
         // thread start address (RtlpProcessReflectionStartup)?
@@ -524,13 +524,13 @@ PPH_STRING PhGetProcessTooltipText(
         //if (Process->IsClonedProcess)
         //    PhAppendStringBuilder2(&notes, L"    Process is a cloned process.\n");
         if (Process->IsSnapshotProcess)
-            PhAppendStringBuilder2(&notes, L"    Process is a snapshot process.\n");
+            PhAppendStringBuilder2(&notes, L"    进程是快照进程。\n");
         if (Process->IsPowerThrottling)
-            PhAppendStringBuilder2(&notes, L"    Process is power throttling (efficiency).\n");
+            PhAppendStringBuilder2(&notes, L"    进程处于电源节流（效率）状态。\n");
 
         if (notes.String->Length != 0)
         {
-            PhAppendStringBuilder2(&stringBuilder, L"Flags:\n");
+            PhAppendStringBuilder2(&stringBuilder, L"标志：\n");
             PhAppendStringBuilder(&stringBuilder, &notes.String->sr);
         }
 
@@ -626,7 +626,7 @@ VOID PhpFillUmdfDrivers(
                         }
                         else
                         {
-                            PhInitializeStringRef(&deviceName, L"Unknown Device");
+                            PhInitializeStringRef(&deviceName, L"未知设备");
                         }
 
                         PhAppendStringBuilder(Drivers, &StandardIndent);
@@ -718,9 +718,9 @@ VOID PhpFillRunningTasks(
                                 IRunningTask_get_Path(runningTask, &path);
 
                                 PhAppendStringBuilder(Tasks, &StandardIndent);
-                                PhAppendStringBuilder2(Tasks, action ? action : L"Unknown action");
+                                PhAppendStringBuilder2(Tasks, action ? action : L"未知操作");
                                 PhAppendStringBuilder2(Tasks, L" (");
-                                PhAppendStringBuilder2(Tasks, path ? path : L"Unknown path");
+                                PhAppendStringBuilder2(Tasks, path ? path : L"未知路径");
                                 PhAppendStringBuilder2(Tasks, L")\n");
 
                                 if (action)
@@ -854,7 +854,7 @@ PPH_STRING PhGetServiceTooltipText(
 
                 if (!PhIsNullOrEmptyString(versionInfoText))
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"File:\n");
+                    PhAppendStringBuilder2(&stringBuilder, L"文件：\n");
                     PhAppendStringBuilder(&stringBuilder, &versionInfoText->sr);
                     PhAppendCharStringBuilder(&stringBuilder, L'\n');
                 }
@@ -870,7 +870,7 @@ PPH_STRING PhGetServiceTooltipText(
 
         if (description = PhGetServiceDescription(serviceHandle))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"Description:\n    ");
+            PhAppendStringBuilder2(&stringBuilder, L"描述：\n    ");
             PhAppendStringBuilder(&stringBuilder, &description->sr);
             PhAppendCharStringBuilder(&stringBuilder, L'\n');
             PhDereferenceObject(description);

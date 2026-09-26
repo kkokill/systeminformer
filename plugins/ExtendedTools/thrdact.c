@@ -23,8 +23,8 @@ BOOLEAN EtUiCancelIoThread(
 
     if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
         hWnd,
-        L"end",
-        L"I/O for the selected thread",
+        L"结束",
+        L"所选线程的 I/O",
         NULL,
         FALSE
         ))
@@ -41,12 +41,12 @@ BOOLEAN EtUiCancelIoThread(
 
     if (status == STATUS_NOT_FOUND)
     {
-        PhShowInformation2(hWnd, L"There is no synchronous I/O to cancel.", L"%s", L"");
+        PhShowInformation2(hWnd, L"没有可取消的同步 I/O。", L"%s", L"");
         return FALSE;
     }
     else if (!NT_SUCCESS(status))
     {
-        PhShowStatus(hWnd, L"Unable to cancel synchronous I/O", status, 0);
+        PhShowStatus(hWnd, L"无法取消同步 I/O", status, 0);
         return FALSE;
     }
 

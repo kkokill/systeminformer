@@ -96,55 +96,55 @@ VOID PhInitializeThreadList(
     // Default columns
     PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TID, TRUE, L"TID", 50, PH_ALIGN_RIGHT, 0, DT_RIGHT);
     PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPU, TRUE, L"CPU", 45, PH_ALIGN_RIGHT, 1, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CYCLESDELTA, TRUE, L"Cycles delta", 80, PH_ALIGN_RIGHT, 2, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTADDRESSWIN32, TRUE, L"Start address (Win32)", 180, PH_ALIGN_LEFT, 3, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITYSYMBOLIC, TRUE, L"Priority (symbolic)", 80, PH_ALIGN_LEFT, 4, 0, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CYCLESDELTA, TRUE, L"周期增量", 80, PH_ALIGN_RIGHT, 2, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTADDRESSWIN32, TRUE, L"起始地址 (Win32)", 180, PH_ALIGN_LEFT, 3, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITYSYMBOLIC, TRUE, L"优先级 (符号)", 80, PH_ALIGN_LEFT, 4, 0, TRUE);
     // Available columns
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_SERVICE, FALSE, L"Service", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_NAME, FALSE, L"Name", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTED, FALSE, L"Created", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTMODULE, FALSE, L"Start module", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CONTEXTSWITCHES, FALSE, L"Context switches", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CONTEXTSWITCHESDELTA, FALSE, L"Context switches delta", 100, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITY, FALSE, L"Priority", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_BASEPRIORITY, FALSE, L"Base priority", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PAGEPRIORITY, FALSE, L"Page priority", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOPRIORITY, FALSE, L"I/O priority", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CYCLES, FALSE, L"Cycles", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STATE, FALSE, L"State", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_KERNELTIME, FALSE, L"Kernel time", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_USERTIME, FALSE, L"User time", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IDEALPROCESSOR, FALSE, L"Ideal processor", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CRITICAL, FALSE, L"Critical", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TIDHEX, FALSE, L"TID (hex)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUCORECYCLES, FALSE, L"CPU (relative)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TOKEN_STATE, FALSE, L"Impersonation", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PENDINGIRP, FALSE, L"Pending IRP", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_LASTSYSTEMCALL, FALSE, L"Last system call", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_LASTSTATUSCODE, FALSE, L"Last status code", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx2(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TIMELINE, FALSE, L"Timeline", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_APARTMENTTYPE, FALSE, L"COM apartment", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_APARTMENTFLAGS, FALSE, L"COM flags", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_FIBER, FALSE, L"Fiber", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITYBOOST, FALSE, L"Priority boost", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUUSER, FALSE, L"CPU (user)", 50, PH_ALIGN_LEFT, ULONG_MAX, DT_RIGHT, TRUE);
-    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUKERNEL, FALSE, L"CPU (kernel)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_SERVICE, FALSE, L"服务", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_NAME, FALSE, L"名称", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTED, FALSE, L"创建时间", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTMODULE, FALSE, L"起始模块", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CONTEXTSWITCHES, FALSE, L"上下文切换", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CONTEXTSWITCHESDELTA, FALSE, L"上下文切换增量", 100, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITY, FALSE, L"优先级", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_BASEPRIORITY, FALSE, L"基本优先级", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PAGEPRIORITY, FALSE, L"页面优先级", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOPRIORITY, FALSE, L"I/O 优先级", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CYCLES, FALSE, L"周期", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STATE, FALSE, L"状态", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_KERNELTIME, FALSE, L"内核时间", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_USERTIME, FALSE, L"用户时间", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IDEALPROCESSOR, FALSE, L"理想处理器", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CRITICAL, FALSE, L"关键", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TIDHEX, FALSE, L"TID (十六进制)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUCORECYCLES, FALSE, L"CPU (相对)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TOKEN_STATE, FALSE, L"模拟", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PENDINGIRP, FALSE, L"挂起的 IRP", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_LASTSYSTEMCALL, FALSE, L"上次系统调用", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_LASTSTATUSCODE, FALSE, L"上次状态码", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx2(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_TIMELINE, FALSE, L"时间线", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_APARTMENTTYPE, FALSE, L"COM 单元", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_APARTMENTFLAGS, FALSE, L"COM 标志", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_FIBER, FALSE, L"纤程", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_PRIORITYBOOST, FALSE, L"优先级提升", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUUSER, FALSE, L"CPU (用户)", 50, PH_ALIGN_LEFT, ULONG_MAX, DT_RIGHT, TRUE);
+    PhAddTreeNewColumnEx(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUKERNEL, FALSE, L"CPU (内核)", 50, PH_ALIGN_RIGHT, ULONG_MAX, DT_RIGHT, TRUE);
     //PhAddTreeNewColumnEx2(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CPUHISTORY, FALSE, L"CPU history", 100, PH_ALIGN_LEFT, ULONG_MAX, 0, TN_COLUMN_FLAG_CUSTOMDRAW | TN_COLUMN_FLAG_SORTDESCENDING);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STACKUSAGE, FALSE, L"Stack usage", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_WAITTIME, FALSE, L"Wait time", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOREADS, FALSE, L"I/O reads", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOWRITES, FALSE, L"I/O writes", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOOTHER, FALSE, L"I/O other", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOREADBYTES, FALSE, L"I/O read bytes", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOWRITEBYTES, FALSE, L"I/O write bytes", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOOTHERBYTES, FALSE, L"I/O other bytes", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STACKUSAGE, FALSE, L"栈使用率", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_WAITTIME, FALSE, L"等待时间", 100, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOREADS, FALSE, L"I/O 读取", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOWRITES, FALSE, L"I/O 写入", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOOTHER, FALSE, L"I/O 其他", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOREADBYTES, FALSE, L"I/O 读取字节", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOWRITEBYTES, FALSE, L"I/O 写入字节", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_IOOTHERBYTES, FALSE, L"I/O 其他字节", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
     PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_LXSSTID, FALSE, L"TID (LXSS)", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_POWERTHROTTLING, FALSE, L"Power throttling", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_POWERTHROTTLING, FALSE, L"电源限制", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
     //PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_CONTAINERID, FALSE, L"Container ID", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTADDRESS, FALSE, L"Start address (Native)", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_KSTACKUSAGE, FALSE, L"Kernel stack usage", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_RPC, FALSE, L"RPC usage", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
-    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_ACTUALBASEPRIORITY, FALSE, L"Base priority (actual)", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_STARTADDRESS, FALSE, L"起始地址 (Native)", 180, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_KSTACKUSAGE, FALSE, L"内核栈使用率", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_RPC, FALSE, L"RPC 使用", 50, PH_ALIGN_LEFT, ULONG_MAX, 0);
+    PhAddTreeNewColumn(TreeNewHandle, PH_THREAD_TREELIST_COLUMN_ACTUALBASEPRIORITY, FALSE, L"基本优先级 (实际)", 80, PH_ALIGN_LEFT, ULONG_MAX, 0);
 
     PhCmInitializeManager(&Context->Cm, TreeNewHandle, PH_THREAD_TREELIST_COLUMN_MAXIMUM, PhpThreadTreeNewPostSortFunction);
     PhInitializeTreeNewFilterSupport(&Context->TreeFilterSupport, Context->TreeNewHandle, Context->NodeList);
@@ -1775,7 +1775,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                 {
                     if (threadItem->State != Waiting)
                     {
-                        static const PH_STRINGREF stringUnknown = PH_STRINGREF_INIT(L"Unknown");
+                        static const PH_STRINGREF stringUnknown = PH_STRINGREF_INIT(L"未知");
 
                         if ((ULONG)threadItem->State < MaximumThreadState)
                             PhMoveReference(&node->StateText, PhCreateString2((PPH_STRINGREF)&PhKThreadStateNames[(ULONG)threadItem->State]));
@@ -1784,8 +1784,8 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                     }
                     else
                     {
-                        static const PH_STRINGREF stringWait = PH_STRINGREF_INIT(L"Wait:");
-                        static const PH_STRINGREF stringWaiting = PH_STRINGREF_INIT(L"Waiting");
+                        static const PH_STRINGREF stringWait = PH_STRINGREF_INIT(L"等待:");
+                        static const PH_STRINGREF stringWaiting = PH_STRINGREF_INIT(L"正在等待");
 
                         if ((ULONG)threadItem->WaitReason < MaximumWaitReason)
                             PhMoveReference(&node->StateText, PhConcatStringRef2((PPH_STRINGREF)&stringWait, (PPH_STRINGREF)&PhKWaitReasonNames[(ULONG)threadItem->WaitReason]));
@@ -1858,7 +1858,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                     PhpUpdateThreadNodeBreakOnTermination(node);
 
                     if (node->BreakOnTermination)
-                        PhInitializeStringRef(&getCellText->Text, L"Critical");
+                        PhInitializeStringRef(&getCellText->Text, L"关键");
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }
@@ -1914,11 +1914,11 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                     }
                     else if (node->TokenState == PH_THREAD_TOKEN_STATE_ANONYMOUS)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Anonymous");
+                        PhInitializeStringRef(&getCellText->Text, L"匿名");
                     }
                     else if (node->TokenState == PH_THREAD_TOKEN_STATE_PRESENT)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                     else
                     {
@@ -1931,7 +1931,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                     PhpUpdateThreadNodeIoPending(node);
 
                     if (node->PendingIrp)
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }
@@ -2150,7 +2150,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
 
                     if (node->Fiber)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                     else
                     {
@@ -2163,7 +2163,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                     PhpUpdateThreadNodePriorityBoost(node);
 
                     if (node->PriorityBoost)
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }
@@ -2370,7 +2370,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
                 {
                     if (threadItem->PowerThrottling)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                     else
                     {
@@ -2390,7 +2390,7 @@ BOOLEAN NTAPI PhpThreadTreeNewCallback(
 
                     if (node->HasRpcState)
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"Yes");
+                        PhInitializeStringRef(&getCellText->Text, L"是");
                     }
                     else
                     {
@@ -2619,7 +2619,7 @@ PPH_STRING PhGetApartmentTypeString(
         PhInitFormatS(&format[count++], L"STA");
         break;
     case PH_APARTMENT_TYPE_MAIN_STA:
-        PhInitFormatS(&format[count++], L"Main STA");
+        PhInitFormatS(&format[count++], L"主 STA");
         break;
     case PH_APARTMENT_TYPE_APPLICATION_STA:
         PhInitFormatS(&format[count++], L"ASTA");
@@ -2628,7 +2628,7 @@ PPH_STRING PhGetApartmentTypeString(
         PhInitFormatS(&format[count++], L"MTA");
         break;
     case PH_APARTMENT_TYPE_IMPLICIT_MTA:
-        PhInitFormatS(&format[count++], L"Implicit MTA");
+        PhInitFormatS(&format[count++], L"隐式 MTA");
         break;
     default:
         assert(FALSE);
@@ -2651,38 +2651,38 @@ PPH_STRING PhGetApartmentFlagsString(
 #define PH_OLE_TLS_FLAG(x, n) { TEXT(#x), (x), FALSE, FALSE, (n) }
     static const PH_ACCESS_ENTRY oleTlsflags[] =
     {
-        PH_OLE_TLS_FLAG(OLETLS_LOCALTID, L"Local TID"),
-        PH_OLE_TLS_FLAG(OLETLS_UUIDINITIALIZED, L"UUID initialized"),
-        PH_OLE_TLS_FLAG(OLETLS_INTHREADDETACH, L"In thread detach"),
-        PH_OLE_TLS_FLAG(OLETLS_CHANNELTHREADINITIALZED, L"Channel thread initialized"),
-        PH_OLE_TLS_FLAG(OLETLS_WOWTHREAD, L"WoW thread"),
-        PH_OLE_TLS_FLAG(OLETLS_THREADUNINITIALIZING, L"Thread uninitializing"),
-        PH_OLE_TLS_FLAG(OLETLS_DISABLE_OLE1DDE, L"OLE1DDE disabled"),
-        PH_OLE_TLS_FLAG(OLETLS_APARTMENTTHREADED, L"Single threaded (STA)"),
-        PH_OLE_TLS_FLAG(OLETLS_MULTITHREADED, L"Multi threaded (MTA)"),
-        PH_OLE_TLS_FLAG(OLETLS_IMPERSONATING, L"Impersonating"),
-        PH_OLE_TLS_FLAG(OLETLS_DISABLE_EVENTLOGGER, L"Eventlogger disabled"),
-        PH_OLE_TLS_FLAG(OLETLS_INNEUTRALAPT, L"Neutral threaded (NTA)"),
-        PH_OLE_TLS_FLAG(OLETLS_DISPATCHTHREAD, L"Dispatch thread"),
-        PH_OLE_TLS_FLAG(OLETLS_HOSTTHREAD, L"Host thread"),
-        PH_OLE_TLS_FLAG(OLETLS_ALLOWCOINIT, L"Allow CoInit"),
-        PH_OLE_TLS_FLAG(OLETLS_PENDINGUNINIT, L"Pending uninit"),
-        PH_OLE_TLS_FLAG(OLETLS_FIRSTMTAINIT, L"First MTA init"),
-        PH_OLE_TLS_FLAG(OLETLS_FIRSTNTAINIT, L"First NTA init"),
-        PH_OLE_TLS_FLAG(OLETLS_APTINITIALIZING, L"Apartment initializing"),
-        PH_OLE_TLS_FLAG(OLETLS_UIMSGSINMODALLOOP, L"UI messages in modal loop"),
-        PH_OLE_TLS_FLAG(OLETLS_MARSHALING_ERROR_OBJECT, L"Marshaling error object"),
-        PH_OLE_TLS_FLAG(OLETLS_WINRT_INITIALIZE, L"WinRT initialized"),
-        PH_OLE_TLS_FLAG(OLETLS_APPLICATION_STA, L"Application STA"),
-        PH_OLE_TLS_FLAG(OLETLS_IN_SHUTDOWN_CALLBACKS, L"In shutdown callbacks"),
-        PH_OLE_TLS_FLAG(OLETLS_POINTER_INPUT_BLOCKED, L"Pointer input blocked"),
-        PH_OLE_TLS_FLAG(OLETLS_IN_ACTIVATION_FILTER, L"In activation filter"),
-        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_QUIRK, L"ASTA-to-ASTA exempt quirk"),
-        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_PROXY, L"ASTA-to-ASTA exempt proxy"),
-        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_INDOUBT, L"ASTA-to-ASTA exempt in doubt"),
-        PH_OLE_TLS_FLAG(OLETLS_DETECTED_USER_INITIALIZED, L"Detected user initialized"),
-        PH_OLE_TLS_FLAG(OLETLS_BRIDGE_STA, L"Bridge STA"),
-        PH_OLE_TLS_FLAG(OLETLS_NAINITIALIZING, L"NTA initializing"),
+        PH_OLE_TLS_FLAG(OLETLS_LOCALTID, L"本地 TID"),
+        PH_OLE_TLS_FLAG(OLETLS_UUIDINITIALIZED, L"UUID 已初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_INTHREADDETACH, L"线程分离中"),
+        PH_OLE_TLS_FLAG(OLETLS_CHANNELTHREADINITIALZED, L"通道线程已初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_WOWTHREAD, L"WoW 线程"),
+        PH_OLE_TLS_FLAG(OLETLS_THREADUNINITIALIZING, L"线程正在取消初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_DISABLE_OLE1DDE, L"OLE1DDE 已禁用"),
+        PH_OLE_TLS_FLAG(OLETLS_APARTMENTTHREADED, L"单线程单元 (STA)"),
+        PH_OLE_TLS_FLAG(OLETLS_MULTITHREADED, L"多线程单元 (MTA)"),
+        PH_OLE_TLS_FLAG(OLETLS_IMPERSONATING, L"正在模拟"),
+        PH_OLE_TLS_FLAG(OLETLS_DISABLE_EVENTLOGGER, L"事件日志记录器已禁用"),
+        PH_OLE_TLS_FLAG(OLETLS_INNEUTRALAPT, L"中性单元 (NTA)"),
+        PH_OLE_TLS_FLAG(OLETLS_DISPATCHTHREAD, L"调度线程"),
+        PH_OLE_TLS_FLAG(OLETLS_HOSTTHREAD, L"主机线程"),
+        PH_OLE_TLS_FLAG(OLETLS_ALLOWCOINIT, L"允许 CoInit"),
+        PH_OLE_TLS_FLAG(OLETLS_PENDINGUNINIT, L"待取消初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_FIRSTMTAINIT, L"首次 MTA 初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_FIRSTNTAINIT, L"首次 NTA 初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_APTINITIALIZING, L"单元正在初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_UIMSGSINMODALLOOP, L"模态循环中的 UI 消息"),
+        PH_OLE_TLS_FLAG(OLETLS_MARSHALING_ERROR_OBJECT, L"封送错误对象"),
+        PH_OLE_TLS_FLAG(OLETLS_WINRT_INITIALIZE, L"WinRT 已初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_APPLICATION_STA, L"应用程序 STA"),
+        PH_OLE_TLS_FLAG(OLETLS_IN_SHUTDOWN_CALLBACKS, L"处于关闭回调中"),
+        PH_OLE_TLS_FLAG(OLETLS_POINTER_INPUT_BLOCKED, L"指针输入被阻止"),
+        PH_OLE_TLS_FLAG(OLETLS_IN_ACTIVATION_FILTER, L"处于激活筛选器中"),
+        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_QUIRK, L"ASTA 到 ASTA 豁免怪癖"),
+        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_PROXY, L"ASTA 到 ASTA 豁免代理"),
+        PH_OLE_TLS_FLAG(OLETLS_ASTATOASTAEXEMPT_INDOUBT, L"ASTA 到 ASTA 豁免存疑"),
+        PH_OLE_TLS_FLAG(OLETLS_DETECTED_USER_INITIALIZED, L"检测到用户已初始化"),
+        PH_OLE_TLS_FLAG(OLETLS_BRIDGE_STA, L"桥接 STA"),
+        PH_OLE_TLS_FLAG(OLETLS_NAINITIALIZING, L"NTA 正在初始化"),
     };
 
     PPH_STRING string;

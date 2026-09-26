@@ -133,7 +133,7 @@ VOID AtpGetDotNetAssemblies(
             Result,
             "plugin_missing",
             STATUS_NOT_FOUND,
-            L"The DotNetTools plugin is not loaded, so the managed runtime cannot be read."
+            L"DotNetTools 插件未加载，因此无法读取托管运行时。"
             );
         return;
     }
@@ -158,14 +158,14 @@ VOID AtpGetDotNetAssemblies(
     switch (status)
     {
     case DotNetToolsAssembliesNotDotNet:
-        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"This process is not running a .NET runtime.");
+        AtSetToolError(Result, "not_found", STATUS_NOT_FOUND, L"此进程未运行 .NET 运行时。");
         break;
     case DotNetToolsAssembliesWow64:
         AtSetToolError(
             Result,
             "unavailable",
             STATUS_NOT_SUPPORTED,
-            L"Reading a 32-bit process's runtime needs a helper that prompts for elevation, so it is not done here."
+            L"读取 32 位进程的运行时需要一个会提示提权的辅助进程，因此此处不执行。"
             );
         break;
     case DotNetToolsAssembliesFailed:
@@ -173,7 +173,7 @@ VOID AtpGetDotNetAssemblies(
             Result,
             "failed",
             STATUS_UNSUCCESSFUL,
-            L"The runtime would not answer. Its debugging support has to match the runtime, and a process that is starting up or shutting down may not answer at all."
+            L"运行时没有应答。其调试支持必须与运行时本身匹配，而正在启动或正在退出的进程可能完全不应答。"
             );
         break;
     }
@@ -214,7 +214,7 @@ VOID AtDotNetInvokeTool(
         AtpGetDotNetAssemblies(Call, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

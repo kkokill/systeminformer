@@ -26,7 +26,7 @@ PCWSTR AtpVerifyResultText(
 {
     PCWSTR text = AtVerifyResultString(Result);
 
-    return text ? text : L"Unknown";
+    return text ? text : L"未知";
 }
 
 typedef DWORD (WINAPI* AT_CERT_GET_NAME_STRING_W)(
@@ -232,7 +232,7 @@ VOID AtpVerifyFileSignature(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -257,7 +257,7 @@ VOID AtpVerifyFileSignature(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhDereferenceObject(path);
         return;
     }
@@ -449,7 +449,7 @@ VOID AtpGetFileHashes(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -487,7 +487,7 @@ VOID AtpGetFileHashes(
                     Result,
                     "invalid_arguments",
                     STATUS_INVALID_PARAMETER,
-                    L"%s is not one of md5, sha1, sha256 or sha512.",
+                    L"%s 必须是 md5、sha1、sha256 或 sha512 之一。",
                     PhGetString(name)
                     );
                 PhDereferenceObject(name);
@@ -531,14 +531,14 @@ VOID AtpGetFileHashes(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhDereferenceObject(path);
         return;
     }
 
     if (!NT_SUCCESS(status = PhGetFileSize(fileHandle, &fileSize)))
     {
-        AtSetToolStatusError(Result, status, L"Reading the file size");
+        AtSetToolStatusError(Result, status, L"读取文件大小");
         NtClose(fileHandle);
         PhDereferenceObject(path);
         return;
@@ -575,7 +575,7 @@ VOID AtpGetFileHashes(
                     PhSymCryptDestroyHash(&requests[j].Context, requests[j].Size);
             }
 
-            AtSetToolStatusError(Result, status, L"Starting the hash");
+            AtSetToolStatusError(Result, status, L"启动哈希计算");
             NtClose(fileHandle);
             PhDereferenceObject(path);
             return;
@@ -617,7 +617,7 @@ VOID AtpGetFileHashes(
     if (offset.QuadPart != fileSize.QuadPart)
     {
         AtSetToolStatusError(Result, NT_SUCCESS(status) ? STATUS_END_OF_FILE : status,
-            hashFailed ? L"Hashing the file" : L"Reading the file");
+            hashFailed ? L"计算文件哈希" : L"读取文件");
 
         for (i = 0; i < RTL_NUMBER_OF(requests); i++)
         {
@@ -771,7 +771,7 @@ VOID AtpGetImageInfo(
 
     if (!(path = AtGetArgumentString(Call->Arguments, "path")) || path->Length == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"path is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 path。");
         PhClearReference(&path);
         return;
     }
@@ -796,7 +796,7 @@ VOID AtpGetImageInfo(
                 Result,
                 "invalid_arguments",
                 STATUS_INVALID_PARAMETER,
-                L"%s is not a section of a PE image this tool knows about.",
+                L"%s 不是本工具认识的 PE 映像节区。",
                 PhGetString(invalid)
                 );
             PhDereferenceObject(invalid);
@@ -819,7 +819,7 @@ VOID AtpGetImageInfo(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Opening the file");
+        AtSetToolStatusError(Result, status, L"打开文件");
         PhDereferenceObject(path);
         return;
     }
@@ -829,14 +829,14 @@ VOID AtpGetImageInfo(
 
     if (!NT_SUCCESS(status))
     {
-        AtSetToolStatusError(Result, status, L"Loading the image");
+        AtSetToolStatusError(Result, status, L"加载映像");
         PhDereferenceObject(path);
         return;
     }
 
     if (mappedImage.Signature != IMAGE_DOS_SIGNATURE)
     {
-        AtSetToolError(Result, "invalid_image", STATUS_INVALID_IMAGE_FORMAT, L"The file is not a PE image.");
+        AtSetToolError(Result, "invalid_image", STATUS_INVALID_IMAGE_FORMAT, L"该文件不是 PE 映像。");
         PhUnloadMappedImage(&mappedImage);
         PhDereferenceObject(path);
         return;
@@ -981,13 +981,13 @@ VOID AtpReadProcessMemory(
 
     if (!AtGetArgumentPointer(Call->Arguments, "address", &address) || address == 0)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"address is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 address。");
         return;
     }
 
     if (!AtGetArgumentUInt64(Call->Arguments, "size", &size) || size == 0 || size > AT_READ_MEMORY_MAX)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"size is required and must be 1 to %lu.", (ULONG)AT_READ_MEMORY_MAX);
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 size，且必须为 1 到 %lu。", (ULONG)AT_READ_MEMORY_MAX);
         return;
     }
 
@@ -997,7 +997,7 @@ VOID AtpReadProcessMemory(
 
     if (!NT_SUCCESS(status) && bytesRead == 0)
     {
-        AtSetToolStatusError(Result, status, L"Reading process memory");
+        AtSetToolStatusError(Result, status, L"读取进程内存");
         PhFree(buffer);
         return;
     }
@@ -1049,7 +1049,7 @@ BOOLEAN AtpBuildSearchPattern(
 
     if (!!hex + !!ascii + !!utf16 != 1)
     {
-        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"Exactly one of pattern_hex, ascii and utf16 is required.");
+        AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"需要提供 pattern_hex、ascii 或 utf16 之一。");
         goto CleanupExit;
     }
 
@@ -1060,7 +1060,7 @@ BOOLEAN AtpBuildSearchPattern(
 
         if (sr.Length == 0 || (sr.Length / sizeof(WCHAR)) % 2 != 0)
         {
-            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"pattern_hex must be an even number of hex digits.");
+            AtSetToolError(Result, "invalid_arguments", STATUS_INVALID_PARAMETER, L"pattern_hex 必须为偶数个十六进制数字。");
             goto CleanupExit;
         }
 
@@ -1145,7 +1145,7 @@ VOID AtpSearchProcessMemory(
 
     if (!NT_SUCCESS(status = PhQueryMemoryItemList(Target->ProcessItem->ProcessId, PH_QUERY_MEMORY_IGNORE_FREE, &list)))
     {
-        AtSetToolStatusError(Result, status, L"Enumerating the process memory");
+        AtSetToolStatusError(Result, status, L"枚举进程内存");
         return;
     }
 
@@ -1153,7 +1153,7 @@ VOID AtpSearchProcessMemory(
     // any JSON so nothing leaks.
     if (!(buffer = PhAllocatePage(bufferSize, NULL)))
     {
-        AtSetToolError(Result, "failed", STATUS_NO_MEMORY, L"The scan buffer could not be allocated.");
+        AtSetToolError(Result, "failed", STATUS_NO_MEMORY, L"无法分配扫描缓冲区。");
         PhDeleteMemoryItemList(&list);
         return;
     }
@@ -1308,7 +1308,7 @@ VOID AtPeInvokeTool(
         AtpSearchProcessMemory(Call, Target, Result);
         break;
     default:
-        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"This tool is not implemented.");
+        AtSetToolError(Result, "failed", STATUS_NOT_IMPLEMENTED, L"此工具未实现。");
         break;
     }
 }

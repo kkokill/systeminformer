@@ -90,8 +90,8 @@ static VOID FilterResults(
 
     while (PhaChoiceDialog(
         hwndDlg,
-        L"Filter",
-        L"Enter the filter pattern:",
+        L"筛选",
+        L"请输入筛选模式：",
         NULL,
         0,
         NULL,
@@ -164,9 +164,9 @@ static VOID FilterResults(
 
             if (!compiledExpression)
             {
-                PhShowError2(hwndDlg, L"Unable to compile the regular expression.",
-                    L"\"%s\" at position %zu.",
-                    PhGetStringOrDefault(PH_AUTO(PhPcre2GetErrorMessage(errorCode)), L"Unknown error"),
+                PhShowError2(hwndDlg, L"无法编译正则表达式。",
+                    L"“%s”位于位置 %zu。",
+                    PhGetStringOrDefault(PH_AUTO(PhPcre2GetErrorMessage(errorCode)), L"未知错误"),
                     errorOffset
                     );
                 continue;
@@ -268,7 +268,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
 
                 if (processItem = PhReferenceProcessItem(context->ProcessId))
                 {
-                    PhSetWindowText(hwndDlg, PhaFormatString(L"Results - %s (%u)",
+                    PhSetWindowText(hwndDlg, PhaFormatString(L"结果 - %s (%u)",
                         processItem->ProcessName->Buffer, HandleToUlong(processItem->ProcessId))->Buffer);
                     PhDereferenceObject(processItem);
                 }
@@ -277,10 +277,10 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
             context->ListViewHandle = lvHandle = GetDlgItem(hwndDlg, IDC_LIST);
             PhSetListViewStyle(lvHandle, TRUE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
-            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"Address");
-            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 120, L"Base Address");
-            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"Length");
-            PhAddListViewColumn(lvHandle, 3, 3, 3, LVCFMT_LEFT, 200, L"Result");
+            PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 120, L"地址");
+            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 120, L"基址");
+            PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 80, L"长度");
+            PhAddListViewColumn(lvHandle, 3, 3, 3, LVCFMT_LEFT, 200, L"结果");
             PhSetExtendedListView(lvHandle);
 
             PhLoadListViewColumnsFromSetting(SETTING_MEM_RESULTS_LIST_VIEW_COLUMNS, lvHandle);
@@ -312,7 +312,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
 
             ListView_SetItemCount(lvHandle, context->Results->Count);
 
-            PhSetDialogItemText(hwndDlg, IDC_INTRO, PhaFormatString(L"%s results.",
+            PhSetDialogItemText(hwndDlg, IDC_INTRO, PhaFormatString(L"%s 个结果。",
                 PhaFormatUInt64(context->Results->Count, TRUE)->Buffer)->Buffer);
 
             {
@@ -390,14 +390,14 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
                 {
                     static PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Text files (*.txt)", L"*.txt" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"文本文件 (*.txt)", L"*.txt" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog;
 
                     fileDialog = PhCreateSaveFileDialog();
                     PhSetFileDialogFilter(fileDialog, filters, sizeof(filters) / sizeof(PH_FILETYPE_FILTER));
-                    PhSetFileDialogFileName(fileDialog, L"Search results.txt");
+                    PhSetFileDialogFileName(fileDialog, L"搜索结果.txt");
 
                     if (PhShowFileDialog(hwndDlg, fileDialog))
                     {
@@ -428,7 +428,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
                         }
 
                         if (!NT_SUCCESS(status))
-                            PhShowStatus(hwndDlg, L"Unable to create the file", status, 0);
+                            PhShowStatus(hwndDlg, L"无法创建文件", status, 0);
                     }
 
                     PhFreeFileDialog(fileDialog);
@@ -443,10 +443,10 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
                     ULONG filterType = 0;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_CONTAINS, L"Contains...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_CONTAINS_CASEINSENSITIVE, L"Contains (case-insensitive)...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_REGEX, L"Regex...", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_REGEX_CASEINSENSITIVE, L"Regex (case-insensitive)...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_CONTAINS, L"包含...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_CONTAINS_CASEINSENSITIVE, L"包含（不区分大小写）...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_REGEX, L"正则表达式...", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_FILTER_REGEX_CASEINSENSITIVE, L"正则表达式（不区分大小写）...", NULL, NULL), ULONG_MAX);
 
                     if (!PhGetClientRect(GetDlgItem(hwndDlg, IDC_FILTER), &buttonRect))
                         break;
@@ -601,7 +601,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
 
                             if (!NT_SUCCESS(status))
                             {
-                                PhShowStatus(hwndDlg, L"Unable to edit memory", status, 0);
+                                PhShowStatus(hwndDlg, L"无法编辑内存", status, 0);
                             }
                         }
                     }
@@ -619,9 +619,9 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
                             break;
 
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_READWRITEMEMORY, L"&Read/Write memory", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_MEMORY_READWRITEMEMORY, L"读/写内存(&R)", NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"Copy", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制", NULL, NULL), ULONG_MAX);
                         PhInsertCopyListViewEMenuItem(menu, IDC_COPY, context->ListViewHandle);
 
                         selectedItem = PhShowEMenu(
@@ -681,7 +681,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
 
                                             if (!NT_SUCCESS(status))
                                             {
-                                                PhShowStatus(hwndDlg, L"Unable to edit memory", status, 0);
+                                                PhShowStatus(hwndDlg, L"无法编辑内存", status, 0);
                                             }
                                         }
                                     }

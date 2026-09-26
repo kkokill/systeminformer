@@ -578,7 +578,7 @@ VOID PhRunAsPackageInitializeTree(
     _Inout_ PPH_RUNAS_PACKAGE_CONTEXT Context
     )
 {
-    static CONST PH_STRINGREF PhRunAsPackageLoadingText = PH_STRINGREF_INIT(L"Loading package information...");
+    static CONST PH_STRINGREF PhRunAsPackageLoadingText = PH_STRINGREF_INIT(L"正在加载包信息...");
 
     Context->NodeList = PhCreateList(20);
     Context->NodeHashtable = PhCreateHashtable(
@@ -596,7 +596,7 @@ VOID PhRunAsPackageInitializeTree(
     TreeNew_SetCallback(Context->TreeNewHandle, PhRunAsPackageTreeNewCallback, Context);
     TreeNew_SetRowHeight(Context->TreeNewHandle, PhScaleToDisplay(48, Context->WindowDpi));
 
-    PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_RUNASPACKAGE_TREE_COLUMN_ITEM_NAME, TRUE, L"Package", 80, PH_ALIGN_LEFT, 0, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
+    PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_RUNASPACKAGE_TREE_COLUMN_ITEM_NAME, TRUE, L"包", 80, PH_ALIGN_LEFT, 0, 0, TN_COLUMN_FLAG_CUSTOMDRAW);
     //PhAddTreeNewColumnEx2(Context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_VERSION, TRUE, L"Version", 80, PH_ALIGN_CENTER, 1, DT_CENTER, 0);
 
     //PhRunAsPackageLoadSettingsTreeList(Context);
@@ -825,7 +825,7 @@ INT_PTR CALLBACK PhRunAsPackageWndProc(
             PhCreateSearchControl2(
                 WindowHandle,
                 context->SearchBoxHandle,
-                L"Search Packages",
+                L"搜索包",
                 SETTING_SEARCH_PACKAGES_REGEX,
                 SETTING_SEARCH_PACKAGES_CASE_SENSITIVE,
                 PhpRunAsPackageSearchControlCallback,
@@ -928,8 +928,8 @@ INT_PTR CALLBACK PhRunAsPackageWndProc(
                 {
                     PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"Executable files (*.exe;*.pif;*.com;*.bat;*.cmd)", L"*.exe;*.pif;*.com;*.bat;*.cmd" },
-                        { L"All files (*.*)", L"*.*" }
+                        { L"可执行文件 (*.exe;*.pif;*.com;*.bat;*.cmd)", L"*.exe;*.pif;*.com;*.bat;*.cmd" },
+                        { L"所有文件 (*.*)", L"*.*" }
                     };
                     PVOID fileDialog = PhCreateOpenFileDialog();
 
@@ -1002,7 +1002,7 @@ INT_PTR CALLBACK PhRunAsPackageWndProc(
                             }
                             else
                             {
-                                PhShowStatus(WindowHandle, L"Unable to execute the command.", 0, status);
+                                PhShowStatus(WindowHandle, L"无法执行该命令。", 0, status);
                             }
 
                             PhClearReference(&directoryString);

@@ -317,31 +317,31 @@ PPH_STRING PhGetProcessHeapFlagsText(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (Flags & HEAP_NO_SERIALIZE)
-        PhAppendStringBuilder2(&stringBuilder, L"No serialize, ");
+        PhAppendStringBuilder2(&stringBuilder, L"不串行化, ");
     if (Flags & HEAP_GROWABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"Growable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可增长, ");
     if (Flags & HEAP_GENERATE_EXCEPTIONS)
-        PhAppendStringBuilder2(&stringBuilder, L"Generate exceptions, ");
+        PhAppendStringBuilder2(&stringBuilder, L"生成异常, ");
     if (Flags & HEAP_ZERO_MEMORY)
-        PhAppendStringBuilder2(&stringBuilder, L"Zero memory, ");
+        PhAppendStringBuilder2(&stringBuilder, L"清零内存, ");
     if (Flags & HEAP_REALLOC_IN_PLACE_ONLY)
-        PhAppendStringBuilder2(&stringBuilder, L"Realloc in-place, ");
+        PhAppendStringBuilder2(&stringBuilder, L"就地重分配, ");
     if (Flags & HEAP_TAIL_CHECKING_ENABLED)
-        PhAppendStringBuilder2(&stringBuilder, L"Tail checking, ");
+        PhAppendStringBuilder2(&stringBuilder, L"尾检查, ");
     if (Flags & HEAP_FREE_CHECKING_ENABLED)
-        PhAppendStringBuilder2(&stringBuilder, L"Free checking, ");
+        PhAppendStringBuilder2(&stringBuilder, L"释放检查, ");
     if (Flags & HEAP_DISABLE_COALESCE_ON_FREE)
-        PhAppendStringBuilder2(&stringBuilder, L"Coalesce on free, ");
+        PhAppendStringBuilder2(&stringBuilder, L"释放时合并, ");
     if (Flags & HEAP_CREATE_ALIGN_16)
-        PhAppendStringBuilder2(&stringBuilder, L"Align 16, ");
+        PhAppendStringBuilder2(&stringBuilder, L"16 字节对齐, ");
     if (Flags & HEAP_CREATE_ENABLE_TRACING)
-        PhAppendStringBuilder2(&stringBuilder, L"Traceable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可跟踪, ");
     if (Flags & HEAP_CREATE_ENABLE_EXECUTE)
-        PhAppendStringBuilder2(&stringBuilder, L"Executable, ");
+        PhAppendStringBuilder2(&stringBuilder, L"可执行, ");
     if (Flags & HEAP_CREATE_SEGMENT_HEAP)
-        PhAppendStringBuilder2(&stringBuilder, L"Segment heap, ");
+        PhAppendStringBuilder2(&stringBuilder, L"段堆, ");
     if (Flags & HEAP_CREATE_HARDENED)
-        PhAppendStringBuilder2(&stringBuilder, L"Segment hardened, ");
+        PhAppendStringBuilder2(&stringBuilder, L"段强化, ");
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -368,26 +368,26 @@ PCWSTR PhGetProcessHeapClassText(
     switch (HeapClass)
     {
     case HEAP_CLASS_0:
-        return L"Process Heap";
+        return L"进程堆";
     case HEAP_CLASS_1:
-        return L"Private Heap";
+        return L"专用堆";
     case HEAP_CLASS_2:
-        return L"Kernel Heap";
+        return L"内核堆";
     case HEAP_CLASS_3:
-        return L"GDI Heap";
+        return L"GDI 堆";
     case HEAP_CLASS_4:
-        return L"User Heap";
+        return L"用户堆";
     case HEAP_CLASS_5:
-        return L"Console Heap";
+        return L"控制台堆";
     case HEAP_CLASS_6:
-        return L"Desktop Heap";
+        return L"桌面堆";
     case HEAP_CLASS_7:
-        return L"CSRSS Shared Heap";
+        return L"CSRSS 共享堆";
     case HEAP_CLASS_8:
-        return L"CSRSS Port Heap";
+        return L"CSRSS 端口堆";
     }
 
-    return L"Unknown Heap";
+    return L"未知堆";
 }
 
 VOID PhpEnumerateProcessHeaps(
@@ -471,7 +471,7 @@ VOID PhpEnumerateProcessHeaps(
             {
                 PhUiDisconnectFromPhSvc();
 
-                PhShowStatus(Context->WindowHandle, L"Unable to query heap information.", status, 0);
+                PhShowStatus(Context->WindowHandle, L"无法查询堆信息。", status, 0);
                 goto CleanupExit;
             }
 
@@ -516,13 +516,13 @@ VOID PhpEnumerateProcessHeaps(
                         switch (entry->HeapFrontEndType)
                         {
                         case 1:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap (Lookaside)");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆 (旁视列表)");
                             break;
                         case 2:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap (LFH)");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆 (LFH)");
                             break;
                         default:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆");
                             break;
                         }
                     }
@@ -532,13 +532,13 @@ VOID PhpEnumerateProcessHeaps(
                         switch (entry->HeapFrontEndType)
                         {
                         case 1:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap (Lookaside)");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆 (旁视列表)");
                             break;
                         case 2:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap (LFH)");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆 (LFH)");
                             break;
                         default:
-                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap");
+                            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆");
                             break;
                         }
                     }
@@ -552,9 +552,9 @@ VOID PhpEnumerateProcessHeaps(
         {
             PhShowError2(
                 Context->WindowHandle,
-                L"Unable to query 32bit heap information.",
+                L"无法查询 32 位堆信息。",
                 L"%s",
-                L"The 32-bit version of System Informer could not be located."
+                L"找不到 32 位版本的 System Informer。"
                 );
             goto CleanupExit;
         }
@@ -571,7 +571,7 @@ VOID PhpEnumerateProcessHeaps(
 
         if (!NT_SUCCESS(status))
         {
-            PhShowStatus(Context->WindowHandle, L"Unable to query heap information.", status, 0);
+            PhShowStatus(Context->WindowHandle, L"无法查询堆信息。", status, 0);
             goto CleanupExit;
         }
 
@@ -601,13 +601,13 @@ VOID PhpEnumerateProcessHeaps(
                     switch (entry->HeapFrontEndType)
                     {
                     case 1:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap (Lookaside)");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆 (旁视列表)");
                         break;
                     case 2:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap (LFH)");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆 (LFH)");
                         break;
                     default:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT Heap");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"NT 堆");
                         break;
                     }
                 }
@@ -617,13 +617,13 @@ VOID PhpEnumerateProcessHeaps(
                     switch (entry->HeapFrontEndType)
                     {
                     case 1:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap (Lookaside)");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆 (旁视列表)");
                         break;
                     case 2:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap (LFH)");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆 (LFH)");
                         break;
                     default:
-                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"Segment Heap");
+                        PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 7, L"段堆");
                         break;
                     }
                 }
@@ -706,18 +706,18 @@ INT_PTR CALLBACK PhpProcessHeapsDlgProc(
 
             PhSetApplicationWindowIcon(hwndDlg);
 
-            PhpSetProcessHeapsWindowText(hwndDlg, L"Heaps - ", context->ProcessItem);
+            PhpSetProcessHeapsWindowText(hwndDlg, L"堆 - ", context->ProcessItem);
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"Address");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 120, L"Used");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 120, L"Committed");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 80, L"Entries");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 80, L"Flags");
-            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 80, L"Class");
-            PhAddListViewColumn(context->ListViewHandle, 7, 7, 7, LVCFMT_LEFT, 80, L"Type");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 100, L"地址");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 120, L"已用");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 120, L"已提交");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 80, L"条目数");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 80, L"标志");
+            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 80, L"类别");
+            PhAddListViewColumn(context->ListViewHandle, 7, 7, 7, LVCFMT_LEFT, 80, L"类型");
             PhSetExtendedListView(context->ListViewHandle);
 
             ExtendedListView_SetContext(context->ListViewHandle, context);
@@ -897,7 +897,7 @@ INT_PTR CALLBACK PhpProcessHeapsDlgProc(
                     menu = PhCreateEMenu();
                     //PhInsertEMenuItem(menu, PhCreateEMenuItem(selectedCount != 1 ? PH_EMENU_DISABLED : 0, 1, L"Destroy", NULL, NULL), ULONG_MAX);
                     //PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     menuItem = PhShowEMenu(
@@ -1408,10 +1408,10 @@ NTSTATUS NTAPI PhEnumProcessLocksCallback(
         switch (entry->Type)
         {
         case RTL_CRITSECT_TYPE:
-            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, 1, L"Critical section");
+            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, 1, L"临界区");
             break;
         case RTL_RESOURCE_TYPE:
-            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, 1, L"Resource");
+            PhSetListViewSubItem(context->ListViewHandle, lvItemIndex, 1, L"资源");
             break;
         }
 
@@ -1440,7 +1440,7 @@ VOID PhEnumerateProcessLocks(
     if (!NT_SUCCESS(status))
     {
         ExtendedListView_SetRedraw(Context->ListViewHandle, TRUE);
-        PhShowStatus(Context->WindowHandle, L"Unable to query lock information.", status, 0);
+        PhShowStatus(Context->WindowHandle, L"无法查询锁信息。", status, 0);
         return;
     }
 
@@ -1479,21 +1479,21 @@ INT_PTR CALLBACK PhProcessLocksDlgProc(
 
             PhSetApplicationWindowIcon(WindowHandle);
 
-            PhpSetProcessHeapsWindowText(WindowHandle, L"Locks - ", context->ProcessItem);
+            PhpSetProcessHeapsWindowText(WindowHandle, L"锁 - ", context->ProcessItem);
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
-            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 50, L"Type");
-            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"Address");
-            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 120, L"Filename");
-            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 120, L"Thread");
-            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 80, L"Lock count");
-            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 80, L"Contention count");
-            PhAddListViewColumn(context->ListViewHandle, 7, 7, 7, LVCFMT_LEFT, 80, L"Entry count");
-            PhAddListViewColumn(context->ListViewHandle, 8, 8, 8, LVCFMT_LEFT, 80, L"Recursion count");
-            PhAddListViewColumn(context->ListViewHandle, 9, 9, 9, LVCFMT_LEFT, 80, L"Waiting shared count");
-            PhAddListViewColumn(context->ListViewHandle, 10, 10, 10, LVCFMT_LEFT, 80, L"Waiting exclusive count");
+            PhAddListViewColumn(context->ListViewHandle, 1, 1, 1, LVCFMT_LEFT, 50, L"类型");
+            PhAddListViewColumn(context->ListViewHandle, 2, 2, 2, LVCFMT_LEFT, 100, L"地址");
+            PhAddListViewColumn(context->ListViewHandle, 3, 3, 3, LVCFMT_LEFT, 120, L"文件名");
+            PhAddListViewColumn(context->ListViewHandle, 4, 4, 4, LVCFMT_LEFT, 120, L"线程");
+            PhAddListViewColumn(context->ListViewHandle, 5, 5, 5, LVCFMT_LEFT, 80, L"锁定计数");
+            PhAddListViewColumn(context->ListViewHandle, 6, 6, 6, LVCFMT_LEFT, 80, L"争用计数");
+            PhAddListViewColumn(context->ListViewHandle, 7, 7, 7, LVCFMT_LEFT, 80, L"条目计数");
+            PhAddListViewColumn(context->ListViewHandle, 8, 8, 8, LVCFMT_LEFT, 80, L"递归计数");
+            PhAddListViewColumn(context->ListViewHandle, 9, 9, 9, LVCFMT_LEFT, 80, L"共享等待计数");
+            PhAddListViewColumn(context->ListViewHandle, 10, 10, 10, LVCFMT_LEFT, 80, L"独占等待计数");
             PhSetExtendedListView(context->ListViewHandle);
 
             ExtendedListView_SetContext(context->ListViewHandle, context);
@@ -1674,7 +1674,7 @@ INT_PTR CALLBACK PhProcessLocksDlgProc(
                 if (selectedCount != 0)
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"Copy\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     menuItem = PhShowEMenu(

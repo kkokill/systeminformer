@@ -345,11 +345,11 @@ VOID ShowUninstallCompletedPageDialog(
 
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"System Informer has been uninstalled.";
+    config.pszMainInstruction = L"System Informer 已卸载。";
     if (Context->NeedsReboot)
-        config.pszContent = L"A reboot is required to complete the uninstall.";
+        config.pszContent = L"需要重新启动才能完成卸载。";
     else
-        config.pszContent = L"Click close to exit setup.";
+        config.pszContent = L"单击关闭退出安装程序。";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -408,8 +408,8 @@ VOID ShowUninstallErrorPageDialog(
     if (statusMessage)
         config.pszMainInstruction = statusMessage->Buffer;
     else
-        config.pszMainInstruction = L"Uninstall failed with an error.";
-    config.pszContent = L"Click retry to try again or close to exit setup.";
+        config.pszMainInstruction = L"卸载失败，发生错误。";
+    config.pszContent = L"单击重试再次尝试，或单击关闭退出安装程序。";
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -441,9 +441,9 @@ VOID ShowUninstallPageDialog(
     config.cxWidth = 200;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainInstruction = PhApplicationName;
-    config.pszContent = L"Are you sure you want to uninstall System Informer?";
+    config.pszContent = L"确定要卸载 System Informer 吗？";
     if (PhGetOwnTokenAttributes().Elevated)
-        config.pszVerificationText = L"Remove application settings";
+        config.pszVerificationText = L"删除应用程序设置";
     config.dwCommonButtons = TDCBF_CANCEL_BUTTON;
     config.nDefaultButton = IDCANCEL;
 

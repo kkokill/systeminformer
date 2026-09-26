@@ -131,30 +131,30 @@ static VOID PhpUpdateMemoryListInfo(
     }
     else
     {
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTZEROED_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTFREE_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIED_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDNOWRITE_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDPAGEFILE_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTBAD_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY0_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY1_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY2_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY3_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY4_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY5_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY6_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY7_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED0_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED1_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED2_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED3_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED4_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED5_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED6_V, L"Unknown");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED7_V, L"Unknown");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTZEROED_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTFREE_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIED_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDNOWRITE_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDPAGEFILE_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTBAD_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY0_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY1_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY2_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY3_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY4_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY5_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY6_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY7_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED0_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED1_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED2_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED3_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED4_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED5_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED6_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED7_V, L"未知");
     }
 }
 
@@ -244,9 +244,9 @@ VOID NTAPI PhpEmptyWorkingSetsCommand(
     status = PhpMemoryListCommandCommon(ParentWindow, MemoryEmptyWorkingSets);
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Working sets emptied.");
+        *Message = PhCreateString(L"已清空工作集。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty working sets.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空工作集。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -260,9 +260,9 @@ VOID NTAPI PhpFlushModifiedListCommand(
     status = PhpMemoryListCommandCommon(ParentWindow, MemoryFlushModifiedList);
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Modified page lists emptied.");
+        *Message = PhCreateString(L"已清空已修改页列表。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty modified page lists.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空已修改页列表。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -276,9 +276,9 @@ VOID NTAPI PhpPurgeStandbyListCommand(
     status = PhpMemoryListCommandCommon(ParentWindow, MemoryPurgeStandbyList);
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Standby lists emptied.");
+        *Message = PhCreateString(L"已清空备用列表。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty standby lists.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空备用列表。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -292,9 +292,9 @@ VOID NTAPI PhpPurgeLowPriorityStandbyListCommand(
     status = PhpMemoryListCommandCommon(ParentWindow, MemoryPurgeLowPriorityStandbyList);
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Priority 0 standby list emptied.");
+        *Message = PhCreateString(L"已清空优先级 0 备用列表。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty priority 0 standby list.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空优先级 0 备用列表。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -319,17 +319,17 @@ VOID NTAPI PhpCombineMemoryListsCommand(
         PH_FORMAT format[5];
 
         // Memory pages combined: %s (%llu pages)
-        PhInitFormatS(&format[0], L"Memory pages combined: ");
+        PhInitFormatS(&format[0], L"已合并内存页：");
         PhInitFormatSize(&format[1], combineInfo.PagesCombined * PAGE_SIZE);
-        PhInitFormatS(&format[2], L" (");
+        PhInitFormatS(&format[2], L"（");
         PhInitFormatI64U(&format[3], combineInfo.PagesCombined);
-        PhInitFormatS(&format[4], L" pages)");
+        PhInitFormatS(&format[4], L" 页）");
 
         *Message = PhFormat(format, RTL_NUMBER_OF(format), 0);
     }
     else
     {
-        *Message = PhpCreateCommandStatusString(L"Unable to combine memory pages.", status);
+        *Message = PhpCreateCommandStatusString(L"无法合并内存页。", status);
     }
 }
 
@@ -345,7 +345,7 @@ VOID NTAPI PhpEmptyCompressionStoreCommand(
     {
         PhShowKsiNotConnected(
             ParentWindow,
-            L"Emptying the compression store requires a connection to the kernel driver."
+            L"清空压缩存储需要连接到内核驱动程序。"
             );
 
         *Message = NULL;
@@ -361,9 +361,9 @@ VOID NTAPI PhpEmptyCompressionStoreCommand(
     PhSetCursor(PhLoadCursor(NULL, IDC_ARROW));
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Compression stores emptied.");
+        *Message = PhCreateString(L"已清空压缩存储。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty compression stores.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空压缩存储。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -379,9 +379,9 @@ VOID NTAPI PhpEmptyRegistryCacheCommand(
     PhSetCursor(PhLoadCursor(NULL, IDC_ARROW));
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Registry cache emptied.");
+        *Message = PhCreateString(L"已清空注册表缓存。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to empty registry cache.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空注册表缓存。", status);
 }
 
 _Function_class_(PH_MEMORY_LIST_COMMAND_CALLBACK)
@@ -410,17 +410,17 @@ VOID NTAPI PhpEmptySystemFileCacheCommand(
         PH_FORMAT format[5];
 
         // System file cache emptied: %s (%llu pages)
-        PhInitFormatS(&format[0], L"System file cache emptied: ");
+        PhInitFormatS(&format[0], L"已清空系统文件缓存：");
         PhInitFormatSize(&format[1], cacheInfo.CurrentSize);
-        PhInitFormatS(&format[2], L" (");
+        PhInitFormatS(&format[2], L"（");
         PhInitFormatI64U(&format[3], cacheInfo.CurrentSize / PAGE_SIZE);
-        PhInitFormatS(&format[4], L" pages)");
+        PhInitFormatS(&format[4], L" 页）");
 
         *Message = PhFormat(format, RTL_NUMBER_OF(format), 0);
     }
     else
     {
-        *Message = PhpCreateCommandStatusString(L"Unable to empty system file cache.", status);
+        *Message = PhpCreateCommandStatusString(L"无法清空系统文件缓存。", status);
     }
 }
 
@@ -437,9 +437,9 @@ VOID NTAPI PhpFlushModifiedFileCacheCommand(
     PhSetCursor(PhLoadCursor(NULL, IDC_ARROW));
 
     if (NT_SUCCESS(status))
-        *Message = PhCreateString(L"Volume file cache flushed to disk.");
+        *Message = PhCreateString(L"已将卷文件缓存刷新到磁盘。");
     else
-        *Message = PhpCreateCommandStatusString(L"Unable to flush volume file cache.", status);
+        *Message = PhpCreateCommandStatusString(L"无法刷新卷文件缓存。", status);
 }
 
 typedef struct _PH_MEMORY_LIST_COMMAND_ENTRY
@@ -450,15 +450,15 @@ typedef struct _PH_MEMORY_LIST_COMMAND_ENTRY
 
 static const PH_MEMORY_LIST_COMMAND_ENTRY PhMemoryListCommands[] =
 {
-    { PhpCombineMemoryListsCommand, PH_STRINGREF_INIT(L"Combining memory pages...") },
-    { PhpEmptyCompressionStoreCommand, PH_STRINGREF_INIT(L"Emptying compression store...") },
-    { PhpEmptySystemFileCacheCommand, PH_STRINGREF_INIT(L"Emptying system file cache ...") },
-    { PhpEmptyRegistryCacheCommand, PH_STRINGREF_INIT(L"Emptying registry cache...") },
-    { PhpEmptyWorkingSetsCommand, PH_STRINGREF_INIT(L"Emptying working sets...") },
-    { PhpFlushModifiedListCommand, PH_STRINGREF_INIT(L"Emptying modified page list...") },
-    { PhpFlushModifiedFileCacheCommand, PH_STRINGREF_INIT(L"Emptying modified file cache...") },
-    { PhpPurgeStandbyListCommand, PH_STRINGREF_INIT(L"Emptying standby list...") },
-    { PhpPurgeLowPriorityStandbyListCommand, PH_STRINGREF_INIT(L"Emptying priority 0 standby list...") },
+    { PhpCombineMemoryListsCommand, PH_STRINGREF_INIT(L"正在合并内存页...") },
+    { PhpEmptyCompressionStoreCommand, PH_STRINGREF_INIT(L"正在清空压缩存储...") },
+    { PhpEmptySystemFileCacheCommand, PH_STRINGREF_INIT(L"正在清空系统文件缓存 ...") },
+    { PhpEmptyRegistryCacheCommand, PH_STRINGREF_INIT(L"正在清空注册表缓存...") },
+    { PhpEmptyWorkingSetsCommand, PH_STRINGREF_INIT(L"正在清空工作集...") },
+    { PhpFlushModifiedListCommand, PH_STRINGREF_INIT(L"正在清空已修改页列表...") },
+    { PhpFlushModifiedFileCacheCommand, PH_STRINGREF_INIT(L"正在清空已修改文件缓存...") },
+    { PhpPurgeStandbyListCommand, PH_STRINGREF_INIT(L"正在清空备用列表...") },
+    { PhpPurgeLowPriorityStandbyListCommand, PH_STRINGREF_INIT(L"正在清空优先级 0 备用列表...") },
 };
 
 typedef struct _PH_MEMORY_LIST_COMMAND_CONTEXT
@@ -552,7 +552,7 @@ HRESULT CALLBACK PhMemoryListCommandDialogCallbackProc(
             }
             else
             {
-                PhShowStatus(WindowHandle, L"Unable to create the window.", status, 0);
+                PhShowStatus(WindowHandle, L"无法创建窗口。", status, 0);
             }
         }
         break;
@@ -629,9 +629,9 @@ VOID PhMemoryListCommandDialog(
     config.lpCallbackData = (LONG_PTR)context;
     config.pszWindowTitle = PhApplicationName;
     if (context->CommandsCount > 1)
-        config.pszMainInstruction = L"Executing memory commands...";
+        config.pszMainInstruction = L"正在执行内存命令...";
     else
-        config.pszMainInstruction = L"Executing memory command...";
+        config.pszMainInstruction = L"正在执行内存命令...";
     config.pszContent = L" ";
     config.cxWidth = 200;
 
@@ -656,16 +656,16 @@ VOID PhShowMemoryListCommand(
     PPH_EMENU_ITEM selectedItem;
 
     menu = PhCreateEMenu();
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"&Combine memory pages", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"Empty &compression cache", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"Empty system &file cache", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"Empty &registry cache", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"Empty &working sets", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"Empty &modified page list", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, L"Empty &modified file cache", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 7, L"Empty &standby list", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 8, L"Empty &priority 0 standby list", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, RTL_NUMBER_OF(PhMemoryListCommands), L"Empty &all", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 0, L"合并内存页(&C)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"清空压缩缓存(&C)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"清空系统文件缓存(&F)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"清空注册表缓存(&R)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"清空工作集(&W)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"清空已修改页列表(&M)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, L"清空已修改文件缓存(&M)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 7, L"清空备用列表(&S)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 8, L"清空优先级 0 备用列表(&P)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, RTL_NUMBER_OF(PhMemoryListCommands), L"全部清空(&A)", NULL, NULL), ULONG_MAX);
 
     if (ShowTopAlign)
     {
@@ -712,7 +712,7 @@ VOID PhShowMemoryListCommand(
         }
         else if (!PhGetOwnTokenAttributes().Elevated)
         {
-            PhShowStatus(ParentWindow, L"Unable to empty the memory list.", 0, ERROR_ELEVATION_REQUIRED);
+            PhShowStatus(ParentWindow, L"无法清空内存列表。", 0, ERROR_ELEVATION_REQUIRED);
         }
         else
         {

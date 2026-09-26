@@ -31,23 +31,23 @@
 
 static CONST PH_STRINGREF DnAppDomainStageStrings[] =
 {
-    PH_STRINGREF_INIT(L"Creating"),           // STAGE_CREATING
-    PH_STRINGREF_INIT(L"ReadyForManagedCode"),// STAGE_READYFORMANAGEDCODE
-    PH_STRINGREF_INIT(L"Active"),             // STAGE_ACTIVE
-    PH_STRINGREF_INIT(L"Open"),               // STAGE_OPEN
-    PH_STRINGREF_INIT(L"UnloadRequested"),    // STAGE_UNLOAD_REQUESTED
-    PH_STRINGREF_INIT(L"Exiting"),            // STAGE_EXITING
-    PH_STRINGREF_INIT(L"Exited"),             // STAGE_EXITED
-    PH_STRINGREF_INIT(L"Finalizing"),         // STAGE_FINALIZING
-    PH_STRINGREF_INIT(L"Finalized"),          // STAGE_FINALIZED
-    PH_STRINGREF_INIT(L"HandleTableNoAccess"),// STAGE_HANDLETABLE_NOACCESS
-    PH_STRINGREF_INIT(L"Cleared"),            // STAGE_CLEARED
-    PH_STRINGREF_INIT(L"Collected"),          // STAGE_COLLECTED
-    PH_STRINGREF_INIT(L"Closed"),             // STAGE_CLOSED
+    PH_STRINGREF_INIT(L"正在创建"),           // STAGE_CREATING
+    PH_STRINGREF_INIT(L"托管代码就绪"),       // STAGE_READYFORMANAGEDCODE
+    PH_STRINGREF_INIT(L"活动"),               // STAGE_ACTIVE
+    PH_STRINGREF_INIT(L"已打开"),             // STAGE_OPEN
+    PH_STRINGREF_INIT(L"已请求卸载"),         // STAGE_UNLOAD_REQUESTED
+    PH_STRINGREF_INIT(L"正在退出"),           // STAGE_EXITING
+    PH_STRINGREF_INIT(L"已退出"),             // STAGE_EXITED
+    PH_STRINGREF_INIT(L"正在终结"),           // STAGE_FINALIZING
+    PH_STRINGREF_INIT(L"已终结"),             // STAGE_FINALIZED
+    PH_STRINGREF_INIT(L"句柄表不可访问"),     // STAGE_HANDLETABLE_NOACCESS
+    PH_STRINGREF_INIT(L"已清空"),             // STAGE_CLEARED
+    PH_STRINGREF_INIT(L"已回收"),             // STAGE_COLLECTED
+    PH_STRINGREF_INIT(L"已关闭"),             // STAGE_CLOSED
 };
 
-static CONST PH_STRINGREF DnAppDomainTypeSharedString = PH_STRINGREF_INIT(L"SharedDomain");
-static CONST PH_STRINGREF DnAppDomainTypeSystemString = PH_STRINGREF_INIT(L"SystemDomain");
+static CONST PH_STRINGREF DnAppDomainTypeSharedString = PH_STRINGREF_INIT(L"共享域");
+static CONST PH_STRINGREF DnAppDomainTypeSystemString = PH_STRINGREF_INIT(L"系统域");
 
 static CONST PH_STRINGREF DnCoreClrModuleName = PH_STRINGREF_INIT(L"coreclr.dll");
 static CONST PH_STRINGREF DnClrModuleName = PH_STRINGREF_INIT(L"clr.dll");

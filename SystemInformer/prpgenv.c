@@ -164,7 +164,7 @@ VOID PhpSetEnvironmentListStatusMessage(
 {
     if (Context->ProcessItem->State & PH_PROCESS_ITEM_REMOVED || Status == STATUS_PARTIAL_COPY)
     {
-        PhMoveReference(&Context->StatusMessage, PhCreateString(L"There are no environment variables to display."));
+        PhMoveReference(&Context->StatusMessage, PhCreateString(L"没有可显示的环境变量。"));
         TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
     }
     else
@@ -173,8 +173,8 @@ VOID PhpSetEnvironmentListStatusMessage(
 
         statusMessage = PhGetStatusMessage(Status, 0);
         PhMoveReference(&Context->StatusMessage, PhConcatStrings2(
-            L"Unable to query environment information:\n",
-            PhGetStringOrDefault(statusMessage, L"Unknown error.")
+            L"无法查询环境信息：\n",
+            PhGetStringOrDefault(statusMessage, L"未知错误。")
             ));
         TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
         //TreeNew_NodesStructured(Context->TreeNewHandle);
@@ -221,9 +221,9 @@ VOID PhpRefreshEnvironmentList(
     SIZE_T i;
 
     PhpClearEnvironmentTree(Context);
-    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"Process"), NULL);
-    userRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"User"), NULL);
-    systemRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"System"), NULL);
+    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"进程"), NULL);
+    userRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"用户"), NULL);
+    systemRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"系统"), NULL);
 
     if (ProcessItem->ProcessId == SYSTEM_PROCESS_ID)
     {
@@ -463,9 +463,9 @@ VOID PhpRefreshWslEnvironmentList(
     SIZE_T i;
 
     PhpClearEnvironmentTree(Context);
-    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"Process"), NULL);
-    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"User"), NULL);
-    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"System"), NULL);
+    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"进程"), NULL);
+    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"用户"), NULL);
+    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"系统"), NULL);
 
     if (!ProcessItem->LxssProcessId)
     {
@@ -763,9 +763,9 @@ INT_PTR CALLBACK PhpEditEnvDlgProc(
 
                     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                         hwndDlg,
-                        L"edit",
-                        L"the selected environment variable",
-                        L"Some programs may restrict access or ban your account when editing the environment variable(s) of the process.",
+                        L"编辑",
+                        L"所选的环境变量",
+                        L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
                         FALSE
                         ))
                     {
@@ -789,12 +789,12 @@ INT_PTR CALLBACK PhpEditEnvDlgProc(
 
                             if (!NT_SUCCESS(status))
                             {
-                                PhShowStatus(hwndDlg, L"Unable to set the environment variable.", status, 0);
+                                PhShowStatus(hwndDlg, L"无法设置环境变量。", status, 0);
                                 break;
                             }
                             else if (status == STATUS_TIMEOUT)
                             {
-                                PhShowStatus(hwndDlg, L"Unable to delete the environment variable.", 0, WAIT_TIMEOUT);
+                                PhShowStatus(hwndDlg, L"无法删除环境变量。", 0, WAIT_TIMEOUT);
                                 break;
                             }
 
@@ -926,9 +926,9 @@ BOOLEAN PhpEditEnvironmentNode(
 
                 if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                     Context->WindowHandle,
-                    L"edit",
-                    L"the selected environment variable",
-                    L"Some programs may restrict access or ban your account when editing the environment variable(s) of the process.",
+                    L"编辑",
+                    L"所选的环境变量",
+                    L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
                     FALSE
                     ))
                 {
@@ -950,11 +950,11 @@ BOOLEAN PhpEditEnvironmentNode(
 
                 if (status == STATUS_TIMEOUT)
                 {
-                    PhShowStatus(Context->WindowHandle, L"Unable to set the environment variable.", 0, WAIT_TIMEOUT);
+                    PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", 0, WAIT_TIMEOUT);
                 }
                 else if (!NT_SUCCESS(status))
                 {
-                    PhShowStatus(Context->WindowHandle, L"Unable to set the environment variable.", status, 0);
+                    PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", status, 0);
                 }
                 else
                 {
@@ -999,12 +999,12 @@ VOID PhpShowEnvironmentNodeContextMenu(
     menu = PhCreateEMenu();
     if (!PhpHasSelectedEnvironmentGroupNode(nodes, numberOfNodes))
     {
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_EDIT, L"Edit", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_EDIT, L"编辑", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_DELETE, L"Delete", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_DELETE, L"删除", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
     }
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_COPY, L"&Copy", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
     PhInsertCopyCellEMenuItem(menu, ID_ENV_COPY, Context->TreeNewHandle, ContextMenuEvent->Column);
 
     selectedItem = PhShowEMenu(
@@ -1599,8 +1599,8 @@ VOID PhpInitializeEnvironmentTree(
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
     TreeNew_SetCallback(Context->TreeNewHandle, PhpEnvironmentTreeNewCallback, Context);
     // Default columns
-    PhAddTreeNewColumn(Context->TreeNewHandle, ENVIRONMENT_COLUMN_ITEM_NAME, TRUE, L"Name", 250, PH_ALIGN_LEFT, 0, 0);
-    PhAddTreeNewColumn(Context->TreeNewHandle, ENVIRONMENT_COLUMN_ITEM_VALUE, TRUE, L"Value", 250, PH_ALIGN_LEFT, 1, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ENVIRONMENT_COLUMN_ITEM_NAME, TRUE, L"名称", 250, PH_ALIGN_LEFT, 0, 0);
+    PhAddTreeNewColumn(Context->TreeNewHandle, ENVIRONMENT_COLUMN_ITEM_VALUE, TRUE, L"值", 250, PH_ALIGN_LEFT, 1, 0);
     // Customizable columns
     // ...
     // Search filters
@@ -1718,7 +1718,7 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"Search Environment (Ctrl+K)",
+                L"搜索环境变量 (Ctrl+K)",
                 SETTING_SEARCH_ENVIRONMENT_REGEX,
                 SETTING_SEARCH_ENVIRONMENT_CASE_SENSITIVE,
                 PhpProcessEnvironmentSearchControlCallback,
@@ -1737,7 +1737,7 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
             PhInitializeArray(&context->Items, sizeof(PH_ENVIRONMENT_ITEM), 100);
             context->TreeFilterEntry = PhAddTreeNewFilter(&context->TreeFilterSupport, PhpProcessEnvironmentTreeFilterCallback, context);
 
-            PhMoveReference(&context->StatusMessage, PhCreateString(L"There are no environment variables to display."));
+            PhMoveReference(&context->StatusMessage, PhCreateString(L"没有可显示的环境变量。"));
             TreeNew_SetEmptyText(context->TreeNewHandle, &context->StatusMessage->sr, 0);
             PhLoadSettingsEnvironmentList(context);
 
@@ -1819,15 +1819,15 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_OPTIONS), &rect))
                         break;
 
-                    processMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_PROCESS_TYPE, L"Hide process", NULL, NULL);
-                    userMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_USER_TYPE, L"Hide user", NULL, NULL);
-                    systemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_SYSTEM_TYPE, L"Hide system", NULL, NULL);
-                    cmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_CMD_TYPE, L"Hide cmd", NULL, NULL);
-                    highlightProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_PROCESS_TYPE, L"Highlight process", NULL, NULL);
-                    highlightUserMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_USER_TYPE, L"Highlight user", NULL, NULL);
-                    highlightSystemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_SYSTEM_TYPE, L"Highlight system", NULL, NULL);
-                    highlightCmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_CMD_TYPE, L"Highlight cmd", NULL, NULL);
-                    newProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_NEW_ENVIRONMENT_VARIABLE, L"New variable...", NULL, NULL);
+                    processMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_PROCESS_TYPE, L"隐藏进程", NULL, NULL);
+                    userMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_USER_TYPE, L"隐藏用户", NULL, NULL);
+                    systemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_SYSTEM_TYPE, L"隐藏系统", NULL, NULL);
+                    cmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_CMD_TYPE, L"隐藏 cmd", NULL, NULL);
+                    highlightProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_PROCESS_TYPE, L"高亮进程", NULL, NULL);
+                    highlightUserMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_USER_TYPE, L"高亮用户", NULL, NULL);
+                    highlightSystemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_SYSTEM_TYPE, L"高亮系统", NULL, NULL);
+                    highlightCmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_CMD_TYPE, L"高亮 cmd", NULL, NULL);
+                    newProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_NEW_ENVIRONMENT_VARIABLE, L"新建变量...", NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, processMenuItem, ULONG_MAX);
@@ -1961,9 +1961,9 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
 
                     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                         context->WindowHandle,
-                        L"delete",
-                        L"the selected environment variable",
-                        L"Some programs may restrict access or ban your account when editing the environment variable(s) of the process.",
+                        L"删除",
+                        L"所选的环境变量",
+                        L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
                         FALSE
                         ))
                     {
@@ -1987,11 +1987,11 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
 
                     if (status == STATUS_TIMEOUT)
                     {
-                        PhShowStatus(hwndDlg, L"Unable to delete the environment variable.", 0, WAIT_TIMEOUT);
+                        PhShowStatus(hwndDlg, L"无法删除环境变量。", 0, WAIT_TIMEOUT);
                     }
                     else if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(hwndDlg, L"Unable to delete the environment variable.", status, 0);
+                        PhShowStatus(hwndDlg, L"无法删除环境变量。", status, 0);
                     }
                 }
                 break;

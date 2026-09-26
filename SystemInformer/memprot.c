@@ -62,7 +62,7 @@ INT_PTR CALLBACK PhpMemoryProtectDlgProc(
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             PhSetDialogItemText(hwndDlg, IDC_INTRO,
-                L"Possible values:\r\n"
+                L"可能的值：\r\n"
                 L"\r\n"
                 L"0x01 - PAGE_NOACCESS\r\n"
                 L"0x02 - PAGE_READONLY\r\n"
@@ -72,7 +72,7 @@ INT_PTR CALLBACK PhpMemoryProtectDlgProc(
                 L"0x20 - PAGE_EXECUTE_READ\r\n"
                 L"0x40 - PAGE_EXECUTE_READWRITE\r\n"
                 L"0x80 - PAGE_EXECUTE_WRITECOPY\r\n"
-                L"Modifiers:\r\n"
+                L"修饰符：\r\n"
                 L"0x100 - PAGE_GUARD\r\n"
                 L"0x200 - PAGE_NOCACHE\r\n"
                 L"0x400 - PAGE_WRITECOMBINE\r\n"
@@ -137,7 +137,7 @@ INT_PTR CALLBACK PhpMemoryProtectDlgProc(
                     }
                     else
                     {
-                        PhShowStatus(hwndDlg, L"Unable to change memory protection", status, 0);
+                        PhShowStatus(hwndDlg, L"无法更改内存保护。", status, 0);
                         PhSetDialogFocus(hwndDlg, GetDlgItem(hwndDlg, IDC_VALUE));
                         Edit_SetSel(GetDlgItem(hwndDlg, IDC_VALUE), 0, -1);
                     }

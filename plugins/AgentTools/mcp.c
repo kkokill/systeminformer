@@ -336,7 +336,7 @@ VOID AtpSendResult(
     // write it asked for never happened. It is told the answer was lost instead.
     if (!resultJson)
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "The result could not be serialized", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "无法序列化结果", NULL);
         return;
     }
 
@@ -490,7 +490,7 @@ BOOLEAN AtpParseRequestMeta(
             PhAddJsonObjectValue(data, "supported", supported);
 
         AtJsonAddString(data, "requested", version);
-        AtpSendError(Connection, IdJson, AT_MCP_UNSUPPORTED_PROTOCOL_VERSION, "Unsupported protocol version", data);
+        AtpSendError(Connection, IdJson, AT_MCP_UNSUPPORTED_PROTOCOL_VERSION, "不支持的协议版本", data);
         PhDereferenceObject(version);
         return FALSE;
     }
@@ -499,7 +499,7 @@ BOOLEAN AtpParseRequestMeta(
 
     if (!(capabilities = AtJsonGetObjectMember(meta, AT_META_CLIENT_CAPABILITIES, PH_JSON_OBJECT_TYPE_OBJECT)))
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Missing io.modelcontextprotocol/clientCapabilities", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "缺少 io.modelcontextprotocol/clientCapabilities", NULL);
         return FALSE;
     }
 
@@ -674,7 +674,7 @@ VOID AtpHandlePromptsGet(
 
     if (!(name = PhGetJsonValueAsString(Params, "name")))
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Missing prompt name", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "缺少提示名称", NULL);
         return;
     }
 
@@ -683,13 +683,13 @@ VOID AtpHandlePromptsGet(
 
     if (!prompt)
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Unknown prompt", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "未知的提示", NULL);
         return;
     }
 
     if (!(text = AtpFormatPrompt(prompt, AtJsonGetObjectMember(Params, "arguments", PH_JSON_OBJECT_TYPE_OBJECT))))
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "The prompt could not be built", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "无法生成提示", NULL);
         return;
     }
 
@@ -758,7 +758,7 @@ VOID AtpSendToolResult(
     {
         NT_ASSERT(FALSE);
         AtSetToolError(ToolResult, "internal_error", STATUS_INTERNAL_ERROR,
-            L"The tool returned neither a result nor an error.");
+            L"工具既未返回结果也未返回错误。");
     }
 
     result = PhCreateJsonObject();
@@ -825,7 +825,7 @@ VOID AtpHandleToolsCall(
 
     if (!(name = PhGetJsonValueAsString(Params, "name")))
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Missing tool name", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "缺少工具名称", NULL);
         return;
     }
 
@@ -834,7 +834,7 @@ VOID AtpHandleToolsCall(
 
     if (!tool)
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Unknown tool", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "未知的工具", NULL);
         return;
     }
 
@@ -862,7 +862,7 @@ VOID AtpHandleToolsCall(
     }
     else if (!AtIsToolEnabled(tool))
     {
-        AtSetToolError(&result, "disabled", STATUS_SUCCESS, L"This tool is disabled in System Informer's AgentTools options.");
+        AtSetToolError(&result, "disabled", STATUS_SUCCESS, L"此工具已在 System Informer 的 AgentTools 选项中禁用。");
     }
     else
     {
@@ -887,19 +887,19 @@ VOID AtpHandleToolsCall(
                 sendResult = FALSE;
                 break;
             case AtConsentDenied:
-                AtSetToolError(&result, "consent_denied", STATUS_SUCCESS, L"The user denied this request.");
+                AtSetToolError(&result, "consent_denied", STATUS_SUCCESS, L"用户拒绝了此请求。");
                 break;
             case AtConsentTimeout:
-                AtSetToolError(&result, "consent_timeout", STATUS_SUCCESS, L"The user did not answer the confirmation in time; the request was denied.");
+                AtSetToolError(&result, "consent_timeout", STATUS_SUCCESS, L"用户未及时回应确认；该请求已被拒绝。");
                 break;
             case AtConsentDeclined:
-                AtSetToolError(&result, "consent_declined", STATUS_SUCCESS, L"The confirmation was declined or cancelled.");
+                AtSetToolError(&result, "consent_declined", STATUS_SUCCESS, L"确认已被拒绝或取消。");
                 break;
             case AtConsentElicitationRequired:
-                AtSetToolError(&result, "elicitation_required", STATUS_SUCCESS, L"System Informer is configured to delegate confirmation to the client, but this client does not support elicitation. Enable confirmation in System Informer's AgentTools options or use a client with elicitation support.");
+                AtSetToolError(&result, "elicitation_required", STATUS_SUCCESS, L"System Informer 已配置为将确认委托给客户端，但该客户端不支持 elicitation。请在 System Informer 的 AgentTools 选项中启用确认，或使用支持 elicitation 的客户端。");
                 break;
             default:
-                AtSetToolError(&result, "consent_failed", STATUS_SUCCESS, L"The confirmation could not be completed.");
+                AtSetToolError(&result, "consent_failed", STATUS_SUCCESS, L"无法完成确认。");
                 break;
             }
         }
@@ -941,7 +941,7 @@ VOID AtpHandleResourcesRead(
 
     if (!(uri = PhGetJsonValueAsString(Params, "uri")))
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Missing resource uri", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "缺少资源 URI", NULL);
         return;
     }
 
@@ -949,7 +949,7 @@ VOID AtpHandleResourcesRead(
 
     if (!resource)
     {
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "Unknown resource", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS, "未知的资源", NULL);
         PhDereferenceObject(uri);
         return;
     }
@@ -961,7 +961,7 @@ VOID AtpHandleResourcesRead(
     if (!tool)
     {
         NT_ASSERT(FALSE); // a resource in schema.c names a tool that is not there
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "Unknown resource", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "未知的资源", NULL);
         PhDereferenceObject(uri);
         return;
     }
@@ -969,7 +969,7 @@ VOID AtpHandleResourcesRead(
     if (!AtIsToolEnabled(tool))
     {
         AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS,
-            "The tool behind this resource is disabled in System Informer's AgentTools options", NULL);
+            "该资源背后的工具已在 System Informer 的 AgentTools 选项中禁用", NULL);
         PhDereferenceObject(uri);
         return;
     }
@@ -977,7 +977,7 @@ VOID AtpHandleResourcesRead(
     if (!NT_SUCCESS(PhCreateJsonParser(&arguments, resource->Arguments)))
     {
         NT_ASSERT(FALSE); // arguments in schema.c do not parse
-        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "Resource arguments could not be read", NULL);
+        AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "无法读取资源参数", NULL);
         PhDereferenceObject(uri);
         return;
     }
@@ -1007,7 +1007,7 @@ VOID AtpHandleResourcesRead(
         // A resource read has nowhere to put a consent conversation - there is no isError shape
         // for it - so a refusal is a protocol error naming what happened.
         AtpSendError(Connection, IdJson, AT_JSONRPC_INVALID_PARAMS,
-            "The user did not allow this resource to be read", NULL);
+            "用户未允许读取该资源", NULL);
     }
     else
     {
@@ -1054,7 +1054,7 @@ VOID AtpHandleResourcesRead(
             }
             else
             {
-                AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "The resource could not be serialized", NULL);
+                AtpSendError(Connection, IdJson, AT_JSONRPC_INTERNAL_ERROR, "无法序列化资源", NULL);
             }
         }
     }
@@ -1279,13 +1279,13 @@ AT_INCOMING_RESULT AtpProcessIncoming(
             if (meta.Modern)
                 AtpHandleDiscover(Connection, idJson);
             else
-                AtpSendError(Connection, idJson, AT_JSONRPC_INVALID_PARAMS, "Missing io.modelcontextprotocol/protocolVersion", NULL);
+                AtpSendError(Connection, idJson, AT_JSONRPC_INVALID_PARAMS, "缺少 io.modelcontextprotocol/protocolVersion", NULL);
         }
         else if (DuringWait)
         {
             // Behind the call that is waiting for consent; it runs once that call has finished.
             if (!AtpDeferRequest(Connection, idJson, Payload, Length))
-                AtpSendError(Connection, idJson, AT_JSONRPC_INTERNAL_ERROR, "Too many requests are queued behind a confirmation on this connection", NULL);
+                AtpSendError(Connection, idJson, AT_JSONRPC_INTERNAL_ERROR, "此连接上等待确认的排队请求过多", NULL);
         }
         else if (AtpEqualStringUtf8(method, "initialize"))
         {
@@ -1421,29 +1421,29 @@ PVOID AtpCreateElicitationParams(
     if (Action->Tier == AtTierWrite)
     {
         message = PhFormatString(
-            L"System Informer: allow the connected agent to %s%s%s?\n\n%s\n\nRequested by: %s\n\nThis request was made by an AI agent through System Informer. Confirm only if you intended it.",
+            L"System Informer：是否允许已连接的智能体%s%s%s？\n\n%s\n\n请求者：%s\n\n此请求由 AI 智能体通过 System Informer 发起。仅在您有意执行时才确认。",
             Action->Verb,
-            Target && Target->Parameter ? L" to " : L"",
+            Target && Target->Parameter ? L"：" : L"",
             Target && Target->Parameter ? PhGetString(Target->Parameter) : L"",
-            PhGetStringOrDefault(target, L"(no target)"),
+            PhGetStringOrDefault(target, L"(无目标)"),
             PhGetString(caller)
             );
     }
     else if (Action->Tier == AtTierSensitiveRead)
     {
         message = PhFormatString(
-            L"System Informer: allow the connected agent to %s for the rest of this session?\n\nFirst target: %s\n\nRequested by: %s\n\nConfirm only if you intended it.",
+            L"System Informer：是否允许已连接的智能体在本会话的剩余时间内%s？\n\n首个目标：%s\n\n请求者：%s\n\n仅在您有意执行时才确认。",
             Action->Verb,
-            PhGetStringOrDefault(target, L"(none)"),
+            PhGetStringOrDefault(target, L"(无)"),
             PhGetString(caller)
             );
     }
     else if (Action->Tier == AtTierNetworkEgress)
     {
         message = PhFormatString(
-            L"System Informer: allow the connected agent to %s%s%s?\n\nRequested by: %s\n\nThis sends the request off this machine to a service on the internet. Confirm only if you intended it.",
+            L"System Informer：是否允许已连接的智能体%s%s%s？\n\n请求者：%s\n\n这会将请求从本机发送到互联网上的服务。仅在您有意执行时才确认。",
             Action->Verb,
-            Target && Target->Parameter ? L" " : L"",
+            Target && Target->Parameter ? L"：" : L"",
             Target && Target->Parameter ? PhGetString(Target->Parameter) : L"",
             PhGetString(caller)
             );
@@ -1451,7 +1451,7 @@ PVOID AtpCreateElicitationParams(
     else
     {
         message = PhFormatString(
-            L"System Informer: allow the connected agent to %s for the rest of this session?\n\nRequested by: %s\n\nConfirm only if you intended it.",
+            L"System Informer：是否允许已连接的智能体在本会话的剩余时间内%s？\n\n请求者：%s\n\n仅在您有意执行时才确认。",
             Action->Verb,
             PhGetString(caller)
             );
@@ -1469,8 +1469,8 @@ PVOID AtpCreateElicitationParams(
     properties = PhCreateJsonObject();
     confirm = PhCreateJsonObject();
     PhAddJsonObject(confirm, "type", "boolean");
-    PhAddJsonObject(confirm, "title", "Allow");
-    PhAddJsonObject(confirm, "description", "Set to true to allow the action described in the message.");
+    PhAddJsonObject(confirm, "title", "允许");
+    PhAddJsonObject(confirm, "description", "设为 true 以允许消息中描述的操作。");
     PhAddJsonObjectBoolean(confirm, "default", FALSE);
     PhAddJsonObjectValue(properties, "confirm", confirm);
     PhAddJsonObjectValue(schema, "properties", properties);

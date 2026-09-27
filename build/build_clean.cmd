@@ -33,6 +33,9 @@ if errorlevel 1 exit /b %errorlevel%
 call :RunCustomBuildTool "-cleanup"
 if errorlevel 1 exit /b %errorlevel%
 
+call :RemoveCustomBuildToolBin
+if errorlevel 1 exit /b %errorlevel%
+
 call :RemovePortableDirectory
 if errorlevel 1 exit /b %errorlevel%
 
@@ -56,6 +59,22 @@ REM ----------------------------------------------------------------------------
 :RunCustomBuildTool
 start /B /W "" "%CustomBuildTool%" %*
 exit /b %errorlevel%
+
+REM -----------------------------------------------------------------------------
+REM Function: RemoveCustomBuildToolBin
+REM Description: Removes the CustomBuildTool bin tree. The running tool cannot
+REM              delete its own image during -cleanup, so this is done here by
+REM              the script after the tool has exited.
+REM -----------------------------------------------------------------------------
+:RemoveCustomBuildToolBin
+if not exist "tools\CustomBuildTool\bin" exit /b 0
+rd /s /q "tools\CustomBuildTool\bin"
+if exist "tools\CustomBuildTool\bin" (
+    echo Failed to remove tools\CustomBuildTool\bin. Ensure no CustomBuildTool instance is running.
+    exit /b 1
+)
+echo CustomBuildTool bin removed. Run build\build_init.cmd to rebuild build tools.
+exit /b 0
 
 REM -----------------------------------------------------------------------------
 REM Function: RemovePortableDirectory

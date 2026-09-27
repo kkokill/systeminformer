@@ -286,6 +286,7 @@ EXT ULONG PhCsProcessMonitorCacheLimit;
 #define SETTING_ENABLE_WINDOW_BORDER_COLOR                          L"EnableWindowBorderColor"
 #define SETTING_ENABLE_THREAD_STACK_INLINE_SYMBOLS                  L"EnableThreadStackInlineSymbols"
 #define SETTING_ENABLE_THREAD_STACK_LINE_INFORMATION                L"EnableThreadStackLineInformation"
+#define SETTING_ENABLE_PROCESS_PROGRESS_DIALOG                      L"EnableProcessProgressDialog"
 #define SETTING_ENABLE_TOKEN_REMOVED_PRIVILEGES                     L"EnableTokenRemovedPrivileges"
 #define SETTING_ENABLE_TOOLTIP_SUPPORT                              L"EnableTooltipSupport"
 #define SETTING_ENABLE_UPDATE_DEFAULT_FIRMWARE_BOOT_ENTRY           L"EnableUpdateDefaultFirmwareBootEntry"

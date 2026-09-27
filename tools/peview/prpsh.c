@@ -210,7 +210,7 @@ static HWND PvpCreateSecurityButton(
         SecurityButton = CreateWindowEx(
             WS_EX_NOPARENTNOTIFY,
             WC_BUTTON,
-            L"Permissions",
+            L"权限安全",
             WS_CHILD | WS_VISIBLE | WS_TABSTOP,
             rect.right + 3,
             rect.top,

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -77,65 +77,65 @@ PPH_STRINGREF rgBaseType[] =
 
 PPH_STRINGREF rgTags[] =
 {
-    SREF(L"(SymTagNull)"),                     // SymTagNull
-    SREF(L"Executable (Global)"),              // SymTagExe
-    SREF(L"Compiland"),                        // SymTagCompiland
-    SREF(L"CompilandDetails"),                 // SymTagCompilandDetails
-    SREF(L"CompilandEnv"),                     // SymTagCompilandEnv
-    SREF(L"Function"),                         // SymTagFunction
-    SREF(L"Block"),                            // SymTagBlock
-    SREF(L"Data"),                             // SymTagData
-    SREF(L"Annotation"),                       // SymTagAnnotation
-    SREF(L"Label"),                            // SymTagLabel
-    SREF(L"PublicSymbol"),                     // SymTagPublicSymbol
-    SREF(L"UserDefinedType"),                  // SymTagUDT
-    SREF(L"Enum"),                             // SymTagEnum
-    SREF(L"FunctionType"),                     // SymTagFunctionType
-    SREF(L"PointerType"),                      // SymTagPointerType
-    SREF(L"ArrayType"),                        // SymTagArrayType
-    SREF(L"BaseType"),                         // SymTagBaseType
-    SREF(L"Typedef"),                          // SymTagTypedef
-    SREF(L"BaseClass"),                        // SymTagBaseClass
-    SREF(L"Friend"),                           // SymTagFriend
-    SREF(L"FunctionArgType"),                  // SymTagFunctionArgType
-    SREF(L"FuncDebugStart"),                   // SymTagFuncDebugStart
-    SREF(L"FuncDebugEnd"),                     // SymTagFuncDebugEnd
-    SREF(L"UsingNamespace"),                   // SymTagUsingNamespace
-    SREF(L"VTableShape"),                      // SymTagVTableShape
-    SREF(L"VTable"),                           // SymTagVTable
-    SREF(L"Custom"),                           // SymTagCustom
-    SREF(L"Thunk"),                            // SymTagThunk
-    SREF(L"CustomType"),                       // SymTagCustomType
-    SREF(L"ManagedType"),                      // SymTagManagedType
-    SREF(L"Dimension"),                        // SymTagDimension
-    SREF(L"CallSite"),                         // SymTagCallSite
-    SREF(L"InlineSite"),                       // SymTagInlineSite
-    SREF(L"BaseInterface"),                    // SymTagBaseInterface
-    SREF(L"VectorType"),                       // SymTagVectorType
-    SREF(L"MatrixType"),                       // SymTagMatrixType
-    SREF(L"HLSLType"),                         // SymTagHLSLType
-    SREF(L"Caller"),                           // SymTagCaller
-    SREF(L"Callee"),                           // SymTagCallee
-    SREF(L"Export"),                           // SymTagExport
-    SREF(L"HeapAllocationSite"),               // SymTagHeapAllocationSite
-    SREF(L"CoffGroup"),                        // SymTagCoffGroup
-    SREF(L"Inlinee"),                          // SymTagInlinee
+    SREF(L"(空标记)"),                     // SymTagNull
+    SREF(L"可执行文件（全局）"),              // SymTagExe
+    SREF(L"编译单元"),                        // SymTagCompiland
+    SREF(L"编译单元详情"),                 // SymTagCompilandDetails
+    SREF(L"编译单元环境"),                     // SymTagCompilandEnv
+    SREF(L"函数"),                         // SymTagFunction
+    SREF(L"块"),                            // SymTagBlock
+    SREF(L"数据"),                             // SymTagData
+    SREF(L"批注"),                       // SymTagAnnotation
+    SREF(L"标签"),                            // SymTagLabel
+    SREF(L"公共符号"),                     // SymTagPublicSymbol
+    SREF(L"用户定义类型"),                  // SymTagUDT
+    SREF(L"枚举"),                             // SymTagEnum
+    SREF(L"函数类型"),                     // SymTagFunctionType
+    SREF(L"指针类型"),                      // SymTagPointerType
+    SREF(L"数组类型"),                        // SymTagArrayType
+    SREF(L"基类型"),                         // SymTagBaseType
+    SREF(L"类型定义"),                          // SymTagTypedef
+    SREF(L"基类"),                        // SymTagBaseClass
+    SREF(L"友元"),                           // SymTagFriend
+    SREF(L"函数参数类型"),                  // SymTagFunctionArgType
+    SREF(L"函数调试起点"),                   // SymTagFuncDebugStart
+    SREF(L"函数调试终点"),                     // SymTagFuncDebugEnd
+    SREF(L"命名空间引用"),                   // SymTagUsingNamespace
+    SREF(L"虚表形状"),                      // SymTagVTableShape
+    SREF(L"虚表"),                           // SymTagVTable
+    SREF(L"自定义"),                           // SymTagCustom
+    SREF(L"跳板"),                            // SymTagThunk
+    SREF(L"自定义类型"),                       // SymTagCustomType
+    SREF(L"托管类型"),                      // SymTagManagedType
+    SREF(L"维度"),                        // SymTagDimension
+    SREF(L"调用点"),                         // SymTagCallSite
+    SREF(L"内联点"),                       // SymTagInlineSite
+    SREF(L"基接口"),                    // SymTagBaseInterface
+    SREF(L"向量类型"),                       // SymTagVectorType
+    SREF(L"矩阵类型"),                       // SymTagMatrixType
+    SREF(L"HLSL 类型"),                         // SymTagHLSLType
+    SREF(L"调用方"),                           // SymTagCaller
+    SREF(L"被调用方"),                           // SymTagCallee
+    SREF(L"导出"),                           // SymTagExport
+    SREF(L"堆分配点"),               // SymTagHeapAllocationSite
+    SREF(L"COFF 组"),                        // SymTagCoffGroup
+    SREF(L"内联目标"),                          // SymTagInlinee
 };
 
 PPH_STRINGREF rgLocationTypeString[] =
 {
     SREF(L"NULL"),
-    SREF(L"static"),
+    SREF(L"静态"),
     SREF(L"TLS"),
-    SREF(L"RegRel"),
-    SREF(L"ThisRel"),
-    SREF(L"Enregistered"),
-    SREF(L"BitField"),
-    SREF(L"Slot"),
-    SREF(L"IL Relative"),
-    SREF(L"In MetaData"),
-    SREF(L"Constant"),
-    SREF(L"RegRelAliasIndir")
+    SREF(L"寄存器相对"),
+    SREF(L"this 相对"),
+    SREF(L"寄存器"),
+    SREF(L"位域"),
+    SREF(L"槽位"),
+    SREF(L"IL 相对"),
+    SREF(L"位于元数据"),
+    SREF(L"常量"),
+    SREF(L"寄存器相对别名间接")
 };
 
 PPH_STRINGREF rgUdtKind[] =
@@ -149,15 +149,15 @@ PPH_STRINGREF rgUdtKind[] =
 PPH_STRINGREF rgDataKind[] =
 {
     SREF(L"未知"),
-    SREF(L"Local"),
-    SREF(L"Static Local"),
-    SREF(L"Param"),
-    SREF(L"Object Ptr"),
-    SREF(L"File Static"),
-    SREF(L"Global"),
-    SREF(L"Member"),
-    SREF(L"Static Member"),
-    SREF(L"Constant"),
+    SREF(L"局部"),
+    SREF(L"静态局部"),
+    SREF(L"参数"),
+    SREF(L"对象指针"),
+    SREF(L"文件静态"),
+    SREF(L"全局"),
+    SREF(L"成员"),
+    SREF(L"静态成员"),
+    SREF(L"常量"),
 };
 
 PPH_STRINGREF rgLanguage[] =
@@ -268,7 +268,7 @@ VOID PrintLocation(
 
     if (IDiaSymbol_get_locationType(IDiaSymbol, &dwLocType) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"symbol in optimized code");
+        PhAppendFormatStringBuilder(StringBuilder, L"优化代码中的符号");
         return;
     }
 
@@ -314,7 +314,7 @@ VOID PrintLocation(
         if ((IDiaSymbol_get_offset(IDiaSymbol, &lOffset) == S_OK) &&
             (IDiaSymbol_get_bitPosition(IDiaSymbol, &dwBitPos) == S_OK) &&
             (IDiaSymbol_get_length(IDiaSymbol, &ulLen) == S_OK)) {
-            PhAppendFormatStringBuilder(StringBuilder, L"this(bf)+0x%X:0x%X len(0x%X)", lOffset, dwBitPos, (ULONG)ulLen);
+            PhAppendFormatStringBuilder(StringBuilder, L"this(bf)+0x%X:0x%X 长度(0x%X)", lOffset, dwBitPos, (ULONG)ulLen);
         }
         break;
 
@@ -367,7 +367,7 @@ VOID PrintBool(
     if (Value)
     {
         PhAppendStringBuilder2(StringBuilder, Name);
-        PhAppendStringBuilder2(StringBuilder, L": Yes\r\n");
+        PhAppendStringBuilder2(StringBuilder, L": 是\r\n");
     }
 }
 
@@ -409,7 +409,7 @@ VOID PrintName(
 
     if (IDiaSymbol_get_name(pSymbol, &bstrName) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"(none)");
+        PhAppendFormatStringBuilder(StringBuilder, L"(无)");
         return;
     }
 
@@ -446,7 +446,7 @@ VOID PrintData(
 
     if (IDiaSymbol_get_dataKind(IDiaSymbol, &dwDataKind) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"ERROR - PrintData() get_dataKind");
+        PhAppendFormatStringBuilder(StringBuilder, L"错误 - PrintData() get_dataKind");
         return;
     }
 
@@ -492,7 +492,7 @@ VOID PrintType(
 
     if (IDiaSymbol_get_symTag(pSymbol, &dwTag) != S_OK)
     {
-        PhAppendStringBuilder2(StringBuilder, L"ERROR - can't retrieve the symbol's SymTag\n");
+        PhAppendStringBuilder2(StringBuilder, L"错误 - 无法获取符号的 SymTag\n");
         return;
     }
     IDiaSymbol_get_length(pSymbol, &ulLen);
@@ -533,7 +533,7 @@ VOID PrintType(
         break;
 
     case SymTagFunctionType:
-        PhAppendStringBuilder2(StringBuilder, L"function ");
+        PhAppendStringBuilder2(StringBuilder, L"函数 ");
         break;
 
     case SymTagPointerType:
@@ -761,7 +761,7 @@ VOID PrintType(
 
             if ((IDiaSymbol_get_dataBytes(pSymbol, cbData, &cbData, NULL) == S_OK) && (cbData != 0))
             {
-                PhAppendFormatStringBuilder(StringBuilder, L", Data: ");
+                PhAppendFormatStringBuilder(StringBuilder, L", 数据: ");
 
                 BYTE* pbData = PhAllocate(cbData);
 
@@ -797,7 +797,7 @@ VOID PrintSymbolType(
 
     if (IDiaSymbol_get_type(Symbol, &idiaSymbolType) == S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L", Type: ");
+        PhAppendFormatStringBuilder(StringBuilder, L", 类型: ");
 
         PrintType(StringBuilder, idiaSymbolType);
 
@@ -975,7 +975,7 @@ VOID PrintTypeInDetail(
         break;
 
     default:
-        PhAppendFormatStringBuilder(StringBuilder, L"ERROR - PrintTypeInDetail() invalid SymTag\n");
+        PhAppendFormatStringBuilder(StringBuilder, L"错误 - PrintTypeInDetail() 无效的 SymTag\n");
     }
 
     PhAppendCharStringBuilder(StringBuilder, L'\n');
@@ -992,91 +992,91 @@ VOID PrintTypeInDetail(
         {
             if (dwValue < RTL_NUMBER_OF(rgLanguage))
             {
-                PhAppendStringBuilder2(StringBuilder, L"Language: ");
+                PhAppendStringBuilder2(StringBuilder, L"语言: ");
                 PhAppendStringBuilder(StringBuilder, rgLanguage[dwValue]);
                 PhAppendStringBuilder2(StringBuilder, L"\r\n");
             }
             else
             {
-                PrintHex(StringBuilder, L"Language", (ULONG64)dwValue);
+                PrintHex(StringBuilder, L"语言", (ULONG64)dwValue);
             }
         }
 
         if (IDiaSymbol_get_wasInlined(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Was Inlined", bValue);
+            PrintBool(StringBuilder, L"已内联", bValue);
         if (IDiaSymbol_get_sourceFileName(IDiaSymbolDetail, &bstrValue) == S_OK)
         {
-            PrintBSTR(StringBuilder, L"Source File", bstrValue);
+            PrintBSTR(StringBuilder, L"源文件", bstrValue);
             PhSymbolProviderFreeDiaString(bstrValue);
         }
         if (IDiaSymbol_get_volatileType(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Volatile", bValue);
+            PrintBool(StringBuilder, L"易失", bValue);
         if (IDiaSymbol_get_compilerGenerated(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Compiler Generated", bValue);
+            PrintBool(StringBuilder, L"编译器生成", bValue);
         if (IDiaSymbol_get_exceptionHandlerVirtualAddress(IDiaSymbolDetail, &ullValue) == S_OK)
-            PrintHex(StringBuilder, L"Exception Handler VA", ullValue);
+            PrintHex(StringBuilder, L"异常处理程序 VA", ullValue);
         if (IDiaSymbol_get_framePointerPresent(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Frame Pointer Present", bValue);
+            PrintBool(StringBuilder, L"存在帧指针", bValue);
         if (IDiaSymbol_get_hasAlloca(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Alloca", bValue);
+            PrintBool(StringBuilder, L"含 Alloca", bValue);
         if (IDiaSymbol_get_hasInlAsm(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Inline Asm", bValue);
+            PrintBool(StringBuilder, L"含内联汇编", bValue);
         if (IDiaSymbol_get_isLocationControlFlowDependent(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Location Control Flow Dependent", bValue);
+            PrintBool(StringBuilder, L"位置依赖控制流", bValue);
         if (IDiaSymbol_get_isLTCG(IDiaSymbolDetail, &bValue) == S_OK)
             PrintBool(StringBuilder, L"LTCG", bValue);
         if (IDiaSymbol_get_isPGO(IDiaSymbolDetail, &bValue) == S_OK)
             PrintBool(StringBuilder, L"PGO", bValue);
         if (IDiaSymbol_get_frameSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Frame Size", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"帧大小", (ULONG64)dwValue);
 
         {
             IDiaSymbol9* pSymbol9;
             if (IUnknown_QueryInterface(IDiaSymbolDetail, &IID_IDiaSymbol9, (void**)&pSymbol9) == S_OK)
             {
                 if (pSymbol9->lpVtbl->get_framePadSize(pSymbol9, &dwValue) == S_OK)
-                    PrintHex(StringBuilder, L"Frame Pad Size", (ULONG64)dwValue);
+                    PrintHex(StringBuilder, L"帧填充大小", (ULONG64)dwValue);
                 IDiaSymbol9_Release(pSymbol9);
             }
         }
 
         if (IDiaSymbol_get_hasControlFlowCheck(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Control Flow Check", bValue);
+            PrintBool(StringBuilder, L"含控制流检查", bValue);
         if (IDiaSymbol_get_hasLongJump(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Long Jump", bValue);
+            PrintBool(StringBuilder, L"含 LongJump", bValue);
         if (IDiaSymbol_get_hasSetJump(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Set Jump", bValue);
+            PrintBool(StringBuilder, L"含 SetJump", bValue);
         if (IDiaSymbol_get_hasEH(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has EH", bValue);
+            PrintBool(StringBuilder, L"含 EH", bValue);
         if (IDiaSymbol_get_hasSecurityChecks(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Has Security Checks", bValue);
+            PrintBool(StringBuilder, L"含安全检查", bValue);
         if (IDiaSymbol_get_libraryName(IDiaSymbolDetail, &bstrValue) == S_OK)
         {
-            PrintBSTR(StringBuilder, L"Library Name", bstrValue);
+            PrintBSTR(StringBuilder, L"库名", bstrValue);
             PhSymbolProviderFreeDiaString(bstrValue);
         }
         if (IDiaSymbol_get_managed(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Managed", bValue);
+            PrintBool(StringBuilder, L"托管", bValue);
         if (IDiaSymbol_get_packed(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Packed", bValue);
+            PrintBool(StringBuilder, L"已打包", bValue);
         if (IDiaSymbol_get_platform(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Platform", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"平台", (ULONG64)dwValue);
         if (IDiaSymbol_get_staticSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Static Size", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"静态大小", (ULONG64)dwValue);
         if (IDiaSymbol_get_finalLiveStaticSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Final Live Static Size", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"最终活动静态大小", (ULONG64)dwValue);
         if (IDiaSymbol_get_PGODynamicInstructionCount(IDiaSymbolDetail, &ullValue) == S_OK)
-            PrintHex(StringBuilder, L"PGO Dynamic Instruction Count", ullValue);
+            PrintHex(StringBuilder, L"PGO 动态指令计数", ullValue);
         if (IDiaSymbol_get_strictGSCheck(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Strict GS Check", bValue);
+            PrintBool(StringBuilder, L"严格 GS 检查", bValue);
         if (IDiaSymbol_get_targetSection(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Target Section", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"目标节", (ULONG64)dwValue);
         if (IDiaSymbol_get_pure(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"Pure", bValue);
+            PrintBool(StringBuilder, L"纯虚", bValue);
         if (IDiaSymbol_get_rank(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"Rank", (ULONG64)dwValue);
+            PrintHex(StringBuilder, L"秩", (ULONG64)dwValue);
         if (IDiaSymbol_get_RValueReference(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"RValue Reference", bValue);
+            PrintBool(StringBuilder, L"右值引用", bValue);
 
         {
             IDiaSymbol3* pSymbol3;
@@ -1085,13 +1085,13 @@ VOID PrintTypeInDetail(
                 IDiaSymbol* pInlinee;
                 if (pSymbol3->lpVtbl->get_inlinee(pSymbol3, &pInlinee) == S_OK)
                 {
-                    PhAppendStringBuilder2(StringBuilder, L"Inlinee: ");
+                    PhAppendStringBuilder2(StringBuilder, L"内联目标: ");
                     PrintName(StringBuilder, pInlinee);
                     PhAppendStringBuilder2(StringBuilder, L"\r\n");
                     IDiaSymbol_Release(pInlinee);
                 }
                 if (pSymbol3->lpVtbl->get_inlineeId(pSymbol3, &dwValue) == S_OK)
-                    PrintHex(StringBuilder, L"Inlinee ID", (ULONG64)dwValue);
+                    PrintHex(StringBuilder, L"内联目标 ID", (ULONG64)dwValue);
                 IDiaSymbol3_Release(pSymbol3);
             }
         }
@@ -1111,7 +1111,7 @@ VOID PrintTypeInDetail(
             if (IUnknown_QueryInterface(IDiaSymbolDetail, &IID_IDiaSymbol7, (void**)&pSymbol7) == S_OK)
             {
                 if (pSymbol7->lpVtbl->get_isSignRet(pSymbol7, &bValue) == S_OK)
-                    PrintBool(StringBuilder, L"Is Sign Ret", bValue);
+                    PrintBool(StringBuilder, L"返回值有符号", bValue);
                 IDiaSymbol7_Release(pSymbol7);
             }
         }
@@ -1125,7 +1125,7 @@ VOID PrintTypeInDetail(
                     pbData = PhAllocate(cbData);
                     if (pSymbol10->lpVtbl->get_sourceLink(pSymbol10, cbData, &cbData, (BYTE*)pbData) == S_OK)
                     {
-                        PhAppendStringBuilder2(StringBuilder, L"Source Link: Found\r\n");
+                        PhAppendStringBuilder2(StringBuilder, L"Source Link: 已找到\r\n");
                     }
                     PhFree(pbData);
                 }
@@ -1303,7 +1303,7 @@ PPV_SYMBOL_NODE PePdbCreateDiaSymbolNode(
     else if (bstrName)
         symbol->Name = PhCreateString(bstrName);
     else if (symbolTag == SymTagExe)
-        symbol->Name = PhCreateString(L"Global Scope");
+        symbol->Name = PhCreateString(L"全局作用域");
     else
         symbol->Name = PhFormatString(L"%s <%lu>", symbolTagText->Buffer, symbolId);
 
@@ -1645,7 +1645,7 @@ VOID PePdbDumpDiaSourceFiles(
     if (IDiaSession_findFile(DiaSession, NULL, NULL, nsNone, &enumSourceFiles) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"SourceFiles", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"源文件", NULL);
 
     while (IDiaEnumSourceFiles_Next(enumSourceFiles, 1, &sourceFile, &count) == S_OK && count == 1)
     {
@@ -1660,7 +1660,7 @@ VOID PePdbDumpDiaSourceFiles(
         PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"SourceFile",
+            fileName ? fileName : L"源文件",
             PhFormatString(L"ID: %lu，校验和类型: %lu", uniqueId, checksumType)
             );
 
@@ -1687,7 +1687,7 @@ VOID PePdbDumpDiaLineNumbers(
     if (IDiaSession_findLinesByRVA(DiaSession, 0, ULONG_MAX, &enumLineNumbers) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"LineNumbers", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"行号", NULL);
 
     while (IDiaEnumLineNumbers_Next(enumLineNumbers, 1, &lineNumber, &count) == S_OK && count == 1)
     {
@@ -1770,7 +1770,7 @@ VOID PePdbDumpDiaInputAssemblyFiles(
     if (IDiaSession_findInputAssemblyFiles(DiaSession, &enumInputAssemblyFiles) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"InputAssemblyFiles", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"输入汇编文件", NULL);
 
     while (IDiaEnumInputAssemblyFiles_Next(enumInputAssemblyFiles, 1, &inputAssemblyFile, &count) == S_OK && count == 1)
     {
@@ -1789,7 +1789,7 @@ VOID PePdbDumpDiaInputAssemblyFiles(
         PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"InputAssemblyFile",
+            fileName ? fileName : L"输入汇编文件",
             PhFormatString(
                 L"Id: %lu, Index: %lu, TimeStamp: 0x%08lx, PdbAvailableAtILMerge: %s",
                 uniqueId,
@@ -1822,7 +1822,7 @@ VOID PePdbDumpDiaInjectedSource(
     if (IDiaSession_findInjectedSource(DiaSession, NULL, &enumInjectedSources) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"InjectedSource", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"注入的源码", NULL);
 
     while (IDiaEnumInjectedSources_Next(enumInjectedSources, 1, &injectedSource, &count) == S_OK && count == 1)
     {
@@ -1844,7 +1844,7 @@ VOID PePdbDumpDiaInjectedSource(
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"InjectedSource",
+            fileName ? fileName : L"注入的源码",
             PhFormatString(
                 L"VirtualFile: %s, ObjectFile: %s, Crc: 0x%08lx, Compression: %lu",
                 virtualFileName ? virtualFileName : L"",
@@ -1880,7 +1880,7 @@ VOID PePdbDumpDiaSectionContribs(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"Sections", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"节", NULL);
 
     while (IDiaEnumSectionContribs_Next(EnumSectionContribs, 1, &sectionContrib, &count) == S_OK && count == 1)
     {
@@ -1922,12 +1922,12 @@ VOID PePdbDumpDiaSectionContribs(
             PhFormatString(
                 L"CompilandId: %lu, Flags: %s%s%s%s%s%s, DataCrc: 0x%08lx, RelocationsCrc: 0x%08lx",
                 compilandId,
-                code ? L"Code " : L"",
-                initializedData ? L"InitializedData " : L"",
-                uninitializedData ? L"UninitializedData " : L"",
-                execute ? L"Execute " : L"",
-                read ? L"Read " : L"",
-                write ? L"Write" : L"",
+                code ? L"代码 " : L"",
+                initializedData ? L"已初始化数据 " : L"",
+                uninitializedData ? L"未初始化数据 " : L"",
+                execute ? L"执行 " : L"",
+                read ? L"读 " : L"",
+                write ? L"写" : L"",
                 dataCrc,
                 relocationsCrc
                 )
@@ -1955,7 +1955,7 @@ VOID PePdbDumpDiaSegments(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"SegmentMap", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"段映射", NULL);
 
     while (IDiaEnumSegments_Next(EnumSegments, 1, &segment, &count) == S_OK && count == 1)
     {
@@ -1987,9 +1987,9 @@ VOID PePdbDumpDiaSegments(
             PhFormatString(
                 L"AddressSection: %lu, Flags: %s%s%s",
                 addressSection,
-                read ? L"Read " : L"",
-                write ? L"Write " : L"",
-                execute ? L"Execute" : L""
+                read ? L"读 " : L"",
+                write ? L"写 " : L"",
+                execute ? L"执行" : L""
                 )
             );
 
@@ -2015,7 +2015,7 @@ VOID PePdbDumpDiaFrameData(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"FrameData", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"帧数据", NULL);
 
     while (IDiaEnumFrameData_Next(EnumFrameData, 1, &frameData, &count) == S_OK && count == 1)
     {

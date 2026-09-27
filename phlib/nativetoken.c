@@ -2255,6 +2255,7 @@ NTSTATUS PhGetTokenIntegrityLevelEx(
     if (IntegrityLevel)
     {
         IntegrityLevel->Level = integrityLevel.Level;
+    }
 
     if (IntegrityString)
     {

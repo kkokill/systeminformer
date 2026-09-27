@@ -647,7 +647,7 @@ EXTERN_C HRESULT PvGetClrImageImports(
                 {
                     const char* importNameA = nullptr;
 
-                    if (NT_SUCCESS(PhGetMappedClrString(&clrMetadata, importNameValue, &importNameA)))
+                    if (NT_SUCCESS(PhGetMappedClrString(&clrMetadata, importNameValue, &importNameA, nullptr)))
                         importName = PhConvertUtf8ToUtf16(importNameA);
                 }
 

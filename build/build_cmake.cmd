@@ -192,7 +192,7 @@ REM ----------------------------------------------------------------------------
 set "CMAKE_GEN_OPTS="
 set "CMAKE_BUILD_OPTS="
 if /i "%GENERATOR%"=="Ninja" set "CMAKE_GEN_OPTS=-DCMAKE_BUILD_TYPE=%CONFIG%"
-if not "%GENERATOR:Visual Studio=%"=="%GENERATOR%" set "CMAKE_BUILD_OPTS=-- -mt -p:UseClStructuredOutput=false /m /graph -restore -t:All -p:TargetPlatforms=""%PLATFORM%"" -p:RestoreUseStaticGraphEvaluation=true -p:ContinueOnError=False -p:ContinuousIntegrationBuild=%IsCI% -p:CopyRetryCount=10 -p:CopyRetryDelayMilliseconds=500 -terminalLogger:%BuildTerminalLogger% %MSBUILD_EXTRA_ARGS%"
+if not "%GENERATOR:Visual Studio=%"=="%GENERATOR%" set "CMAKE_BUILD_OPTS=-- -p:UseClStructuredOutput=false /m /graph -restore -t:All -p:TargetPlatforms=""%PLATFORM%"" -p:RestoreUseStaticGraphEvaluation=true -p:ContinueOnError=False -p:ContinuousIntegrationBuild=%IsCI% -p:CopyRetryCount=10 -p:CopyRetryDelayMilliseconds=500 -terminalLogger:%BuildTerminalLogger% %MSBUILD_EXTRA_ARGS%"
 exit /b 0
 
 REM -----------------------------------------------------------------------------

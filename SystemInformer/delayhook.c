@@ -63,15 +63,6 @@ LRESULT CALLBACK PhMenuWindowHookProcedure(
         {
             //CREATESTRUCT* createStruct = (CREATESTRUCT*)lParam;
 
-            if (WindowsVersion >= WINDOWS_11)
-            {
-                // CS_DROPSHADOW is no longer honored for the menu class on Windows 11
-                // and DWM non-client rendering doesn't apply to these windows, so
-                // composite the shadow ourselves. The shadow is positioned and shown
-                // from WM_WINDOWPOSCHANGED once the menu has been sized. (dmex)
-                PhCreateWindowShadow(WindowHandle);
-            }
-
             if (PhDefaultEnableStreamerMode)
             {
                 SetWindowDisplayAffinity(WindowHandle, WDA_EXCLUDEFROMCAPTURE);
@@ -86,11 +77,6 @@ LRESULT CALLBACK PhMenuWindowHookProcedure(
                     PhSetWindowAcrylicCompositionColor(WindowHandle, MakeABGRFromCOLORREF(0, RGB(10, 10, 10)));
                 }
             }
-        }
-        break;
-    case WM_DESTROY:
-        {
-            PhDestroyWindowShadow(WindowHandle);
         }
         break;
     case WM_NCDESTROY:
@@ -109,15 +95,6 @@ LRESULT CALLBACK PhMenuWindowHookProcedure(
             }
         }
         break;
-    case WM_WINDOWPOSCHANGED:
-        {
-            LRESULT result = CallWindowProc(PhDefaultMenuWindowProcedure, WindowHandle, WindowMessage, wParam, lParam);
-
-            // Track the menu after the default procedure has sized and placed it. (dmex)
-            PhUpdateWindowShadow(WindowHandle, PhWindowShadowSideAll);
-
-            return result;
-        }
     }
 
     return CallWindowProc(PhDefaultMenuWindowProcedure, WindowHandle, WindowMessage, wParam, lParam);

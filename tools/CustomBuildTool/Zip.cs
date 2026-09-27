@@ -26,6 +26,7 @@ namespace CustomBuildTool
         {
             "bin\\Debug",
             "obj\\",
+            "portable\\",
             "tests\\"
         }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 

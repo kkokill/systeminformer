@@ -3744,10 +3744,13 @@ PPH_EMENU PhpCreateToolsMenu(
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_THREADSTACKS, L"搜索线程堆栈", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_ZOMBIEPROCESSES, L"僵尸进程", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_PAGEFILES, L"页面文件", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_ENVIRONMENT_VARIABLES, L"环境变量", NULL, NULL), ULONG_MAX);
-    PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(
-        (PhCsEnableProcessMonitor && KsiLevel() >= KphLevelMed) ? 0 : PH_EMENU_DISABLED,
-        ID_TOOLS_INFORMER, L"进程监视器", NULL, NULL), ULONG_MAX);
+                                    PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_ENVIRONMENT_VARIABLES, L"环境变量", NULL, NULL), ULONG_MAX);
+    if (PhCsEnableProcessMonitor)
+    {
+        PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(
+            (KsiLevel() >= KphLevelMed) ? 0 : PH_EMENU_DISABLED,
+            ID_TOOLS_INFORMER, L"进程监视器", NULL, NULL), ULONG_MAX);
+    }
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuSeparator(), ULONG_MAX);
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_STARTTASKMANAGER, L"启动任务管理器", NULL, NULL), ULONG_MAX);
     PhInsertEMenuItem(ToolsMenu, PhCreateEMenuItem(0, ID_TOOLS_STARTRESOURCEMONITOR, L"启动资源监视器", NULL, NULL), ULONG_MAX);

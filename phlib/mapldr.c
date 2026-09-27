@@ -1475,6 +1475,75 @@ NTSTATUS PhGetLoaderEntryImageDirectory(
 }
 
 /**
+ * Retrieves a data directory entry from an image, similar to RtlImageDirectoryEntryToData.
+ *
+ * \param[in] BaseOfImage The base address of the image.
+ * \param[in] MappedAsImage TRUE if the image is mapped as an image, FALSE if mapped as a data file.
+ * \param[in] DirectoryEntry The index of the data directory (e.g., IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG).
+ * \param[out] Size A variable which receives the size of the directory.
+ * \return A pointer to the directory data, or NULL if the directory is not present.
+ */
+PVOID NTAPI PhImageDirectoryEntryToData(
+    _In_ PVOID BaseOfImage,
+    _In_ BOOLEAN MappedAsImage,
+    _In_ USHORT DirectoryEntry,
+    _Out_ PULONG Size
+    )
+{
+    PIMAGE_NT_HEADERS imageNtHeader;
+    PIMAGE_DATA_DIRECTORY directoryEntry;
+    PVOID directoryAddress;
+
+    if (!NT_SUCCESS(PhGetLoaderEntryImageNtHeaders(BaseOfImage, &imageNtHeader)))
+        return NULL;
+
+    if (DirectoryEntry >= imageNtHeader->OptionalHeader.NumberOfRvaAndSizes)
+        return NULL;
+
+    directoryEntry = &imageNtHeader->OptionalHeader.DataDirectory[DirectoryEntry];
+
+    if (directoryEntry->VirtualAddress == 0 || directoryEntry->Size == 0)
+        return NULL;
+
+    if (MappedAsImage || directoryEntry->VirtualAddress < imageNtHeader->OptionalHeader.SizeOfHeaders)
+    {
+        directoryAddress = PTR_ADD_OFFSET(BaseOfImage, directoryEntry->VirtualAddress);
+    }
+    else
+    {
+        PIMAGE_SECTION_HEADER section;
+        ULONG sectionCount;
+        ULONG i;
+
+        section = IMAGE_FIRST_SECTION(imageNtHeader);
+        sectionCount = imageNtHeader->FileHeader.NumberOfSections;
+        directoryAddress = NULL;
+
+        for (i = 0; i < sectionCount; i++)
+        {
+            if (
+                directoryEntry->VirtualAddress >= section[i].VirtualAddress &&
+                directoryEntry->VirtualAddress < section[i].VirtualAddress + max(section[i].SizeOfRawData, section[i].Misc.VirtualSize)
+                )
+            {
+                directoryAddress = PTR_ADD_OFFSET(
+                    BaseOfImage,
+                    directoryEntry->VirtualAddress - section[i].VirtualAddress + section[i].PointerToRawData
+                    );
+                break;
+            }
+        }
+
+        if (!directoryAddress)
+            return NULL;
+    }
+
+    *Size = directoryEntry->Size;
+
+    return directoryAddress;
+}
+
+/**
  * Locates the section containing a given virtual address.
  *
  * \param[in] BaseAddress The base address of the image.

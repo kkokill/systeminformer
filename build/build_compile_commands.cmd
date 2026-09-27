@@ -77,7 +77,7 @@ REM   %~2 - MSBuild Platform (x64, ARM64). Required under .NET SDK 10+ where the
 REM         pubxml's <Platform> no longer propagates through solution-level publish.
 REM -----------------------------------------------------------------------------
 :RunDotnetPublish
-dotnet publish -mt -p:UseClStructuredOutput=false tools\CompileCommandsJson\CompileCommandsJson.sln -c Release /p:Platform=%~2 /p:PublishProfile=%~1
+dotnet publish -p:UseClStructuredOutput=false tools\CompileCommandsJson\CompileCommandsJson.sln -c Release /p:Platform=%~2 /p:PublishProfile=%~1
 exit /b %errorlevel%
 
 REM -----------------------------------------------------------------------------
@@ -89,7 +89,7 @@ REM   %~2 - Platform name.
 REM -----------------------------------------------------------------------------
 :RunMsBuild
 echo:
-msbuild -mt -p:UseClStructuredOutput=false -t:rebuild -p:Configuration=Debug;Platform=%~2 -p:ContinuousIntegrationBuild=%IsCI% %MSBUILD_EXTRA_ARGS% -logger:%CompileCommandsLogger% -terminalLogger:%TLG% /m /graph %~1
+msbuild -p:UseClStructuredOutput=false -t:rebuild -p:Configuration=Debug;Platform=%~2 -p:ContinuousIntegrationBuild=%IsCI% %MSBUILD_EXTRA_ARGS% -logger:%CompileCommandsLogger% -terminalLogger:%TLG% /m /graph %~1
 exit /b %errorlevel%
 
 REM -----------------------------------------------------------------------------

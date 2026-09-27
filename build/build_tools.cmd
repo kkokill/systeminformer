@@ -101,7 +101,7 @@ REM ----------------------------------------------------------------------------
 set "TargetPlatforms=%~1"
 echo:
 echo Building CustomBuildTool.sln [%~2]
-dotnet msbuild -mt -p:UseClStructuredOutput=false -restore /m /graph tools\CustomBuildTool\CustomBuildTool.csproj -t:All -p:BuildAllTarget=Publish -p:Configuration=Release -p:Platform=x86 -p:BuildTargetConfigurations=Release -p:ContinuousIntegrationBuild=%TIB% -p:RestoreUseStaticGraphEvaluation=true -p:CopyRetryCount=10 -p:CopyRetryDelayMilliseconds=500 -terminalLogger:%TLG%
+dotnet msbuild -p:UseClStructuredOutput=false -restore /m /graph tools\CustomBuildTool\CustomBuildTool.csproj -t:All -p:BuildAllTarget=Publish -p:Configuration=Release -p:Platform=x86 -p:BuildTargetConfigurations=Release -p:ContinuousIntegrationBuild=%TIB% -p:RestoreUseStaticGraphEvaluation=true -p:CopyRetryCount=10 -p:CopyRetryDelayMilliseconds=500 -terminalLogger:%TLG%
 exit /b %errorlevel%
 
 REM -----------------------------------------------------------------------------

@@ -4363,6 +4363,14 @@ PhGetFileStandardInformation(
 PHLIBAPI
 NTSTATUS
 NTAPI
+PhGetFileIsRemoteDevice(
+    _In_ HANDLE FileHandle,
+    _Out_ PBOOLEAN FileIsRemoteDevice
+    );
+
+PHLIBAPI
+NTSTATUS
+NTAPI
 PhSetFileCompletionNotificationMode(
     _In_ HANDLE FileHandle,
     _In_ ULONG Flags

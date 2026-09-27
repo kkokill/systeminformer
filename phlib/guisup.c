@@ -4467,14 +4467,14 @@ BOOLEAN PhSetWindowText(
 {
     ULONG_PTR result = 0;
 
-    if (NT_SUCCESS(PhSendMessageTimeout(
+    if (PhSendMessageTimeout(
         WindowHandle,
         WM_SETTEXT,
         0,
         (LPARAM)WindowText,
         1000,
         &result
-        )))
+        ))
     {
         return TRUE;
     }
@@ -4522,7 +4522,7 @@ VOID PhSetWindowAlwaysOnTop(
 }
 
 _Success_(return)
-NTSTATUS PhSendMessageTimeout(
+BOOLEAN PhSendMessageTimeout(
     _In_ HWND WindowHandle,
     _In_ ULONG WindowMessage,
     _In_ WPARAM wParam,
@@ -4548,10 +4548,10 @@ NTSTATUS PhSendMessageTimeout(
             *Result = result;
         }
 
-        return STATUS_SUCCESS;
+        return TRUE;
     }
 
-    return PhGetLastWin32ErrorAsNtStatus();
+    return FALSE;
 }
 
 /**
@@ -7271,7 +7271,6 @@ NTSTATUS NTAPI PhGetRawInputData(
         return STATUS_SUCCESS;
     }
 
-    *ProcessHandle = NULL;
     return PhGetLastWin32ErrorAsNtStatus();
 }
 

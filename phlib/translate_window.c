@@ -19,8 +19,9 @@
  * - StatusBar（动态文本由代码控制）
  *
  * ListView/TreeView：列头走 PhRefreshListViewColumnsLanguage（原始文本数组），
- * 列表项/树项在此处直接遍历翻译（正向切换有效；反向切换因字典为 zh→en 单向，
- * 已翻成英文的项无法还原，重新打开窗口即恢复中文）。
+ * 列表项/树项在此处直接遍历翻译。重翻方向跟随当前语言模式：切英文正向查找
+ * （zh→en），切回中文反向查找（en→zh，PhTranslateTextReverseZ 反向索引），
+ * 双向均可实时还原。
  */
 
 #include <ph.h>
@@ -64,7 +65,26 @@ static BOOLEAN PhpIsEditClass(
         wcsstr(ClassName, L"RichEdit") != NULL;
 }
 
-// 翻译单个 ListView 控件的全部列表项（正向切换：中文→英文）
+// 重翻方向：TRUE=正向（zh→en），FALSE=反向（en→zh）。
+// 由两个入口在遍历前按当前语言模式设定（遍历同步执行，期间不会变更）。
+static BOOLEAN PhpRetranslateForward = TRUE;
+
+// 重翻取词：正向调 zh→en 字典，反向调 en→zh 字典，未命中均返回原文。
+static PCWSTR PhpRetranslateLookupText(
+    _In_ PCWSTR Text
+    )
+{
+    PCWSTR result;
+
+    if (PhpRetranslateForward)
+        return PhTranslateTextZ(Text);
+
+    result = PhTranslateTextReverseZ(Text);
+
+    return result ? result : Text;
+}
+
+// 翻译单个 ListView 控件的全部列表项（方向由 PhpRetranslateForward 决定）
 static VOID PhpRetranslateListViewItems(
     _In_ HWND hwnd
     )
@@ -82,7 +102,7 @@ static VOID PhpRetranslateListViewItems(
         if (text[0] == 0)
             continue;
 
-        PCWSTR translated = PhTranslateTextZ(text);
+        PCWSTR translated = PhpRetranslateLookupText(text);
 
         if (translated != text)
         {
@@ -116,7 +136,7 @@ static VOID PhpRetranslateTreeItems(
 
         if (TreeView_GetItem(hwnd, &tvItem) && tvItem.mask & TVIF_TEXT && text[0] != 0)
         {
-            PCWSTR translated = PhTranslateTextZ(text);
+            PCWSTR translated = PhpRetranslateLookupText(text);
 
             hasChildren = tvItem.cChildren > 0;
 
@@ -191,7 +211,7 @@ static VOID PhRetranslateWindowRecursive(
     {
         if (GetWindowTextW(hwnd, text, RTL_NUMBER_OF(text)) > 0)
         {
-            PCWSTR translated = PhTranslateTextZ(text);
+            PCWSTR translated = PhpRetranslateLookupText(text);
 
             if (translated != text)
             {
@@ -206,7 +226,7 @@ static VOID PhRetranslateWindowRecursive(
         {
             if (GetWindowTextW(hwnd, text, RTL_NUMBER_OF(text)) > 0)
             {
-                PCWSTR translated = PhTranslateTextZ(text);
+                PCWSTR translated = PhpRetranslateLookupText(text);
 
                 if (translated != text)
                 {
@@ -247,6 +267,10 @@ VOID PhRetranslateAllWindows(
     VOID
     )
 {
+    // 方向=当前语言模式：切英文时屏幕仍为中文（正向），
+    // 切回中文时屏幕仍为英文（反向）。
+    PhpRetranslateForward = PhTranslateIsEnglishEnabled();
+
     EnumWindows(PhpEnumTopWndProc, 0);
 }
 
@@ -259,12 +283,16 @@ VOID PhTranslateWindowTree(
     if (!WindowHandle)
         return;
 
+    // 模板文本恒为中文：英文模式正向翻译；中文模式反向未命中即原文（零变更）
+    PhpRetranslateForward = PhTranslateIsEnglishEnabled();
+
     PhRetranslateWindowRecursive(WindowHandle, 0);
 }
 
 // 刷新指定 ListView 控件的所有列头文本
 // 取 ListView 上附加的原始中文 Text 数组（由 PhAddListViewColumnDpi 记录），
 // 重新调 PhTranslateTextZ 翻译，并 ListView_SetColumn 重设 pszText。
+// 原始文本恒为中文：英文模式得到英文列头；中文模式得到原文（还原中文列头）。
 VOID PhRefreshListViewColumnsLanguage(
     _In_ HWND ListViewHandle
     )
@@ -301,9 +329,7 @@ VOID PhRefreshListViewColumnsLanguage(
 
         PCWSTR translated = PhTranslateTextZ(originalText);
 
-        if (translated == originalText)
-            continue; // 无译文（中文模式或字典未命中），跳过
-
+        // 中文模式 translated==原文：重设即还原中文列头，不能跳过
         memset(&column, 0, sizeof(LVCOLUMN));
         column.mask = LVCF_TEXT;
         column.pszText = (PWSTR)translated;

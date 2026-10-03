@@ -12,6 +12,7 @@
  *
  * 设计要点：
  * - PhTranslateTextZ 通过 PhpActiveTable 间接访问翻译表，若为 NULL 则回退嵌入表
+ * - PhTranslateTextReverseZ 反向查找（en→zh），索引随活动表变更自动重建
  * - 外部文件缺失时自动回退 translate_data.c 中的嵌入表，不报错
  * - 状态机可查询（PhGetLanguageState），驱动函数在 SystemInformer.exe 中
  * - 窗口遍历重翻（PhRetranslateAllWindows）作为兜底覆盖

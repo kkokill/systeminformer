@@ -4357,37 +4357,6 @@ PhGetApplicationLanguage(
     VOID
     );
 
-// 运行时文本翻译（zh→en 正向 / en→zh 反向，见 phlib\translate.c 与 tools\Localization\gen_translate.ps1）
-PHLIBAPI
-VOID
-NTAPI
-PhTranslateSetEnglishEnabled(
-    _In_ BOOLEAN Enabled
-    );
-
-PHLIBAPI
-BOOLEAN
-NTAPI
-PhTranslateIsEnglishEnabled(
-    VOID
-    );
-
-PHLIBAPI
-PCWSTR
-NTAPI
-PhTranslateTextZ(
-    _In_opt_ PCWSTR Text
-    );
-
-// 反向查找：英→中。返回对应中文原文，未命中返回 NULL。
-// 供窗口重翻路径切回中文时使用；纯查表，不受英文模式开关影响。
-PHLIBAPI
-PCWSTR
-NTAPI
-PhTranslateTextReverseZ(
-    _In_opt_ PCWSTR Text
-    );
-
 EXTERN_C_END
 
 #include <translate.h>

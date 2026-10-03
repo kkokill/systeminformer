@@ -249,7 +249,7 @@ BOOLEAN EtpDiskSysInfoSectionCallback(
             PPH_SYSINFO_DRAW_PANEL drawPanel = Parameter1;
             PH_FORMAT format[4];
 
-            drawPanel->Title = PhCreateString(L"磁盘");
+            drawPanel->Title = PhCreateString(PhTranslateTextZ(L"磁盘"));
 
             // R: %s\nW: %s
             PhInitFormatS(&format[0], L"R: ");
@@ -1111,7 +1111,7 @@ BOOLEAN EtpNetworkSysInfoSectionCallback(
             PPH_SYSINFO_DRAW_PANEL drawPanel = Parameter1;
             PH_FORMAT format[4];
 
-            drawPanel->Title = PhCreateString(L"网络");
+            drawPanel->Title = PhCreateString(PhTranslateTextZ(L"网络"));
 
             // R: %s\nS: %s
             PhInitFormatS(&format[0], L"R: ");

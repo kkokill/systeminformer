@@ -1773,7 +1773,7 @@ VOID PhSipDrawRestoreSummaryPanel(
     }
 
     SelectFont(bufferDc, CurrentParameters.MediumFont);
-    DrawText(bufferDc, L"返回", 4, &bufferRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    DrawText(bufferDc, PhTranslateTextZ(L"返回"), -1, &bufferRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 
     BitBlt(
         DrawItemStruct->hDC,

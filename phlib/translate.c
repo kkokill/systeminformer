@@ -9,6 +9,8 @@
  *
  * 运行时 UI 文本翻译引擎（zh→en 正向 / en→zh 反向）— 查表翻译硬编码中文字符串。
  *
+ * 文件结构：英文模式开关 → 正向查找 → 反向索引与反向查找。
+ *
  * 设计要点：
  * - 字典为 PhTranslateTable[]（translate_data.c 自动生成，UTF-16 码元序），
  *   外部 .lang 文件加载后经 PhpActiveTable（translate_lang.c）优先生效
@@ -30,6 +32,8 @@
 extern const PH_TRANSLATE_ENTRY PhTranslateTable[];
 extern const ULONG PhTranslateTableCount;
 
+// === 英文模式开关 ===
+
 // 英文模式开关（FALSE=中文模式，直接返回原文）
 static volatile BOOLEAN PhpTranslateEnglishEnabled = FALSE;
 
@@ -47,6 +51,8 @@ BOOLEAN NTAPI PhTranslateIsEnglishEnabled(
 {
     return PhpTranslateEnglishEnabled;
 }
+
+// === 正向查找（zh→en） ===
 
 // 在有序表中二分查找（键按 UTF-16 码元序排序，与 wcscmp 一致）
 static PCWSTR PhpTranslateLookup(
@@ -110,7 +116,7 @@ PCWSTR NTAPI PhTranslateTextZ(
 
     result = PhpTranslateLookup(Text, table, count);
 
-    // 未命中返回原文（zh→en 单向：字典未收录的串保持原显示）
+    // 未命中返回原文：字典未收录的串保持原显示
     return result ? result : Text;
 }
 

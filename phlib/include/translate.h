@@ -33,6 +33,43 @@ typedef struct _PH_TRANSLATE_ENTRY
     PCWSTR En;
 } PH_TRANSLATE_ENTRY, *PPH_TRANSLATE_ENTRY;
 
+// === 查表 API（translate.c 实现） ===
+// 本节声明经 guisup.h 末尾的 #include <translate.h> 传递给全体消费者。
+
+// 英文模式开关：TRUE=英文（正向翻译生效），FALSE=中文（零开销直返原文）。
+// 由 guisup.c PhSetApplicationLanguage 驱动。
+PHLIBAPI
+VOID
+NTAPI
+PhTranslateSetEnglishEnabled(
+    _In_ BOOLEAN Enabled
+    );
+
+PHLIBAPI
+BOOLEAN
+NTAPI
+PhTranslateIsEnglishEnabled(
+    VOID
+    );
+
+// 正向查找：中→英。返回英文译文；中文模式或未命中返回原文
+//（调用方以指针相等判断“未翻译”）。
+PHLIBAPI
+PCWSTR
+NTAPI
+PhTranslateTextZ(
+    _In_opt_ PCWSTR Text
+    );
+
+// 反向查找：英→中。返回对应中文原文，未命中返回 NULL。
+// 供窗口重翻路径切回中文时使用；纯查表，不受英文模式开关影响。
+PHLIBAPI
+PCWSTR
+NTAPI
+PhTranslateTextReverseZ(
+    _In_opt_ PCWSTR Text
+    );
+
 // === 语言状态机 ===
 
 typedef enum _PH_LANGUAGE_STATE

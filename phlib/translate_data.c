@@ -2652,7 +2652,7 @@ const PH_TRANSLATE_ENTRY PhTranslateTable[] =
     { L"处于关闭回调中", L"In shutdown callbacks" },
     { L"处于标记", L"At mark" },
     { L"处于激活筛选器中", L"In activation filter" },
-    { L"处理器", L"CPU" },
+    { L"CPU", L"CPU" },
     { L"处理器 APIC (节点: ", L"Processor APIC (Node: " },
     { L"处理器 I/O 模块", L"Processor I/O module" },
     { L"处理器 ID", L"Processor ID" },

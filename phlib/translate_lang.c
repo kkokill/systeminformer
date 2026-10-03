@@ -8,6 +8,14 @@
  *     dmex    2026
  *
  * 语言资源管理器 — 从外部 .lang 文件加载翻译表，通过状态机协调热切换。
+ *
+ * 设计要点：
+ * - 文件缺失/损坏时静默回退嵌入表（translate_data.c），不报错不中断
+ * - 换表时旧文件数据保留不释放（语言切换低频，换取查表侧无悬挂指针；
+ *   translate.c 反向索引以表指针身份比对感知换表并重建）
+ * - 原子切换顺序：先表指针，后计数（MemoryBarrier）
+ * - 状态机仅记录当前阶段供查询（PhGetLanguageState），流程驱动在
+ *   SystemInformer\langmgr.c（PhSwitchApplicationLanguage）
  */
 
 #include <ph.h>
@@ -54,6 +62,8 @@ typedef struct _PH_LANGFILE_ENTRY
 } PH_LANGFILE_ENTRY, *PPH_LANGFILE_ENTRY;
 #pragma pack(pop)
 
+// === 状态机 API ===
+
 PH_LANGUAGE_STATE PhGetLanguageState(
     VOID
     )
@@ -74,6 +84,8 @@ VOID PhSetLanguageState(
 {
     PhpLanguageState = State;
 }
+
+// === 外部表加载 ===
 
 NTSTATUS PhLoadLanguageFile(
     VOID

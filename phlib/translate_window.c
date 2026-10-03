@@ -36,6 +36,7 @@ static VOID PhRetranslateWindowRecursive(
     );
 
 // === ListView 列头原始文本数组结构（与 guisuplistview.cpp 共用约定） ===
+// 字段布局与属性名必须两处同步修改。
 typedef struct _PHP_LV_COLTEXT_ARRAY
 {
     ULONG Count;
@@ -44,6 +45,8 @@ typedef struct _PHP_LV_COLTEXT_ARRAY
 } PHP_LV_COLTEXT_ARRAY, *PPHP_LV_COLTEXT_ARRAY;
 
 #define PHP_LV_COLTEXT_PROP L"SiLvColText"
+
+// === 控件判定与重翻取词 ===
 
 // 白名单：可自动重翻的窗口类名
 static BOOLEAN PhpIsRetranslatableClass(
@@ -83,6 +86,8 @@ static PCWSTR PhpRetranslateLookupText(
 
     return result ? result : Text;
 }
+
+// === 窗口遍历重翻 ===
 
 // 翻译单个 ListView 控件的全部列表项（方向由 PhpRetranslateForward 决定）
 static VOID PhpRetranslateListViewItems(
@@ -263,6 +268,8 @@ static BOOL CALLBACK PhpEnumTopWndProc(
     return TRUE;
 }
 
+// === 公共入口 ===
+
 VOID PhRetranslateAllWindows(
     VOID
     )
@@ -288,6 +295,8 @@ VOID PhTranslateWindowTree(
 
     PhRetranslateWindowRecursive(WindowHandle, 0);
 }
+
+// === ListView 列头刷新 ===
 
 // 刷新指定 ListView 控件的所有列头文本
 // 取 ListView 上附加的原始中文 Text 数组（由 PhAddListViewColumnDpi 记录），

@@ -2527,6 +2527,7 @@ namespace CustomBuildTool
                             "-e", "tools/Localization",
                             "-e", "build/build*portable.cmd",
                             "-e", "bin/portable",
+                            "-e", "bin/Release64/lang",
                             "-e", "phlib/translate.c",
                             "-e", "phlib/translate_data.c",
                             "-e", "phlib/translate_lang.c",

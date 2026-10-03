@@ -227,6 +227,10 @@
     <ClCompile Include="strsrch.c" />
     <ClCompile Include="symprv_std.cpp" />
     <ClCompile Include="theme.c" />
+    <ClCompile Include="translate.c" />
+    <ClCompile Include="translate_data.c" />
+    <ClCompile Include="translate_lang.c" />
+    <ClCompile Include="translate_window.c" />
     <ClCompile Include="phcrypt.c" />
     <ClCompile Include="util.c" />
     <ClCompile Include="svcsup.c" />

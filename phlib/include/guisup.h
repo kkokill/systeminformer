@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -4342,6 +4342,45 @@ HWND PhSelectWindowFromScreenTargeting(
     _In_ BOOLEAN OverlayHighlight
     );
 
+// 应用语言设置（支持运行时切换）
+PHLIBAPI
+VOID
+NTAPI
+PhSetApplicationLanguage(
+    _In_ BOOLEAN English
+    );
+
+PHLIBAPI
+BOOLEAN
+NTAPI
+PhGetApplicationLanguage(
+    VOID
+    );
+
+// 运行时文本翻译（zh→en 字典，见 phlib\translate.c 与 tools\Localization\gen_translate.ps1）
+PHLIBAPI
+VOID
+NTAPI
+PhTranslateSetEnglishEnabled(
+    _In_ BOOLEAN Enabled
+    );
+
+PHLIBAPI
+BOOLEAN
+NTAPI
+PhTranslateIsEnglishEnabled(
+    VOID
+    );
+
+PHLIBAPI
+PCWSTR
+NTAPI
+PhTranslateTextZ(
+    _In_opt_ PCWSTR Text
+    );
+
 EXTERN_C_END
+
+#include <translate.h>
 
 #endif

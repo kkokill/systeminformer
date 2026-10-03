@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -578,7 +578,7 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
             PhSelectComboBoxString(context->StartTypeWindowHandle, PhGetServiceStartTypeString(startType)->Buffer, FALSE);
             PhSelectComboBoxString(context->ErrorControlWindowHandle, PhGetServiceErrorControlString(errorControl)->Buffer, FALSE);
 
-            PhSetWindowText(context->PassBoxWindowHandle, L"密码");
+            PhSetWindowText(context->PassBoxWindowHandle, PhTranslateTextZ(L"密码"));
             Button_SetCheck(context->PassCheckBoxWindowHandle, BST_UNCHECKED);
 
             if (NT_SUCCESS(PhGetServiceDllParameter(serviceItem->Type, &serviceItem->Name->sr, &serviceDll)))

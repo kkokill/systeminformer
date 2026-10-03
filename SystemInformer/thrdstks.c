@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1344,21 +1344,21 @@ BOOLEAN NTAPI PhpThreadStacksTreeNewCallback(
             node = (PPH_THREAD_STACKS_NODE)contextMenuEvent->Node;
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, gotoProcess = PhCreateEMenuItem(0, 1, L"转到进程...", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, gotoThread = PhCreateEMenuItem(0, 2, L"转到线程...", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, gotoProcess = PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"转到进程..."), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, gotoThread = PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"转到线程..."), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 3, L"全部展开", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 4, L"全部折叠", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 3, PhTranslateTextZ(L"全部展开"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 4, PhTranslateTextZ(L"全部折叠"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 5, L"隐藏用户帧", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideSystemFrames = PhCreateEMenuItem(0, 6, L"隐藏系统帧", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, hideInlineFrames = PhCreateEMenuItem(0, 7, L"隐藏内联帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideUserFrames = PhCreateEMenuItem(0, 5, PhTranslateTextZ(L"隐藏用户帧"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideSystemFrames = PhCreateEMenuItem(0, 6, PhTranslateTextZ(L"隐藏系统帧"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, hideInlineFrames = PhCreateEMenuItem(0, 7, PhTranslateTextZ(L"隐藏内联帧"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightUserFrames = PhCreateEMenuItem(0, 8, L"突出显示用户帧", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightSystemFrames = PhCreateEMenuItem(0, 9, L"突出显示系统帧", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, highlightInlineFrames = PhCreateEMenuItem(0, 10, L"突出显示内联帧", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightUserFrames = PhCreateEMenuItem(0, 8, PhTranslateTextZ(L"突出显示用户帧"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightSystemFrames = PhCreateEMenuItem(0, 9, PhTranslateTextZ(L"突出显示系统帧"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, highlightInlineFrames = PhCreateEMenuItem(0, 10, PhTranslateTextZ(L"突出显示内联帧"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 100, L"复制", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 100, PhTranslateTextZ(L"复制"), NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, 100, hwnd, contextMenuEvent->Column);
 
             if (node)

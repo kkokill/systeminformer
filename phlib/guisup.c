@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -13,6 +13,7 @@
 #include <ph.h>
 #include <apiimport.h>
 #include <guisup.h>
+#include <translate.h>
 #include <mapimg.h>
 #include <mapldr.h>
 #include <settings.h>
@@ -2491,6 +2492,10 @@ HWND PhCreateDialogFromTemplate(
 
     PhFree(dialogTemplate);
 
+    // 语言切换支持：翻译对话框标题及模板内建控件文本（Button/Static/Edit/
+    // ListView 项等），中文模式下零开销
+    PhTranslateWindowTree(dialogHandle);
+
     return dialogHandle;
 }
 
@@ -2525,6 +2530,9 @@ HWND PhCreateDialog(
         DialogProc,
         (LPARAM)Parameter
         );
+
+    // 语言切换支持：翻译对话框标题及模板内建控件文本（中文模式零开销）
+    PhTranslateWindowTree(dialogHandle);
 
     return dialogHandle;
 }
@@ -4471,7 +4479,7 @@ BOOLEAN PhSetWindowText(
         WindowHandle,
         WM_SETTEXT,
         0,
-        (LPARAM)WindowText,
+        (LPARAM)PhTranslateTextZ(WindowText),
         1000,
         &result
         ))
@@ -8057,4 +8065,35 @@ COLORREF NTAPI PhHeatMapColor(
     }
 
     return RGB(r, g, b);
+}
+
+// === 应用语言设置（支持运行时切换）===
+// 默认中文简体。PhSetApplicationLanguage 在启动或切换时调用。
+// 英文标志与翻译字典引擎存放在 translate.c。
+
+VOID NTAPI PhSetApplicationLanguage(
+    _In_ BOOLEAN English
+    )
+{
+    LANGID langId;
+
+    PhTranslateSetEnglishEnabled(English);
+
+    langId = English
+        ? MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)        // 0x0409
+        : MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED); // 0x0804
+
+    // 关键：设置线程 UI 语言，决定 FindResource/LoadString/CreateDialog/LoadMenu
+    // 等资源加载 API 选择哪个语言版本的资源。
+    SetThreadUILanguage(langId);
+
+    // 同时设置线程区域设置（日期、数字、货币等格式）。
+    SetThreadLocale(MAKELCID(langId, SORT_DEFAULT));
+}
+
+BOOLEAN NTAPI PhGetApplicationLanguage(
+    VOID
+    )
+{
+    return PhTranslateIsEnglishEnabled();
 }

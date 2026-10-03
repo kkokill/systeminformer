@@ -971,31 +971,47 @@ PWSTR ToolbarGetText(
     _In_ ULONG CommandID
     )
 {
+    PCWSTR text;
+
     switch (CommandID)
     {
     case PHAPP_ID_VIEW_REFRESH:
-        return L"刷新";
+        text = L"刷新";
+        break;
     case PHAPP_ID_HACKER_OPTIONS:
-        return L"选项";
+        text = L"选项";
+        break;
     case PHAPP_ID_HACKER_FINDHANDLESORDLLS:
-        return L"查找句柄或 DLL";
+        text = L"查找句柄或 DLL";
+        break;
     case PHAPP_ID_VIEW_SYSTEMINFORMATION:
-        return L"系统信息";
+        text = L"系统信息";
+        break;
     case TIDC_FINDWINDOW:
-        return L"查找窗口";
+        text = L"查找窗口";
+        break;
     case TIDC_FINDWINDOWTHREAD:
-        return L"查找窗口和线程";
+        text = L"查找窗口和线程";
+        break;
     case TIDC_FINDWINDOWKILL:
-        return L"查找窗口并终止";
+        text = L"查找窗口并终止";
+        break;
     case PHAPP_ID_VIEW_ALWAYSONTOP:
-        return L"始终置顶";
+        text = L"始终置顶";
+        break;
     case TIDC_POWERMENUDROPDOWN:
-        return L"计算机";
+        text = L"计算机";
+        break;
     case PHAPP_ID_HACKER_SHOWDETAILSFORALLPROCESSES:
-        return L"显示所有进程的详细信息";
+        text = L"显示所有进程的详细信息";
+        break;
+    default:
+        text = L"错误";
+        break;
     }
 
-    return L"错误";
+    // 语言切换：查翻译字典（英文模式返回英文字典指针）
+    return (PWSTR)PhTranslateTextZ(text);
 }
 
 /**

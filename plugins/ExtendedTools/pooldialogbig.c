@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -105,7 +105,7 @@ INT_PTR CALLBACK EtBigPoolMonDlgProc(
 
             PhSetApplicationWindowIcon(WindowHandle);
 
-            PhSetWindowText(WindowHandle, PhaFormatString(L"大块分配 (%s)", context->TagString)->Buffer);
+            PhSetWindowText(WindowHandle, PhaFormatString(PhTranslateTextZ(L"大块分配 (%s)"), context->TagString)->Buffer);
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
@@ -195,7 +195,7 @@ INT_PTR CALLBACK EtBigPoolMonDlgProc(
                             break;
 
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                         PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                         selectedItem = PhShowEMenu(

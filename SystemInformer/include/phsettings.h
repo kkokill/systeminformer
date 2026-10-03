@@ -496,6 +496,8 @@ EXT ULONG PhCsProcessMonitorCacheLimit;
 #define SETTING_SORT_CHILD_PROCESSES                                L"SortChildProcesses"
 #define SETTING_SORT_ROOT_PROCESSES                                 L"SortRootProcesses"
 #define SETTING_START_HIDDEN                                        L"StartHidden"
+#define SETTING_LANGUAGE                                            L"Language"
+// SETTING_LANGUAGE 值：0 = 中文（默认），1 = 英文
 #define SETTING_SYSINFO_MINIMUM_GRAPH_HEIGHT                        L"SysInfoMinimumGraphHeight"
 #define SETTING_SYSINFO_WINDOW_SCROLL_ENABLED                       L"SysInfoScrollEnabled"
 #define SETTING_SYSINFO_SHOW_CPU_SPEED_MHZ                          L"SysInfoShowCpuSpeedMhz"

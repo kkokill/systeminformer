@@ -505,7 +505,7 @@ VOID ToolbarGraphCreateMenu(
         {
             PPH_STRING newText;
 
-            newText = PhaConcatStrings2(graph->Text, L" (不可用)");
+            newText = PhaConcatStrings2(PhTranslateTextZ(graph->Text), PhTranslateTextZ(L" (不可用)"));
             PhModifyEMenuItem(menuItem, PH_EMENU_MODIFY_TEXT, PH_EMENU_TEXT_OWNED,
                 PhAllocateCopy(newText->Buffer, newText->Length + sizeof(UNICODE_NULL)), NULL);
         }
@@ -536,7 +536,7 @@ VOID ToolbarGraphCreatePluginMenu(
         {
             PPH_STRING newText;
 
-            newText = PhaConcatStrings2(graph->Text, L" (不可用)");
+            newText = PhaConcatStrings2(PhTranslateTextZ(graph->Text), PhTranslateTextZ(L" (不可用)"));
             PhModifyEMenuItem(menuItem, PH_EMENU_MODIFY_TEXT, PH_EMENU_TEXT_OWNED,
                 PhAllocateCopy(newText->Buffer, newText->Length + sizeof(UNICODE_NULL)), NULL);
         }

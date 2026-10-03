@@ -1263,13 +1263,13 @@ PPH_STRING GraphicsGetNodeEngineTypeString(
     if (PhBeginInitOnce(&initOnce))
     {
         static CONST PH_STRINGREF name3DString = PH_STRINGREF_INIT(L"3D");
-        static CONST PH_STRINGREF nameDecodeString = PH_STRINGREF_INIT(L"Video Decode");
-        static CONST PH_STRINGREF nameEncodeString = PH_STRINGREF_INIT(L"Video Encode");
-        static CONST PH_STRINGREF nameProcessingString = PH_STRINGREF_INIT(L"Video Processing");
-        static CONST PH_STRINGREF nameAssemblyString = PH_STRINGREF_INIT(L"Scene Assembly");
-        static CONST PH_STRINGREF nameCopyString = PH_STRINGREF_INIT(L"Copy");
-        static CONST PH_STRINGREF nameOverlayString = PH_STRINGREF_INIT(L"Overlay");
-        static CONST PH_STRINGREF nameCryptoString = PH_STRINGREF_INIT(L"Crypto");
+        static CONST PH_STRINGREF nameDecodeString = PH_STRINGREF_INIT(L"视频解码");
+        static CONST PH_STRINGREF nameEncodeString = PH_STRINGREF_INIT(L"视频编码");
+        static CONST PH_STRINGREF nameProcessingString = PH_STRINGREF_INIT(L"视频处理");
+        static CONST PH_STRINGREF nameAssemblyString = PH_STRINGREF_INIT(L"场景装配");
+        static CONST PH_STRINGREF nameCopyString = PH_STRINGREF_INIT(L"复制");
+        static CONST PH_STRINGREF nameOverlayString = PH_STRINGREF_INIT(L"覆盖层");
+        static CONST PH_STRINGREF nameCryptoString = PH_STRINGREF_INIT(L"加密");
 
         name3D = PhCreateString2(&name3DString);
         decode = PhCreateString2(&nameDecodeString);
@@ -1304,7 +1304,7 @@ PPH_STRING GraphicsGetNodeEngineTypeString(
     case DXGK_ENGINE_TYPE_CRYPTO:
         return PhReferenceObject(crypto);
     default:
-        return PhCreateString(L"ERROR");
+        return PhCreateString(L"错误");
     }
 }
 

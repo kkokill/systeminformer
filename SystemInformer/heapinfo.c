@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -897,7 +897,7 @@ INT_PTR CALLBACK PhpProcessHeapsDlgProc(
                     menu = PhCreateEMenu();
                     //PhInsertEMenuItem(menu, PhCreateEMenuItem(selectedCount != 1 ? PH_EMENU_DISABLED : 0, 1, L"Destroy", NULL, NULL), ULONG_MAX);
                     //PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制\bCtrl+C"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     menuItem = PhShowEMenu(
@@ -1674,7 +1674,7 @@ INT_PTR CALLBACK PhProcessLocksDlgProc(
                 if (selectedCount != 0)
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制\bCtrl+C"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     menuItem = PhShowEMenu(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -2748,23 +2748,23 @@ PPH_STRING PhFormatTimeSpanRelative(
 
     if (centuries >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)centuries, L"世纪");
+        string = PhFormatString(L"%u %s", (ULONG)centuries, PhTranslateTextZ(L"世纪"));
     }
     else if (years >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)years, L"年");
+        string = PhFormatString(L"%u %s", (ULONG)years, PhTranslateTextZ(L"年"));
     }
     else if (months >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)months, L"月");
+        string = PhFormatString(L"%u %s", (ULONG)months, PhTranslateTextZ(L"月"));
     }
     else if (fortnights >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)fortnights, L"两星期");
+        string = PhFormatString(L"%u %s", (ULONG)fortnights, PhTranslateTextZ(L"两星期"));
     }
     else if (weeks >= 1)
     {
-        string = PhFormatString(L"%u %s", (ULONG)weeks, L"周");
+        string = PhFormatString(L"%u %s", (ULONG)weeks, PhTranslateTextZ(L"周"));
     }
     else
     {
@@ -2788,7 +2788,7 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (hoursPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s 又 %u %s",
+                    PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)days,
                     L"天",
                     hoursPartial,
@@ -2797,7 +2797,7 @@ PPH_STRING PhFormatTimeSpanRelative(
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)days, L"天");
+                string = PhFormatString(L"%u %s", (ULONG)days, PhTranslateTextZ(L"天"));
             }
         }
         else if (hours >= 1)
@@ -2807,7 +2807,7 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (minutesPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s 又 %u %s",
+                    PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)hours,
                     L"小时",
                     (ULONG)minutesPartial,
@@ -2816,7 +2816,7 @@ PPH_STRING PhFormatTimeSpanRelative(
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)hours, L"小时");
+                string = PhFormatString(L"%u %s", (ULONG)hours, PhTranslateTextZ(L"小时"));
             }
         }
         else if (minutes >= 1)
@@ -2826,7 +2826,7 @@ PPH_STRING PhFormatTimeSpanRelative(
             if (secondsPartial >= 1)
             {
                 string = PhFormatString(
-                    L"%u %s 又 %u %s",
+                    PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)minutes,
                     L"分钟",
                     (ULONG)secondsPartial,
@@ -2835,20 +2835,20 @@ PPH_STRING PhFormatTimeSpanRelative(
             }
             else
             {
-                string = PhFormatString(L"%u %s", (ULONG)minutes, L"分钟");
+                string = PhFormatString(L"%u %s", (ULONG)minutes, PhTranslateTextZ(L"分钟"));
             }
         }
         else if (seconds >= 1)
         {
-            string = PhFormatString(L"%u %s", (ULONG)seconds, L"秒");
+            string = PhFormatString(L"%u %s", (ULONG)seconds, PhTranslateTextZ(L"秒"));
         }
         else if (milliseconds >= 1)
         {
-            string = PhFormatString(L"%u %s", (ULONG)milliseconds, L"毫秒");
+            string = PhFormatString(L"%u %s", (ULONG)milliseconds, PhTranslateTextZ(L"毫秒"));
         }
         else
         {
-            string = PhCreateString(L"极短时间");
+            string = PhCreateString(PhTranslateTextZ(L"极短时间"));
         }
     }
 

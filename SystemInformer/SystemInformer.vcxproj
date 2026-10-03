@@ -265,6 +265,7 @@
     <ClCompile Include="log.c" />
     <ClCompile Include="logwnd.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="langmgr.c" />
     <ClCompile Include="mainwnd.c" />
     <ClCompile Include="mdump.c" />
     <ClCompile Include="memedit.c" />

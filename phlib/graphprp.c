@@ -969,7 +969,7 @@ LRESULT CALLBACK PhPropSheetNewWndProc(
             {
                 context->CloseButton = PhCreateWindow(
                     WC_BUTTON,
-                    L"关闭",
+                    PhTranslateTextZ(L"关闭"),
                     WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_PUSHBUTTON,
                     0, 0, 0, 0,
                     WindowHandle,
@@ -1006,7 +1006,7 @@ LRESULT CALLBACK PhPropSheetNewWndProc(
                     PPH_PROPSHEETNEW_PAGE page = &context->Pages[i];
                     PH_TABNEW_INSERTITEM item;
 
-                    item.Text = (PWSTR)page->Name;
+                    item.Text = (PWSTR)PhTranslateTextZ(page->Name); // 标签页标题翻译（Name 保持源串供匹配/存储）
                     item.ImageIndex = -1;
                     item.Param = (LPARAM)page;
 

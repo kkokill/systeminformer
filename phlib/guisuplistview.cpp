@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -13,10 +13,90 @@
 #include <ph.h>
 #include <guisup.h>
 #include <guisupview.h>
+#include <translate.h>
 
 #include <commoncontrols.h>
 #include <wincodec.h>
 #include <uxtheme.h>
+
+// === ListView 列头原始中文文本存储（用于语言热切换） ===
+//
+// LVCOLUMN 不支持 lParam，无法在列上挂原始 Text 指针。改为通过 SetProp 给
+// ListView 窗口附加一个动态数组（按列索引存原始中文 Text 指针）。C 字面量在
+// 进程生命周期内有效，无需释放。PhRefreshListViewColumnsLanguage 遍历列、查
+// 数组取原始 Text、调 PhTranslateTextZ 得译文、ListView_SetColumn 重设列头。
+//
+// 内存管理：随 ListView 窗口销毁，SetProp 自动清理条目，但附加的数组指针不会
+// 自动释放（轻微泄漏，可接受——语言切换低频，ListView 多为长生命周期）。
+
+typedef struct _PHP_LV_COLTEXT_ARRAY
+{
+    ULONG Count;        // 已记录的列数（逻辑索引 0..Count-1）
+    ULONG Capacity;    // 数组容量
+    PCWSTR Texts[1];   // 可变长数组（Capacity 项）
+} PHP_LV_COLTEXT_ARRAY, *PPHP_LV_COLTEXT_ARRAY;
+
+#define PHP_LV_COLTEXT_PROP L"SiLvColText"
+
+// 取或创建附加在 ListView 上的原始文本数组
+static PPHP_LV_COLTEXT_ARRAY PhpGetOrCreateColTextArray(
+    _In_ HWND ListViewHandle
+    )
+{
+    PPHP_LV_COLTEXT_ARRAY arr = (PPHP_LV_COLTEXT_ARRAY)GetPropW(ListViewHandle, PHP_LV_COLTEXT_PROP);
+
+    if (arr)
+        return arr;
+
+    arr = (PPHP_LV_COLTEXT_ARRAY)PhAllocate(sizeof(PHP_LV_COLTEXT_ARRAY) + sizeof(PVOID) * 7);
+
+    if (!arr)
+        return NULL;
+
+    memset(arr, 0, sizeof(PHP_LV_COLTEXT_ARRAY) + sizeof(PVOID) * 7);
+    arr->Capacity = 8;
+    SetPropW(ListViewHandle, PHP_LV_COLTEXT_PROP, (HANDLE)arr);
+    return arr;
+}
+
+// 在指定列索引位置记录原始中文 Text 指针（按需扩展数组）
+static VOID PhpSetColText(
+    _In_ HWND ListViewHandle,
+    _In_ ULONG Index,
+    _In_ PCWSTR Text
+    )
+{
+    PPHP_LV_COLTEXT_ARRAY arr = PhpGetOrCreateColTextArray(ListViewHandle);
+
+    if (!arr)
+        return;
+
+    if (Index >= arr->Capacity)
+    {
+        ULONG newCap = arr->Capacity;
+
+        while (newCap <= Index) newCap *= 2;
+
+        PPHP_LV_COLTEXT_ARRAY newArr = (PPHP_LV_COLTEXT_ARRAY)PhReAllocate(
+            arr, sizeof(PHP_LV_COLTEXT_ARRAY) + sizeof(PVOID) * (newCap - 1));
+
+        if (!newArr)
+            return;
+
+        // 扩展部分清零
+        for (ULONG i = newArr->Capacity; i < newCap; i++)
+            newArr->Texts[i] = NULL;
+
+        newArr->Capacity = newCap;
+        SetPropW(ListViewHandle, PHP_LV_COLTEXT_PROP, (HANDLE)newArr);
+        arr = newArr;
+    }
+
+    arr->Texts[Index] = Text;
+
+    if (Index >= arr->Count)
+        arr->Count = Index + 1;
+}
 
 LONG PhAddListViewColumnDpi(
     _In_ HWND ListViewHandle,
@@ -31,11 +111,16 @@ LONG PhAddListViewColumnDpi(
 {
     LVCOLUMN column;
 
+    // 记录原始中文 Text 指针，便于语言切换时重设列头
+    if (Text)
+        PhpSetColText(ListViewHandle, (ULONG)Index, Text);
+
     memset(&column, 0, sizeof(LVCOLUMN));
     column.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_ORDER;
     column.fmt = Format;
     column.cx = WindowsVersion < WINDOWS_10 ? Width : PhScaleToDisplay(Width, ListViewDpi);
-    column.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：列头文本查翻译字典
+    column.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
     column.iSubItem = SubItemIndex;
     column.iOrder = DisplayIndex;
 
@@ -55,12 +140,24 @@ LONG PhAddIListViewColumnDpi(
 {
     LVCOLUMN column;
     LONG index;
+    HWND headerHandle = NULL;
+
+    // IListView 模式：通过 GetHeaderControl 取 header HWND，
+    // 然后 GetParent 取 ListView 控件 HWND，用于附加原始文本数组
+    if (SUCCEEDED(ListView->GetHeaderControl(&headerHandle)) && headerHandle)
+    {
+        HWND listViewHandle = GetParent(headerHandle);
+
+        if (listViewHandle && Text)
+            PhpSetColText(listViewHandle, (ULONG)Index, Text);
+    }
 
     memset(&column, 0, sizeof(LVCOLUMN));
     column.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM | LVCF_ORDER;
     column.fmt = Format;
     column.cx = WindowsVersion < WINDOWS_10 ? Width : PhScaleToDisplay(Width, ListViewDpi);
-    column.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：列头文本查翻译字典
+    column.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
     column.iSubItem = SubItemIndex;
     column.iOrder = DisplayIndex;
 
@@ -138,7 +235,10 @@ LONG PhAddListViewItem(
     item.mask = LVIF_TEXT | LVIF_PARAM;
     item.iItem = Index;
     item.iSubItem = 0;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：项文本查翻译字典（LPSTR_TEXTCALLBACK 回调形式不处理）
+    item.pszText = const_cast<PWSTR>(
+        ((ULONG_PTR)Text != (ULONG_PTR)LPSTR_TEXTCALLBACK) ? PhTranslateTextZ(Text) : Text
+        );
     item.lParam = reinterpret_cast<LPARAM>(Param);
 
     return ListView_InsertItem(ListViewHandle, &item);
@@ -157,7 +257,10 @@ LONG PhAddIListViewItem(
     item.mask = LVIF_TEXT | LVIF_PARAM;
     item.iItem = Index;
     item.iSubItem = 0;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：项文本查翻译字典（LPSTR_TEXTCALLBACK 回调形式不处理）
+    item.pszText = const_cast<PWSTR>(
+        ((ULONG_PTR)Text != (ULONG_PTR)LPSTR_TEXTCALLBACK) ? PhTranslateTextZ(Text) : Text
+        );
     item.lParam = reinterpret_cast<LPARAM>(Param);
 
     if (SUCCEEDED(ListView->InsertItem(&item, &index)))

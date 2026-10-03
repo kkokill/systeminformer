@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1828,6 +1828,10 @@ VOID NTAPI DeviceTreeSettingsUpdatedCallback(
     )
 {
     DeviceTreeUpdateCachedSettings(FALSE);
+
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (DeviceTreeHandle)
+        TreeNew_TranslateColumns(DeviceTreeHandle);
 }
 
 VOID InitializeDevicesTab(

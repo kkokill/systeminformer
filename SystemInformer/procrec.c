@@ -139,7 +139,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                 }
                 else
                 {
-                    PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"不存在的进程（%u）",
+                    PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(PhTranslateTextZ(L"不存在的进程（%u）"),
                         HandleToUlong(context->Record->ParentProcessId))->Buffer);
                 }
 

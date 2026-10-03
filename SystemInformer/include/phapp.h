@@ -1047,6 +1047,13 @@ PhCreateServiceListControl(
     _In_ PPH_SERVICE_ITEM *Services,
     _In_ ULONG NumberOfServices
     );
+
+PHAPPAPI
+VOID
+NTAPI
+PhSwitchApplicationLanguage(
+    _In_ BOOLEAN English
+    );
 // end_phapppub
 
 // srvprp

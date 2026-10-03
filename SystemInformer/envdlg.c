@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2024 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -867,7 +867,7 @@ static INT_PTR CALLBACK EtEnvSplitDlgProc(
             context->CancelButtonHandle = GetDlgItem(hwndDlg, IDCANCEL);
 
             PhSetApplicationWindowIcon(hwndDlg);
-            PhSetWindowText(hwndDlg, PhaFormatString(L"编辑 %s", PhGetString(context->Name))->Buffer);
+            PhSetWindowText(hwndDlg, PhaFormatString(PhTranslateTextZ(L"编辑 %s"), PhGetString(context->Name))->Buffer);
 
             PhAddListViewColumn(context->ListViewHandle, 0, 0, 0, LVCFMT_LEFT, 300, L"值");
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
@@ -1490,10 +1490,10 @@ static INT_PTR CALLBACK EtEnvironmentVariablesDlgProc(
                     PhGetListViewContextMenuPoint(context->ListViewHandle, &point);
 
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_ADD, L"添加(&A)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_ADD, PhTranslateTextZ(L"添加(&A)"), NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_EDIT, L"编辑(&E)", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_DELETE, L"删除(&D)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_EDIT, PhTranslateTextZ(L"编辑(&E)"), NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_ENV_DELETE, PhTranslateTextZ(L"删除(&D)"), NULL, NULL), ULONG_MAX);
 
                 {
                     PENV_VARIABLE_ENTRY entry;

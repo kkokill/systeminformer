@@ -426,6 +426,10 @@ VOID PhMwpNotifyAllPages(
     _In_opt_ PVOID Parameter2
     );
 
+VOID PhMwpRefreshTabLanguage(
+    VOID
+    );
+
 //
 // Notifications
 //

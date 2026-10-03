@@ -841,6 +841,10 @@ VOID EtInitializeDiskTab(
     VOID
     );
 
+VOID EtRefreshDiskTreeLanguage(
+    VOID
+    );
+
 VOID EtLoadSettingsDiskTreeList(
     _In_ HWND WindowHandle
     );
@@ -1547,6 +1551,10 @@ ULONG EtFwMonitorEnumEvents(
     );
 
 VOID EtInitializeFirewallTab(
+    VOID
+    );
+
+VOID EtRefreshFwTreeLanguage(
     VOID
     );
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -330,7 +330,7 @@ INT_PTR CALLBACK DevicePropGeneralDlgProc(
                 if (PhGetSelectedListViewItemParams(context->GeneralListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->GeneralListViewHandle);
 
                     item = PhShowEMenu(
@@ -377,10 +377,10 @@ INT_PTR CALLBACK DevicePropGeneralDlgProc(
                 break;
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, enable = PhCreateEMenuItem(0, 0, L"启用", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, disable = PhCreateEMenuItem(0, 1, L"禁用", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, restart = PhCreateEMenuItem(0, 2, L"重新启动", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, uninstall = PhCreateEMenuItem(0, 3, L"卸载", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, enable = PhCreateEMenuItem(0, 0, PhTranslateTextZ(L"启用"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, disable = PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"禁用"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, restart = PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"重新启动"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, uninstall = PhCreateEMenuItem(0, 3, PhTranslateTextZ(L"卸载"), NULL, NULL), ULONG_MAX);
 
             if (!PhGetOwnTokenAttributes().Elevated)
             {
@@ -745,7 +745,7 @@ INT_PTR CALLBACK DevicePropPropertiesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->PropsListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->PropsListViewHandle);
 
                     item = PhShowEMenu(
@@ -919,7 +919,7 @@ INT_PTR CALLBACK DevicePropInterfacesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->InterfacesListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->InterfacesListViewHandle);
 
                     item = PhShowEMenu(
@@ -1046,7 +1046,7 @@ INT_PTR CALLBACK DevicePropResourcesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ResourcesListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PHAPP_IDC_COPY, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PhInsertCopyListViewEMenuItem(menu, PHAPP_IDC_COPY, context->ResourcesListViewHandle);
 
                     item = PhShowEMenu(

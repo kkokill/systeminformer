@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1745,6 +1745,18 @@ HWND NTAPI EtpToolStatusGetTreeNewHandle(
     )
 {
     return DiskTreeNewHandle;
+}
+
+/**
+ * Refreshes the disk tree column headers after a language change.
+ */
+VOID EtRefreshDiskTreeLanguage(
+    VOID
+    )
+{
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (DiskTreeNewHandle)
+        TreeNew_TranslateColumns(DiskTreeNewHandle);
 }
 
 //INT_PTR CALLBACK EtpDiskTabErrorDialogProc(

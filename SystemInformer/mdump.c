@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -583,7 +583,7 @@ INT_PTR CALLBACK PhpProcessMiniDumpDlgProc(
             PhSetApplicationWindowIcon(hwndDlg);
             PhCenterWindow(hwndDlg, context->ParentWindowHandle);
 
-            PhSetWindowText(hwndDlg, L"正在创建转储文件...");
+            PhSetWindowText(hwndDlg, PhTranslateTextZ(L"正在创建转储文件..."));
             PhSetDialogItemText(hwndDlg, IDC_PROGRESSTEXT, L"正在创建转储文件...");
             PhSetWindowStyle(GetDlgItem(hwndDlg, IDC_PROGRESS), PBS_MARQUEE, PBS_MARQUEE);
             SendMessage(GetDlgItem(hwndDlg, IDC_PROGRESS), PBM_SETMARQUEE, TRUE, 75);

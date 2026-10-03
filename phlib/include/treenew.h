@@ -45,6 +45,7 @@ typedef struct _PH_TREENEW_COLUMN
     ULONG Id;
     PVOID Context;
     PCWSTR Text;
+    PCWSTR OriginalText; // 语言切换：保存未翻译的原始文本，供运行时重翻
     LONG Width;
     ULONG Alignment;
     ULONG DisplayIndex; // -1 for fixed column or invalid
@@ -511,6 +512,7 @@ typedef struct _PH_TREENEW_GET_CELL_PARTS
 #define TNM_FOCUSVISIBLENODE (WM_USER + 55)
 #define TNM_GETCELLPARTS (WM_USER + 56)
 #define TNM_LAST (WM_USER + 57)
+#define TNM_TRANSLATECOLUMNS (WM_USER + 58) // 语言切换：按 OriginalText 重翻所有列头并刷新表头
 
 #if defined(_PHLIB_)
 
@@ -658,6 +660,9 @@ EXTERN_C LRESULT PhTnSendMessage(
  
 #define TreeNew_SetColumnTextCache(hWnd, Cache) \
     PhTnSendMessage((hWnd), TNM_SETCOLUMNTEXTCACHE, (WPARAM)(Cache), 0)
+
+#define TreeNew_TranslateColumns(hWnd) \
+    PhTnSendMessage((hWnd), TNM_TRANSLATECOLUMNS, 0, 0)
  
 #define TreeNew_EnsureVisibleIndex(hWnd, Index) \
     PhTnSendMessage((hWnd), TNM_ENSUREVISIBLEINDEX, 0, (LPARAM)(Index))
@@ -705,6 +710,9 @@ EXTERN_C LRESULT PhTnSendMessage(
 
 #define TreeNew_SetColumn(hWnd, Mask, Column) \
     SendMessage((hWnd), TNM_SETCOLUMN, (WPARAM)(Mask), (LPARAM)(Column))
+
+#define TreeNew_TranslateColumns(hWnd) \
+    SendMessage((hWnd), TNM_TRANSLATECOLUMNS, 0, 0)
 
 #define TreeNew_GetColumnOrderArray(hWnd, Count, Array) \
     SendMessage((hWnd), TNM_GETCOLUMNORDERARRAY, (WPARAM)(Count), (LPARAM)(Array))

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -23,6 +23,7 @@
 #include <mainwndp.h>
 #include <netprv.h>
 #include <phsettings.h>
+#include <translate.h>
 #include <phsvc.h>
 #include <procprv.h>
 #include <devprv.h>
@@ -86,6 +87,8 @@ INT WINAPI wWinMain(
     PhGuiSupportInitialization();
 
     PhInitializeAppSettings();
+    PhLoadLanguageFile(); // 从 <AppDir>\lang\zh-en.lang 加载外部翻译表；失败回退嵌入表
+    PhSetApplicationLanguage(PhGetIntegerSetting(SETTING_LANGUAGE) == 1);
     PhInitializeCallbacks();
 
     if (PhStartupParameters.Debug)

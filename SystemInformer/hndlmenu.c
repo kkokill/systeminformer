@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -41,35 +41,35 @@ VOID PhInsertHandleObjectPropertiesEMenuItems(
     {
         if (PhEqualString2(Info->TypeName, L"File", TRUE))
         {
-            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES2, L"文件属性(&I)", NULL, NULL), indexInParent);
-            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"打开文件位置(&F)", EnableShortcut), NULL, NULL), indexInParent + 1);
+            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES2, PhTranslateTextZ(L"文件属性(&I)"), NULL, NULL), indexInParent);
+            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"打开文件位置(&F)"), EnableShortcut), NULL, NULL), indexInParent + 1);
             PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 2);
         }
         else
         {
-            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"打开文件位置(&F)", EnableShortcut), NULL, NULL), indexInParent);
+            PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"打开文件位置(&F)"), EnableShortcut), NULL, NULL), indexInParent);
             PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 1);
         }
     }
     else if (PhEqualString2(Info->TypeName, L"Key", TRUE))
     {
-        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"打开注册表项(&K)", EnableShortcut), NULL, NULL), indexInParent);
+        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"打开注册表项(&K)"), EnableShortcut), NULL, NULL), indexInParent);
         PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 1);
     }
     else if (PhEqualString2(Info->TypeName, L"Process", TRUE))
     {
-        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_GOTOOWNINGPROCESS, L"转到进程...", NULL, NULL), indexInParent);
-        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"进程属性(&I)", EnableShortcut), NULL, NULL), indexInParent + 1);
+        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_GOTOOWNINGPROCESS, PhTranslateTextZ(L"转到进程..."), NULL, NULL), indexInParent);
+        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"进程属性(&I)"), EnableShortcut), NULL, NULL), indexInParent + 1);
         PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 2);
     }
     else if (PhEqualString2(Info->TypeName, L"Section", TRUE))
     {
-        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"读/写内存(&M)", EnableShortcut), NULL, NULL), indexInParent);
+        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"读/写内存(&M)"), EnableShortcut), NULL, NULL), indexInParent);
         PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 1);
     }
     else if (PhEqualString2(Info->TypeName, L"Thread", TRUE))
     {
-        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(L"转到线程(&H)...", EnableShortcut), NULL, NULL), indexInParent);
+        PhInsertEMenuItem(parentItem, PhCreateEMenuItem(0, ID_HANDLE_OBJECTPROPERTIES1, PhaAppendCtrlEnter(PhTranslateTextZ(L"转到线程(&H)..."), EnableShortcut), NULL, NULL), indexInParent);
         PhInsertEMenuItem(parentItem, PhCreateEMenuSeparator(), indexInParent + 1);
     }
 }

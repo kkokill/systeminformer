@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -999,12 +999,12 @@ VOID PhpShowEnvironmentNodeContextMenu(
     menu = PhCreateEMenu();
     if (!PhpHasSelectedEnvironmentGroupNode(nodes, numberOfNodes))
     {
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_EDIT, L"编辑", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_EDIT, PhTranslateTextZ(L"编辑"), NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_DELETE, L"删除", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_DELETE, PhTranslateTextZ(L"删除"), NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
     }
-    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_COPY, L"复制(&C)", NULL, NULL), ULONG_MAX);
+    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_ENV_COPY, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
     PhInsertCopyCellEMenuItem(menu, ID_ENV_COPY, Context->TreeNewHandle, ContextMenuEvent->Column);
 
     selectedItem = PhShowEMenu(
@@ -1819,15 +1819,15 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_OPTIONS), &rect))
                         break;
 
-                    processMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_PROCESS_TYPE, L"隐藏进程", NULL, NULL);
-                    userMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_USER_TYPE, L"隐藏用户", NULL, NULL);
-                    systemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_SYSTEM_TYPE, L"隐藏系统", NULL, NULL);
-                    cmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_CMD_TYPE, L"隐藏 cmd", NULL, NULL);
-                    highlightProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_PROCESS_TYPE, L"高亮进程", NULL, NULL);
-                    highlightUserMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_USER_TYPE, L"高亮用户", NULL, NULL);
-                    highlightSystemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_SYSTEM_TYPE, L"高亮系统", NULL, NULL);
-                    highlightCmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_CMD_TYPE, L"高亮 cmd", NULL, NULL);
-                    newProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_NEW_ENVIRONMENT_VARIABLE, L"新建变量...", NULL, NULL);
+                    processMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_PROCESS_TYPE, PhTranslateTextZ(L"隐藏进程"), NULL, NULL);
+                    userMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_USER_TYPE, PhTranslateTextZ(L"隐藏用户"), NULL, NULL);
+                    systemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_SYSTEM_TYPE, PhTranslateTextZ(L"隐藏系统"), NULL, NULL);
+                    cmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIDE_CMD_TYPE, PhTranslateTextZ(L"隐藏 cmd"), NULL, NULL);
+                    highlightProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_PROCESS_TYPE, PhTranslateTextZ(L"高亮进程"), NULL, NULL);
+                    highlightUserMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_USER_TYPE, PhTranslateTextZ(L"高亮用户"), NULL, NULL);
+                    highlightSystemMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_SYSTEM_TYPE, PhTranslateTextZ(L"高亮系统"), NULL, NULL);
+                    highlightCmdMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_HIGHLIGHT_CMD_TYPE, PhTranslateTextZ(L"高亮 cmd"), NULL, NULL);
+                    newProcessMenuItem = PhCreateEMenuItem(0, ENVIRONMENT_TREE_MENU_ITEM_NEW_ENVIRONMENT_VARIABLE, PhTranslateTextZ(L"新建变量..."), NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, processMenuItem, ULONG_MAX);

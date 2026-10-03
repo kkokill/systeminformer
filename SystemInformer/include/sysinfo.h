@@ -214,6 +214,13 @@ NTAPI
 PhShowSystemInformationDialog(
     _In_opt_ PCWSTR SectionName
     );
+
+PHAPPAPI
+VOID
+NTAPI
+PhSipRecreateForLanguageChange(
+    VOID
+    );
 // end_phapppub
 
 EXTERN_C_END

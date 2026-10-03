@@ -274,6 +274,15 @@ VOID PhInitializeProcessTreeColumnHeaderCache(
     TreeNew_SetColumnTextCache(ProcessTreeListHandle, &processTreeColumnHeaderCache);
 }
 
+VOID PhRefreshProcessTreeLanguage(
+    VOID
+    )
+{
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (ProcessTreeListHandle)
+        TreeNew_TranslateColumns(ProcessTreeListHandle);
+}
+
 VOID PhLoadSettingsProcessTreeUpdateMask(
     VOID
     )
@@ -3817,7 +3826,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (node->WindowHandle)
                     {
-                        PhInitializeStringRef(&getCellText->Text, node->WindowHung ? L"无响应" : L"正在运行");
+                        PhInitializeStringRef(&getCellText->Text, node->WindowHung ? PhTranslateTextZ(L"无响应") : PhTranslateTextZ(L"正在运行"));
                     }
                 }
                 break;

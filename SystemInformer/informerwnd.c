@@ -1665,7 +1665,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"不存在的进程 (");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L"不存在的进程 ("));
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1848,7 +1848,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"不存在的进程 (");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L"不存在的进程 ("));
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1885,7 +1885,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"不存在的进程 (");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L"不存在的进程 ("));
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetPid));
@@ -1928,7 +1928,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"不存在的进程 (");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L"不存在的进程 ("));
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetCid.UniqueProcess));
@@ -1967,7 +1967,7 @@ PPH_STRING PhpInformerFormatDetailsText(
             }
             else
             {
-                PhInitFormatS(&format[count++], L"不存在的进程 (");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L"不存在的进程 ("));
             }
 
             PhInitFormatU(&format[count++], HandleToUlong(targetCid.UniqueProcess));
@@ -2982,7 +2982,7 @@ BOOLEAN NTAPI PhpInformerTreeNewCallback(
             NT_ASSERT(context);
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, PhTranslateTextZ(L"复制(&C)\bCtrl+C"), NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, IDC_COPY, context->TreeNewHandle, contextMenu->Column);
 
             selectedItem = PhShowEMenu(

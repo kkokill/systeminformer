@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -263,7 +263,7 @@ VOID EtAddSummaryWindowText(
 
     if (!Summary || Summary->TotalBlocks == 0)
     {
-        SetWindowText(SummaryHandle, L"无可用的预测数据。");
+        SetWindowText(SummaryHandle, PhTranslateTextZ(L"无可用的预测数据。"));
         return;
     }
 
@@ -1099,7 +1099,7 @@ VOID EtpApplyModeToUi(
             : ET_POWER_GRID_MODE_PENDING;
         EtpSetupListViewColumns(Context->ListViewHandle, ET_POWER_GRID_MODE_FORECAST);
         EtpClearPowerGridListView(Context->ListViewHandle);
-        SetWindowText(Context->SummaryHandle, L"正在获取电网预测数据...");
+        SetWindowText(Context->SummaryHandle, PhTranslateTextZ(L"正在获取电网预测数据..."));
         PhCreateThread2(EtpEnumeratePowerGridForecast, Context->WindowHandle);
     }
 }

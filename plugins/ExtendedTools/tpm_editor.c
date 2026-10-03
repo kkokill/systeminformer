@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -96,7 +96,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
             context->BytesPerRowHandle = GetDlgItem(WindowHandle, IDC_TPM_BYTESPERROW);
 
             PhSetApplicationWindowIcon(WindowHandle);
-            PhSetWindowText(WindowHandle, PhaFormatString(L"TPM 索引 0x%08x", context->Index.Value)->Buffer);
+            PhSetWindowText(WindowHandle, PhaFormatString(PhTranslateTextZ(L"TPM 索引 0x%08x"), context->Index.Value)->Buffer);
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_TPM_HEXEDIT), NULL, PH_ANCHOR_ALL);

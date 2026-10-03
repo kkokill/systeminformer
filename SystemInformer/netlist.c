@@ -158,6 +158,15 @@ VOID PhInitializeNetworkTreeList(
     }
 }
 
+VOID PhRefreshNetworkTreeLanguage(
+    VOID
+    )
+{
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (NetworkTreeListHandle)
+        TreeNew_TranslateColumns(NetworkTreeListHandle);
+}
+
 VOID PhLoadSettingsNetworkTreeUpdateMask(
     VOID
     )
@@ -737,19 +746,19 @@ BOOLEAN NTAPI PhpNetworkTreeNewCallback(
 
                         if (stateName = PhGetTcpStateName(networkItem->State))
                         {
-                            getCellText->Text.Buffer = stateName->Buffer;
-                            getCellText->Text.Length = stateName->Length;
+                            getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(stateName->Buffer); // 实时翻译
+                            getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                         }
                     }
                     else if (networkItem->ProtocolType == PH_NETWORK_PROTOCOL_HYPERV)
                     {
                         if (networkItem->State)
                         {
-                            PhInitializeStringRef(&getCellText->Text, L"已连接");
+                            PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"已连接"));
                         }
                         else
                         {
-                            PhInitializeStringRef(&getCellText->Text, L"监听");
+                            PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"监听"));
                         }
                     }
                 }

@@ -778,6 +778,17 @@ EXPORTS
     PhThawProcess
     PhTraceControl
     PhTransceiveNamedPipe
+    PhTranslateIsEnglishEnabled
+    PhTranslateSetEnglishEnabled
+    PhTranslateTextZ
+    PhGetLanguageState
+    PhIsLanguageFileLoaded
+    PhLoadLanguageFile
+    PhSetLanguageState
+    PhRetranslateAllWindows
+    PhRefreshListViewColumnsLanguage
+    PhRefreshAllListViewColumnsLanguage
+    PhSwitchApplicationLanguage
     PhUnloadDllProcess
     PhUnloadDriver
     PhUnmapViewOfSection

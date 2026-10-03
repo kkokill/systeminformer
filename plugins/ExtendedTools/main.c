@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1377,6 +1377,10 @@ VOID NTAPI SettingsUpdatedCallback(
     )
 {
     EtLoadSettings();
+
+    // 语言切换：同步重翻磁盘/防火墙页列头
+    EtRefreshDiskTreeLanguage();
+    EtRefreshFwTreeLanguage();
 }
 
 PET_PROCESS_BLOCK EtGetProcessBlock(

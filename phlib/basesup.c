@@ -60,8 +60,10 @@
 #include <mapldr.h>
 #include <thirdparty.h>
 #include <ntintsafe.h>
-
 #include <trace.h>
+
+// 语言切换：PhpBaseThreadStart 需要 PhGetApplicationLanguage 设置线程 UI 语言
+#include <guisup.h>
 
 #ifndef PH_NATIVE_THREAD_CREATE
 #define PH_NATIVE_THREAD_CREATE 1
@@ -207,6 +209,18 @@ NTSTATUS PhpBaseThreadStart(
 #endif
 
     // Initialization code
+
+    // 语言切换：所有 PhCreateThreadEx 创建的线程都显式设置 UI 语言，
+    // 因为新线程不继承主线程的 SetThreadUILanguage/SetThreadLocale 设置。
+    {
+        LANGID langId;
+
+        langId = PhGetApplicationLanguage()
+            ? MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)
+            : MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED);
+        SetThreadUILanguage(langId);
+        SetThreadLocale(MAKELCID(langId, SORT_DEFAULT));
+    }
 
     result = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 

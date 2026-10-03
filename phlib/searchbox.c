@@ -1051,14 +1051,14 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
             CallWindowProc(oldWndProc, WindowHandle, EM_GETSEL, (WPARAM)&selStart, (LPARAM)&selEnd);
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"撤销", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"撤销"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"剪切", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, L"复制", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, L"粘贴", NULL, NULL), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, L"删除", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"剪切"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 3, PhTranslateTextZ(L"复制"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 4, PhTranslateTextZ(L"粘贴"), NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 5, PhTranslateTextZ(L"删除"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, L"全选", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 6, PhTranslateTextZ(L"全选"), NULL, NULL), ULONG_MAX);
 
             if (selStart == selEnd)
             {
@@ -1349,7 +1349,8 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
         {
             PWSTR text = (PWSTR)lParam;
 
-            PhMoveReference(&context->CueBannerText, PhCreateString(text));
+            // 语言切换：占位符文本查翻译字典
+            PhMoveReference(&context->CueBannerText, PhCreateString(PhTranslateTextZ(text)));
 
             RedrawWindow(WindowHandle, NULL, NULL, RDW_FRAME | RDW_INVALIDATE);
         }
@@ -1380,7 +1381,7 @@ VOID PhCreateSearchControlEx(
 
     context = PhAllocateZero(sizeof(PH_SEARCHCONTROL_CONTEXT));
     context->ParentWindowHandle = ParentWindowHandle;
-    context->CueBannerText = BannerText ? PhCreateString(BannerText) : NULL;
+    context->CueBannerText = BannerText ? PhCreateString(PhTranslateTextZ(BannerText)) : NULL; // 语言切换：占位符查翻译字典
     context->WindowDpi = PhGetWindowDpi(ParentWindowHandle);
 
     context->RegexSetting = RegexSetting;

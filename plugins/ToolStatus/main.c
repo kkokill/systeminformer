@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1928,7 +1928,8 @@ VOID NTAPI SettingsUpdatedCallback(
         if (ToolBarHandle)
         {
             ToolbarUpdateWindowStyle();
-            InvalidateRect(ToolBarHandle, NULL, TRUE);
+            // 语言切换：经 ToolbarGetText 查翻译字典重设按钮文本，并重绑菜单栏
+            ToolbarLoadSettings(FALSE);
         }
 
         if (StatusBarHandle)

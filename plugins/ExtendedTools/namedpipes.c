@@ -274,7 +274,7 @@ static BOOLEAN NTAPI EtPipeTreeNewCallback(
             PPH_EMENU_ITEM selectedItem;
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"&复制", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"&复制"), NULL, NULL), ULONG_MAX);
             PhInsertCopyCellEMenuItem(menu, USHRT_MAX, WindowHandle, contextMenu->Column);
 
             selectedItem = PhShowEMenu(
@@ -530,10 +530,10 @@ VOID EtEnumerateNamedPipeDirectory(
                 switch (pipeLocalInfo.NamedPipeConfiguration)
                 {
                 case FILE_PIPE_INBOUND:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"入站");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, PhTranslateTextZ(L"入站"));
                     break;
                 case FILE_PIPE_OUTBOUND:
-                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"出站");
+                    EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, PhTranslateTextZ(L"出站"));
                     break;
                 case FILE_PIPE_FULL_DUPLEX:
                     EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"双工");
@@ -694,10 +694,10 @@ VOID EtAddNamedPipeHandleNode(
         switch (pipeLocalInfo.NamedPipeConfiguration)
         {
             case FILE_PIPE_INBOUND:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"入站");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, PhTranslateTextZ(L"入站"));
                 break;
             case FILE_PIPE_OUTBOUND:
-                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"出站");
+                EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, PhTranslateTextZ(L"出站"));
                 break;
             case FILE_PIPE_FULL_DUPLEX:
                 EtSetPipeNodeColumn(node, ET_PIPE_COLUMN_CONFIGURATION, L"双工");

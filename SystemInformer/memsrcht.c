@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1385,7 +1385,7 @@ INT_PTR CALLBACK PhpMemoryStringsThreadCountDlgProc(
         {
             WCHAR countString[PH_INT32_STR_LEN_1];
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
-            SetWindowText(hwndDlg, L"值 (0 = 自动 / 不限)");
+            SetWindowText(hwndDlg, PhTranslateTextZ(L"值 (0 = 自动 / 不限)"));
             PhPrintUInt32(countString, *threadCount);
             PhSetDialogItemText(hwndDlg, IDC_MINIMUMLENGTH, countString);
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
@@ -1724,11 +1724,11 @@ INT_PTR CALLBACK PhpMemoryStringsDlgProc(
 
                 menu = PhCreateEMenu();
 
-                readWrite = PhCreateEMenuItem(0, IDC_SHOW, L"读/写内存", NULL, NULL);
+                readWrite = PhCreateEMenuItem(0, IDC_SHOW, PhTranslateTextZ(L"读/写内存"), NULL, NULL);
                 readWrite->Flags |= PH_EMENU_DEFAULT;
                 PhInsertEMenuItem(menu, readWrite, ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, PhTranslateTextZ(L"复制"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, IDC_COPY, context->TreeNewHandle, contextMenuEvent->Column);
 
                 if (numberOfNodes != 1)
@@ -1800,13 +1800,13 @@ INT_PTR CALLBACK PhpMemoryStringsDlgProc(
 
                     ansi = PhCreateEMenuItem(0, 1, L"ANSI", NULL, NULL);
                     unicode = PhCreateEMenuItem(0, 2, L"Unicode", NULL, NULL);
-                    extendedUnicode = PhCreateEMenuItem(0, 3, L"扩展字符集", NULL, NULL);
-                    private = PhCreateEMenuItem(0, 4, L"私有", NULL, NULL);
-                    image = PhCreateEMenuItem(0, 5, L"映像", NULL, NULL);
-                    mapped = PhCreateEMenuItem(0, 6, L"映射", NULL, NULL);
-                    minimumLength = PhCreateEMenuItem(0, 7, L"最小长度...", NULL, NULL);
-                    zeroPad = PhCreateEMenuItem(0, 8, L"地址补零", NULL, NULL);
-                    refresh = PhCreateEMenuItem(0, 9, L"刷新\bF5", NULL, NULL);
+                    extendedUnicode = PhCreateEMenuItem(0, 3, PhTranslateTextZ(L"扩展字符集"), NULL, NULL);
+                    private = PhCreateEMenuItem(0, 4, PhTranslateTextZ(L"私有"), NULL, NULL);
+                    image = PhCreateEMenuItem(0, 5, PhTranslateTextZ(L"映像"), NULL, NULL);
+                    mapped = PhCreateEMenuItem(0, 6, PhTranslateTextZ(L"映射"), NULL, NULL);
+                    minimumLength = PhCreateEMenuItem(0, 7, PhTranslateTextZ(L"最小长度..."), NULL, NULL);
+                    zeroPad = PhCreateEMenuItem(0, 8, PhTranslateTextZ(L"地址补零"), NULL, NULL);
+                    refresh = PhCreateEMenuItem(0, 9, PhTranslateTextZ(L"刷新\bF5"), NULL, NULL);
                     if (context->ThreadCount == 0)
                         swprintf_s(threadCountLabel, RTL_NUMBER_OF(threadCountLabel), L"线程数... (自动)");
                     else

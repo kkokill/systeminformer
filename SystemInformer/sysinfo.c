@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -55,6 +55,7 @@ static PCWSTR InitialSectionName;
 static RECT MinimumSize;
 static PH_CALLBACK_REGISTRATION ProcessesUpdatedRegistration;
 static PH_CALLBACK_REGISTRATION SettingsUpdatedRegistration;
+static BOOLEAN PhSipLanguageRecreatePending = FALSE;
 
 static PPH_LIST SectionList;
 static PH_SYSINFO_PARAMETERS CurrentParameters = {0};
@@ -275,6 +276,21 @@ VOID PhShowSystemInformationDialog(
     SendMessage(PhSipWindow, SI_MSG_SYSINFO_ACTIVATE, (WPARAM)SectionName, 0);
 }
 
+/**
+ * Recreates the System Information window after a language change.
+ *
+ * \remarks Called from any thread. The window is destroyed inside its own
+ * thread and rebuilt from that thread's exit path so the new dialog picks up
+ * the updated thread UI language (set in PhpBaseThreadStart).
+ */
+VOID PhSipRecreateForLanguageChange(
+    VOID
+    )
+{
+    if (PhSipWindow)
+        SendMessage(PhSipWindow, SI_MSG_SYSINFO_LANGUAGE_RECREATE, 0, 0);
+}
+
 _Function_class_(USER_THREAD_START_ROUTINE)
 NTSTATUS PhSipSysInfoThreadStart(
     _In_ PVOID Parameter
@@ -285,6 +301,8 @@ NTSTATUS PhSipSysInfoThreadStart(
     MSG message;
     HACCEL acceleratorTable;
     BOOLEAN processed;
+
+    // 语言切换：PhpBaseThreadStart 已统一设置 SetThreadUILanguage/SetThreadLocale
 
     PhInitializeAutoPool(&autoPool);
 
@@ -353,6 +371,12 @@ NTSTATUS PhSipSysInfoThreadStart(
     {
         PhDereferenceObject(PhSipDialogList);
         PhSipDialogList = NULL;
+    }
+
+    if (PhSipLanguageRecreatePending)
+    {
+        PhSipLanguageRecreatePending = FALSE;
+        PhShowSystemInformationDialog(NULL); // 重建：新线程已带新 UI 语言
     }
 
     return STATUS_SUCCESS;
@@ -1228,6 +1252,13 @@ VOID PhSipOnUserMessage(
             }
 
             PhSipOnSize(PhSipWindow, 0, 0, 0);
+        }
+        break;
+    case SI_MSG_SYSINFO_LANGUAGE_RECREATE:
+        {
+            // 语言切换：置重建标志并销毁窗口，线程退出时按新语言重建
+            PhSipLanguageRecreatePending = TRUE;
+            DestroyWindow(PhSipWindow);
         }
         break;
     }

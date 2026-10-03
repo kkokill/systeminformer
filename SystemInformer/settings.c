@@ -291,6 +291,7 @@ VOID PhAddDefaultSettings(
     PhpAddIntegerSetting(SETTING_SORT_CHILD_PROCESSES, L"0");
     PhpAddIntegerSetting(SETTING_SORT_ROOT_PROCESSES, L"0");
     PhpAddIntegerSetting(SETTING_START_HIDDEN, L"0");
+    PhpAddIntegerSetting(SETTING_LANGUAGE, L"0"); // 0 = 简体中文，1 = English
     PhpAddIntegerSetting(SETTING_SYSINFO_MINIMUM_GRAPH_HEIGHT, L"96"); // 150
     PhpAddIntegerSetting(SETTING_SYSINFO_WINDOW_SCROLL_ENABLED, L"0");
     PhpAddIntegerSetting(SETTING_SYSINFO_SHOW_CPU_SPEED_MHZ, L"0");

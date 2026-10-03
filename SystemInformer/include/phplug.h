@@ -82,6 +82,7 @@ typedef enum _PH_GENERAL_CALLBACK
 
     GeneralCallbackWindowNotifyEvent,
     GeneralCallbackProcessStatsNotifyEvent,
+    GeneralCallbackLanguageChanged, // PPH_LANGUAGE_CHANGE_PARAM Data [main thread]
     GeneralCallbackSettingsUpdated,
     GeneralCallbackDangerousProcess,
     GeneralCallbackUpdateAutomatically,

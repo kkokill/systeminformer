@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -667,7 +667,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
 
             PhEnumeratePlugins(PhpEnumeratePluginCallback, context);
             TreeNew_AutoSizeColumn(context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TN_AUTOSIZE_REMAINING_SPACE);
-            PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
+            PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(PhTranslateTextZ(L"已禁用的插件（%lu）"), PhpDisabledPluginsCount())->Buffer);
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
         }
@@ -700,7 +700,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
                     ClearPluginsTree(context);
                     PhEnumeratePlugins(PhpEnumeratePluginCallback, context);
                     TreeNew_AutoSizeColumn(context->TreeNewHandle, PH_PLUGIN_TREE_COLUMN_ITEM_NAME, TN_AUTOSIZE_REMAINING_SPACE);
-                    PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
+                    PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(PhTranslateTextZ(L"已禁用的插件（%lu）"), PhpDisabledPluginsCount())->Buffer);
                 }
                 break;
             case ID_SHOWCONTEXTMENU:
@@ -717,9 +717,9 @@ INT_PTR CALLBACK PhPluginsDlgProc(
                     menu = PhCreateEMenu();
                     //PhInsertEMenuItem(menu, uninstallItem = PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_UNINSTALL, L"Uninstall", NULL, NULL), ULONG_MAX);
                     //PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_DISABLE, L"禁用", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_DISABLE, PhTranslateTextZ(L"禁用"), NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_PROPERTIES, L"属性", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_PLUGIN_TREE_ITEM_MENU_PROPERTIES, PhTranslateTextZ(L"属性"), NULL, NULL), ULONG_MAX);
 
                     //if (!PhGetOwnTokenAttributes().Elevated)
                     //{
@@ -764,7 +764,7 @@ INT_PTR CALLBACK PhPluginsDlgProc(
 
                                 RemovePluginsNode(context, selectedNode);
 
-                                PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(L"已禁用的插件（%lu）", PhpDisabledPluginsCount())->Buffer);
+                                PhSetWindowText(GetDlgItem(hwndDlg, IDC_DISABLED), PhaFormatString(PhTranslateTextZ(L"已禁用的插件（%lu）"), PhpDisabledPluginsCount())->Buffer);
 
                                 PhDereferenceObject(baseName);
                             }

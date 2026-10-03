@@ -148,8 +148,8 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 50);
-                    PhAppendFormatStringBuilder(&sb, L"此进程已%s启用数据执行保护 (DEP)。\r\n", data->Permanent ? L"永久" : L"");
-                    if (data->DisableAtlThunkEmulation) PhAppendStringBuilder2(&sb, L"ATL thunk 模拟已禁用。\r\n");
+                    PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"此进程已%s启用数据执行保护 (DEP)。\r\n"), data->Permanent ? PhTranslateTextZ(L"永久") : L"");
+                    if (data->DisableAtlThunkEmulation) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"ATL thunk 模拟已禁用。\r\n"));
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
 

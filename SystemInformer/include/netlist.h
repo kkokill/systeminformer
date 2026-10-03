@@ -72,6 +72,10 @@ VOID PhSaveSettingsNetworkTreeList(
     VOID
     );
 
+VOID PhRefreshNetworkTreeLanguage(
+    VOID
+    );
+
 // begin_phapppub
 PHAPPAPI
 PPH_TN_FILTER_SUPPORT

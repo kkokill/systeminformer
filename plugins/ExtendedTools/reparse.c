@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -993,7 +993,7 @@ INT_PTR CALLBACK EtFindSecurityIdsDlgProc(
         {
             context->ListViewHandle = GetDlgItem(WindowHandle, IDC_REPARSE_LIST);
 
-            PhSetWindowText(WindowHandle, L"NTFS 安全标识符");
+            PhSetWindowText(WindowHandle, PhTranslateTextZ(L"NTFS 安全标识符"));
             PhSetApplicationWindowIcon(WindowHandle);
 
             ShowWindow(GetDlgItem(WindowHandle, IDRETRY), SW_HIDE);
@@ -1079,7 +1079,7 @@ INT_PTR CALLBACK EtFindSecurityIdsDlgProc(
                             break;
 
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"&复制", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"&复制"), NULL, NULL), ULONG_MAX);
                         PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                         selectedItem = PhShowEMenu(
@@ -1161,13 +1161,13 @@ INT_PTR CALLBACK EtReparseDlgProc(
             switch (context->MenuItemIndex)
             {
             case ID_REPARSE_POINTS:
-                PhSetWindowText(WindowHandle, L"NTFS 重分析点");
+                PhSetWindowText(WindowHandle, PhTranslateTextZ(L"NTFS 重分析点"));
                 break;
             case ID_REPARSE_OBJID:
-                PhSetWindowText(WindowHandle, L"NTFS 对象标识符");
+                PhSetWindowText(WindowHandle, PhTranslateTextZ(L"NTFS 对象标识符"));
                 break;
             case ID_REPARSE_SDDL:
-                PhSetWindowText(WindowHandle, L"NTFS 安全描述符");
+                PhSetWindowText(WindowHandle, PhTranslateTextZ(L"NTFS 安全描述符"));
                 break;
             }
 
@@ -1416,15 +1416,15 @@ INT_PTR CALLBACK EtReparseDlgProc(
                         {
                         case ID_REPARSE_POINTS:
                         case ID_REPARSE_OBJID:
-                            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"移除...", NULL, NULL), ULONG_MAX);
+                            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"移除..."), NULL, NULL), ULONG_MAX);
                             break;
                         case ID_REPARSE_SDDL:
-                            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"查找文件...", NULL, NULL), ULONG_MAX);
+                            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"查找文件..."), NULL, NULL), ULONG_MAX);
                             break;
                         }
 
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"&复制", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"&复制"), NULL, NULL), ULONG_MAX);
                         PhInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                         selectedItem = PhShowEMenu(

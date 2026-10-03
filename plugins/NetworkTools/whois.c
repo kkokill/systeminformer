@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -989,7 +989,7 @@ INT_PTR CALLBACK WhoisDlgProc(
             WhoisSetTextFont(context);
             WhoisParseAddressString(context);
 
-            PhSetWindowText(WindowHandle, PhaFormatString(L"Whois 查询 %s...", context->RemoteAddressString)->Buffer);
+            PhSetWindowText(WindowHandle, PhaFormatString(PhTranslateTextZ(L"Whois 查询 %s..."), context->RemoteAddressString)->Buffer);
 
             //SendMessage(context->RichEditHandle, EM_SETBKGNDCOLOR, RGB(0, 0, 0), 0);
             SendMessage(context->RichEditHandle, EM_SETEVENTMASK, 0, SendMessage(context->RichEditHandle, EM_GETEVENTMASK, 0, 0) | ENM_LINK);
@@ -1133,9 +1133,9 @@ INT_PTR CALLBACK WhoisDlgProc(
             point.y = GET_Y_LPARAM(lParam);
 
             menu = PhCreateEMenu();
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, L"复制(&C)", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 10, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
             PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 11, L"全选(&S)", NULL, NULL), ULONG_MAX);
+            PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 11, PhTranslateTextZ(L"全选(&S)"), NULL, NULL), ULONG_MAX);
 
             memset(&range, 0, sizeof(CHARRANGE));
             SendMessage(context->RichEditHandle, EM_EXGETSEL, 0, (LPARAM)&range);

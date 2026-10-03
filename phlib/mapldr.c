@@ -808,11 +808,17 @@ NTSTATUS PhLoadResource(
     PIMAGE_RESOURCE_DATA_ENTRY resourceData = NULL;
     PVOID resourceBuffer = NULL;
     ULONG resourceLength;
+    LANGID uiLangId;
     ULONG_PTR resourcePath[] = {
         (ULONG_PTR)Type,
         (ULONG_PTR)Name,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL)
+        0
     };
+
+    // 按当前线程 UI 语言选择资源（SetThreadUILanguage，支持运行时切换）；
+    // 若该语言无对应资源，回退到语言中性资源。
+    uiLangId = GetThreadUILanguage();
+    resourcePath[2] = (ULONG_PTR)uiLangId;
 
     __try
     {
@@ -821,6 +827,20 @@ NTSTATUS PhLoadResource(
     __except (EXCEPTION_EXECUTE_HANDLER)
     {
         status = GetExceptionCode();
+    }
+
+    if (!NT_SUCCESS(status) && uiLangId != 0)
+    {
+        resourcePath[2] = (ULONG_PTR)MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL);
+
+        __try
+        {
+            status = LdrFindResource_U(DllBase, resourcePath, RTL_NUMBER_OF(resourcePath), &resourceData);
+        }
+        __except (EXCEPTION_EXECUTE_HANDLER)
+        {
+            status = GetExceptionCode();
+        }
     }
 
     if (!NT_SUCCESS(status))

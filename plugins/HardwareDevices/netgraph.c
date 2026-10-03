@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -111,7 +111,7 @@ BOOLEAN NetworkDeviceGraphMessageCallback(
  
      if (mediaState == MediaConnectStateConnected)
      {
-         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"已连接");
+         PhSetWindowText(Context->NetAdapterPanelStateLabel, PhTranslateTextZ(L"已连接"));
  
          //PhInitFormatSR(&format[0], PH_AUTO_T(PH_STRING, NetAdapterFormatBitratePrefix(linkSpeedValue))->sr);
          PhInitFormatSize(&format[0], linkSpeedValue / BITS_IN_ONE_BYTE);
@@ -130,7 +130,7 @@ BOOLEAN NetworkDeviceGraphMessageCallback(
      }
      else
      {
-         PhSetWindowText(Context->NetAdapterPanelStateLabel, L"已断开");
+         PhSetWindowText(Context->NetAdapterPanelStateLabel, PhTranslateTextZ(L"已断开"));
          PhSetWindowText(Context->NetAdapterPanelSpeedLabel, L"N/A");
      }
  
@@ -567,9 +567,9 @@ VOID NetworkDeviceUpdateTitle(
     if (Context->AdapterEntry->PendingQuery)
     {
         if (Context->AdapterTextLabel)
-            PhSetWindowText(Context->AdapterTextLabel, L"等待中...");
+            PhSetWindowText(Context->AdapterTextLabel, PhTranslateTextZ(L"等待中..."));
         if (Context->AdapterNameLabel)
-            PhSetWindowText(Context->AdapterNameLabel, L"等待中...");
+            PhSetWindowText(Context->AdapterNameLabel, PhTranslateTextZ(L"等待中..."));
     }
     else
     {

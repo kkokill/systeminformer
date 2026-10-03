@@ -62,7 +62,14 @@ PPH_EMENU_ITEM PhCreateEMenuItem(
 
     item->Flags = Flags;
     item->Id = Id;
-    item->Text = (PWSTR)Text;
+
+    // 语言切换：非 OWNED 文本查翻译字典（OWNED 文本销毁时会被 PhFree，
+    // 不能替换为字典静态指针）。格式化动态文本查表必 miss，原样返回。
+    if (Text && !(Flags & PH_EMENU_TEXT_OWNED))
+        item->Text = (PWSTR)PhTranslateTextZ(Text);
+    else
+        item->Text = (PWSTR)Text;
+
     item->Bitmap = Bitmap;
     item->Context = Context;
 
@@ -84,7 +91,13 @@ PPH_EMENU_ITEM PhCreateEMenuItemCallback(
     item = PhAllocateZero(sizeof(PH_EMENU_ITEM));
     item->Flags = Flags;
     item->Id = Id;
-    item->Text = (PWSTR)Text;
+
+    // 同 PhCreateEMenuItem：非 OWNED 文本查翻译字典
+    if (Text && !(Flags & PH_EMENU_TEXT_OWNED))
+        item->Text = (PWSTR)PhTranslateTextZ(Text);
+    else
+        item->Text = (PWSTR)Text;
+
     item->Bitmap = Bitmap;
     item->Context = Context;
     item->DelayFunction = DelayFunction;

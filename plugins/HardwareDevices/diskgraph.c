@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -96,16 +96,16 @@ VOID DiskDeviceUpdateTitle(
     if (Context->DiskEntry->PendingQuery)
     {
         if (Context->DiskPathLabel)
-            PhSetWindowText(Context->DiskPathLabel, L"正在查询...");
+            PhSetWindowText(Context->DiskPathLabel, PhTranslateTextZ(L"正在查询..."));
         if (Context->DiskNameLabel)
-            PhSetWindowText(Context->DiskNameLabel, L"正在查询...");
+            PhSetWindowText(Context->DiskNameLabel, PhTranslateTextZ(L"正在查询..."));
     }
     else
     {
         if (Context->DiskPathLabel)
-            PhSetWindowText(Context->DiskPathLabel, PhGetStringOrDefault(Context->DiskEntry->DiskIndexName, L"未知"));
+            PhSetWindowText(Context->DiskPathLabel, PhGetStringOrDefault(Context->DiskEntry->DiskIndexName, PhTranslateTextZ(L"未知")));
         if (Context->DiskNameLabel)
-            PhSetWindowText(Context->DiskNameLabel, PhGetStringOrDefault(Context->DiskEntry->DiskName, L"未知"));
+            PhSetWindowText(Context->DiskNameLabel, PhGetStringOrDefault(Context->DiskEntry->DiskName, PhTranslateTextZ(L"未知")));
     }
 }
 
@@ -602,8 +602,8 @@ INT_PTR CALLBACK DiskDeviceDialogProc(
 
             SetWindowFont(context->DiskPathLabel, context->SysinfoSection->Parameters->LargeFont, FALSE);
             SetWindowFont(context->DiskNameLabel, context->SysinfoSection->Parameters->MediumFont, FALSE);
-            PhSetWindowText(context->DiskPathLabel, PhGetStringOrDefault(context->DiskEntry->DiskIndexName, L"未知"));
-            PhSetWindowText(context->DiskNameLabel, PhGetStringOrDefault(context->DiskEntry->DiskName, L"未知"));
+            PhSetWindowText(context->DiskPathLabel, PhGetStringOrDefault(context->DiskEntry->DiskIndexName, PhTranslateTextZ(L"未知")));
+            PhSetWindowText(context->DiskNameLabel, PhGetStringOrDefault(context->DiskEntry->DiskName, PhTranslateTextZ(L"未知")));
 
             context->PanelWindowHandle = PhCreateDialog(PluginInstance->DllBase, MAKEINTRESOURCE(IDD_DISKDRIVE_PANEL), WindowHandle, DiskDevicePanelDialogProc, context);
             ShowWindow(context->PanelWindowHandle, SW_SHOW);

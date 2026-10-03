@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1076,21 +1076,21 @@ VOID PhSipUpdateCpuPanel(
         switch (PhGetVirtualStatus())
         {
         case PhVirtualStatusVirtualMachine:
-            PhSetWindowText(CpuVirtualizationLabel, L"虚拟机");
+            PhSetWindowText(CpuVirtualizationLabel, PhTranslateTextZ(L"虚拟机"));
             break;
         case PhVirtualStatusEnabledHyperV:
         case PhVirtualStatusEnabledFirmware:
-            PhSetWindowText(CpuVirtualizationLabel, L"已启用");
+            PhSetWindowText(CpuVirtualizationLabel, PhTranslateTextZ(L"已启用"));
             break;
         case PhVirtualStatusDisabledWithHyperV:
-            PhSetWindowText(CpuVirtualizationLabel, L"已禁用 / Hyper-V");
+            PhSetWindowText(CpuVirtualizationLabel, PhTranslateTextZ(L"已禁用 / Hyper-V"));
             break;
         case PhVirtualStatusDisabled:
-            PhSetWindowText(CpuVirtualizationLabel, L"已禁用");
+            PhSetWindowText(CpuVirtualizationLabel, PhTranslateTextZ(L"已禁用"));
             break;
         case PhVirtualStatusNotCapable:
         default:
-            PhSetWindowText(CpuVirtualizationLabel, L"不支持");
+            PhSetWindowText(CpuVirtualizationLabel, PhTranslateTextZ(L"不支持"));
             break;
         }
 

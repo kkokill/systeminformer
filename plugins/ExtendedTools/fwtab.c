@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1261,8 +1261,8 @@ BOOLEAN NTAPI FwTreeNewCallback(
 
                     if (PhIndexStringRefSiKeyValuePairs(FwEventTypePairs, sizeof(FwEventTypePairs), node->Type, &string))
                     {
-                        getCellText->Text.Buffer = string->Buffer;
-                        getCellText->Text.Length = string->Length;
+                        getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                        getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                     }
                 }
                 break;
@@ -2484,4 +2484,16 @@ HWND NTAPI FwToolStatusGetTreeNewHandle(
     )
 {
     return FwTreeNewHandle;
+}
+
+/**
+ * Refreshes the firewall tree column headers after a language change.
+ */
+VOID EtRefreshFwTreeLanguage(
+    VOID
+    )
+{
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (FwTreeNewHandle)
+        TreeNew_TranslateColumns(FwTreeNewHandle);
 }

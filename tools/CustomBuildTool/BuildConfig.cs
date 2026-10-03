@@ -138,6 +138,7 @@ namespace CustomBuildTool
             "json.h",
             "kphuser.h",
             "kphcomms.h",
+            "translate.h",
             "lsasup.h",
             "mapimg.h",
             "mapldr.h",

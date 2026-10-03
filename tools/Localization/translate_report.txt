@@ -1,0 +1,808 @@
+﻿基线: 1487bbf6e
+扫描文件: 651（无基线跳过: 3）
+HEAD 字面量总数: 47622
+字典条目: 6310
+冲突（同键不同译，首个胜出）: 590
+  CONFLICT [此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。] => 'This option %s %s in a disorderly manner and may cause file corruption or system instability.' vs 'This option %s %s in an disorderly manner and may cause corrupted files or instability in the system.' (SystemInformer/actions.c)
+  CONFLICT [此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。] => 'This option %s %s in a disorderly manner and may cause file corruption or system instability.' vs 'This option %s %s in an disorderly manner and may cause corrupted files or instability in the system.' (SystemInformer/actions.c)
+  CONFLICT [此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。] => 'This option %s %s in a disorderly manner and may cause file corruption or system instability.' vs 'This option %s %s in an disorderly manner and may cause corrupted files or instability in the system.' (SystemInformer/actions.c)
+  CONFLICT [注销] => '&Logoff' vs 'logoff' (SystemInformer/actions.c)
+  CONFLICT [所选服务] => 'the selected service' vs 'the selected services' (SystemInformer/actions.c)
+  CONFLICT [所选线程] => 'the selected thread' vs 'the selected threads' (SystemInformer/actions.c)
+  CONFLICT [所选句柄] => 'the selected handle' vs 'the selected handles' (SystemInformer/actions.c)
+  CONFLICT [终止] => 'terminate' vs 'Unable to enumerate processes' (SystemInformer/actions.c)
+  CONFLICT [挂起] => 'suspend' vs ' and its descendants' (SystemInformer/actions.c)
+  CONFLICT [与后代进程] => ' and its descendants' vs 'suspend' (SystemInformer/actions.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/appsup.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/appsup.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/appsup.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/envdlg.c)
+  CONFLICT [所选句柄] => 'the selected handle' vs 'the selected handles' (SystemInformer/findobj.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (SystemInformer/hidnproc.c)
+  CONFLICT [所选进程] => 'the selected processes' vs 'the selected process(es)' (SystemInformer/hidnproc.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (SystemInformer/hndllist.c)
+  CONFLICT [连接] => '&Connect' vs 'Connection' (SystemInformer/hndlprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (SystemInformer/hndlprp.c)
+  CONFLICT [否] => 'No' vs 'False' (SystemInformer/hndlprp.c)
+  CONFLICT [无法打开进程。] => 'Unable to open the process.' vs 'Unable to open the process' (SystemInformer/hndlstat.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/informerwnd.c)
+  CONFLICT [类别] => 'Class' vs 'Category' (SystemInformer/informerwnd.c)
+  CONFLICT [继续] => 'Continue' vs 'Resume' (SystemInformer/informerwnd.c)
+  CONFLICT [个导入函数] => 'import' vs 'imports' (SystemInformer/itemtips.c)
+  CONFLICT [个模块] => 'module' vs 'modules' (SystemInformer/itemtips.c)
+  CONFLICT [名称] => 'Name' vs '&Copy' (SystemInformer/jobprp.c)
+  CONFLICT [名称] => 'Name' vs 'Unable to terminate the job' (SystemInformer/jobprp.c)
+  CONFLICT [值] => 'Value' vs 'the job' (SystemInformer/jobprp.c)
+  CONFLICT [未知] => 'Unknown' vs 'terminate' (SystemInformer/jobprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Read clipboard' (SystemInformer/jobprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Global atoms' (SystemInformer/jobprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Desktop' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Process time' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Priority class' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Kill on job close' (SystemInformer/jobprp.c)
+  CONFLICT [句柄] => 'Handle' vs 'Job time' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Job memory' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Die on unhandled exception' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Breakaway OK' (SystemInformer/jobprp.c)
+  CONFLICT [已限制] => 'Silent breakaway OK' vs 'Active processes' (SystemInformer/jobprp.c)
+  CONFLICT [终止] => 'terminate' vs '(unnamed job)' (SystemInformer/jobprp.c)
+  CONFLICT [进程] => 'Process' vs 'Processes' (SystemInformer/mainwnd.c)
+  CONFLICT [注销] => '&Logoff' vs 'Log o&ff' (SystemInformer/mainwnd.c)
+  CONFLICT [更新并关机] => 'update and shutdown' vs 'Update and shut down' (SystemInformer/mainwnd.c)
+  CONFLICT [重启] => 'restart' vs 'R&estart' (SystemInformer/mainwnd.c)
+  CONFLICT [关机] => 'shut down' vs 'Shu&t down' (SystemInformer/mainwnd.c)
+  CONFLICT [退出] => 'Exit' vs 'E&xit' (SystemInformer/mainwnd.c)
+  CONFLICT [进程] => 'Process' vs '&Processes' (SystemInformer/mainwnd.c)
+  CONFLICT [退出] => 'Exit' vs 'E&xit' (SystemInformer/mainwnd.c)
+  CONFLICT [实时] => 'Real time' vs '&Real time' (SystemInformer/mainwnd.c)
+  CONFLICT [高] => 'High' vs '&High' (SystemInformer/mainwnd.c)
+  CONFLICT [正常] => 'Normal' vs '&Normal' (SystemInformer/mainwnd.c)
+  CONFLICT [空闲] => 'Idle' vs '&Idle' (SystemInformer/mainwnd.c)
+  CONFLICT [高] => 'High' vs '&High' (SystemInformer/mainwnd.c)
+  CONFLICT [正常] => 'Normal' vs '&Normal' (SystemInformer/mainwnd.c)
+  CONFLICT [低] => 'Low' vs '&Low' (SystemInformer/mainwnd.c)
+  CONFLICT [终止] => 'terminate' vs 'T&erminate' (SystemInformer/mainwnd.c)
+  CONFLICT [挂起] => 'suspend' vs '&Suspend' (SystemInformer/mainwnd.c)
+  CONFLICT [恢复] => 'resume' vs 'Res&ume' (SystemInformer/mainwnd.c)
+  CONFLICT [重启] => 'restart' vs 'Res&tart' (SystemInformer/mainwnd.c)
+  CONFLICT [设置] => 'set' vs '&Disable all' (SystemInformer/mainwnd.c)
+  CONFLICT [无法打开进程。] => 'Unable to open the process.' vs 'Unable to open the process' (SystemInformer/memedit.c)
+  CONFLICT [进程内存] => 'Exit windows' vs 'process memory' (SystemInformer/memedit.c)
+  CONFLICT [无法打开进程。] => 'Unable to open the process.' vs 'Unable to open the process' (SystemInformer/memedit.c)
+  CONFLICT [无法打开进程。] => 'Unable to open the process.' vs 'Unable to open the process' (SystemInformer/memedit.c)
+  CONFLICT [提交] => 'Commit' vs 'Committed' (SystemInformer/memlist.c)
+  CONFLICT [空闲] => 'Idle' vs 'Free' (SystemInformer/memlist.c)
+  CONFLICT [正在执行内存命令...] => 'Executing memory commands...' vs 'Executing memory command...' (SystemInformer/memlists.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (SystemInformer/memprv.c)
+  CONFLICT [空闲] => 'Idle' vs 'Free' (SystemInformer/memprv.c)
+  CONFLICT [低于正常] => '&Below normal' vs 'Below normal' (SystemInformer/memprv.c)
+  CONFLICT [高于正常] => '&Above normal' vs 'Above normal' (SystemInformer/memprv.c)
+  CONFLICT [刷新F5] => '&RefreshF5' vs 'RefreshF5' (SystemInformer/memsrcht.c)
+  CONFLICT [不透明] => '&Opaque' vs 'Opaque' (SystemInformer/miniinfo.c)
+  CONFLICT [&转到进程] => '&Go to process' vs '&Go to processes' (SystemInformer/miniinfo.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/modlist.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/modlist.c)
+  CONFLICT [进程] => 'Process' vs 'Processes' (SystemInformer/mwpgproc.c)
+  CONFLICT [恢复] => 'resume' vs 'Res&ume' (SystemInformer/mwpgproc.c)
+  CONFLICT [重启] => 'restart' vs 'Res&tart' (SystemInformer/mwpgproc.c)
+  CONFLICT [调试] => 'debug' vs 'De&bug' (SystemInformer/mwpgproc.c)
+  CONFLICT [复制Ctrl+C] => 'CopyCtrl+C' vs '&CopyCtrl+C' (SystemInformer/mwpgsrv.c)
+  CONFLICT [复制Ctrl+C] => 'CopyCtrl+C' vs '&CopyCtrl+C' (SystemInformer/mwpgsrv.c)
+  CONFLICT [服务已停止] => 'Service terminated' vs 'Service Stopped' (SystemInformer/mwpgsrv.c)
+  CONFLICT [服务已停止] => 'Service terminated' vs 'Service Stopped' (SystemInformer/mwpgsrv.c)
+  CONFLICT [服务已删除] => 'Service terminated' vs 'Service Deleted' (SystemInformer/mwpgsrv.c)
+  CONFLICT [服务已删除] => 'Service terminated' vs 'Service Deleted' (SystemInformer/mwpgsrv.c)
+  CONFLICT [CPU 使用: ] => 'CPU history: ' vs 'CPU usage: ' (SystemInformer/notifico.c)
+  CONFLICT [CPU 使用: ] => 'CPU history: ' vs 'CPU usage: ' (SystemInformer/notifico.c)
+  CONFLICT [通知] => 'Enable persistent layout' vs 'Notification' (SystemInformer/ntobjprp.c)
+  CONFLICT [同步] => 'Synchronous' vs 'Synchronization' (SystemInformer/ntobjprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (SystemInformer/ntobjprp.c)
+  CONFLICT [否] => 'No' vs 'False' (SystemInformer/ntobjprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (SystemInformer/ntobjprp.c)
+  CONFLICT [否] => 'No' vs 'False' (SystemInformer/ntobjprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (SystemInformer/ntobjprp.c)
+  CONFLICT [否] => 'No' vs 'False' (SystemInformer/ntobjprp.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/ntobjprp.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/ntobjprp.c)
+  CONFLICT [地址] => 'Address' vs 'Addresses' (SystemInformer/ntobjprp.c)
+  CONFLICT [时间戳] => 'Time stamp' vs 'Timestamps' (SystemInformer/ntobjprp.c)
+  CONFLICT [连接时间] => 'Connect time' vs 'Connection time' (SystemInformer/ntobjprp.c)
+  CONFLICT [托盘图标] => '&Tray icons' vs 'Tray Icon' (SystemInformer/options.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/options.c)
+  CONFLICT [进程] => 'Process' vs 'Processes' (SystemInformer/options.c)
+  CONFLICT [线程] => 'Thread' vs 'Threads' (SystemInformer/options.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (SystemInformer/options.c)
+  CONFLICT [新建进程] => '&Removed devices' vs 'New processes' (SystemInformer/options.c)
+  CONFLICT [新建服务] => '&Modified services' vs 'New services' (SystemInformer/options.c)
+  CONFLICT [通知] => 'Enable persistent layout' vs 'Notifications' (SystemInformer/options.c)
+  CONFLICT [托盘图标] => '&Tray icons' vs 'Tray icons' (SystemInformer/options.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/pagfiles.c)
+  CONFLICT [插件] => 'Plugins' vs 'Plugin' (SystemInformer/plugman.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (SystemInformer/plugman.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (SystemInformer/plugman.c)
+  CONFLICT [恢复] => 'resume' vs 'Res&ume' (SystemInformer/procprp.c)
+  CONFLICT [重启] => 'restart' vs 'Res&tart' (SystemInformer/procprp.c)
+  CONFLICT [调试] => 'debug' vs 'De&bug' (SystemInformer/procprp.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/proctree.c)
+  CONFLICT [优先级类] => '&Priority class' vs 'Priority class' (SystemInformer/proctree.c)
+  CONFLICT [线程] => 'Thread' vs 'Threads' (SystemInformer/proctree.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (SystemInformer/proctree.c)
+  CONFLICT [I/O 优先级] => '&I/O priority' vs 'I/O priority' (SystemInformer/proctree.c)
+  CONFLICT [CPU 历史记录] => 'CPU &history' vs 'CPU history' (SystemInformer/proctree.c)
+  CONFLICT [I/O 历史记录] => '&I/O history' vs 'I/O history' (SystemInformer/proctree.c)
+  CONFLICT [最小工作集] => 'Working set maximum' vs 'Minimum working set' (SystemInformer/proctree.c)
+  CONFLICT [最大工作集] => 'Working set minimum' vs 'Maximum working set' (SystemInformer/proctree.c)
+  CONFLICT [桌面] => 'Enabled' vs 'Desktop' (SystemInformer/proctree.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/prpgenv.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/prpgenv.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/prpggen.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/prpggen.c)
+  CONFLICT [&属性Enter] => 'P&ropertiesEnter' vs 'Prope&rtiesEnter' (SystemInformer/prpghndl.c)
+  CONFLICT [属性(&R)] => 'Prope&rties' vs 'P&roperties' (SystemInformer/prpgmod.c)
+  CONFLICT [模块] => 'Modules' vs 'a module' (SystemInformer/prpgmod.c)
+  CONFLICT [I/O 优先级] => '&I/O priority' vs 'I/O priority' (SystemInformer/prpgstat.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (SystemInformer/prpgstat.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (SystemInformer/prpgstat.c)
+  CONFLICT [最小值] => 'Minimum' vs 'Min' (SystemInformer/prpgstat.c)
+  CONFLICT [最大值] => 'Maximum' vs 'Max' (SystemInformer/prpgstat.c)
+  CONFLICT [设置] => 'set' vs 'set the boost priority of' (SystemInformer/prpgthrd.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/prpgvdm.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/prpgwmi.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/prpgwmi.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/runas.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/runas.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/runas.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/sessmsg.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/sessmsg.c)
+  CONFLICT [无] => 'N/A' vs 'None' (SystemInformer/sessmsg.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/sessprp.c)
+  CONFLICT [无法远程控制会话。] => 'Unable to shadow session.' vs 'Unable to remote control the session' (SystemInformer/sessshad.c)
+  CONFLICT [无法远程控制会话。] => 'Unable to shadow session.' vs 'Unable to remote control the session' (SystemInformer/sessshad.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/srvctl.c)
+  CONFLICT [状态] => 'State' vs 'Status' (SystemInformer/srvlist.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/srvlist.c)
+  CONFLICT [用户名] => 'User name' vs 'Username' (SystemInformer/srvlist.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/syssccpu.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/thrdlist.c)
+  CONFLICT [I/O 优先级] => '&I/O priority' vs 'I/O priority' (SystemInformer/thrdlist.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/thrdstk.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (SystemInformer/thrdstks.c)
+  CONFLICT [搜索线程堆栈] => '&Search thread stacks' vs 'Search Thread Stacks' (SystemInformer/thrdstks.c)
+  CONFLICT [用户] => 'the user' vs 'User' (SystemInformer/tokprp.c)
+  CONFLICT [计算机] => '&Computer' vs 'Computer' (SystemInformer/tokprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/tokprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/tokprp.c)
+  CONFLICT [状态] => 'State' vs 'Status' (SystemInformer/tokprp.c)
+  CONFLICT [组] => 'Group' vs 'Groups' (SystemInformer/tokprp.c)
+  CONFLICT [特权] => 'Privileges' vs 'privilege' (SystemInformer/tokprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/tokprp.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (SystemInformer/tokprp.c)
+  CONFLICT [无法打开令牌。] => 'Unable to open the token.' vs 'Unable to open the token' (SystemInformer/tokprp.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (SystemInformer/tokprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (SystemInformer/tokprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (SystemInformer/tokprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (SystemInformer/tokprp.c)
+  CONFLICT [否] => 'No' vs 'False' (SystemInformer/tokprp.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/tokprp.c)
+  CONFLICT [受保护] => 'Protected' vs 'Attributes' (SystemInformer/tokprp.c)
+  CONFLICT [系统] => 'System' vs 'Policy' (SystemInformer/tokprp.c)
+  CONFLICT [高] => 'High' vs 'Claims' (SystemInformer/tokprp.c)
+  CONFLICT [低] => 'Low' vs '&Copy' (SystemInformer/tokprp.c)
+  CONFLICT [设置] => 'set' vs '&Enable' (SystemInformer/tokprp.c)
+  CONFLICT [完整性级别] => '&Remove' vs '&Disable' (SystemInformer/tokprp.c)
+  CONFLICT [启用(&E)] => 'Enter a custom integrity level:' vs 'Intermediate level' (SystemInformer/tokprp.c)
+  CONFLICT [禁用(&D)] => 'Integrity Level' vs 'Custom...' (SystemInformer/tokprp.c)
+  CONFLICT [重置(&S)] => 'the integrity level' vs 'Untrusted' (SystemInformer/tokprp.c)
+  CONFLICT [移除(&R)] => 'set' vs 'Low' (SystemInformer/tokprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Medium' (SystemInformer/tokprp.c)
+  CONFLICT [令牌] => 'Token' vs 'Medium +' (SystemInformer/tokprp.c)
+  CONFLICT [策略] => 'Policy' vs 'Protected' (SystemInformer/tokprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Token' (SystemInformer/tokprp.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (SystemInformer/usrlist.c)
+  CONFLICT [允许] => 'Allow' vs 'Approve' (plugins/AgentTools/consent.c)
+  CONFLICT [每次询问] => 'Ask every time' vs 'Ask each time' (plugins/AgentTools/consent.c)
+  CONFLICT [：] => ': ' vs ' to ' (plugins/AgentTools/mcp.c)
+  CONFLICT [：] => ': ' vs ' ' (plugins/AgentTools/mcp.c)
+  CONFLICT [允许] => 'Allow' vs 'Allowed' (plugins/AgentTools/options.c)
+  CONFLICT [拒绝] => 'Deny' vs 'Denied' (plugins/AgentTools/options.c)
+  CONFLICT [允许] => 'Allow' vs 'Allowed' (plugins/AgentTools/options.c)
+  CONFLICT [拒绝] => 'Deny' vs 'Denied' (plugins/AgentTools/options.c)
+  CONFLICT [无] => 'N/A' vs 'none' (plugins/AgentTools/options.c)
+  CONFLICT [用户] => 'the user' vs 'User' (plugins/AgentTools/options.c)
+  CONFLICT [查找指向某对象的所有句柄] => 'find every handle to one object' vs 'Find every handle to an object' (plugins/AgentTools/schema.c)
+  CONFLICT [读取线程调用堆栈] => 'read thread stacks' vs 'Read the thread stacks of' (plugins/AgentTools/schema.c)
+  CONFLICT [读取等待链] => 'read wait chains' vs 'Read the wait chains of' (plugins/AgentTools/schema.c)
+  CONFLICT [启用] => 'enable' vs 'enabled' (plugins/AgentTools/target.c)
+  CONFLICT [禁用] => 'disable' vs 'DISABLED' (plugins/AgentTools/target.c)
+  CONFLICT [枚举句柄] => 'Enumerating handles' vs 'Enumerating the handles' (plugins/AgentTools/toolfind.c)
+  CONFLICT [此工具未实现。] => 'This tool is not implemented.' vs 'Unhandled tool.' (plugins/AgentTools/toolhndl.c)
+  CONFLICT [创建转储文件] => 'Create dump fi&le' vs 'Creating the dump file' (plugins/AgentTools/toolmem.c)
+  CONFLICT [计算文件哈希] => 'hash a file' vs 'Hashing the file' (plugins/AgentTools/toolpe.c)
+  CONFLICT [不受信任] => '&Remove' vs 'Not trusted' (plugins/AgentTools/tools.c)
+  CONFLICT [枚举线程] => 'Enumerating threads' vs 'Enumerating the threads' (plugins/AgentTools/toolwait.c)
+  CONFLICT [文件名] => 'Filename' vs 'File name' (plugins/DotNetTools/asmpage.c)
+  CONFLICT [已打开] => 'Opened' vs 'Open' (plugins/DotNetTools/clrsup.c)
+  CONFLICT [继续(&C)] => 'C&ontinue' vs '&Continue' (plugins/ExtendedServices/main.c)
+  CONFLICT [继续(&C)] => 'C&ontinue' vs '&Continue' (plugins/ExtendedServices/main.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedServices/other.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedServices/other.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedServices/other.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedServices/other.c)
+  CONFLICT [卸载] => 'unload' vs 'Uninstall' (plugins/ExtendedServices/svcpnp.c)
+  CONFLICT [用户] => 'the user' vs 'User' (plugins/ExtendedServices/svcpnp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/ExtendedServices/svcpnp.c)
+  CONFLICT [触发器] => 'Triggers' vs 'Trigger' (plugins/ExtendedServices/trigger.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/acpitable.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/acpitable.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/acpitable.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/acpitable.c)
+  CONFLICT [I/O 优先级] => '&I/O priority' vs 'I/O priority' (plugins/ExtendedTools/disktab.c)
+  CONFLICT [属性(&R)] => 'Prope&rties' vs 'P&roperties' (plugins/ExtendedTools/disktab.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (plugins/ExtendedTools/firmware.c)
+  CONFLICT [允许] => 'Allow' vs 'Allowed' (plugins/ExtendedTools/fwtab.c)
+  CONFLICT [时间戳] => 'Time stamp' vs 'Timestamp' (plugins/ExtendedTools/fwtab.c)
+  CONFLICT [用户名] => 'User name' vs 'Username' (plugins/ExtendedTools/fwtab.c)
+  CONFLICT [复制Ctrl+C] => 'CopyCtrl+C' vs '&CopyCtrl+C' (plugins/ExtendedTools/fwtab.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/ExtendedTools/gpudetails.c)
+  CONFLICT [GPU 历史记录] => '&GPU history' vs 'GPU history' (plugins/ExtendedTools/iconext.c)
+  CONFLICT [NPU 历史记录] => '&NPU history' vs 'NPU history' (plugins/ExtendedTools/iconext.c)
+  CONFLICT [网络 历史记录] => '&Network history' vs 'Network history' (plugins/ExtendedTools/iconext.c)
+  CONFLICT [提交内存] => 'Commit charge' vs 'Commit memory' (plugins/ExtendedTools/main.c)
+  CONFLICT [提交内存] => 'Commit charge' vs 'Commit memory' (plugins/ExtendedTools/main.c)
+  CONFLICT [扩展工具] => 'ExtendedTools' vs 'Extended Tools' (plugins/ExtendedTools/main.c)
+  CONFLICT [配置] => 'Config' vs 'Configuration' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [入站] => 'In' vs 'Inbound' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [出站] => 'Out' vs 'Outbound' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [拒绝] => 'Deny' vs 'Reject' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [入站] => 'In' vs 'Inbound' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [出站] => 'Out' vs 'Outbound' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [拒绝] => 'Deny' vs 'Reject' (plugins/ExtendedTools/namedpipes.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/ExtendedTools/npudetails.c)
+  CONFLICT [属性(&R)Enter] => 'P&ropertiesEnter' vs 'Prope&rtiesEnter' (plugins/ExtendedTools/objmgr.c)
+  CONFLICT [是] => 'Yes' vs 'True' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [否] => 'No' vs 'False' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [否] => 'No' vs 'False' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [对象] => 'Object' vs 'Objects' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [已关闭] => 'Closed' vs 'Down' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [属性(&R)Enter] => 'P&ropertiesEnter' vs 'Prope&rtiesEnter' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [是] => 'Yes' vs 'True' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [否] => 'No' vs 'False' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [桌面] => 'Enabled' vs 'Desktop' (plugins/ExtendedTools/objprp.c)
+  CONFLICT [非分页] => 'Non Paged' vs 'NonPaged' (plugins/ExtendedTools/pooldialogbig.c)
+  CONFLICT [活动中] => 'Active' vs 'Starts in' (plugins/ExtendedTools/pwrgrid.c)
+  CONFLICT [正常] => 'Normal' vs 'Ok' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [正常] => 'Normal' vs 'Ok' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [是] => 'Yes' vs 'true' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [否] => 'No' vs 'false' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [不支持] => 'Not capable' vs 'Not supported' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [子板] => 'Daughter' vs 'Daughter board' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [特性] => 'Characteristics' vs 'Features' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [桌面] => 'Enabled' vs 'Desktop' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [安全] => 'Security' vs 'Safe' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已锁定] => 'Locked out' vs 'Locked' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [处理器] => 'CPU' vs 'Processor' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已装载] => 'Mounted' vs 'Populated' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [标准] => 'Normal' vs 'Standard' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [标准] => 'Normal' vs 'Standard' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [热插拔] => 'Hot swappable' vs 'Hot-plug' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [插槽标识] => 'Socket designation' vs 'Slot designation' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [无缓冲] => 'No buffering' vs 'Unbuffered' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [操作] => 'Action' vs 'Operation' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [起始地址] => 'Start address' vs 'Starting address' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [起始地址] => 'Start address' vs 'Starting address' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [起始地址] => 'Start address' vs 'Starting address' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [起始地址] => 'Start address' vs 'Starting address' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [处理器] => 'CPU' vs 'Processor' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最大值] => 'Maximum' vs 'Maximum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最小值] => 'Minimum' vs 'Minimum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [正常] => 'Normal' vs 'Ok' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [处理器] => 'CPU' vs 'Processor' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最大值] => 'Maximum' vs 'Maximum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最小值] => 'Minimum' vs 'Minimum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [OEM 定义] => 'OEM defined' vs 'OEM define' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [处理器] => 'CPU' vs 'Processor' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最大值] => 'Maximum' vs 'Maximum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [最小值] => 'Minimum' vs 'Minimum value' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [启动状态] => 'Boot-up state' vs 'Boot status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [操作] => 'Action' vs 'Operation' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [32 位] => '32 bit' vs '32-bit' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [16 位] => '16 bit' vs '16-bit' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [正常] => 'Normal' vs 'Ok' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [位置] => 'Position' vs 'Location' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [序列号] => 'Sequence Number' vs 'Serial number' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [热插拔] => 'Hot swappable' vs 'Hot-swappable' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [ 字符串] => ' Strings' vs ' String' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [板载设备] => 'On board device' vs 'Onboard device' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [主版本] => 'Major release' vs 'Major version' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [次版本] => 'Minor release' vs 'Minor version' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [不存在] => 'Does Not Exist' vs 'Absent' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (plugins/ExtendedTools/smbios.c)
+  CONFLICT [扩展] => 'Expansion' vs 'Extend' (plugins/ExtendedTools/tpm.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/tpm.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/tpm.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedTools/tpm.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (plugins/ExtendedTools/tpm.c)
+  CONFLICT [无法读取 TPM] => 'Failed to read TPM' vs 'Unable to read TPM' (plugins/ExtendedTools/tpm_editor.c)
+  CONFLICT [序号] => 'Index' vs 'No.' (plugins/ExtendedTools/unldll.c)
+  CONFLICT [覆盖] => 'Overwrite' vs 'Overlay' (plugins/ExtendedTools/utils.c)
+  CONFLICT [临界区] => 'Critical section' vs 'CriticalSection' (plugins/ExtendedTools/waitchain.c)
+  CONFLICT [线程 ID] => 'Thread Id' vs 'ThreadId' (plugins/ExtendedTools/waitchain.c)
+  CONFLICT [进程 ID] => 'Process ID' vs 'ProcessId' (plugins/ExtendedTools/waitchain.c)
+  CONFLICT [状态] => 'State' vs 'Status' (plugins/ExtendedTools/waitchain.c)
+  CONFLICT [等待时间] => 'Wait time' vs 'WaitTime' (plugins/ExtendedTools/waitchain.c)
+  CONFLICT [无法创建符号提供程序。] => 'The symbol provider could not be created.' vs 'Unable to create the symbol provider.' (plugins/ExtendedTools/wswatch.c)
+  CONFLICT [打开文件位置(&O)] => '&Open file location' vs 'Open &file location' (plugins/ExtendedTools/wswatch.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/HardwareDevices/deviceprops.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (plugins/HardwareDevices/deviceprops.c)
+  CONFLICT [卸载] => 'unload' vs 'Uninstall' (plugins/HardwareDevices/deviceprops.c)
+  CONFLICT [设置] => 'set' vs 'Setting' (plugins/HardwareDevices/deviceprops.c)
+  CONFLICT [连接] => '&Connect' vs 'Connection' (plugins/HardwareDevices/deviceprops.c)
+  CONFLICT [设备] => 'Device' vs 'Devices' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [卸载] => 'unload' vs 'Uninstall' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [用户] => 'the user' vs 'User' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [需要重启] => 'Needs reboot' vs 'Reboot required' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [设备] => 'Device' vs 'Devices' (plugins/HardwareDevices/devicetree.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/HardwareDevices/diskdetails.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/HardwareDevices/diskdetails.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/HardwareDevices/gpudetails.c)
+  CONFLICT [磁盘设备] => 'Disk Device' vs 'Disk Devices' (plugins/HardwareDevices/main.c)
+  CONFLICT [卸载] => 'unload' vs 'Uninstall' (plugins/HardwareDevices/main.c)
+  CONFLICT [用户] => 'the user' vs 'User' (plugins/HardwareDevices/main.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/HardwareDevices/main.c)
+  CONFLICT [错误] => 'Error' vs 'Errors' (plugins/HardwareDevices/netdetails.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Property' (plugins/HardwareDevices/netdetails.c)
+  CONFLICT [RAPL 设备] => 'RAPL Devices' vs 'RAPL Drives' (plugins/HardwareDevices/poweroptions.c)
+  CONFLICT [网络工具] => 'NetworkTools' vs 'Network Tools' (plugins/NetworkTools/main.c)
+  CONFLICT [无法编译正则表达式。] => 'Unable to compile the regular expression.' vs 'The regular expression could not be compiled.' (plugins/OnlineChecks/exclude.c)
+  CONFLICT [在线检查] => 'OnlineChecks' vs 'Online Checks' (plugins/OnlineChecks/main.c)
+  CONFLICT [安全] => 'Security' vs 'Clean' (plugins/OnlineChecks/scan.c)
+  CONFLICT [文件过大] => 'File too large' vs 'The file is too large' (plugins/OnlineChecks/upload.c)
+  CONFLICT [CPU 历史记录] => 'CPU &history' vs 'CPU history' (plugins/ToolStatus/graph.c)
+  CONFLICT [物理内存历史记录] => '&Physical memory history' vs 'Physical memory history' (plugins/ToolStatus/graph.c)
+  CONFLICT [I/O 历史记录] => '&I/O history' vs 'I/O history' (plugins/ToolStatus/graph.c)
+  CONFLICT [自定义...] => 'Re&set' vs 'Customize...' (plugins/ToolStatus/main.c)
+  CONFLICT [更新并关机] => 'update and shutdown' vs 'Update and shut down' (plugins/ToolStatus/main.c)
+  CONFLICT [更新并关机] => 'update and shutdown' vs 'Update and shut down' (plugins/ToolStatus/main.c)
+  CONFLICT [自定义...] => 'Re&set' vs 'Customize...' (plugins/ToolStatus/main.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ToolStatus/options.c)
+  CONFLICT [CPU 使用率] => 'CPU &usage' vs 'CPU usage' (plugins/ToolStatus/options.c)
+  CONFLICT [CPU 历史记录] => 'CPU &history' vs 'CPU history' (plugins/ToolStatus/options.c)
+  CONFLICT [I/O 历史记录] => '&I/O history' vs 'I/O history' (plugins/ToolStatus/options.c)
+  CONFLICT [物理内存历史记录] => '&Physical memory history' vs 'Physical memory history' (plugins/ToolStatus/options.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ToolStatus/options.c)
+  CONFLICT [CPU 使用率] => 'CPU &usage' vs 'CPU usage' (plugins/ToolStatus/options.c)
+  CONFLICT [CPU 历史记录] => 'CPU &history' vs 'CPU history' (plugins/ToolStatus/options.c)
+  CONFLICT [I/O 历史记录] => '&I/O history' vs 'I/O history' (plugins/ToolStatus/options.c)
+  CONFLICT [物理内存历史记录] => '&Physical memory history' vs 'Physical memory history' (plugins/ToolStatus/options.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ToolStatus/options.c)
+  CONFLICT [CPU 使用率] => 'CPU &usage' vs 'CPU usage' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [线程数] => 'Thread count' vs 'Number of threads' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [句柄数] => 'Handles' vs 'Number of handles' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [I/O 写入] => 'I/O writes' vs 'I/O write' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [自定义...] => 'Re&set' vs 'Customize...' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [未连接] => 'Unconnected' vs 'not connected' (plugins/ToolStatus/statusbar.c)
+  CONFLICT [系统信息] => 'System &information' vs 'System information' (plugins/ToolStatus/toolbar.c)
+  CONFLICT [计算机] => '&Computer' vs 'Computer' (plugins/ToolStatus/toolbar.c)
+  CONFLICT [显示所有进程的详细信息] => 'Show &details for all processes' vs 'Show details for all processes' (plugins/ToolStatus/toolbar.c)
+  CONFLICT [实时] => 'Real time' vs 'Realtime' (plugins/UserNotes/main.c)
+  CONFLICT [高于正常] => '&Above normal' vs 'Above normal' (plugins/UserNotes/main.c)
+  CONFLICT [低于正常] => '&Below normal' vs 'Below normal' (plugins/UserNotes/main.c)
+  CONFLICT [非常低] => '&Very low' vs 'Very low' (plugins/UserNotes/main.c)
+  CONFLICT [低于正常] => '&Below normal' vs 'Below normal' (plugins/UserNotes/main.c)
+  CONFLICT [非常低] => '&Very low' vs 'Very low' (plugins/UserNotes/main.c)
+  CONFLICT [实时] => 'Real time' vs 'Realtime' (plugins/UserNotes/main.c)
+  CONFLICT [高于正常] => '&Above normal' vs 'Above normal' (plugins/UserNotes/main.c)
+  CONFLICT [低于正常] => '&Below normal' vs 'Below normal' (plugins/UserNotes/main.c)
+  CONFLICT [用户注释] => 'UserNotes' vs 'User Notes' (plugins/UserNotes/main.c)
+  CONFLICT [服务] => 'Services' vs 'Service' (plugins/UserNotes/options.c)
+  CONFLICT [命令行] => 'Command line' vs 'Commandline' (plugins/UserNotes/options.c)
+  CONFLICT [是] => 'Yes' vs 'True' (plugins/UserNotes/options.c)
+  CONFLICT [是] => 'Yes' vs 'True' (plugins/UserNotes/options.c)
+  CONFLICT [&窗口] => '&Window' vs '&Windows' (plugins/WindowExplorer/main.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/WindowExplorer/main.c)
+  CONFLICT [继续] => 'Continue' vs 'Resume' (plugins/WindowExplorer/wnddlg.c)
+  CONFLICT [已启用] => 'System parameters' vs 'Enabled' (plugins/WindowExplorer/wnddlg.c)
+  CONFLICT [高亮] => 'Highlighting' vs 'Highlight' (plugins/WindowExplorer/wnddlg.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/WindowExplorer/wnddlg.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [未拥有] => 'Not Owned' vs 'Unowned' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [模拟] => 'Impersonation' vs 'Emulated' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [桌面] => 'Enabled' vs 'Desktop' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [通知] => 'Enable persistent layout' vs 'Notification' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [锁定] => '&Lock' vs 'Lock' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [删除] => 'delete' vs 'remove' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [方向] => 'Direction' vs 'Orientation' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [窗口] => '&Windows' vs 'Window' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [模式] => 'Mode' vs 'Patterns' (plugins/WindowExplorer/wndprp.c)
+  CONFLICT [类名] => 'Class Name' vs 'Class' (plugins/WindowExplorer/wndtree.c)
+  CONFLICT [模块] => 'Modules' vs 'Module' (plugins/WindowExplorer/wndtree.c)
+  CONFLICT [已终止的进程] => '&Arrived devices' vs 'terminated process' (plugins/WindowExplorer/wndtree.c)
+  CONFLICT [单击关闭退出安装程序。] => 'Select Close to exit setup.' vs 'Click close to exit setup.' (tools/CustomSetupTool/uninstall.c)
+  CONFLICT [删除(&D)] => '&Delete' vs 'Delete' (tools/peview/attributes.c)
+  CONFLICT [模块] => 'Modules' vs 'Module' (tools/peview/exlfimports.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/expprp.c)
+  CONFLICT [序号] => 'Index' vs 'Ordinal' (tools/peview/expprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/impprp.c)
+  CONFLICT [序号] => 'Index' vs 'Ordinal' (tools/peview/impprp.c)
+  CONFLICT [创建时间] => 'Created' vs 'Creation time' (tools/peview/layout.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (tools/peview/layout.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/layout.c)
+  CONFLICT [Enclave 大小] => 'Enclave size' vs 'Enclave EnclaveSize' (tools/peview/ldprp.c)
+  CONFLICT [Enclave 大小] => 'Enclave size' vs 'Enclave EnclaveSize' (tools/peview/ldprp.c)
+  CONFLICT [序号] => 'Index' vs 'Ordinal' (tools/peview/libprp.c)
+  CONFLICT [常量] => 'Const' vs 'Constant' (tools/peview/pdb.c)
+  CONFLICT [常量] => 'Const' vs 'Constant' (tools/peview/pdb.c)
+  CONFLICT [源文件] => 'Source File' vs 'SourceFiles' (tools/peview/pdb.c)
+  CONFLICT [源文件] => 'Source File' vs 'SourceFile' (tools/peview/pdb.c)
+  CONFLICT [行号] => 'Line number' vs 'LineNumbers' (tools/peview/pdb.c)
+  CONFLICT [输入汇编文件] => 'InputAssemblyFiles' vs 'InputAssemblyFile' (tools/peview/pdb.c)
+  CONFLICT [节] => 'Section' vs 'Sections' (tools/peview/pdb.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/pdbprp.c)
+  CONFLICT [异常] => 'Exceptions' vs 'Exception' (tools/peview/pedirprp.c)
+  CONFLICT [保留] => 'Reserve' vs 'Reserved' (tools/peview/pedirprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/pedirprp.c)
+  CONFLICT [信息] => 'Information' vs 'Info' (tools/peview/pedynrelocprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/pedynrelocprp.c)
+  CONFLICT [时间戳] => 'Time stamp' vs 'Timestamp' (tools/peview/peheaderprp.c)
+  CONFLICT [名称] => 'Name' vs 'Names' (tools/peview/pemuiprp.c)
+  CONFLICT [类型] => 'Type' vs 'Types' (tools/peview/pemuiprp.c)
+  CONFLICT [名称] => 'Name' vs 'Names' (tools/peview/pemuiprp.c)
+  CONFLICT [类型] => 'Type' vs 'Types' (tools/peview/pemuiprp.c)
+  CONFLICT [校验和] => 'Checksum' vs 'Checksums' (tools/peview/pemuiprp.c)
+  CONFLICT [16 字节对齐, ] => 'Align 16, ' vs '16 alignment, ' (tools/peview/peprp.c)
+  CONFLICT [映像基址] => 'ImageBase' vs 'Image base' (tools/peview/peprp.c)
+  CONFLICT [创建时间] => 'Created' vs 'Created time' (tools/peview/peprp.c)
+  CONFLICT [常规] => 'Normal' vs 'General' (tools/peview/peprpwnd.c)
+  CONFLICT [加载配置] => 'Load configuration' vs 'Load Config' (tools/peview/peprpwnd.c)
+  CONFLICT [节] => 'Section' vs 'Sections' (tools/peview/peprpwnd.c)
+  CONFLICT [目录] => 'Directory' vs 'Directories' (tools/peview/peprpwnd.c)
+  CONFLICT [导入] => 'Import' vs 'Imports' (tools/peview/peprpwnd.c)
+  CONFLICT [导出] => 'Export' vs 'Exports' (tools/peview/peprpwnd.c)
+  CONFLICT [资源] => 'Resource' vs 'Resources' (tools/peview/peprpwnd.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (tools/peview/peprpwnd.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (tools/peview/peprpwnd.c)
+  CONFLICT [流] => 'Stream' vs 'Streams' (tools/peview/peprpwnd.c)
+  CONFLICT [进程] => 'Process' vs 'Processes' (tools/peview/peprpwnd.c)
+  CONFLICT [哈希] => 'Hash' vs 'Hashes' (tools/peview/peprpwnd.c)
+  CONFLICT [符号] => 'Symbol' vs 'Symbols' (tools/peview/peprpwnd.c)
+  CONFLICT [字符串] => 'String' vs 'Strings' (tools/peview/peprpwnd.c)
+  CONFLICT [映射] => 'Mapped' vs 'Mappings' (tools/peview/peprpwnd.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/pesectionprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/resprp.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/secprp.c)
+  CONFLICT [属性] => 'P&roperties' vs 'Attributes' (tools/peview/streams.c)
+  CONFLICT [复制(&C)] => '&Copy' vs 'Copy' (tools/peview/strings.c)
+  CONFLICT [进程] => 'Process' vs 'Processes' (plugins/ExtendedNotifications/ExtendedNotifications.rc)
+  CONFLICT [设备] => 'Device' vs 'Devices' (plugins/ExtendedNotifications/ExtendedNotifications.rc)
+  CONFLICT [扩展通知] => 'Extended Notifications' vs 'ExtendedNotifications' (plugins/ExtendedNotifications/version.rc)
+  CONFLICT [扩展通知] => 'Extended Notifications' vs 'ExtendedNotifications' (plugins/ExtendedNotifications/version.rc)
+  CONFLICT [扩展通知] => 'Extended Notifications' vs 'ExtendedNotifications' (plugins/ExtendedNotifications/version.rc)
+  CONFLICT [恢复] => 'resume' vs 'Recovery' (plugins/ExtendedServices/ExtendedServices.rc)
+  CONFLICT [运行程序] => 'Run a program' vs 'Run program' (plugins/ExtendedServices/ExtendedServices.rc)
+  CONFLICT [恢复] => 'resume' vs 'Recovery' (plugins/ExtendedServices/ExtendedServices.rc)
+  CONFLICT [触发器] => 'Triggers' vs 'Trigger' (plugins/ExtendedServices/ExtendedServices.rc)
+  CONFLICT [无] => 'N/A' vs 'None' (plugins/ExtendedServices/ExtendedServices.rc)
+  CONFLICT [扩展服务] => 'Extended Services' vs 'ExtendedServices' (plugins/ExtendedServices/version.rc)
+  CONFLICT [扩展服务] => 'Extended Services' vs 'ExtendedServices' (plugins/ExtendedServices/version.rc)
+  CONFLICT [扩展服务] => 'Extended Services' vs 'ExtendedServices' (plugins/ExtendedServices/version.rc)
+  CONFLICT [环境变量] => '&Environment variables' vs 'Environment Variables' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [提交内存] => 'Commit charge' vs 'Commit memory' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [提交内存] => 'Commit charge' vs 'Commit memory' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [读取] => 'Read' vs 'Reads' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [写入] => 'Write' vs 'Writes' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [对象] => 'Object' vs 'Objects' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [接收] => 'Receive' vs 'Receives' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [发送] => 'Send' vs 'Sends' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [句柄] => 'Handle' vs 'Handles' (plugins/ExtendedTools/ExtendedTools.rc)
+  CONFLICT [扩展工具] => 'ExtendedTools' vs 'System Informer' (plugins/ExtendedTools/version.rc)
+  CONFLICT [扩展工具] => 'ExtendedTools' vs 'System Informer' (plugins/ExtendedTools/version.rc)
+  CONFLICT [扩展工具] => 'ExtendedTools' vs 'System Informer' (plugins/ExtendedTools/version.rc)
+  CONFLICT [发送字节] => 'Send bytes' vs 'Bytes sent' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [接收字节] => 'Receive bytes' vs 'Bytes received' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [读取字节] => 'Read bytes' vs 'Bytes read' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [写入字节] => 'Write bytes' vs 'Bytes written' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [卷] => 'Volume' vs 'Volume(s)' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [网络] => 'Network' vs 'NET' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [网络] => 'Network' vs 'NET' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [接口] => 'Interface' vs 'Interfaces' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [资源] => 'Resource' vs 'Resources' (plugins/HardwareDevices/HardwareDevices.rc)
+  CONFLICT [硬件设备] => 'Hardware Devices' vs 'HardwareDevices' (plugins/HardwareDevices/version.rc)
+  CONFLICT [硬件设备] => 'Hardware Devices' vs 'HardwareDevices' (plugins/HardwareDevices/version.rc)
+  CONFLICT [硬件设备] => 'Hardware Devices' vs 'HardwareDevices' (plugins/HardwareDevices/version.rc)
+  CONFLICT [网络工具] => 'NetworkTools' vs 'Network Tools' (plugins/NetworkTools/NetworkTools.rc)
+  CONFLICT [网络工具] => 'NetworkTools' vs 'Network Tools' (plugins/NetworkTools/NetworkTools.rc)
+  CONFLICT [配置] => 'Config' vs 'Configure' (plugins/OnlineChecks/OnlineChecks.rc)
+  CONFLICT [启用工具栏] => 'Enable toolbar' vs '
+ ' (plugins/ToolStatus/ToolStatus.rc)
+  CONFLICT [还原] => 'Restore' vs 'Revert' (plugins/UserNotes/UserNotes.rc)
+  CONFLICT [窗口] => '&Windows' vs 'Windows' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [窗口] => '&Windows' vs 'Windows' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [属性存储] => 'Property Store' vs 'Property Storage' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [常规] => 'Normal' vs 'General' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [窗口] => '&Windows' vs 'Window' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (plugins/WindowExplorer/WindowExplorer.rc)
+  CONFLICT [卸载] => 'unload' vs 'Uninstall' (tools/CustomSetupTool/resource.rc)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (tools/peview/peview.rc)
+  CONFLICT [权限] => '&Permissions' vs 'Permissions' (tools/peview/peview.rc)
+  CONFLICT [常规] => 'Normal' vs 'General' (tools/peview/peview.rc)
+  CONFLICT [导入] => 'Import' vs 'Imports' (tools/peview/peview.rc)
+  CONFLICT [导出] => 'Export' vs 'Exports' (tools/peview/peview.rc)
+  CONFLICT [导出] => 'Export' vs 'Exports' (tools/peview/peview.rc)
+  CONFLICT [加载配置] => 'Load configuration' vs 'Load config' (tools/peview/peview.rc)
+  CONFLICT [符号] => 'Symbol' vs 'Symbols' (tools/peview/peview.rc)
+  CONFLICT [资源] => 'Resource' vs 'Resources' (tools/peview/peview.rc)
+  CONFLICT [字符串] => 'String' vs 'Strings' (tools/peview/peview.rc)
+  CONFLICT [常规] => 'Normal' vs 'General' (tools/peview/peview.rc)
+  CONFLICT [属性] => 'P&roperties' vs 'Properties' (tools/peview/peview.rc)
+  CONFLICT [特性] => 'Characteristics' vs 'Attributes' (tools/peview/peview.rc)
+  CONFLICT [流] => 'Stream' vs 'Streams' (tools/peview/peview.rc)
+  CONFLICT [进程 ID] => 'Process ID' vs 'Pids' (tools/peview/peview.rc)
+  CONFLICT [目录] => 'Directory' vs 'Directories' (tools/peview/peview.rc)
+  CONFLICT [产品 ID] => 'ProdID' vs 'Production ID' (tools/peview/peview.rc)
+  CONFLICT [节] => 'Section' vs 'Sections' (tools/peview/peview.rc)
+  CONFLICT [哈希] => 'Hash' vs 'Hashes' (tools/peview/peview.rc)
+  CONFLICT [文件头] => 'File Header' vs 'Headers' (tools/peview/peview.rc)
+  CONFLICT [导入] => 'Import' vs 'Imports' (tools/peview/peview.rc)
+  CONFLICT [导出] => 'Export' vs 'Exports' (tools/peview/peview.rc)
+  CONFLICT [CLR 表] => 'CLR Tables' vs 'CLR Table' (tools/peview/peview.rc)
+跳过: 823
+  SKIP COUNT	SystemInformer/actions.c	终止
+  SKIP COUNT	SystemInformer/actions.c	无法枚举进程
+  SKIP COUNT	SystemInformer/actions.c	挂起
+  SKIP COUNT	SystemInformer/actions.c	无法挂起 
+  SKIP COUNT	SystemInformer/actions.c	挂起
+  SKIP COUNT	SystemInformer/actions.c	挂起
+  SKIP COUNT	SystemInformer/actions.c	挂起
+  SKIP COUNT	SystemInformer/actions.c	无法枚举进程
+  SKIP COUNT	SystemInformer/actions.c	恢复
+  SKIP COUNT	SystemInformer/actions.c	无法恢复 
+  SKIP COUNT	SystemInformer/actions.c	恢复
+  SKIP COUNT	SystemInformer/actions.c	恢复
+  SKIP COUNT	SystemInformer/actions.c	恢复
+  SKIP COUNT	SystemInformer/affinity.c	CPU %lu：
+  SKIP COUNT	SystemInformer/affinity.c	低功耗能效核（LP E-core）
+  SKIP COUNT	SystemInformer/affinity.c	能效核（E-core）
+  SKIP COUNT	SystemInformer/affinity.c	；超线程核心
+  SKIP COUNT	SystemInformer/affinity.c	；独立物理核心
+  SKIP COUNT	SystemInformer/affinity.c	超线程核心
+  SKIP COUNT	SystemInformer/affinity.c	独立物理核心
+  SKIP COUNT	SystemInformer/affinity.c	（与 
+  SKIP COUNT	SystemInformer/affinity.c	、
+  SKIP COUNT	SystemInformer/affinity.c	 共享同一物理核心）
+  SKIP COUNT	SystemInformer/affinity.c	无法查询当前的亲和性。
+  SKIP COUNT	SystemInformer/affinity.c	选中全部性能核（P-core）逻辑处理器
+  SKIP COUNT	SystemInformer/affinity.c	选中全部能效核（E-core）逻辑处理器
+  SKIP COUNT	SystemInformer/affinity.c	选中全部低功耗能效核（LP E-core）逻辑处理器
+  SKIP COUNT	SystemInformer/affinity.c	选中全部属于超线程核心（SMT）的逻辑处理器
+  SKIP COUNT	SystemInformer/affinity.c	无法更改亲和性设置。
+  SKIP COUNT	SystemInformer/jobprp.c	复制(&C)
+  SKIP COUNT	SystemInformer/jobprp.c	作业
+  SKIP COUNT	SystemInformer/jobprp.c	作业
+  SKIP NEWFILE	SystemInformer/langmgr.c
+  SKIP COUNT	SystemInformer/mainwnd.c	系统
+  SKIP COUNT	SystemInformer/mainwnd.c	查看
+  SKIP COUNT	SystemInformer/mainwnd.c	工具
+  SKIP COUNT	SystemInformer/mainwnd.c	用户
+  SKIP COUNT	SystemInformer/mainwnd.c	重置持久布局
+  SKIP COUNT	SystemInformer/options.c	简体中文
+  SKIP COUNT	SystemInformer/tokprp.c	令牌
+  SKIP COUNT	plugins/AgentTools/schema.c	连接到 System Informer
+  SKIP COUNT	plugins/AgentTools/schema.c	允许此智能体连接到 System Informer
+  SKIP COUNT	plugins/AgentTools/tools.c	空闲
+  SKIP COUNT	plugins/AgentTools/tools.c	低于标准
+  SKIP COUNT	plugins/AgentTools/tools.c	标准
+  SKIP COUNT	plugins/AgentTools/tools.c	高于标准
+  SKIP COUNT	plugins/AgentTools/tools.c	高
+  SKIP COUNT	plugins/AgentTools/tools.c	实时
+  SKIP COUNT	plugins/ExtendedTools/main.c	通用两峰
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	低谷
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	高峰
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	尖峰
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	平段
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	通用两峰
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	北京
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	上海
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	广东
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	江苏
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	浙江
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	山东
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	河南
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	湖北
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	湖南
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	四川
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	陕西
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	辽宁
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	新疆
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	自定义
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	夏季（7-8 月）
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	冬季（1、12 月）
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	春秋季
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	次日 
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	次日 
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	微软电网预测数据不可用，已自动切换至峰谷电价模式。
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	自定义时段配置无效，已回退通用模板。
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	自定义
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段模板：%s
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段模板：%s（%s）
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	当前时段：%s（%s 至 %s）
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	下一低谷：%s（%s）
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	下一低谷：无
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	下一高峰：%s（%s）
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	下一高峰：无
+
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段设置为典型参考值，请以当地公告为准。
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段类型
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	开始时间
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	结束时间
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段长度
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	距开始
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	严重程度
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	低影响
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	开始时间
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段长度
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	距开始
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	模式：自动
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	模式：电网预测
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	模式：峰谷电价
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	正在获取电网预测数据...
+  SKIP COUNT	plugins/ExtendedTools/pwrgrid.c	时段配置格式无效。
+格式：类型:起-止;...（1=低谷 2=平段 3=高峰 4=尖峰）
+例如：1:23:00-7:00;3:7:00-10:00;4:10:00-12:00
+  SKIP COUNT	plugins/Updater/options.c	1 天
+  SKIP COUNT	plugins/Updater/options.c	1 周
+  SKIP COUNT	plugins/Updater/options.c	1 月
+  SKIP NEWFILE	tools/PortableLauncher/main.c
+  SKIP COUNT	SystemInformer/SystemInformer.rc	常规
+  SKIP COUNT	SystemInformer/SystemInformer.rc	权限
+  SKIP COUNT	SystemInformer/SystemInformer.rc	终止
+  SKIP COUNT	SystemInformer/SystemInformer.rc	文件
+  SKIP COUNT	SystemInformer/SystemInformer.rc	<a>公司名称链接</a>
+  SKIP COUNT	SystemInformer/SystemInformer.rc	版本：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	映像文件名 (Win32)：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	检查
+  SKIP COUNT	SystemInformer/SystemInformer.rc	打开
+  SKIP COUNT	SystemInformer/SystemInformer.rc	进程
+  SKIP COUNT	SystemInformer/SystemInformer.rc	命令行：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	当前目录：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	启动时间：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	父控制台：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	父进程：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	查看
+  SKIP COUNT	SystemInformer/SystemInformer.rc	缓解策略：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	详细信息
+  SKIP COUNT	SystemInformer/SystemInformer.rc	保护：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	映像类型：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	查看
+  SKIP COUNT	SystemInformer/SystemInformer.rc	映像文件名：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	检查
+  SKIP COUNT	SystemInformer/SystemInformer.rc	打开
+  SKIP COUNT	SystemInformer/SystemInformer.rc	策略
+  SKIP COUNT	SystemInformer/SystemInformer.rc	模块
+  SKIP COUNT	SystemInformer/SystemInformer.rc	选项
+  SKIP COUNT	SystemInformer/SystemInformer.rc	线程
+  SKIP COUNT	SystemInformer/SystemInformer.rc	选项
+  SKIP COUNT	SystemInformer/SystemInformer.rc	句柄
+  SKIP COUNT	SystemInformer/SystemInformer.rc	选项
+  SKIP COUNT	SystemInformer/SystemInformer.rc	环境
+  SKIP COUNT	SystemInformer/SystemInformer.rc	刷新
+  SKIP COUNT	SystemInformer/SystemInformer.rc	选项
+  SKIP COUNT	SystemInformer/SystemInformer.rc	线程堆栈
+  SKIP COUNT	SystemInformer/SystemInformer.rc	复制
+  SKIP COUNT	SystemInformer/SystemInformer.rc	刷新
+  SKIP COUNT	SystemInformer/SystemInformer.rc	关闭
+  SKIP COUNT	SystemInformer/SystemInformer.rc	选项
+  SKIP COUNT	SystemInformer/SystemInformer.rc	线程堆栈扫描
+  SKIP COUNT	SystemInformer/SystemInformer.rc	复制
+  SKIP COUNT	SystemInformer/SystemInformer.rc	刷新
+  SKIP COUNT	SystemInformer/SystemInformer.rc	关闭
+  SKIP COUNT	SystemInformer/SystemInformer.rc	关于
+  SKIP COUNT	SystemInformer/SystemInformer.rc	版权所有 (c) Winsider Seminars && Solutions, Inc.
+  SKIP COUNT	SystemInformer/SystemInformer.rc	致谢。
+  SKIP COUNT	SystemInformer/SystemInformer.rc	<a href=https://systeminformer.sourceforge.io>SourceForge.net 上的 System Informer</a>
+  SKIP COUNT	SystemInformer/SystemInformer.rc	诊断
+  SKIP COUNT	SystemInformer/SystemInformer.rc	确定
+  SKIP COUNT	SystemInformer/SystemInformer.rc	启动(&S)
+  SKIP COUNT	SystemInformer/SystemInformer.rc	暂停(&P)
+  SKIP COUNT	SystemInformer/SystemInformer.rc	常规
+  SKIP COUNT	SystemInformer/SystemInformer.rc	类型：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	启动类型：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	错误控制：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	组：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	二进制路径：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	浏览...
+  SKIP COUNT	SystemInformer/SystemInformer.rc	用户帐户：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	密码：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	服务 DLL：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	延迟启动
+  SKIP COUNT	SystemInformer/SystemInformer.rc	权限
+  SKIP COUNT	SystemInformer/SystemInformer.rc	常规
+  SKIP COUNT	SystemInformer/SystemInformer.rc	信息
+  SKIP COUNT	SystemInformer/SystemInformer.rc	保存...
+  SKIP COUNT	SystemInformer/SystemInformer.rc	复制
+  SKIP COUNT	SystemInformer/SystemInformer.rc	关闭
+  SKIP COUNT	SystemInformer/SystemInformer.rc	查找句柄或 DLL
+  SKIP COUNT	SystemInformer/SystemInformer.rc	查找
+  SKIP COUNT	SystemInformer/SystemInformer.rc	附加到进程
+  SKIP COUNT	SystemInformer/SystemInformer.rc	连接类型：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	查找
+  SKIP COUNT	SystemInformer/SystemInformer.rc	列表
+  SKIP COUNT	SystemInformer/SystemInformer.rc	树形
+  SKIP COUNT	SystemInformer/SystemInformer.rc	显示所有用户的进程
+  SKIP COUNT	SystemInformer/SystemInformer.rc	附加
+  SKIP COUNT	SystemInformer/SystemInformer.rc	取消
+  SKIP COUNT	SystemInformer/SystemInformer.rc	线程堆栈
+  SKIP COUNT	SystemInformer/SystemInformer.rc	刷新
+  SKIP COUNT	SystemInformer/SystemInformer.rc	用户列表
+  SKIP COUNT	SystemInformer/SystemInformer.rc	刷新
+  SKIP COUNT	SystemInformer/SystemInformer.rc	令牌
+  SKIP COUNT	SystemInformer/SystemInformer.rc	用户：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	用户 SID：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	会话：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	未知
+  SKIP COUNT	SystemInformer/SystemInformer.rc	已提升：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	未知
+  SKIP COUNT	SystemInformer/SystemInformer.rc	已虚拟化：
+  SKIP COUNT	SystemInformer/SystemInformer.rc	未知
+  SKIP COUNT	SystemInformer/SystemInformer.rc	完整性
+  SKIP COUNT	SystemInformer/SystemInformer.rc	高级
+  SKIP COUNT	SystemInformer/SystemInformer.rc	权限
+  SKIP COUNT	SystemInformer/SystemInformer.rc	默认令牌
+  SKIP COUNT	SystemInformer/SystemInformer.rc	僵尸进程
+  SKIP COUNT	SystemInformer/SystemInformer.rc	红色高亮显示的进程处于隐藏状态，灰色高亮显示的进程已终止。

@@ -132,7 +132,7 @@ CONST AT_ACTION_INFO AtActionInfo[AtActionMaximum] =
     },
     {
         AtActionGetHandleDetails, AtTierSensitiveRead, AtConsentClassHandleNames, AtTargetHandle, PROCESS_QUERY_LIMITED_INFORMATION, SETTING_NAME_TOOL_CONFIRM(L"get_handle_details"),
-        L"检查句柄背后的对象", L"检查", L"get_handle_details"
+        L"检查句柄背后的对象", L"检查句柄", L"get_handle_details"
     },
     {
         AtActionListNamedPipes, AtTierRead, AtConsentClassNone, AtTargetNone, 0, SETTING_NAME_TOOL_CONFIRM(L"list_named_pipes"),

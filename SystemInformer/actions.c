@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1011,7 +1011,7 @@ PVOID PhUiCreateComputerBootDeviceMenu(
     PPH_EMENU_ITEM menuItem;
     PPH_LIST bootApplicationList;
 
-    menuItem = PhCreateEMenuItem(PH_EMENU_DISABLED, ID_COMPUTER_RESTARTBOOTDEVICE, L"重启到启动应用", NULL, NULL);
+    menuItem = PhCreateEMenuItem(PH_EMENU_DISABLED, ID_COMPUTER_RESTARTBOOTDEVICE, PhTranslateTextZ(L"重启到启动应用"), NULL, NULL);
 
     if (!PhGetOwnTokenAttributes().Elevated)
         return menuItem;
@@ -1062,7 +1062,7 @@ PVOID PhUiCreateComputerFirmwareDeviceMenu(
     PPH_EMENU_ITEM menuItem;
     PPH_LIST firmwareApplicationList;
 
-    menuItem = PhCreateEMenuItem(PH_EMENU_DISABLED, ID_COMPUTER_RESTARTFWDEVICE, L"重启到固件应用", NULL, NULL);
+    menuItem = PhCreateEMenuItem(PH_EMENU_DISABLED, ID_COMPUTER_RESTARTFWDEVICE, PhTranslateTextZ(L"重启到固件应用"), NULL, NULL);
 
     if (!PhGetOwnTokenAttributes().Elevated)
         return menuItem;
@@ -1328,13 +1328,13 @@ VOID PhUiCreateSessionMenu(
         PhDereferenceObject(escapedMenuText);
         PhDereferenceObject(entry->UserName);
 
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_CONNECT, L"连接", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_DISCONNECT, L"断开", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_LOGOFF, L"注销", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_REMOTECONTROL, L"远程控制", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_SENDMESSAGE, L"发送消息...", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_CONNECT, PhTranslateTextZ(L"连接"), NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_DISCONNECT, PhTranslateTextZ(L"断开"), NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_LOGOFF, PhTranslateTextZ(L"注销"), NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_REMOTECONTROL, PhTranslateTextZ(L"远程控制"), NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_SENDMESSAGE, PhTranslateTextZ(L"发送消息..."), NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(userMenu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_PROPERTIES, L"属性", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(userMenu, PhCreateEMenuItem(0, ID_USER_PROPERTIES, PhTranslateTextZ(L"属性"), NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(UsersMenuItem, userMenu, ULONG_MAX);
     }
 

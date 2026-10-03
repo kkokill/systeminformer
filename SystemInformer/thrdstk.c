@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -988,7 +988,7 @@ INT_PTR CALLBACK PhpThreadStackDlgProc(
 
             PhSetApplicationWindowIcon(hwndDlg);
 
-            PhSetWindowText(hwndDlg, PhaFormatString(L"堆栈 - 线程 %lu", HandleToUlong(context->ThreadId))->Buffer);
+            PhSetWindowText(hwndDlg, PhaFormatString(PhTranslateTextZ(L"堆栈 - 线程 %lu"), HandleToUlong(context->ThreadId))->Buffer);
 
             InitializeThreadStackTree(context);
 
@@ -1102,11 +1102,11 @@ INT_PTR CALLBACK PhpThreadStackDlgProc(
                     if (selectedNode = GetSelectedThreadStackNode(context))
                     {
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(PH_EMENU_DEFAULT, PH_THREAD_STACK_MENUITEM_INSPECT, L"&检查", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(PH_EMENU_DEFAULT, PH_THREAD_STACK_MENUITEM_INSPECT, PhTranslateTextZ(L"&检查"), NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_THREAD_STACK_MENUITEM_OPENFILELOCATION, L"&打开文件位置", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, PH_THREAD_STACK_MENUITEM_OPENFILELOCATION, PhTranslateTextZ(L"&打开文件位置"), NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, L"复制", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, IDC_COPY, PhTranslateTextZ(L"复制"), NULL, NULL), ULONG_MAX);
                         PhInsertCopyCellEMenuItem(menu, IDC_COPY, context->TreeNewHandle, contextMenuEvent->Column);
 
                         selectedItem = PhShowEMenu(
@@ -1208,13 +1208,13 @@ INT_PTR CALLBACK PhpThreadStackDlgProc(
                         break;
 
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, hideUserItem = PhCreateEMenuItem(0, 1, L"隐藏用户帧", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, hideSystemItem = PhCreateEMenuItem(0, 2, L"隐藏系统帧", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, hideInlineItem = PhCreateEMenuItem(0, 3, L"隐藏内联帧", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, hideUserItem = PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"隐藏用户帧"), NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, hideSystemItem = PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"隐藏系统帧"), NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, hideInlineItem = PhCreateEMenuItem(0, 3, PhTranslateTextZ(L"隐藏内联帧"), NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, userItem = PhCreateEMenuItem(0, 4, L"突出显示用户帧", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, 5, L"突出显示系统帧", NULL, NULL), ULONG_MAX);
-                    PhInsertEMenuItem(menu, inlineItem = PhCreateEMenuItem(0, 6, L"突出显示内联帧", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, userItem = PhCreateEMenuItem(0, 4, PhTranslateTextZ(L"突出显示用户帧"), NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, systemItem = PhCreateEMenuItem(0, 5, PhTranslateTextZ(L"突出显示系统帧"), NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, inlineItem = PhCreateEMenuItem(0, 6, PhTranslateTextZ(L"突出显示内联帧"), NULL, NULL), ULONG_MAX);
 
                     if (context->HideUserPages)
                         hideUserItem->Flags |= PH_EMENU_CHECKED;

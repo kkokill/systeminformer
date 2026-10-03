@@ -505,10 +505,10 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
             else if (processItem->VerifyResult != VrUnknown)
             {
                 PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME,
-                    PhaConcatStrings2(
-                    L"（未验证） ",
-                    PhGetStringOrEmpty(processItem->VersionInfo.CompanyName)
-                    )->Buffer);
+                        PhaConcatStrings2(
+                        PhTranslateTextZ(L"（未验证） "),
+                        PhGetStringOrEmpty(processItem->VersionInfo.CompanyName)
+                        )->Buffer);
             }
             else
             {
@@ -568,7 +568,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                     startTimeString = PhaFormatDateTime(&startTimeFields);
 
                     PhSetWindowText(context->StartedLabelHandle, PhaFormatString(
-                        L"%s前（%s）",
+                        PhTranslateTextZ(L"%s前（%s）"),
                         startTimeRelativeString->Buffer,
                         startTimeString->Buffer
                         )->Buffer);
@@ -604,7 +604,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 else
                 {
                     PhSetDialogItemText(hwndDlg, IDC_PARENTPROCESS, PhaFormatString(
-                        L"不存在的进程（%lu）", HandleToUlong(processItem->ParentProcessId))->Buffer);
+                        PhTranslateTextZ(L"不存在的进程（%lu）"), HandleToUlong(processItem->ParentProcessId))->Buffer);
                 }
 
                 EnableWindow(GetDlgItem(hwndDlg, IDC_VIEWPARENTPROCESS), FALSE);

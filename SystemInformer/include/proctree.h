@@ -351,6 +351,10 @@ VOID PhReloadSettingsProcessTreeList(
     VOID
     );
 
+VOID PhRefreshProcessTreeLanguage(
+    VOID
+    );
+
 // begin_phapppub
 PHAPPAPI
 PPH_TN_FILTER_SUPPORT

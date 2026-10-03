@@ -209,7 +209,7 @@ ULONG AtpGetCommonValue(
 
 PPH_EMENU_ITEM AtpCreateRadioItem(
     _In_ ULONG Id,
-    _In_ PWSTR Text,
+    _In_ PCWSTR Text,
     _In_ BOOLEAN Checked
     )
 {
@@ -223,8 +223,8 @@ VOID AtpAppendAccessItems(
 {
     ULONG access = AtpGetCommonValue(Tools, TRUE);
 
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_ALLOWED, L"允许", access == AT_ACCESS_ALLOWED), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_DENIED, L"拒绝", access == AT_ACCESS_DENIED), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_ALLOWED, PhTranslateTextZ(L"允许"), access == AT_ACCESS_ALLOWED), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_ACCESS_DENIED, PhTranslateTextZ(L"拒绝"), access == AT_ACCESS_DENIED), ULONG_MAX);
 }
 
 VOID AtpAppendAuthorizationItems(
@@ -234,9 +234,9 @@ VOID AtpAppendAuthorizationItems(
 {
     ULONG confirm = AtpGetCommonValue(Tools, FALSE);
 
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_ALWAYS, L"始终询问", confirm == AT_CONFIRM_ALWAYS), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_DELEGATE, L"委托给客户端", confirm == AT_CONFIRM_DELEGATE), ULONG_MAX);
-    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_NONE, L"无需授权", confirm == AT_CONFIRM_NONE), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_ALWAYS, PhTranslateTextZ(L"始终询问"), confirm == AT_CONFIRM_ALWAYS), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_DELEGATE, PhTranslateTextZ(L"委托给客户端"), confirm == AT_CONFIRM_DELEGATE), ULONG_MAX);
+    PhInsertEMenuItem(Menu, AtpCreateRadioItem(AT_MENU_CONFIRM_NONE, PhTranslateTextZ(L"无需授权"), confirm == AT_CONFIRM_NONE), ULONG_MAX);
 }
 
 VOID AtpApplyMenuChoice(
@@ -377,8 +377,8 @@ VOID AtpShowContextMenu(
     }
 
     menu = PhCreateEMenu();
-    access = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"访问", NULL, NULL);
-    authorization = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, L"授权", NULL, NULL);
+    access = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, PhTranslateTextZ(L"访问"), NULL, NULL);
+    authorization = PhCreateEMenuItem(selection ? 0 : PH_EMENU_DISABLED, 0, PhTranslateTextZ(L"授权"), NULL, NULL);
     AtpAppendAccessItems(access, tools);
     AtpAppendAuthorizationItems(authorization, tools);
     PhInsertEMenuItem(menu, access, ULONG_MAX);

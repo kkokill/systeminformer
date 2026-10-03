@@ -2351,6 +2351,39 @@ LRESULT PhTnpOnUserMessage(
             return PhTnpChangeColumn(Context, (ULONG)WParam, column->Id, column);
         }
         break;
+    case TNM_TRANSLATECOLUMNS:
+        {
+            ULONG i;
+
+            // 语言切换：遍历所有列，按保存的原始文本按当前语言重翻，
+            // 同时清零 HeaderStringCache（如有）强制表头回调重新填充，
+            // 可见列通过 PhTnpChangeColumnHeader 直接更新 Header 控件文本。
+            for (i = 0; i < Context->NextId && i < Context->AllocatedColumns; i++)
+            {
+                PPH_TREENEW_COLUMN column = Context->Columns[i];
+
+                if (!column || !column->OriginalText)
+                    continue;
+
+                column->Text = PhTranslateTextZ(column->OriginalText);
+
+                // 清零外部设置的 HeaderStringCache，让回调/Column->Text 路径生效
+                if (Context->HeaderStringCache && column->Id <= Context->HeaderColumnCacheMax)
+                {
+                    Context->HeaderStringCache[column->Id].Length = 0;
+                    Context->HeaderStringCache[column->Id].Buffer = NULL;
+                }
+
+                if (column->Visible)
+                    PhTnpChangeColumnHeader(Context, TN_COLUMN_TEXT, column);
+            }
+
+            InvalidateRect(Context->HeaderHandle, NULL, TRUE);
+
+            if (Context->FixedHeaderHandle)
+                InvalidateRect(Context->FixedHeaderHandle, NULL, TRUE);
+        }
+        return TRUE;
     case TNM_GETCOLUMNORDERARRAY:
         {
             ULONG count = (ULONG)WParam;
@@ -3631,6 +3664,13 @@ BOOLEAN PhTnpAddColumn(
 
     realColumn = PhAllocateCopy(Column, sizeof(PH_TREENEW_COLUMN));
 
+    // 语言切换：保存原始文本（未翻译），供运行时按当前语言重翻
+    realColumn->OriginalText = realColumn->Text;
+
+    // 列头文本查翻译字典（字典静态指针，生命周期等同调用方字面量）
+    if (realColumn->Text)
+        realColumn->Text = PhTranslateTextZ(realColumn->Text);
+
     if (realColumn->DpiScaleOnAdd)
     {
         if (WindowsVersion >= WINDOWS_10)
@@ -3818,7 +3858,9 @@ BOOLEAN PhTnpChangeColumn(
 
         if (Mask & TN_COLUMN_TEXT)
         {
-            realColumn->Text = Column->Text;
+            // 语言切换：保存新的原始文本并查翻译字典
+            realColumn->OriginalText = Column->Text;
+            realColumn->Text = PhTranslateTextZ(Column->Text);
         }
 
         if (Mask & TN_COLUMN_WIDTH)

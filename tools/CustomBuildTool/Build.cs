@@ -2518,12 +2518,21 @@ namespace CustomBuildTool
                 {
                     // Keep the portable package (launcher sources, repack script,
                     // and packaged output) out of the git-based cleanup.
+                    // Keep the runtime translation/localization files (untracked
+                    // work files of the Chinese localization pipeline) as well.
                     string output = Utils.ExecuteGitCommand(BuildWorkingFolder,
                         [
                             "clean", "-x", "-d", "-f",
                             "-e", "tools/PortableLauncher",
+                            "-e", "tools/Localization",
                             "-e", "build/build*portable.cmd",
                             "-e", "bin/portable",
+                            "-e", "phlib/translate.c",
+                            "-e", "phlib/translate_data.c",
+                            "-e", "phlib/translate_lang.c",
+                            "-e", "phlib/translate_window.c",
+                            "-e", "phlib/include/translate.h",
+                            "-e", "SystemInformer/langmgr.c",
                         ]);
 
                     Program.PrintColorMessage(output, ConsoleColor.DarkGray);

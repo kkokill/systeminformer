@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -635,7 +635,7 @@ INT_PTR CALLBACK NetAdapterDetailsDlgProc(
 
             PhSetApplicationWindowIcon(WindowHandle);
 
-            PhSetWindowText(WindowHandle, PhGetStringOrDefault(context->AdapterName, L"未知网络适配器"));
+            PhSetWindowText(WindowHandle, PhGetStringOrDefault(context->AdapterName, PhTranslateTextZ(L"未知网络适配器")));
 
             PhSetListViewStyle(context->ListViewHandle, FALSE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");

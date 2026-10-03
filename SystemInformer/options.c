@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -24,6 +24,7 @@
 #include <mainwndp.h>
 #include <notifico.h>
 #include <proctree.h>
+#include <translate.h>
 #include <phplug.h>
 #include <phsettings.h>
 
@@ -232,8 +233,9 @@ static VOID PhpOptionsShowHideTreeViewItem(
     _In_ BOOLEAN Hide
     )
 {
-    static CONST PH_STRINGREF generalName = PH_STRINGREF_INIT(L"General");
-    static CONST PH_STRINGREF advancedName = PH_STRINGREF_INIT(L"Advanced");
+    // 区块名已汉化，按源中文名匹配（PhOptionsCreateSection 存储的 Name）
+    static CONST PH_STRINGREF generalName = PH_STRINGREF_INIT(L"通用");
+    static CONST PH_STRINGREF advancedName = PH_STRINGREF_INIT(L"高级");
 
     if (Hide)
     {
@@ -260,7 +262,7 @@ static VOID PhpOptionsShowHideTreeViewItem(
         {
             advancedSection->TreeItemHandle = PhpTreeViewInsertItem(
                 generalSection->TreeItemHandle,
-                advancedName.Buffer,
+                PhTranslateTextZ(advancedName.Buffer),
                 advancedSection
                 );
         }
@@ -284,7 +286,8 @@ static VOID PhReloadGeneralSection(
     VOID
     )
 {
-    static PH_STRINGREF generalName = PH_STRINGREF_INIT(L"General");
+    // 区块名已汉化，按源中文名匹配（此前按 L"General" 查找会 NULL 解引用崩溃）
+    static PH_STRINGREF generalName = PH_STRINGREF_INIT(L"通用");
 
     GeneralListViewStateInitializing = TRUE;
     PhpAdvancedPageLoad(PhOptionsFindSection(&generalName)->DialogHandle, TRUE);
@@ -711,7 +714,8 @@ PPH_OPTIONS_SECTION PhOptionsCreateSection(
     section->Template = Template;
     section->DialogProc = DialogProc;
     section->Parameter = Parameter;
-    section->TreeItemHandle = PhpTreeViewInsertItem(TVI_LAST, Name, section);
+    // 树节点仅显示翻译（Name 保持源串，PhOptionsFindSection/插件导航按 Name 匹配）
+    section->TreeItemHandle = PhpTreeViewInsertItem(TVI_LAST, PhTranslateTextZ(Name), section);
 
     PhAddItemList(SectionList, section);
 
@@ -1556,6 +1560,7 @@ typedef enum _PHP_OPTIONS_INDEX
     PHP_OPTIONS_INDEX_START_ATLOGON,
     PHP_OPTIONS_INDEX_START_HIDDEN,
     PHP_OPTIONS_INDEX_ENABLE_WARNINGS,
+    PHP_OPTIONS_INDEX_ENABLE_DRIVER,
     PHP_OPTIONS_INDEX_ENABLE_MONOSPACE,
     PHP_OPTIONS_INDEX_ENABLE_PLUGINS,
     PHP_OPTIONS_INDEX_ENABLE_AVX_EXTENSIONS,
@@ -1606,6 +1611,7 @@ static VOID PhpAdvancedPageLoad(
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_START_ATLOGON, L"登录时启动", NULL);
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_START_HIDDEN, L"启动时隐藏", NULL);
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_WARNINGS, L"启用警告", NULL);
+        PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_DRIVER, L"启用内核模式驱动", NULL);
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_MONOSPACE, L"启用等宽字体", NULL);
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_PLUGINS, L"启用插件", NULL);
         PhAddListViewItem(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_UNDECORATE_SYMBOLS, L"启用未修饰符号", NULL);
@@ -1642,6 +1648,7 @@ static VOID PhpAdvancedPageLoad(
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_MINIINFO_WINDOW, SETTING_MINI_INFO_WINDOW_ENABLED);
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_MEMSTRINGS_TREE, SETTING_ENABLE_MEM_STRINGS_TREE_DIALOG);
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_LASTTAB_SUPPORT, SETTING_MAIN_WINDOW_TAB_RESTORE_ENABLED);
+    SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_DRIVER, SETTING_KSI_ENABLE);
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_WARNINGS, SETTING_ENABLE_WARNINGS);
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_PLUGINS, SETTING_ENABLE_PLUGINS);
     SetLvItemCheckForSetting(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_UNDECORATE_SYMBOLS, SETTING_DBGHELP_UNDECORATE);
@@ -1837,6 +1844,18 @@ static VOID PhpAdvancedPageSave(
         RestartRequired = TRUE;
     }
 
+    // When changing driver enabled setting, it only makes sense to require a restart if we're
+    // already elevated. If we're not elevated and asked to restart, we would not connect to the
+    // driver and the user has to elevate (restart) again anyway. (jxy-s)
+    if (PhGetOwnTokenAttributes().Elevated)
+    {
+        SetSettingForLvItemCheckRestartRequired(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_DRIVER, SETTING_KSI_ENABLE);
+    }
+    else
+    {
+        SetSettingForLvItemCheck(listViewHandle, PHP_OPTIONS_INDEX_ENABLE_DRIVER, SETTING_KSI_ENABLE);
+    }
+
     SetSettingForLvItemCheck(listViewHandle, PHP_OPTIONS_INDEX_SINGLE_INSTANCE, SETTING_ALLOW_ONLY_ONE_INSTANCE);
     SetSettingForLvItemCheck(listViewHandle, PHP_OPTIONS_INDEX_HIDE_WHENCLOSED, SETTING_HIDE_ON_CLOSE);
     SetSettingForLvItemCheck(listViewHandle, PHP_OPTIONS_INDEX_HIDE_WHENMINIMIZED, SETTING_HIDE_ON_MINIMIZE);
@@ -2013,6 +2032,14 @@ INT_PTR CALLBACK PhpOptionsGeneralDlgProc(
             PhpAdvancedPageLoad(hwndDlg, FALSE);
             PhpRefreshTaskManagerState(hwndDlg);
             GeneralListViewStateInitializing = FALSE;
+
+            // 语言选择 ComboBox
+            {
+                HWND langCombo = GetDlgItem(hwndDlg, IDC_LANGUAGE);
+                ComboBox_AddString(langCombo, L"简体中文");
+                ComboBox_AddString(langCombo, L"English");
+                ComboBox_SetCurSel(langCombo, PhGetIntegerSetting(SETTING_LANGUAGE) == 1 ? 1 : 0);
+            }
         }
         break;
     case WM_DESTROY:
@@ -2074,6 +2101,17 @@ INT_PTR CALLBACK PhpOptionsGeneralDlgProc(
         {
             switch (GET_WM_COMMAND_ID(wParam, lParam))
             {
+            case IDC_LANGUAGE:
+                if (HIWORD(wParam) == CBN_SELCHANGE)
+                {
+                    ULONG sel = ComboBox_GetCurSel((HWND)lParam);
+                    BOOLEAN english = (sel == 1);
+
+                    PhSetIntegerSetting(SETTING_LANGUAGE, english ? 1 : 0);
+                    // 状态机接管全部刷新 + 广播插件
+                    PhSwitchApplicationLanguage(english);
+                }
+                break;
             case IDC_FONT:
                 {
                     LOGFONT font;
@@ -2439,7 +2477,7 @@ static INT_PTR CALLBACK PhpOptionsAdvancedEditDlgProc(
 
             PhSetApplicationWindowIcon(hwndDlg);
 
-            PhSetWindowText(hwndDlg, L"设置编辑器");
+            PhSetWindowText(hwndDlg, PhTranslateTextZ(L"设置编辑器"));
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             PhSetWindowContext(hwndDlg, PH_WINDOW_CONTEXT_DEFAULT, editContext);

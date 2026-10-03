@@ -173,6 +173,15 @@ VOID PhInitializeServiceTreeList(
     }
 }
 
+VOID PhRefreshServiceTreeLanguage(
+    VOID
+    )
+{
+    // 语言切换：让 treenew 按原始文本重翻所有列头并重绘表头
+    if (ServiceTreeListHandle)
+        TreeNew_TranslateColumns(ServiceTreeListHandle);
+}
+
 /**
  * Loads settings for the service tree list.
  */
@@ -800,8 +809,8 @@ BOOLEAN NTAPI PhpServiceTreeNewCallback(
                     PCPH_STRINGREF string;
 
                     string = PhGetServiceTypeString(serviceItem->Type);
-                    getCellText->Text.Buffer = string->Buffer;
-                    getCellText->Text.Length = string->Length;
+                    getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                    getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                 }
                 break;
             case PHSVTLC_STATUS:
@@ -809,31 +818,31 @@ BOOLEAN NTAPI PhpServiceTreeNewCallback(
                     PCPH_STRINGREF string;
 
                     string = PhGetServiceStateString(serviceItem->State);
-                    getCellText->Text.Buffer = string->Buffer;
-                    getCellText->Text.Length = string->Length;
+                    getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                    getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                 }
                 break;
             case PHSVTLC_STARTTYPE:
                 {
                     PH_FORMAT format[2];
                     PCPH_STRINGREF string;
-                    PWSTR additional = NULL;
+                    PCWSTR additional = NULL;
                     SIZE_T returnLength;
 
                     string = PhGetServiceStartTypeString(serviceItem->StartType);
                     format[0].Type = StringFormatType;
-                    format[0].u.String.Buffer = string->Buffer;
-                    format[0].u.String.Length = string->Length;
+                    format[0].u.String.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                    format[0].u.String.Length = PhCountStringZ(format[0].u.String.Buffer) * sizeof(WCHAR);
                     //PhInitFormatSR(&format[0], PhGetServiceStartTypeString(serviceItem->StartType));
 
                     if (serviceItem->StartType == SERVICE_DISABLED)
                         additional = NULL;
                     else if (serviceItem->DelayedStart && serviceItem->HasTriggers)
-                        additional = L" (延迟, 触发器)";
+                        additional = PhTranslateTextZ(L" (延迟, 触发器)");
                     else if (serviceItem->DelayedStart)
-                        additional = L" (延迟)";
+                        additional = PhTranslateTextZ(L" (延迟)");
                     else if (serviceItem->HasTriggers)
-                        additional = L" (触发器)";
+                        additional = PhTranslateTextZ(L" (触发器)");
 
                     if (additional)
                         PhInitFormatS(&format[1], additional);

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -327,9 +327,9 @@ VOID NTAPI MainMenuInitializingCallback(
         return;
 
     onlineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"用户注释(&U)", NULL);
-    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_PRIORITY_SAVE_IFEO, L"为可执行文件配置优先级...", NULL), ULONG_MAX);
-    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_IO_PRIORITY_SAVE_IFEO, L"为可执行文件配置IO优先级...", NULL), ULONG_MAX);
-    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_PAGE_PRIORITY_SAVE_IFEO, L"为可执行文件配置页优先级...", NULL), ULONG_MAX);
+    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_PRIORITY_SAVE_IFEO, PhTranslateTextZ(L"为可执行文件配置优先级..."), NULL), ULONG_MAX);
+    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_IO_PRIORITY_SAVE_IFEO, PhTranslateTextZ(L"为可执行文件配置IO优先级..."), NULL), ULONG_MAX);
+    PhInsertEMenuItem(onlineMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, FILE_PAGE_PRIORITY_SAVE_IFEO, PhTranslateTextZ(L"为可执行文件配置页优先级..."), NULL), ULONG_MAX);
     PhInsertEMenuItem(menuInfo->Menu, onlineMenuItem, ULONG_MAX);
 }
 
@@ -2178,10 +2178,10 @@ VOID AddSavePriorityMenuItemsAndHook(
         PhRemoveEMenuItem(MenuInfo->Menu, affinityMenuItem, 0);
 
         affinityMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"亲和性(&A)", NULL);
-        PhInsertEMenuItem(affinityMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_ID, L"设置亲和性(&A)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(affinityMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_ID, PhTranslateTextZ(L"设置亲和性(&A)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(affinityMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(affinityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(affinityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(affinityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(affinityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_AFFINITY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(MenuInfo->Menu, affinityMenuItem, index);
 
         if (!ProcessItem->CommandLine)
@@ -2201,10 +2201,10 @@ VOID AddSavePriorityMenuItemsAndHook(
     if (affinityMenuItem)
     {
         boostMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"提升(&B)", NULL);
-        PhInsertEMenuItem(boostMenuItem, boostPluginMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_ID, L"设置提升(&B)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(boostMenuItem, boostPluginMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_ID, PhTranslateTextZ(L"设置提升(&B)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(boostMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(boostMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(boostMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(boostMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(boostMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_BOOST_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(MenuInfo->Menu, boostMenuItem, PhIndexOfEMenuItem(MenuInfo->Menu, affinityMenuItem) + 1);
 
         if (!ProcessItem->CommandLine)
@@ -2234,10 +2234,10 @@ VOID AddSavePriorityMenuItemsAndHook(
     if (boostMenuItem)
     {
         efficiencyMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, 0, L"效率(&E)", NULL);
-        PhInsertEMenuItem(efficiencyMenuItem, efficiencyPluginMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_ID, L"设置效率模式(&E)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(efficiencyMenuItem, efficiencyPluginMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_ID, PhTranslateTextZ(L"设置效率模式(&E)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(efficiencyMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(efficiencyMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(efficiencyMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
+        PhInsertEMenuItem(efficiencyMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(efficiencyMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_EFFICIENCY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
         PhInsertEMenuItem(MenuInfo->Menu, efficiencyMenuItem, PhIndexOfEMenuItem(MenuInfo->Menu, boostMenuItem) + 1);
 
         if (!ProcessItem->CommandLine)
@@ -2271,9 +2271,9 @@ VOID AddSavePriorityMenuItemsAndHook(
     if (priorityMenuItem = PhFindEMenuItem(MenuInfo->Menu, 0, NULL, PHAPP_ID_PROCESS_PRIORITYCLASS))
     {
         PhInsertEMenuItem(priorityMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(priorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(priorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
-        PhInsertEMenuItem(priorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_IFEO, PhaFormatString(L"为 %s 保存(&S) (IFEO)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(priorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(priorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
+        PhInsertEMenuItem(priorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PRIORITY_SAVE_IFEO, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S) (IFEO)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
 
         if (!ProcessItem->CommandLine)
             saveForCommandLineMenuItem->Flags |= PH_EMENU_DISABLED;
@@ -2297,9 +2297,9 @@ VOID AddSavePriorityMenuItemsAndHook(
     if (ioPriorityMenuItem = PhFindEMenuItem(MenuInfo->Menu, 0, NULL, PHAPP_ID_PROCESS_IOPRIORITY))
     {
         PhInsertEMenuItem(ioPriorityMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(ioPriorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(ioPriorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
-        PhInsertEMenuItem(ioPriorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_IFEO, PhaFormatString(L"为 %s 保存(&S) (IFEO)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(ioPriorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(ioPriorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
+        PhInsertEMenuItem(ioPriorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_IO_PRIORITY_SAVE_IFEO, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S) (IFEO)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
 
         if (!ProcessItem->CommandLine)
             saveForCommandLineMenuItem->Flags |= PH_EMENU_DISABLED;
@@ -2323,9 +2323,9 @@ VOID AddSavePriorityMenuItemsAndHook(
     if (pagePriorityMenuItem = PhFindEMenuItem(MenuInfo->Menu, 0, NULL, PHAPP_ID_PROCESS_PAGEPRIORITY))
     {
         PhInsertEMenuItem(pagePriorityMenuItem, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(pagePriorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_ID, PhaFormatString(L"为 %s 保存(&S)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
-        PhInsertEMenuItem(pagePriorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, L"为此命令行保存(&F)", NULL), ULONG_MAX);
-        PhInsertEMenuItem(pagePriorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_IFEO, PhaFormatString(L"为 %s 保存(&S) (IFEO)", ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(pagePriorityMenuItem, saveMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_ID, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
+        PhInsertEMenuItem(pagePriorityMenuItem, saveForCommandLineMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_FOR_THIS_COMMAND_LINE_ID, PhTranslateTextZ(L"为此命令行保存(&F)"), NULL), ULONG_MAX);
+        PhInsertEMenuItem(pagePriorityMenuItem, saveIfeoMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_PAGE_PRIORITY_SAVE_IFEO, PhaFormatString(PhTranslateTextZ(L"为 %s 保存(&S) (IFEO)"), ProcessItem->ProcessName->Buffer)->Buffer, NULL), ULONG_MAX);
 
         if (!ProcessItem->CommandLine)
             saveForCommandLineMenuItem->Flags |= PH_EMENU_DISABLED;
@@ -2379,14 +2379,14 @@ VOID ProcessMenuInitializingCallback(
         highlightPresent = TRUE;
     UnlockDb();
 
-    PhInsertEMenuItem(miscMenuItem, collapseMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_COLLAPSE_ID, L"默认折叠(&L)", NULL), 0);
-    PhInsertEMenuItem(miscMenuItem, highlightMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_HIGHLIGHT_ID, L"高亮(&T)", UlongToPtr(highlightPresent)), 1);
+    PhInsertEMenuItem(miscMenuItem, collapseMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_COLLAPSE_ID, PhTranslateTextZ(L"默认折叠(&L)"), NULL), 0);
+    PhInsertEMenuItem(miscMenuItem, highlightMenuItem = PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_HIGHLIGHT_ID, PhTranslateTextZ(L"高亮(&T)"), UlongToPtr(highlightPresent)), 1);
     PhInsertEMenuItem(miscMenuItem, PhCreateEMenuSeparator(), 2);
 
     if (gdiHandlesMenuItem = PhFindEMenuItem(miscMenuItem, 0, NULL, PHAPP_ID_MISCELLANEOUS_GDIHANDLES))
     {
         ULONG index = PhIndexOfEMenuItem(miscMenuItem, gdiHandlesMenuItem);
-        PhInsertEMenuItem(miscMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_D3DKMT_ID, L"图形优先级...", NULL), index + 1);
+        PhInsertEMenuItem(miscMenuItem, PhPluginCreateEMenuItem(PluginInstance, 0, PROCESS_D3DKMT_ID, PhTranslateTextZ(L"图形优先级..."), NULL), index + 1);
     }
 
     LockDb();

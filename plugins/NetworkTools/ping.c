@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -429,7 +429,7 @@ INT_PTR CALLBACK NetworkPingWndProc(
                 PhCenterWindow(hwndDlg, context->ParentWindowHandle);
 
             PhSetWindowText(hwndDlg, PhaFormatString(L"Ping %s", context->RemoteAddressString)->Buffer);
-            PhSetWindowText(context->StatusHandle, PhaFormatString(L"正在 Ping %s，数据包大小 %lu 字节...",
+            PhSetWindowText(context->StatusHandle, PhaFormatString(PhTranslateTextZ(L"正在 Ping %s，数据包大小 %lu 字节..."),
                 context->RemoteAddressString,
                 PhGetIntegerSetting(SETTING_NAME_PING_SIZE))->Buffer
                 );

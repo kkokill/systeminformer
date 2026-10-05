@@ -1,0 +1,31 @@
+# Manual disambiguation map for AMBIG (duplicate rel|id) menu keys.
+# Format: <fork key, C-escaped> TAB <upstream value, C-escaped, written verbatim>
+# Lines starting with # are comments.
+查找文件...	Find files...
+移除...	Remove...
+安全(&S)	&Security
+安全(&S)\bEnter	&Security\bEnter
+加载列集	Loa&d column set
+打开项	Open key
+转到服务...	Go to service...
+高亮上层筛选	Highlight upper filtered
+发送到(&D)	Sen&d to
+在线检查(&O)	&Online Checks
+扫描方式	Scan with
+提升(&B)	&Boost
+效率(&E)	&Efficiency
+亲和性(&A)	&Affinity
+用户注释(&U)	&User Notes
+&I/O 优先级	&I/O priority
+转到设备驱动程序(&G)	&Go to device driver
+转到下层设备驱动程序(&G)	&Go to lower device driver
+授权	Authorization
+访问	Access
+创建实时内核转储文件	Create live kernel dump fi&le
+创建转储文件	Create dump fi&le
+计算机	&Computer
+不透明度	&Opacity
+刷新间隔	Refresh i&nterval
+权限	&Permissions
+通知	N&otifications
+# 设置/启用/设备 与小写动词/单数场景共用键，跳过不映射

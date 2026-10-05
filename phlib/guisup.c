@@ -2874,6 +2874,22 @@ BOOLEAN PhModalPropertySheet(
         return FALSE;
     }
 
+    // 语言切换：PSH_PROPTITLE 的标题后缀（Properties/属性）取自 comctl32
+    // 本地化资源，跟随 OS 语言而非应用语言，这里按应用语言显式重设标题，
+    // 保证中英文模式下属性窗口标题一致（pszCaption 为调用方传入的名称）。
+    if ((Header->dwFlags & PSH_PROPTITLE) &&
+        Header->pszCaption && HIWORD(Header->pszCaption))
+    {
+        PPH_STRING windowTitle;
+
+        windowTitle = PhConcatStrings2(
+            Header->pszCaption,
+            PhTranslateIsEnglishEnabled() ? L" Properties" : L" 属性"
+            );
+        PhSetWindowText(hwnd, windowTitle->Buffer);
+        PhDereferenceObject(windowTitle);
+    }
+
     while (result = GetMessage(&message, NULL, 0, 0))
     {
         if (result == INT_ERROR)
@@ -8075,20 +8091,10 @@ VOID NTAPI PhSetApplicationLanguage(
     _In_ BOOLEAN English
     )
 {
-    LANGID langId;
-
     PhTranslateSetEnglishEnabled(English);
 
-    langId = English
-        ? MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)        // 0x0409
-        : MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED); // 0x0804
-
-    // 关键：设置线程 UI 语言，决定 FindResource/LoadString/CreateDialog/LoadMenu
-    // 等资源加载 API 选择哪个语言版本的资源。
-    SetThreadUILanguage(langId);
-
-    // 同时设置线程区域设置（日期、数字、货币等格式）。
-    SetThreadLocale(MAKELCID(langId, SORT_DEFAULT));
+    // 线程 UI 语言/区域设置逻辑已收敛到 translate.c（basesup.c 线程入口共用）
+    PhApplyLanguageToCurrentThread();
 }
 
 BOOLEAN NTAPI PhGetApplicationLanguage(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -2382,6 +2382,10 @@ LRESULT PhTnpOnUserMessage(
 
             if (Context->FixedHeaderHandle)
                 InvalidateRect(Context->FixedHeaderHandle, NULL, TRUE);
+
+            // 语言切换：失效整个客户区，行文本在 GETCELLTEXT 显示回调处
+            // 按当前语言重查重绘（显示点翻译 = 天然热切换）
+            InvalidateRect(Context->Handle, NULL, TRUE);
         }
         return TRUE;
     case TNM_GETCOLUMNORDERARRAY:
@@ -7204,6 +7208,8 @@ VOID PhTnpPaint(
     if (Context->FlatList->Count == 0 && Context->EmptyText.Length != 0)
     {
         RECT textRect;
+        PCWSTR translatedText; // 语言切换
+        ULONG translatedLength;
 
         textRect.left = 20;
         textRect.top = Context->HeaderHeight + PhScaleToDisplay(10, Context->WindowDpi);
@@ -7215,10 +7221,17 @@ VOID PhTnpPaint(
         else
             SetTextColor(hdc, GetSysColor(COLOR_GRAYTEXT));
 
+        translatedText = PhTranslateTextZ(Context->EmptyText.Buffer); // 语言切换
+
+        if (translatedText != Context->EmptyText.Buffer)
+            translatedLength = (ULONG)wcslen(translatedText);
+        else
+            translatedLength = (ULONG)Context->EmptyText.Length / 2;
+
         DrawText(
             hdc,
-            Context->EmptyText.Buffer,
-            (ULONG)Context->EmptyText.Length / 2,
+            translatedText,
+            translatedLength,
             &textRect,
             DT_NOPREFIX | DT_CENTER | DT_END_ELLIPSIS
             );

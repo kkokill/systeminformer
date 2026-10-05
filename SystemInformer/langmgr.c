@@ -84,6 +84,10 @@ VOID PhSwitchApplicationLanguage(
     // 覆盖 PhAddListViewColumnDpi 创建的 ListView 列头（含插件 80+ 列）
     PhRefreshAllListViewColumnsLanguage();
 
+    // 枚举本进程所有 PhTreeNew 窗口重翻列头并重绘行内容
+    // （覆盖 Users List、插件 TreeNew 等未显式订阅语言切换的列表）
+    PhRefreshAllTreeNewColumnsLanguage();
+
     // 窗口遍历兜底重翻（Button/Static/Edit 等纯文本控件，方向跟随当前语言模式）
     PhRetranslateAllWindows();
 

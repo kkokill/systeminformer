@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -19,6 +19,7 @@
 #include <ntintsafe.h>
 
 #include <trace.h>
+#include <translate.h>
 
 #ifndef PH_NATIVE_STRING_CONVERSION
 #define PH_NATIVE_STRING_CONVERSION 1
@@ -4712,6 +4713,9 @@ VOID PhAppendFormatStringBuilder_V(
 {
     LONG length;
     SIZE_T lengthInBytes;
+
+    // 语言切换：格式串整串查表（键如 "%s (%s前)"），未命中返回原文
+    Format = PhTranslateTextZ(Format);
 
     length = _vscwprintf(Format, ArgPtr);
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -516,7 +516,8 @@ VOID PhSetListViewSubItem(
     item.mask = LVIF_TEXT;
     item.iItem = Index;
     item.iSubItem = SubItemIndex;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：子项文本查翻译字典
+    item.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
 
     ListView_SetItem(ListViewHandle, &item);
 }
@@ -533,7 +534,8 @@ VOID PhSetIListViewSubItem(
     item.mask = LVIF_TEXT;
     item.iItem = Index;
     item.iSubItem = SubItemIndex;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：子项文本查翻译字典
+    item.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
 
     ListView->SetItem(&item);
 }
@@ -573,7 +575,8 @@ LONG PhAddListViewGroup(
     group.uAlign = LVGA_HEADER_LEFT;
     group.state = LVGS_COLLAPSIBLE;
     group.iGroupId = GroupId;
-    group.pszHeader = const_cast<PWSTR>(Text);
+    // 语言切换：组头文本查翻译字典（热切换由 SiLvGroupText 基线机制兜底）
+    group.pszHeader = const_cast<PWSTR>(PhTranslateTextZ(Text));
 
     return static_cast<LONG>(ListView_InsertGroup(ListViewHandle, MAXUINT, &group));
 }
@@ -593,7 +596,8 @@ LONG PhAddIListViewGroup(
     group.uAlign = LVGA_HEADER_LEFT;
     group.state = LVGS_COLLAPSIBLE;
     group.iGroupId = GroupId;
-    group.pszHeader = const_cast<PWSTR>(Text);
+    // 语言切换：组头文本查翻译字典（热切换由 SiLvGroupText 基线机制兜底）
+    group.pszHeader = const_cast<PWSTR>(PhTranslateTextZ(Text));
 
     if (SUCCEEDED(ListView->InsertGroup(MAXUINT, &group, &index)))
         return index;
@@ -614,7 +618,8 @@ LONG PhAddListViewGroupItem(
     item.mask = LVIF_TEXT | LVIF_GROUPID;
     item.iItem = Index;
     item.iSubItem = 0;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：组项文本查翻译字典（子项0，热切换走反查兜底）
+    item.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
     item.iGroupId = GroupId;
 
     if (Param)
@@ -640,7 +645,8 @@ LONG PhAddIListViewGroupItem(
     item.mask = LVIF_TEXT | LVIF_GROUPID;
     item.iItem = Index;
     item.iSubItem = 0;
-    item.pszText = const_cast<PWSTR>(Text);
+    // 语言切换：组项文本查翻译字典（子项0，热切换走反查兜底）
+    item.pszText = const_cast<PWSTR>(PhTranslateTextZ(Text));
     item.iGroupId = GroupId;
 
     if (Param)

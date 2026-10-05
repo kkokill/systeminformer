@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -304,8 +304,7 @@ VOID PhpSearchControlCreateTooltip(
     _In_ PPH_SEARCHCONTROL_CONTEXT Context,
     _In_ PPH_SEARCHCONTROL_BUTTON Button,
     _In_ HWND ParentWindow,
-    _In_ PRECT TooltipRect,
-    _In_ PWSTR TooltipText
+    _In_ PRECT TooltipRect
     )
 {
     TOOLINFO toolInfo;
@@ -342,7 +341,8 @@ VOID PhpSearchControlCreateTooltip(
     toolInfo.cbSize = sizeof(TOOLINFO);
     toolInfo.uFlags = TTF_TRANSPARENT | TTF_SUBCLASS;
     toolInfo.hwnd = ParentWindow;
-    toolInfo.lpszText = TooltipText;
+    toolInfo.uId = Button->Index;
+    toolInfo.lpszText = LPSTR_TEXTCALLBACK; // 语言切换：显示回调实时查翻译字典
     toolInfo.rect = *TooltipRect;
     SendMessage(Button->TooltipHandle, TTM_ADDTOOL, 0, (LPARAM)&toolInfo);
     SendMessage(Button->TooltipHandle, TTM_SETDELAYTIME, TTDT_INITIAL, 0);
@@ -1184,6 +1184,37 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
             PhpSearchControlThemeChanged(context, WindowHandle);
         }
         break;
+    case WM_NOTIFY:
+        {
+            LPNMHDR header = (LPNMHDR)lParam;
+
+            if (header->code == TTN_GETDISPINFO)
+            {
+                NMTTDISPINFO* dispInfo = (NMTTDISPINFO*)lParam;
+                PCWSTR tooltipText = NULL;
+
+                // 语言切换：tooltip 文本在显示时实时查翻译字典（Index：0=区分大小写 1=正则表达式 2=清除搜索）
+                switch (header->idFrom)
+                {
+                case 0:
+                    tooltipText = PhTranslateTextZ(L"区分大小写");
+                    break;
+                case 1:
+                    tooltipText = PhTranslateTextZ(L"正则表达式");
+                    break;
+                case 2:
+                    tooltipText = PhTranslateTextZ(L"清除搜索");
+                    break;
+                }
+
+                if (tooltipText)
+                {
+                    dispInfo->hinst = NULL;
+                    dispInfo->lpszText = (PWSTR)tooltipText;
+                }
+            }
+        }
+        break;
     case WM_MOUSEMOVE:
     case WM_NCMOUSEMOVE:
         {
@@ -1205,7 +1236,7 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
 
             if (context->RegexButton.Hot)
             {
-                PhpSearchControlCreateTooltip(context, &context->RegexButton, WindowHandle, &buttonRect, L"正则表达式");
+                PhpSearchControlCreateTooltip(context, &context->RegexButton, WindowHandle, &buttonRect);
             }
 
             PhpSearchControlButtonRect(context, &context->CaseButton, &windowRect, &buttonRect);
@@ -1213,7 +1244,7 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
 
             if (context->CaseButton.Hot)
             {
-                PhpSearchControlCreateTooltip(context, &context->CaseButton, WindowHandle, &buttonRect, L"区分大小写");
+                PhpSearchControlCreateTooltip(context, &context->CaseButton, WindowHandle, &buttonRect);
             }
 
             PhpSearchControlButtonRect(context, &context->SearchButton, &windowRect, &buttonRect);
@@ -1221,7 +1252,7 @@ LRESULT CALLBACK PhpSearchWndSubclassProc(
 
             if (context->SearchButton.Hot)
             {
-                PhpSearchControlCreateTooltip(context, &context->SearchButton, WindowHandle, &buttonRect, L"清除搜索");
+                PhpSearchControlCreateTooltip(context, &context->SearchButton, WindowHandle, &buttonRect);
             }
 
             // Check that the mouse is within the inserted button.

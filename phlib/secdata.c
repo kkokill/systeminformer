@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -12,6 +12,7 @@
 
 #include <ph.h>
 #include <secedit.h>
+#include <translate.h>
 #include <wbemcli.h>
 #include <wtsapi32.h>
 
@@ -916,9 +917,9 @@ PPH_STRING PhGetAccessString(
             )
         {
             if (accessEntries[i].ShortName)
-                PhAppendStringBuilder2(&stringBuilder, accessEntries[i].ShortName);
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(accessEntries[i].ShortName)); // 语言切换
             else
-                PhAppendStringBuilder2(&stringBuilder, accessEntries[i].Name);
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(accessEntries[i].Name)); // 语言切换
 
             PhAppendStringBuilder2(&stringBuilder, L", ");
 

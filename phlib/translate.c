@@ -52,6 +52,24 @@ BOOLEAN NTAPI PhTranslateIsEnglishEnabled(
     return PhpTranslateEnglishEnabled;
 }
 
+VOID NTAPI PhApplyLanguageToCurrentThread(
+    VOID
+    )
+{
+    LANGID langId;
+
+    langId = PhpTranslateEnglishEnabled
+        ? MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)        // 0x0409
+        : MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED); // 0x0804
+
+    // 关键：设置线程 UI 语言，决定 FindResource/LoadString/CreateDialog/
+    // PropertySheet 等资源加载 API 选择哪个语言版本的资源。
+    SetThreadUILanguage(langId);
+
+    // 同时设置线程区域设置（日期、数字、货币等格式）。
+    SetThreadLocale(MAKELCID(langId, SORT_DEFAULT));
+}
+
 // === 正向查找（zh→en） ===
 
 // 在有序表中二分查找（键按 UTF-16 码元序排序，与 wcscmp 一致）
@@ -84,7 +102,7 @@ static PCWSTR PhpTranslateLookup(
     return NULL;
 }
 
-PCWSTR NTAPI PhTranslateTextZ(
+PCWSTR NTAPI PhTranslateTextRawZ(
     _In_opt_ PCWSTR Text
     )
 {
@@ -93,10 +111,6 @@ PCWSTR NTAPI PhTranslateTextZ(
     PCWSTR result;
 
     if (!Text || !Text[0])
-        return Text;
-
-    // 中文模式零开销：直接返回原文
-    if (!PhpTranslateEnglishEnabled)
         return Text;
 
     // 外部 .lang 活动表优先，否则嵌入表
@@ -120,25 +134,69 @@ PCWSTR NTAPI PhTranslateTextZ(
     return result ? result : Text;
 }
 
+PCWSTR NTAPI PhTranslateTextZ(
+    _In_opt_ PCWSTR Text
+    )
+{
+    // 中文模式零开销：直接返回原文
+    if (!Text || !Text[0] || !PhpTranslateEnglishEnabled)
+        return Text;
+
+    return PhTranslateTextRawZ(Text);
+}
+
 // === 反向查找（en→zh，惰性索引） ===
 
-// 指向活动表条目的指针数组，按 En（UTF-16 码元序）排序。
+// 反向索引元素：表条目 + 表内序号（同英文值多中文键时按表序兜底确定化）
+typedef struct _PHP_REVERSE_ENTRY
+{
+    const PH_TRANSLATE_ENTRY *Entry;
+    ULONG Order;
+} PHP_REVERSE_ENTRY, *PPHP_REVERSE_ENTRY;
+
+// 指向活动表条目的索引数组，按 En（UTF-16 码元序）排序。
 // 以（表指针, 条目数）比对当前活动表，不一致即自动重建；
 // PhLoadLanguageFile 换表不释放旧表，旧索引不存在悬挂指针。
-static const PH_TRANSLATE_ENTRY **PhpReverseIndex = NULL;
+static PPHP_REVERSE_ENTRY PhpReverseIndex = NULL;
 static ULONG PhpReverseIndexCount = 0;
 static const PH_TRANSLATE_ENTRY *PhpReverseIndexTable = NULL;
 static ULONG PhpReverseIndexTableCount = 0;
+
+// 装饰键判定：含加速符 '&' 或快捷键分隔 '\b' 的菜单样式键。
+// 多中文键共享同一英文值时，反向还原优先取无装饰纯键
+// （窗口/树/列表文本不含这些装饰，如 Normal 优先还原为 常规 而非 &正常）。
+static BOOLEAN PhpIsDecoratedZh(
+    _In_ PCWSTR Zh
+    )
+{
+    return wcspbrk(Zh, L"&\b") != NULL;
+}
 
 static int __cdecl PhpReverseIndexCompare(
     _In_ const void *elem1,
     _In_ const void *elem2
     )
 {
-    const PH_TRANSLATE_ENTRY *entry1 = *(const PH_TRANSLATE_ENTRY **)elem1;
-    const PH_TRANSLATE_ENTRY *entry2 = *(const PH_TRANSLATE_ENTRY **)elem2;
+    const PHP_REVERSE_ENTRY *entry1 = (const PHP_REVERSE_ENTRY *)elem1;
+    const PHP_REVERSE_ENTRY *entry2 = (const PHP_REVERSE_ENTRY *)elem2;
+    int cmp;
 
-    return wcscmp(entry1->En, entry2->En);
+    cmp = wcscmp(entry1->Entry->En, entry2->Entry->En);
+
+    if (cmp != 0)
+        return cmp;
+
+    // 同英文值：无装饰纯键优先
+    cmp = (int)PhpIsDecoratedZh(entry1->Entry->Zh) - (int)PhpIsDecoratedZh(entry2->Entry->Zh);
+
+    if (cmp != 0)
+        return cmp;
+
+    // 表内序兜底：先声明者视为基准形态，结果完全确定
+    if (entry1->Order < entry2->Order)
+        return -1;
+
+    return entry1->Order > entry2->Order ? 1 : 0;
 }
 
 // 从活动表构建反向索引（过滤无效与 En==Zh 占位条目）
@@ -147,7 +205,7 @@ static VOID PhpReverseIndexBuild(
     _In_ ULONG Count
     )
 {
-    const PH_TRANSLATE_ENTRY **index;
+    PPHP_REVERSE_ENTRY index;
     ULONG used;
     ULONG i;
 
@@ -163,7 +221,7 @@ static VOID PhpReverseIndexBuild(
     PhpReverseIndexTable = NULL;
     PhpReverseIndexTableCount = 0;
 
-    index = PhAllocate(Count * sizeof(PH_TRANSLATE_ENTRY *));
+    index = PhAllocate(Count * sizeof(PHP_REVERSE_ENTRY));
 
     for (i = 0; i < Count; i++)
     {
@@ -174,10 +232,12 @@ static VOID PhpReverseIndexBuild(
         if (wcscmp(Table[i].Zh, Table[i].En) == 0)
             continue;
 
-        index[used++] = &Table[i];
+        index[used].Entry = &Table[i];
+        index[used].Order = i;
+        used++;
     }
 
-    qsort(index, used, sizeof(PH_TRANSLATE_ENTRY *), PhpReverseIndexCompare);
+    qsort(index, used, sizeof(PHP_REVERSE_ENTRY), PhpReverseIndexCompare);
 
     PhpReverseIndex = index;
     PhpReverseIndexCount = used;
@@ -231,17 +291,17 @@ PCWSTR NTAPI PhTranslateTextReverseZ(
     while (lo < hi)
     {
         ULONG mid = (lo + hi) / 2;
-        int cmp = wcscmp(Text, PhpReverseIndex[mid]->En);
+        int cmp = wcscmp(Text, PhpReverseIndex[mid].Entry->En);
 
         if (cmp == 0)
         {
             ULONG first = mid;
 
-            // 多 Zh 同 En：左移取排序最前条目，结果确定
-            while (first > 0 && wcscmp(PhpReverseIndex[first - 1]->En, Text) == 0)
+            // 多 Zh 同 En：左移取排序最前条目（纯键优先、表序兜底），结果确定
+            while (first > 0 && wcscmp(PhpReverseIndex[first - 1].Entry->En, Text) == 0)
                 first--;
 
-            return PhpReverseIndex[first]->Zh;
+            return PhpReverseIndex[first].Entry->Zh;
         }
 
         if (cmp < 0)

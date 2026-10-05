@@ -52,6 +52,27 @@ PhTranslateIsEnglishEnabled(
     VOID
     );
 
+// 将当前线程的 UI 语言/区域设置同步为应用语言（英文模式=0x0409，中文=0x0804）。
+// 决定 FindResource/CreateDialog/PropertySheet/comctl32 选择哪个语言版本的资源。
+// 新线程不继承该设置：由 basesup.c PhpBaseThreadStart 在线程入口统一调用；
+// 主线程由 PhSetApplicationLanguage 调用。
+PHLIBAPI
+VOID
+NTAPI
+PhApplyLanguageToCurrentThread(
+    VOID
+    );
+
+// 枚举本进程全部顶层窗口及其子孙，对 PhTreeNew 类窗口发送 TNM_TRANSLATECOLUMNS：
+// 按记录的原始文本重翻所有列头并失效客户区（行文本随之按当前语言重绘）。
+// 覆盖未显式订阅语言切换的列表（Users List、插件 TreeNew 等）。
+PHLIBAPI
+VOID
+NTAPI
+PhRefreshAllTreeNewColumnsLanguage(
+    VOID
+    );
+
 // 正向查找：中→英。返回英文译文；中文模式或未命中返回原文
 //（调用方以指针相等判断“未翻译”）。
 PHLIBAPI
@@ -59,6 +80,24 @@ PCWSTR
 NTAPI
 PhTranslateTextZ(
     _In_opt_ PCWSTR Text
+    );
+
+// 纯正向查找（中→英），不受英文模式开关影响：中文模式同样执行查表。
+// 供基线 untouched 判定等需要“取基线英文形态”的内部逻辑使用。
+PHLIBAPI
+PCWSTR
+NTAPI
+PhTranslateTextRawZ(
+    _In_opt_ PCWSTR Text
+    );
+
+// 标记控件文本由代码全权管理（如语言切换按钮）：窗口重翻遍历跳过其文本，
+// 由业务侧（PvEnumLanguageButtonProc）自行设置。
+PHLIBAPI
+VOID
+NTAPI
+PhSetWindowNoRetranslate(
+    _In_ HWND WindowHandle
     );
 
 // 反向查找：英→中。返回对应中文原文，未命中返回 NULL。

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -13,6 +13,7 @@
 #include <ph.h>
 #include <subprocesstag.h>
 #include <svcsup.h>
+#include <guisup.h> // PhTranslateTextZ（语言切换）
 #include <mapldr.h>
 
 static CONST PH_STRINGREF PhpServiceUnknownString = PH_STRINGREF_INIT(L"未知");
@@ -59,7 +60,7 @@ static CONST PH_KEY_VALUE_PAIR PhpServiceErrorControlPairs[] =
 {
     SIP(SREF(L"忽略"), SERVICE_ERROR_IGNORE),
     SIP(SREF(L"正常"), SERVICE_ERROR_NORMAL),
-    SIP(SREF(L"严重"), SERVICE_ERROR_SEVERE),
+    SIP(SREF(L"严重 "), SERVICE_ERROR_SEVERE), // 尾空格标记键：与 hndlprp 文件优先级 {严重,Critical} 区分，英文值 Severe 对位上游
     SIP(SREF(L"危急"), SERVICE_ERROR_CRITICAL)
 };
 
@@ -92,7 +93,7 @@ CONST PPH_STRINGREF PhServiceErrorControlStrings[4] =
 {
     SREF(L"忽略"),
     SREF(L"正常"),
-    SREF(L"严重"),
+    SREF(L"严重 "), // 与查找表同键
     SREF(L"危急"),
 };
 
@@ -1259,6 +1260,19 @@ PCPH_STRINGREF PhGetServiceStateString(
     return &PhpServiceUnknownString;
 }
 
+static BOOLEAN PhpStringRefEqualsTranslated(
+    _In_ PCPH_STRINGREF String,
+    _In_ PCWSTR Translated
+    )
+{
+    SIZE_T translatedLength;
+
+    translatedLength = PhCountStringZ(Translated);
+
+    return String->Length == translatedLength * sizeof(WCHAR) &&
+        wcsncmp(String->Buffer, Translated, translatedLength) == 0;
+}
+
 /**
  * Retrieves the display type.
  *
@@ -1303,8 +1317,17 @@ ULONG PhGetServiceTypeInteger(
         &integer
         ))
         return integer;
-    else
-        return ULONG_MAX;
+
+    // 语言切换：英文模式下组合框为译文，按译文回退匹配
+    for (ULONG i = 0; i < RTL_NUMBER_OF(PhpServiceTypePairs); i++)
+    {
+        PCPH_STRINGREF key = (PCPH_STRINGREF)PhpServiceTypePairs[i].Key;
+
+        if (PhpStringRefEqualsTranslated(ServiceType, PhTranslateTextZ(key->Buffer)))
+            return PtrToUlong(PhpServiceTypePairs[i].Value);
+    }
+
+    return ULONG_MAX;
 }
 
 /**
@@ -1351,8 +1374,17 @@ ULONG PhGetServiceStartTypeInteger(
         &integer
         ))
         return integer;
-    else
-        return ULONG_MAX;
+
+    // 语言切换：英文模式下组合框为译文，按译文回退匹配
+    for (ULONG i = 0; i < RTL_NUMBER_OF(PhpServiceStartTypePairs); i++)
+    {
+        PCPH_STRINGREF key = (PCPH_STRINGREF)PhpServiceStartTypePairs[i].Key;
+
+        if (PhpStringRefEqualsTranslated(ServiceStartType, PhTranslateTextZ(key->Buffer)))
+            return PtrToUlong(PhpServiceStartTypePairs[i].Value);
+    }
+
+    return ULONG_MAX;
 }
 
 /**
@@ -1399,8 +1431,17 @@ ULONG PhGetServiceErrorControlInteger(
         &integer
         ))
         return integer;
-    else
-        return ULONG_MAX;
+
+    // 语言切换：英文模式下组合框为译文，按译文回退匹配
+    for (ULONG i = 0; i < RTL_NUMBER_OF(PhpServiceErrorControlPairs); i++)
+    {
+        PCPH_STRINGREF key = (PCPH_STRINGREF)PhpServiceErrorControlPairs[i].Key;
+
+        if (PhpStringRefEqualsTranslated(ServiceErrorControl, PhTranslateTextZ(key->Buffer)))
+            return PtrToUlong(PhpServiceErrorControlPairs[i].Value);
+    }
+
+    return ULONG_MAX;
 }
 
 /**

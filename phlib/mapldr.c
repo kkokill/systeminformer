@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -14,6 +14,7 @@
 #include <apiimport.h>
 #include <mapimg.h>
 #include <mapldr.h>
+#include <translate.h>
 
 /**
  * Locates a loader entry in the current process.
@@ -815,9 +816,12 @@ NTSTATUS PhLoadResource(
         0
     };
 
-    // 按当前线程 UI 语言选择资源（SetThreadUILanguage，支持运行时切换）；
-    // 若该语言无对应资源，回退到语言中性资源。
-    uiLangId = GetThreadUILanguage();
+    // 语言切换：优先按应用语言（en/zh 双套 rc 模板、字符串表）选择资源块，
+    // 而非调用线程 UI 语言——线程池等线程可能未同步应用语言设置。
+    // 若该语言无对应资源，回退当前线程 UI 语言，再回退语言中性资源。
+    uiLangId = PhTranslateIsEnglishEnabled()
+        ? MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)
+        : MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED);
     resourcePath[2] = (ULONG_PTR)uiLangId;
 
     __try
@@ -829,7 +833,26 @@ NTSTATUS PhLoadResource(
         status = GetExceptionCode();
     }
 
-    if (!NT_SUCCESS(status) && uiLangId != 0)
+    if (!NT_SUCCESS(status))
+    {
+        LANGID threadLangId = GetThreadUILanguage();
+
+        if (threadLangId != 0 && (ULONG_PTR)threadLangId != resourcePath[2])
+        {
+            resourcePath[2] = (ULONG_PTR)threadLangId;
+
+            __try
+            {
+                status = LdrFindResource_U(DllBase, resourcePath, RTL_NUMBER_OF(resourcePath), &resourceData);
+            }
+            __except (EXCEPTION_EXECUTE_HANDLER)
+            {
+                status = GetExceptionCode();
+            }
+        }
+    }
+
+    if (!NT_SUCCESS(status) && resourcePath[2] != 0)
     {
         resourcePath[2] = (ULONG_PTR)MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL);
 

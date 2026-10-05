@@ -1081,7 +1081,7 @@ LONG PhShowMessage(
     PPH_STRING message;
 
     va_start(argptr, Format);
-    message = PhFormatString_V(Format, argptr);
+    message = PhFormatString_V(PhTranslateTextZ(Format), argptr); // 语言切换
     va_end(argptr);
 
     if (!message)
@@ -1129,7 +1129,7 @@ LONG PhShowMessage2(
     ULONG buttonsFlags;
 
     va_start(argptr, Format);
-    message = PhFormatString_V(Format, argptr);
+    message = PhFormatString_V(PhTranslateTextZ(Format), argptr); // 语言切换
     va_end(argptr);
 
     if (!message)
@@ -1150,7 +1150,7 @@ LONG PhShowMessage2(
     config.hwndParent = WindowHandle;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainIcon = Icon;
-    config.pszMainInstruction = Title;
+    config.pszMainInstruction = Title ? PhTranslateTextZ(Title) : NULL; // 语言切换
     config.pszContent = message->Buffer;
 
     if (PhShowTaskDialog(
@@ -1206,7 +1206,7 @@ BOOLEAN PhpShowMessageOneTime(
     if (Checked)
         *Checked = FALSE;
 
-    message = PhFormatString_V(Format, ArgPtr);
+    message = PhFormatString_V(PhTranslateTextZ(Format), ArgPtr); // 语言切换
 
     if (!message)
         return FALSE;
@@ -1226,9 +1226,9 @@ BOOLEAN PhpShowMessageOneTime(
     config.hwndParent = WindowHandle;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainIcon = Icon;
-    config.pszMainInstruction = Title;
+    config.pszMainInstruction = Title ? PhTranslateTextZ(Title) : NULL; // 语言切换
     config.pszContent = PhGetString(message);
-    config.pszVerificationText = L"不再显示此消息";
+    config.pszVerificationText = PhTranslateTextZ(L"不再显示此消息"); // 语言切换
     config.cxWidth = 200;
 
     if (PhShowTaskDialog(
@@ -1336,6 +1336,37 @@ BOOLEAN PhShowTaskDialog(
     LONG button;
     LONG radio;
     BOOL selected;
+    TASKDIALOG_BUTTON *translatedButtons = NULL; // 语言切换
+    TASKDIALOG_BUTTON *translatedRadioButtons = NULL; // 语言切换
+
+    // 语言切换：自定义按钮/单选按钮文本统一查表翻译（幂等：英文值查表失败返回原文）
+    if (Config->pButtons && Config->cButtons != 0)
+    {
+        translatedButtons = PhAllocate(Config->cButtons * sizeof(TASKDIALOG_BUTTON));
+        memcpy(translatedButtons, Config->pButtons, Config->cButtons * sizeof(TASKDIALOG_BUTTON));
+
+        for (ULONG i = 0; i < Config->cButtons; i++)
+        {
+            if (translatedButtons[i].pszButtonText)
+                translatedButtons[i].pszButtonText = PhTranslateTextZ(translatedButtons[i].pszButtonText);
+        }
+
+        Config->pButtons = translatedButtons;
+    }
+
+    if (Config->pRadioButtons && Config->cRadioButtons != 0)
+    {
+        translatedRadioButtons = PhAllocate(Config->cRadioButtons * sizeof(TASKDIALOG_BUTTON));
+        memcpy(translatedRadioButtons, Config->pRadioButtons, Config->cRadioButtons * sizeof(TASKDIALOG_BUTTON));
+
+        for (ULONG i = 0; i < Config->cRadioButtons; i++)
+        {
+            if (translatedRadioButtons[i].pszButtonText)
+                translatedRadioButtons[i].pszButtonText = PhTranslateTextZ(translatedRadioButtons[i].pszButtonText);
+        }
+
+        Config->pRadioButtons = translatedRadioButtons;
+    }
 
     status = TaskDialogIndirect(
         Config,
@@ -1343,6 +1374,11 @@ BOOLEAN PhShowTaskDialog(
         &radio,
         &selected
         );
+
+    if (translatedButtons)
+        PhFree(translatedButtons);
+    if (translatedRadioButtons)
+        PhFree(translatedRadioButtons);
 
     if (HR_SUCCESS(status))
     {
@@ -1571,7 +1607,7 @@ BOOLEAN PhShowConfirmMessage(
     BOOLEAN result;
 
     // Make sure the verb is all lowercase.
-    verbString = PhCreateString(Verb);
+    verbString = PhCreateString(PhTranslateTextZ(Verb)); // 语言切换
     verb = PhLowerString(verbString);
 
     // "terminate" -> "Terminate"
@@ -1579,11 +1615,11 @@ BOOLEAN PhShowConfirmMessage(
     if (verbCaps->Length > 0) verbCaps->Buffer[0] = PhUpcaseUnicodeChar(verbCaps->Buffer[0]);
 
     // "terminate", "the process" -> "terminate the process"
-    action = PhConcatStrings(2, verb->Buffer, Object);
-    mainInstruction = PhConcatStrings(3, L"是否要", action->Buffer, L"？");
+    action = PhConcatStrings(2, verb->Buffer, PhTranslateTextZ(Object)); // 语言切换
+    mainInstruction = PhConcatStrings(3, PhTranslateTextZ(L"是否要"), action->Buffer, PhTranslateTextZ(L"？")); // 语言切换
 
     if (Message)
-        content = PhConcatStrings2(Message, L"\n确定要继续吗？");
+        content = PhConcatStrings2(PhTranslateTextZ(Message), PhTranslateTextZ(L"\n确定要继续吗？")); // 语言切换
 
     {
         ULONG button;
@@ -1603,7 +1639,7 @@ BOOLEAN PhShowConfirmMessage(
         buttons[0].nButtonID = IDYES;
         buttons[0].pszButtonText = verbCaps->Buffer;
         buttons[1].nButtonID = IDNO;
-        buttons[1].pszButtonText = L"取消";
+        buttons[1].pszButtonText = PhTranslateTextZ(L"取消"); // 语言切换
 
         config.cButtons = 2;
         config.pButtons = buttons;
@@ -2790,9 +2826,9 @@ PPH_STRING PhFormatTimeSpanRelative(
                 string = PhFormatString(
                     PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)days,
-                    L"天",
+                    PhTranslateTextZ(L"天"),
                     hoursPartial,
-                    L"小时"
+                    PhTranslateTextZ(L"小时")
                     );
             }
             else
@@ -2809,9 +2845,9 @@ PPH_STRING PhFormatTimeSpanRelative(
                 string = PhFormatString(
                     PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)hours,
-                    L"小时",
+                    PhTranslateTextZ(L"小时"),
                     (ULONG)minutesPartial,
-                    L"分钟"
+                    PhTranslateTextZ(L"分钟")
                     );
             }
             else
@@ -2828,9 +2864,9 @@ PPH_STRING PhFormatTimeSpanRelative(
                 string = PhFormatString(
                     PhTranslateTextZ(L"%u %s 又 %u %s"),
                     (ULONG)minutes,
-                    L"分钟",
+                    PhTranslateTextZ(L"分钟"),
                     (ULONG)secondsPartial,
-                    L"秒"
+                    PhTranslateTextZ(L"秒")
                     );
             }
             else

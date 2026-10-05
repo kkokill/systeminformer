@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -136,8 +136,8 @@ PVOID PhCreateSecurityPage(
 
     info = PhSecurityInformation_Create(
         NULL,
-        ObjectName,
-        ObjectType,
+        PhTranslateTextZ(ObjectName), // 语言切换
+        PhTranslateTextZ(ObjectType), // 语言切换
         OpenObject,
         CloseObject,
         NULL,
@@ -176,8 +176,8 @@ VOID PhEditSecurity(
 
     info = PhSecurityInformation_Create(
         WindowHandle,
-        ObjectName,
-        ObjectType,
+        PhTranslateTextZ(ObjectName), // 语言切换
+        PhTranslateTextZ(ObjectType), // 语言切换
         OpenObject,
         CloseObject,
         NULL,
@@ -219,8 +219,8 @@ VOID PhEditSecurityEx(
 
     info = PhSecurityInformation_Create(
         WindowHandle,
-        ObjectName,
-        ObjectType,
+        PhTranslateTextZ(ObjectName), // 语言切换
+        PhTranslateTextZ(ObjectType), // 语言切换
         OpenObject,
         CloseObject,
         GetObjectSecurity,

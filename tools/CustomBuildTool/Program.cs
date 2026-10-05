@@ -80,6 +80,7 @@ namespace CustomBuildTool
             rootCommand.Add(CreateSdkCommand(verboseOption));
             rootCommand.Add(CreateDebugCommand(verboseOption));
             rootCommand.Add(CreateReleaseCommand(verboseOption));
+            rootCommand.Add(CreatePortableBuildCommand(verboseOption));
             rootCommand.Add(CreateCMakeBuildCommand(verboseOption));
             rootCommand.Add(CreateCMakeBinCommand(verboseOption));
             rootCommand.Add(CreateCMakeReleaseCommand(verboseOption));
@@ -100,6 +101,7 @@ namespace CustomBuildTool
 
                     { "-build-debug", "Builds the debug configuration." },
                     { "-build-release", "Builds the release configuration." },
+                    { "-build-portable", "Builds the portable package." },
                     { "-build-devenv", "Builds using devenv configuration." },
                     { "-build-msix", "Builds MSIX store package." },
                     { "-build-zip", "Builds the binary package." },
@@ -786,9 +788,33 @@ namespace CustomBuildTool
                 }
 
                 if (!Build.CopyTextFiles(false, flags)) Environment.Exit(1);
+                if (!Build.BuildPortableZip(flags)) Environment.Exit(1);
                 if (!Build.BuildChecksumsFile()) Environment.Exit(1);
 
                 Build.ShowBuildStats();
+            });
+            return cmd;
+        }
+
+        /// <summary>
+        /// Creates a command that builds the portable package from the existing binaries.
+        /// </summary>
+        /// <param name="VerboseOption">Specifies whether to enable verbose output.</param>
+        /// <returns>A Command object configured to build the portable package.</returns>
+        private static Command CreatePortableBuildCommand(Option<bool> VerboseOption)
+        {
+            var cmd = new Command("-portable-build", "Builds the portable package.");
+            cmd.Aliases.Add("-build-portable");
+            cmd.SetAction(parseResult =>
+            {
+                bool verbose = parseResult.GetValue(VerboseOption);
+                BuildToolsId.CheckForOutOfDateTools();
+                BuildFlags flags = BuildFlags.Release | BuildFlags.Build64bit | (verbose ? BuildFlags.BuildVerbose : BuildFlags.None);
+                Build.SetupBuildEnvironment(true);
+
+                if (!Build.BuildPortableZip(flags)) Environment.Exit(1);
+
+                if (verbose) Build.ShowBuildStats();
             });
             return cmd;
         }

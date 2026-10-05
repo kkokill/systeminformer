@@ -1274,6 +1274,107 @@ namespace CustomBuildTool
         }
 
         /// <summary>
+        /// Builds the portable package: builds the launcher with the same version macros as the
+        /// main executable, assembles the App\Data layout and creates the distributable zip.
+        /// </summary>
+        /// <param name="Flags">Build flags indicating which configurations to process.</param>
+        /// <returns>True if the portable zip is built successfully; otherwise, false.</returns>
+        public static bool BuildPortableZip(BuildFlags Flags)
+        {
+            Program.PrintColorMessage(BuildTimeSpan(), ConsoleColor.DarkGray, false);
+            Program.PrintColorMessage("Building systeminformer-build-portable-x64.zip...", ConsoleColor.Cyan);
+
+            try
+            {
+                string buildConfiguration = Flags.HasFlag(BuildFlags.BuildDebug) ? "Debug" : "Release";
+                string sourceDirectory = Path.Join([GetBuildBaseDirectory(Flags), $"{buildConfiguration}64"]);
+                string portableFolder = Path.Join([Build.BuildOutputFolder, "systeminformer-build-portable"]);
+                string appFolder = Path.Join([portableFolder, "App", "SystemInformer"]);
+                string dataFolder = Path.Join([portableFolder, "Data"]);
+                string launcherExecutableFile = Path.Join(["tools", "PortableLauncher", "bin", "Release64", "SystemInformerPortable.exe"]);
+                string zipFilePath = Path.Join([Build.BuildOutputFolder, "systeminformer-build-portable-x64.zip"]);
+
+                if (!Directory.Exists(sourceDirectory))
+                {
+                    Program.PrintColorMessage($"[ERROR] Missing main executable directory: {sourceDirectory}", ConsoleColor.Red);
+                    return false;
+                }
+
+                // Build the launcher with the same version macros as the main executable.
+
+                BuildFlags launcherFlags = (Flags & ~(BuildFlags.Build32bit | BuildFlags.BuildArm64bit | BuildFlags.BuildMsix)) | BuildFlags.Build64bit;
+
+                if (!BuildSolution("tools\\PortableLauncher\\PortableLauncher.vcxproj", launcherFlags))
+                    return false;
+
+                if (!File.Exists(launcherExecutableFile))
+                {
+                    Program.PrintColorMessage($"[ERROR] Missing launcher executable: {launcherExecutableFile}", ConsoleColor.Red);
+                    return false;
+                }
+
+                // Assemble the portable layout. Data\ is preserved across repacks;
+                // the launcher recreates it on first run.
+
+                if (Directory.Exists(appFolder))
+                    Directory.Delete(appFolder, true);
+
+                Directory.CreateDirectory(appFolder);
+                Directory.CreateDirectory(dataFolder);
+
+                foreach (string file in Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories))
+                {
+                    string extension = Path.GetExtension(file);
+
+                    if (
+                        extension.Equals(".pdb", StringComparison.OrdinalIgnoreCase) ||
+                        extension.Equals(".iobj", StringComparison.OrdinalIgnoreCase) ||
+                        extension.Equals(".ipdb", StringComparison.OrdinalIgnoreCase) ||
+                        extension.Equals(".exp", StringComparison.OrdinalIgnoreCase) ||
+                        extension.Equals(".lib", StringComparison.OrdinalIgnoreCase)
+                        )
+                        continue;
+
+                    string targetFile = Path.Join([appFolder, file.AsSpan(sourceDirectory.Length + 1).ToString()]);
+                    string targetDirectory = Path.GetDirectoryName(targetFile);
+
+                    if (!string.IsNullOrEmpty(targetDirectory))
+                        Directory.CreateDirectory(targetDirectory);
+
+                    File.Copy(file, targetFile, true);
+                }
+
+                // Include the text files so the portable package matches the other packages
+                // (the release flow deletes them from the build directories after the setup build).
+
+                foreach (string textFile in new[] { "README.txt", "COPYRIGHT.txt", "LICENSE.txt" })
+                {
+                    if (File.Exists(textFile))
+                        File.Copy(textFile, Path.Join([appFolder, textFile]), true);
+                }
+
+                File.Copy(launcherExecutableFile, Path.Join([portableFolder, "SystemInformerPortable.exe"]), true);
+
+                // Create the zip (Data\ is excluded from the archive).
+
+                Win32.DeleteFile(zipFilePath, Flags);
+
+                Zip.CreateCompressedPortableFromFolder(portableFolder, zipFilePath, Flags);
+
+                Program.PrintColorMessage($"{Path.GetFileName(zipFilePath)}: ", ConsoleColor.Green, false);
+                Program.PrintColorMessage("...", ConsoleColor.Gray, false);
+                Program.PrintColorMessage($" {Win32.GetFileSize(zipFilePath).ToPrettySize()}", ConsoleColor.Yellow);
+            }
+            catch (Exception exception)
+            {
+                Program.PrintColorMessage($"[ERROR] {exception}", ConsoleColor.Red);
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Builds a zip archive containing PDB files, optionally for MSIX package builds.
         /// </summary>
         /// <param name="MsixPackageBuild">If true, builds for MSIX package; otherwise, for standard build.</param>
@@ -1479,11 +1580,12 @@ namespace CustomBuildTool
                     buildUploadFiles.Add(zip);
             }
 
-            // Always include combined bin, pdb, and setup files if present
+            // Always include combined bin, pdb, portable, and setup files if present
             string[] alwaysFiles =
             [
                 "systeminformer-build-bin.zip",
                 "systeminformer-build-pdb.zip",
+                "systeminformer-build-portable-x64.zip",
                 "systeminformer-build-release-setup.exe",
                 "systeminformer-build-canary-setup.exe"
             ];

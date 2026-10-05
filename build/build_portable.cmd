@@ -1,87 +1,80 @@
 @echo off
-rem Build a portable package with the App\Data layout:
-rem   build\output\SystemInformer-Portable\
-rem     App\SystemInformer\        - program files (from bin\Release64)
-rem     Data\                      - persistent settings (SystemInformer.exe.settings.json)
-rem     SystemInformerPortable.exe - launcher (built from tools\PortableLauncher)
-rem Also creates the distributable zip:
-rem   build\output\SystemInformer-Portable-<version>-x64.zip
-rem     (top-level SystemInformer-Portable folder; Data\ is excluded - the
-rem      launcher recreates it on first run)
-rem Note: Data\ is intentionally preserved across repacks.
+setlocal enabledelayedexpansion
+cd /d "%~dp0\.."
 
-setlocal EnableExtensions
-cd /d "%~dp0.."
+REM -----------------------------------------------------------------------------
+REM Script: build_portable.cmd
+REM Description: Invokes the portable packaging workflow through CustomBuildTool.
+REM              Packages the existing bin\Release64 binaries into the portable
+REM              App\Data layout (build\output\systeminformer-build-portable) and
+REM              creates systeminformer-build-portable-x64.zip. The zip opens
+REM              directly to App\, Data\ and SystemInformerPortable.exe; Data\
+REM              is an empty folder entry (the launcher recreates its contents
+REM              on first run) and is preserved across repacks.
+REM -----------------------------------------------------------------------------
 
-rem MSBuild: prefer VS 18 on C: (current install location), fall back to D:
-rem (older install) and to the non-amd64 host variant.
-set "MSBUILD=C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
-if not exist "%MSBUILD%" set "MSBUILD=D:\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
-if not exist "%MSBUILD%" set "MSBUILD=C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe"
-if not exist "%MSBUILD%" set "MSBUILD=D:\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe"
-if not exist "%MSBUILD%" (
-    echo MSBuild not found. Set the MSBUILD variable to the amd64 MSBuild.exe path.
-    exit /b 1
-)
+REM Initialize script state and tool paths.
+set "ExitCode=0"
+set "IsCI=false"
+set "CustomBuildTool=tools\CustomBuildTool\bin\Release\%PROCESSOR_ARCHITECTURE%\CustomBuildTool.exe"
 
-set "OUTPUT=build\output\SystemInformer-Portable"
+REM Run the main script flow and capture the final exit code.
+call :DetectCi
+call :Main
+if errorlevel 1 set "ExitCode=%errorlevel%"
 
-rem Read the version of the built main executable and pass it to the
-rem launcher resources, so the launcher version always matches.
-if not exist "bin\Release64\SystemInformer.exe" (
-    echo Main executable not found: bin\Release64\SystemInformer.exe
-    exit /b 1
-)
-set "APPVER="
-for /f "usebackq delims=" %%v in (`powershell -NoProfile -Command "(Get-Item -LiteralPath 'bin\Release64\SystemInformer.exe').VersionInfo.FileVersion"`) do set "APPVER=%%v"
-if not defined APPVER (
-    echo Failed to read the version of bin\Release64\SystemInformer.exe
-    exit /b 1
-)
-for /f "tokens=1-4 delims=. " %%a in ("%APPVER%") do (
-    set "VMAJOR=%%a"
-    set "VMINOR=%%b"
-    set "VBUILD=%%c"
-    set "VREV=%%d"
-)
-echo Launcher version: %APPVER%
+:end
+REM Pause only for interactive, non-CI invocations before returning.
+if /i "%IsCI%"=="false" call :PauseIfInteractive
+endlocal & exit /b %ExitCode%
 
-rem Rebuild the launcher (static CRT, windowed subsystem).
-"%MSBUILD%" tools\PortableLauncher\PortableLauncher.vcxproj /p:Configuration=Release /p:Platform=x64 /p:ExternalPreprocessorOptions="PHAPP_VERSION_MAJOR=%VMAJOR%;PHAPP_VERSION_MINOR=%VMINOR%;PHAPP_VERSION_BUILD=%VBUILD%;PHAPP_VERSION_REVISION=%VREV%" /m /v:m /nologo
-if errorlevel 1 exit /b 1
-if not exist "tools\PortableLauncher\bin\Release64\SystemInformerPortable.exe" (
-    echo Launcher exe not found after build.
-    exit /b 1
-)
+REM -----------------------------------------------------------------------------
+REM Function: Main
+REM Description: Validates prerequisites and runs the portable build action.
+REM -----------------------------------------------------------------------------
+:Main
+call :CheckCustomBuildTool
+if errorlevel 1 exit /b %errorlevel%
 
-if exist "%OUTPUT%\App" rmdir /s /q "%OUTPUT%\App"
-if exist "%OUTPUT%\SystemInformerPortable.bat" del /f /q "%OUTPUT%\SystemInformerPortable.bat"
-if exist "%OUTPUT%\SystemInformerPortable.exe" del /f /q "%OUTPUT%\SystemInformerPortable.exe"
-mkdir "%OUTPUT%\App\SystemInformer" 2>nul
-mkdir "%OUTPUT%\Data" 2>nul
+call :RunCustomBuildTool "-portable-build"
+if errorlevel 1 exit /b %errorlevel%
 
-robocopy bin\Release64 "%OUTPUT%\App\SystemInformer" /e /xf *.pdb *.exp *.lib /njh /njs /ndl /nfl
-if errorlevel 8 (
-    echo robocopy failed with code %errorlevel%
-    exit /b 1
-)
+exit /b 0
 
-copy /y "tools\PortableLauncher\bin\Release64\SystemInformerPortable.exe" "%OUTPUT%\SystemInformerPortable.exe" >nul
+REM -----------------------------------------------------------------------------
+REM Function: CheckCustomBuildTool
+REM Description: Ensures the CustomBuildTool executable is available.
+REM -----------------------------------------------------------------------------
+:CheckCustomBuildTool
+if exist "%CustomBuildTool%" exit /b 0
+echo CustomBuildTool.exe not found. Run build\build_init.cmd first.
+exit /b 1
 
-rem Create the distributable zip with the Windows built-in bsdtar (-a picks
-rem the zip format from the file extension). Data\ stays out of the zip.
-set "ZIPNAME=SystemInformer-Portable-%APPVER%-x64.zip"
-if exist "build\output\%ZIPNAME%" del /f /q "build\output\%ZIPNAME%"
-pushd build\output
-tar -a -c -f "%ZIPNAME%" --exclude "SystemInformer-Portable/Data" --exclude "SystemInformer-Portable/Data/*" "SystemInformer-Portable"
-set "TAREXIT=%errorlevel%"
-popd
-if not "%TAREXIT%"=="0" (
-    echo Failed to create zip package: %ZIPNAME%
-    exit /b 1
-)
+REM -----------------------------------------------------------------------------
+REM Function: RunCustomBuildTool
+REM Description: Executes CustomBuildTool with the supplied arguments.
+REM Parameters:
+REM   %* - Arguments forwarded to CustomBuildTool.
+REM -----------------------------------------------------------------------------
+:RunCustomBuildTool
+start /B /W "" "%CustomBuildTool%" %*
+exit /b %errorlevel%
 
-echo.
-echo Portable package created: %CD%\%OUTPUT%
-echo Zip package created: %CD%\build\output\%ZIPNAME%
+REM -----------------------------------------------------------------------------
+REM Function: DetectCi
+REM Description: Detects whether the script is running under CI.
+REM -----------------------------------------------------------------------------
+:DetectCi
+if /i "%GITHUB_ACTIONS%"=="true" set "IsCI=true"
+if /i "%TF_BUILD%"=="true" set "IsCI=true"
+exit /b 0
+
+REM -----------------------------------------------------------------------------
+REM Function: PauseIfInteractive
+REM Description: Pauses only when stdin is attached to an interactive console.
+REM -----------------------------------------------------------------------------
+:PauseIfInteractive
+set "STDIN_REDIRECTED=False"
+for /f %%i in ('powershell -NoProfile -Command "[Console]::IsInputRedirected"') do set "STDIN_REDIRECTED=%%i"
+if /i not "%STDIN_REDIRECTED%"=="True" pause
 exit /b 0

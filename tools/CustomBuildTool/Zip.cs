@@ -114,7 +114,8 @@ namespace CustomBuildTool
             string SourceFile,
             CompressionType CompressionType,
             CompressionProgressReporter ProgressReporter,
-            BuildFlags Flags
+            BuildFlags Flags,
+            int EntryColumnWidth = 48
             )
         {
             long startPosition = ArchiveStream.Position;
@@ -134,7 +135,7 @@ namespace CustomBuildTool
 
             if (Flags.HasFlag(BuildFlags.BuildVerbose))
             {
-                PrintCompressionVerboseLine(EntryName, compressedSize, ProgressReporter, Flags);
+                PrintCompressionVerboseLine(EntryName, compressedSize, ProgressReporter, Flags, EntryColumnWidth);
             }
         }
 
@@ -332,6 +333,63 @@ namespace CustomBuildTool
         }
 
         /// <summary>
+        /// Creates a compressed ZIP archive for the portable package from a source directory.
+        /// </summary>
+        /// <param name="SourceDirectoryName">The path to the portable directory to compress.</param>
+        /// <param name="DestinationArchiveFileName">The path where the ZIP archive will be created.</param>
+        /// <param name="Flags">Build flags controlling verbosity and other options.</param>
+        /// <remarks>
+        /// Unlike <see cref="CreateCompressedFolder"/>, this method includes all files without filtering
+        /// and stores them relative to the source directory, so the archive opens directly to
+        /// <c>App</c>, <c>Data</c> and <c>SystemInformerPortable.exe</c>. The <c>Data</c> sub-directory
+        /// is written as an empty folder entry; the portable launcher recreates its contents on first run.
+        /// </remarks>
+        public static void CreateCompressedPortableFromFolder(string SourceDirectoryName, string DestinationArchiveFileName, BuildFlags Flags = BuildFlags.None)
+        {
+            var progressReporter = new CompressionProgressReporter();
+            List<(string File, string Name)> entries = new List<(string File, string Name)>();
+
+            foreach (string file in Directory.EnumerateFiles(SourceDirectoryName, "*", SearchOption.AllDirectories))
+            {
+                string name = GetEntryName(file, SourceDirectoryName, false);
+
+                if (name.StartsWith("Data\\", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                entries.Add((file, name));
+            }
+
+            // Size the entry column so the verbose names are not truncated.
+
+            int entryColumnWidth = 48;
+
+            foreach (var (_, name) in entries)
+                entryColumnWidth = Math.Max(entryColumnWidth, name.Length + 1);
+
+            using (var fileStream = File.Create(DestinationArchiveFileName))
+            using (var writer = new ZipWriter(fileStream, CreateWriterOptions(progressReporter)))
+            {
+                // Data\ is written as an empty folder entry; the portable launcher
+                // recreates its contents (settings) on first run.
+
+                writer.Write(
+                    "Data/",
+                    new MemoryStream(),
+                    new ZipWriterEntryOptions
+                    {
+                        CompressionType = CompressionType.None,
+                        ModificationDateTime = Build.BuildDateTime
+                    }
+                );
+
+                foreach (var (file, name) in entries)
+                {
+                    WriteEntry(writer, fileStream, name, file, CompressionType.Deflate, progressReporter, Flags, entryColumnWidth);
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates a compressed ZIP archive containing only PDB symbol files from a source directory.
         /// </summary>
         /// <param name="SourceDirectoryName">The path to the directory containing PDB files.</param>
@@ -422,7 +480,7 @@ namespace CustomBuildTool
         /// <param name="CompressedSize">Progress reports captured during writing.</param>
         /// <param name="ProgressReporter">Progress reports captured during writing.</param>
         /// <param name="Flags">Build flags for output formatting.</param>
-        private static void PrintCompressionVerboseLine(string EntryName, long CompressedSize, CompressionProgressReporter ProgressReporter, BuildFlags Flags)
+        private static void PrintCompressionVerboseLine(string EntryName, long CompressedSize, CompressionProgressReporter ProgressReporter, BuildFlags Flags, int EntryColumnWidth = 48)
         {
             if (!ProgressReporter.TryGetReport(EntryName, out var report))
             {
@@ -430,7 +488,7 @@ namespace CustomBuildTool
                 return;
             }
 
-            PrintCompressionProgressColumns(EntryName, CompressedSize, report.BytesTransferred, Flags);
+            PrintCompressionProgressColumns(EntryName, CompressedSize, report.BytesTransferred, Flags, EntryColumnWidth);
         }
 
         /// <summary>
@@ -440,17 +498,17 @@ namespace CustomBuildTool
         /// <param name="CompressedSize">Compressed byte count.</param>
         /// <param name="OriginalSize">Compressed byte count.</param>
         /// <param name="Flags">Build flags for output formatting.</param>
-        private static void PrintCompressionProgressColumns(string EntryName, long CompressedSize, long OriginalSize, BuildFlags Flags)
+        private static void PrintCompressionProgressColumns(string EntryName, long CompressedSize, long OriginalSize, BuildFlags Flags, int EntryColumnWidth = 48)
         {
-            const int entryColumnWidth = 48;
             const int sizeColumnWidth = 10;
             const int percentColumnWidth = 6;
+            int entryColumnWidth = EntryColumnWidth;
 
             string entryText = EntryName ?? "?";
             if (entryText.Length > entryColumnWidth)
                 entryText = entryText.Substring(0, entryColumnWidth - 1) + "~";
 
-            string entryAligned = $"{entryText,-entryColumnWidth}";
+            string entryAligned = entryText.PadRight(entryColumnWidth);
             string originalAligned = $"{OriginalSize.ToPrettySize(),sizeColumnWidth}";
             string compressedAligned = $"{CompressedSize.ToPrettySize(),sizeColumnWidth}";
             string percentAligned = $"{(OriginalSize <= 0 ? 0.0 : (1.0 - ((double)CompressedSize / OriginalSize)) * 100.0),percentColumnWidth - 1:0.0}%";

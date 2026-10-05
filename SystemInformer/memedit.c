@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -304,7 +304,7 @@ INT_PTR CALLBACK PhpMemoryEditorDlgProc(
                 ULONG bytesPerRow;
 
                 for (i = 0; i < sizeof(bytesPerRowStrings) / sizeof(PWSTR); i++)
-                    bytesPerRowStrings[i] = PhaFormatString(L"%u 字节/行", 1 << (2 + i))->Buffer;
+                    bytesPerRowStrings[i] = PhaFormatString(PhTranslateTextZ(L"%u 字节/行"), 1 << (2 + i))->Buffer;
 
                 PhAddComboBoxStrings(GetDlgItem(hwndDlg, IDC_BYTESPERROW),
                     bytesPerRowStrings, sizeof(bytesPerRowStrings) / sizeof(PWSTR));
@@ -315,7 +315,7 @@ INT_PTR CALLBACK PhpMemoryEditorDlgProc(
                 {
                     HexEdit_SetBytesPerRow(context->HexEditHandle, bytesPerRow);
                     PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_BYTESPERROW),
-                        PhaFormatString(L"%u 字节/行", bytesPerRow)->Buffer, FALSE);
+                        PhaFormatString(PhTranslateTextZ(L"%u 字节/行"), bytesPerRow)->Buffer, FALSE);
                 }
             }
 

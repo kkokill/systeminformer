@@ -342,7 +342,7 @@ NTSTATUS PhpShowHandlePropertiesThread(
         PSH_PROPTITLE;
     propSheetHeader.hInstance = NtCurrentImageBase();
     propSheetHeader.hwndParent = PhCsForceNoParent ? NULL : handleContext->ParentWindowHandle;
-    propSheetHeader.pszCaption = L"句柄";
+    propSheetHeader.pszCaption = PhTranslateTextZ(L"句柄");
     propSheetHeader.nPages = 0;
     propSheetHeader.nStartPage = 0;
     propSheetHeader.phpage = pages;
@@ -543,7 +543,7 @@ VOID PhpUpdateHandleGeneralListViewGroups(
 {
     PhListView_EnableGroupView(Context->ListViewClass, TRUE);
     PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_BASICINFO, L"基本信息");
-    PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_SECURITY, L"安全信息");
+    PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_SECURITY, PhTranslateTextZ(L"安全信息"));
     PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_REFERENCES, L"引用");
     PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_QUOTA, L"配额占用");
 
@@ -583,7 +583,7 @@ VOID PhpUpdateHandleGeneralListViewGroups(
 
         if (WindowsVersion >= WINDOWS_10_19H2)
         {
-            PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_ALPC, PH_HANDLE_GENERAL_INDEX_ALPCOWNER, L"所有者");
+            PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_ALPC, PH_HANDLE_GENERAL_INDEX_ALPCOWNER, PhTranslateTextZ(L"所有者"));
         }
     }
     else if (PhEqualString2(Context->HandleItem->TypeName, L"EtwRegistration", TRUE))
@@ -619,7 +619,7 @@ VOID PhpUpdateHandleGeneralListViewGroups(
         PhListView_AddGroup(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_MUTANT, L"互斥体信息");
         PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_MUTANT, PH_HANDLE_GENERAL_INDEX_MUTANTCOUNT, L"计数");
         PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_MUTANT, PH_HANDLE_GENERAL_INDEX_MUTANTABANDONED, L"已放弃");
-        PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_MUTANT, PH_HANDLE_GENERAL_INDEX_MUTANTOWNER, L"所有者");
+        PhAddHandleListViewItem(Context->ListViewClass, PH_HANDLE_GENERAL_CATEGORY_MUTANT, PH_HANDLE_GENERAL_INDEX_MUTANTOWNER, PhTranslateTextZ(L"所有者"));
     }
     else if (PhEqualStringRef2(&Context->HandleItem->TypeName->sr, L"Process", TRUE))
     {
@@ -747,13 +747,13 @@ VOID PhpUpdateHandleGeneral(
             PhInitializeStringBuilder(&stringBuilder, 64);
 
             if (FlagOn(Context->HandleItem->GrantedAccess, genericMapping.GenericRead))
-                PhAppendStringBuilder2(&stringBuilder, L"读取, ");
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"读取, "));
             if (FlagOn(Context->HandleItem->GrantedAccess, genericMapping.GenericWrite))
-                PhAppendStringBuilder2(&stringBuilder, L"写入, ");
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"写入, "));
             if (FlagOn(Context->HandleItem->GrantedAccess, genericMapping.GenericExecute))
-                PhAppendStringBuilder2(&stringBuilder, L"执行, ");
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"执行, "));
             if (FlagOn(Context->HandleItem->GrantedAccess, genericMapping.GenericAll))
-                PhAppendStringBuilder2(&stringBuilder, L"全部, ");
+                PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"全部, "));
 
             if (PhEndsWithStringRef2(&stringBuilder.String->sr, L", ", FALSE))
                 PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -1735,7 +1735,7 @@ VOID PhpUpdateHandleGeneral(
 
         if (NT_SUCCESS(status))
         {
-            PCWSTR sectionType = L"未知";
+            PCWSTR sectionType = PhTranslateTextZ(L"未知");
             PPH_STRING sectionSize = NULL;
 
             if (FlagOn(basicInfo.AllocationAttributes, SEC_COMMIT))
@@ -1756,7 +1756,7 @@ VOID PhpUpdateHandleGeneral(
 
             PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_SECTIONFILE, 1, PhGetStringOrDefault(fileName, L"N/A"));
             PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_SECTIONTYPE, 1, sectionType);
-            PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_SECTIONSIZE, 1, PhGetStringOrDefault(sectionSize, L"未知"));
+            PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_SECTIONSIZE, 1, PhGetStringOrDefault(sectionSize, PhTranslateTextZ(L"未知")));
         }
     }
     else if (PhEqualString2(Context->HandleItem->TypeName, L"Mutant", TRUE))
@@ -1952,7 +1952,7 @@ VOID PhpUpdateHandleGeneral(
             PPH_STRING exitcode;
 
             message = PhGetStatusMessage(exitStatus, 0);
-            exitcode = PhFormatString(L"0x%x (%s)", exitStatus, PhGetStringOrDefault(message, L"未知"));
+            exitcode = PhFormatString(L"0x%x (%s)", exitStatus, PhGetStringOrDefault(message, PhTranslateTextZ(L"未知")));
             PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_PROCESSTHREADEXITCODE, 1, PhGetStringOrEmpty(exitcode));
             PhClearReference(&exitcode);
             PhClearReference(&message);
@@ -2077,7 +2077,7 @@ VOID PhpUpdateHandleGeneral(
             PPH_STRING exitcode;
 
             message = PhGetStatusMessage(exitStatus, 0);
-            exitcode = PhFormatString(L"0x%x (%s)", exitStatus, PhGetStringOrDefault(message, L"未知"));
+            exitcode = PhFormatString(L"0x%x (%s)", exitStatus, PhGetStringOrDefault(message, PhTranslateTextZ(L"未知")));
             PhSetHandleListViewItem(Context, PH_HANDLE_GENERAL_INDEX_PROCESSTHREADEXITCODE, 1, PhGetStringOrEmpty(exitcode));
             PhClearReference(&exitcode);
             PhClearReference(&message);
@@ -2338,16 +2338,16 @@ VOID PhAddHandlePermissionsTrustee(
         case SidTypeUser:
         case SidTypeLogonSession:
         case SidTypeDeletedAccount:
-            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (用户)"));
+            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (用户)")));
             break;
         case SidTypeAlias:
         case SidTypeGroup:
         case SidTypeWellKnownGroup:
-            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (组)"));
+            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (组)")));
             break;
         case SidTypeDomain:
         case SidTypeComputer:
-            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (计算机)"));
+            PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (计算机)")));
             break;
         }
     }
@@ -2444,16 +2444,16 @@ VOID PhUpdateHandlePermissionsOwnerSecurity(
                     case SidTypeUser:
                     case SidTypeLogonSession:
                     case SidTypeDeletedAccount:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (用户)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (用户)")));
                         break;
                     case SidTypeAlias:
                     case SidTypeGroup:
                     case SidTypeWellKnownGroup:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (组)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (组)")));
                         break;
                     case SidTypeDomain:
                     case SidTypeComputer:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (计算机)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (计算机)")));
                         break;
                     }
                 }
@@ -2539,16 +2539,16 @@ VOID PhUpdateHandlePermissionsGroupSecurity(
                     case SidTypeUser:
                     case SidTypeLogonSession:
                     case SidTypeDeletedAccount:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (用户)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (用户)")));
                         break;
                     case SidTypeAlias:
                     case SidTypeGroup:
                     case SidTypeWellKnownGroup:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (组)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (组)")));
                         break;
                     case SidTypeDomain:
                     case SidTypeComputer:
-                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, L" (计算机)"));
+                        PhMoveReference(&string, PhConcatStringRefZ(&string->sr, PhTranslateTextZ(L" (计算机)")));
                         break;
                     }
                 }
@@ -2824,10 +2824,10 @@ VOID PhUpdateHandlePermissionSecurity(
     PhSetExtendedListView(Context->ListViewHeader);
 
     ListView_EnableGroupView(Context->ListViewHeader, TRUE);
-    PhAddListViewGroup(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, L"安全信息");
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 0, L"所有者", NULL);
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 1, L"组", NULL);
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 2, L"完整性", NULL);
+    PhAddListViewGroup(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, PhTranslateTextZ(L"安全信息"));
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 0, PhTranslateTextZ(L"所有者"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 1, PhTranslateTextZ(L"组"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 2, PhTranslateTextZ(L"完整性"), NULL);
     PhSetListViewSubItem(Context->ListViewHeader, 0, 1, L"N/A");
     PhSetListViewSubItem(Context->ListViewHeader, 1, 1, L"N/A");
     PhSetListViewSubItem(Context->ListViewHeader, 2, 1, L"N/A");
@@ -2911,10 +2911,10 @@ VOID PhUpdateHandleAuditingSecurity(
     PhSetExtendedListView(Context->ListViewHeader);
 
     ListView_EnableGroupView(Context->ListViewHeader, TRUE);
-    PhAddListViewGroup(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, L"审核信息");
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 0, L"所有者", NULL);
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 1, L"组", NULL);
-    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 2, L"完整性", NULL);
+    PhAddListViewGroup(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, PhTranslateTextZ(L"审核信息"));
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 0, PhTranslateTextZ(L"所有者"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 1, PhTranslateTextZ(L"组"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHeader, PH_HANDLE_GENERAL_CATEGORY_SECURITY, 2, PhTranslateTextZ(L"完整性"), NULL);
     PhSetListViewSubItem(Context->ListViewHeader, 0, 1, L"N/A");
     PhSetListViewSubItem(Context->ListViewHeader, 1, 1, L"N/A");
     PhSetListViewSubItem(Context->ListViewHeader, 2, 1, L"N/A");

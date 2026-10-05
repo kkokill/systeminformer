@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -321,37 +321,37 @@ VOID PhShowKsiStatus(
 
         if (!BooleanFlagOn(processState, KPH_PROCESS_SECURELY_CREATED))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 未以安全方式创建\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 未以安全方式创建\r\n"));
         }
         if (!BooleanFlagOn(processState, KPH_PROCESS_VERIFIED_PROCESS))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 主映像未经验证\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 主映像未经验证\r\n"));
         }
         if (!BooleanFlagOn(processState, KPH_PROCESS_PROTECTED_PROCESS))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 保护未激活\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 保护未激活\r\n"));
         }
         if (!BooleanFlagOn(processState, KPH_PROCESS_NO_UNTRUSTED_IMAGES))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 存在未签名映像（可能是未签名的插件）\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 存在未签名映像（可能是未签名的插件）\r\n"));
         }
         if (!BooleanFlagOn(processState, KPH_PROCESS_NOT_BEING_DEBUGGED))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 进程正在被调试\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 进程正在被调试\r\n"));
         }
         if (!BooleanFlagOn(processState, KPH_PROCESS_CREATE_NOTIFICATION))
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 无创建通知\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 无创建通知\r\n"));
         }
         if ((processState & KPH_PROCESS_STATE_MINIMUM) != KPH_PROCESS_STATE_MINIMUM)
         {
-            PhAppendStringBuilder2(&stringBuilder, L"    - 主映像已被篡改\r\n");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"    - 主映像已被篡改\r\n"));
         }
 
         if (PhEndsWithString2(stringBuilder.String, L"\r\n", FALSE))
             PhRemoveEndStringBuilder(&stringBuilder, 2);
         PhAppendStringBuilder2(&stringBuilder, L"\r\n\r\n"); // String interning optimization (dmex)
-        PhAppendStringBuilder2(&stringBuilder, L"您将无法使用更多高级功能、查看系统进程详细信息或终止恶意软件。");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"您将无法使用更多高级功能、查看系统进程详细信息或终止恶意软件。"));
         infoString = PhFinalStringBuilderString(&stringBuilder);
 
         PhShowKsiMessageEx(
@@ -359,7 +359,7 @@ VOID PhShowKsiStatus(
             TD_SHIELD_ERROR_ICON,
             0,
             FALSE,
-            L"对内核驱动程序的访问受限。",
+            PhTranslateTextZ(L"对内核驱动程序的访问受限。"),
             L"%s",
             PhGetString(infoString)
             );
@@ -431,7 +431,7 @@ PPH_STRING PhpGetKsiMessage(
         }
         else
         {
-            PhAppendStringBuilder2(&stringBuilder, L"未知错误。");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"未知错误。"));
         }
 
         PhAppendFormatStringBuilder(&stringBuilder, L" (0x%08x)", Status);
@@ -445,8 +445,8 @@ PPH_STRING PhpGetKsiMessage(
         PhGetString(buildString)
         );
 
-    PhAppendStringBuilder2(&stringBuilder, L"Windows 内核 ");
-    PhAppendStringBuilder2(&stringBuilder, PhGetStringOrDefault(kernelVersion, L"未知"));
+    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"Windows 内核 "));
+    PhAppendStringBuilder2(&stringBuilder, PhGetStringOrDefault(kernelVersion, PhTranslateTextZ(L"未知")));
     PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     PhAppendStringBuilder(&stringBuilder, &versionString->sr);
     PhAppendStringBuilder2(&stringBuilder, L"\r\n");
@@ -454,14 +454,14 @@ PPH_STRING PhpGetKsiMessage(
     processState = KphGetCurrentProcessState();
     if (processState != 0)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"进程状态 ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"进程状态 "));
         PhAppendFormatStringBuilder(&stringBuilder, L"0x%08x", processState);
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
     if (!PhEnableKsiWarnings)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"驱动程序警告已禁用。");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"驱动程序警告已禁用。"));
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
@@ -527,7 +527,7 @@ PPH_STRING PhpGetKsiMessage2(
         }
         else
         {
-            PhAppendStringBuilder2(&stringBuilder, L"未知错误。");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"未知错误。"));
         }
 
         PhAppendFormatStringBuilder(&stringBuilder, L" (0x%08x)", Status);
@@ -541,8 +541,8 @@ PPH_STRING PhpGetKsiMessage2(
         PhGetString(buildString)
         );
 
-    PhAppendStringBuilder2(&stringBuilder, L"Windows 内核 ");
-    PhAppendStringBuilder2(&stringBuilder, PhGetStringOrDefault(kernelVersion, L"未知"));
+    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"Windows 内核 "));
+    PhAppendStringBuilder2(&stringBuilder, PhGetStringOrDefault(kernelVersion, PhTranslateTextZ(L"未知")));
     PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     PhAppendStringBuilder(&stringBuilder, &versionString->sr);
     PhAppendStringBuilder2(&stringBuilder, L"\r\n");
@@ -550,14 +550,14 @@ PPH_STRING PhpGetKsiMessage2(
     processState = KphGetCurrentProcessState();
     if (processState != 0)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"进程状态 ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"进程状态 "));
         PhAppendFormatStringBuilder(&stringBuilder, L"0x%08x", processState);
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
     if (!PhEnableKsiWarnings)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"驱动程序警告已禁用。");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"驱动程序警告已禁用。"));
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
@@ -1272,9 +1272,8 @@ VOID KsiActivateDynData(
                 TD_WARNING_ICON,
                 0,
                 FALSE,
-                L"驱动程序功能受限",
-                L"内核驱动程序尚不支持此内核版本。要获取最新的内核支持，请切换到 Canary "
-                L"更新通道（帮助 > 检查更新 > Canary > 检查）。"
+                PhTranslateTextZ(L"驱动程序功能受限"),
+                PhTranslateTextZ(L"内核驱动程序尚不支持此内核版本。要获取最新的内核支持，请切换到 Canary 更新通道（帮助 > 检查更新 > Canary > 检查）。")
                 );
         }
         else
@@ -1284,9 +1283,8 @@ VOID KsiActivateDynData(
                 TD_WARNING_ICON,
                 0,
                 FALSE,
-                L"驱动程序功能受限",
-                L"内核驱动程序尚不支持此内核版本。请提交 GitHub issue 并附上 Windows "
-                L"内核版本以请求支持。"
+                PhTranslateTextZ(L"驱动程序功能受限"),
+                PhTranslateTextZ(L"内核驱动程序尚不支持此内核版本。请提交 GitHub issue 并附上 Windows 内核版本以请求支持。")
                 );
         }
 #endif
@@ -1298,8 +1296,8 @@ VOID KsiActivateDynData(
             TD_WARNING_ICON,
             0,
             FALSE,
-            L"驱动程序功能受限",
-            L"未找到动态配置。"
+            PhTranslateTextZ(L"驱动程序功能受限"),
+            PhTranslateTextZ(L"未找到动态配置。")
             );
     }
     else if (!NT_SUCCESS(status))
@@ -1309,8 +1307,8 @@ VOID KsiActivateDynData(
             TD_WARNING_ICON,
             status,
             FALSE,
-            L"驱动程序功能受限",
-            L"访问动态配置失败。"
+            PhTranslateTextZ(L"驱动程序功能受限"),
+            PhTranslateTextZ(L"访问动态配置失败。")
             );
     }
 
@@ -1327,8 +1325,8 @@ VOID KsiActivateDynData(
                 TD_WARNING_ICON,
                 status,
                 FALSE,
-                L"驱动程序功能受限",
-                L"激活动态配置失败。"
+                PhTranslateTextZ(L"驱动程序功能受限"),
+                PhTranslateTextZ(L"激活动态配置失败。")
                 );
         }
     }
@@ -1474,8 +1472,8 @@ NTSTATUS KsiConnect(
             TD_SHIELD_ERROR_ICON,
             0,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"未找到内核驱动程序。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"未找到内核驱动程序。")
             );
         status = STATUS_NOT_FOUND;
         goto CleanupExit;
@@ -1587,8 +1585,8 @@ NTSTATUS KsiConnect(
             TD_SHIELD_ERROR_ICON,
             STATUS_SI_KSIDLL_VERSION_MISMATCH,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"上次的 System Informer 更新需要重启计算机。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"上次的 System Informer 更新需要重启计算机。")
             );
         goto CleanupExit;
     }
@@ -1610,8 +1608,8 @@ NTSTATUS KsiConnect(
             TD_SHIELD_ERROR_ICON,
             status,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"是否使用替代的驱动程序加载方法重试？"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"是否使用替代的驱动程序加载方法重试？")
             ) != IDYES)
         {
             goto CleanupExit;
@@ -1655,9 +1653,8 @@ NTSTATUS KsiConnect(
             PhShowKsiMessage(
                 WindowHandle,
                 TD_INFORMATION_ICON,
-                L"内核驱动程序已加载",
-                L"已使用替代方法成功加载内核驱动程序。用于加载驱动程序的设置已保存。"
-                L"您可以在高级选项中还原这些设置。"
+                PhTranslateTextZ(L"内核驱动程序已加载"),
+                PhTranslateTextZ(L"已使用替代方法成功加载内核驱动程序。用于加载驱动程序的设置已保存。您可以在高级选项中还原这些设置。")
                 );
         }
 
@@ -1674,8 +1671,8 @@ NTSTATUS KsiConnect(
             TD_SHIELD_ERROR_ICON,
             status,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"无法加载内核驱动程序服务。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"无法加载内核驱动程序服务。")
             );
         goto CleanupExit;
     }
@@ -1708,8 +1705,8 @@ NTSTATUS KsiConnect(
                 TD_ERROR_ICON,
                 status,
                 FALSE,
-                L"无法加载内核驱动程序",
-                L"无法重新启动。"
+                PhTranslateTextZ(L"无法加载内核驱动程序"),
+                PhTranslateTextZ(L"无法重新启动。")
                 );
             goto CleanupExit;
         }
@@ -1819,7 +1816,7 @@ static HRESULT CALLBACK KsiSplashScreenDialogCallbackProc(
             }
             else
             {
-                PhShowStatus(WindowHandle, L"无法创建窗口。", status, 0);
+                PhShowStatus(WindowHandle, PhTranslateTextZ(L"无法创建窗口。"), status, 0);
             }
         }
         break;
@@ -1837,7 +1834,7 @@ static HRESULT CALLBACK KsiSplashScreenDialogCallbackProc(
         {
             ULONG ticks = (ULONG)wParam;
             PPH_STRING timeSpan = PhFormatUInt64(ticks, TRUE);
-            PhMoveReference(&timeSpan, PhConcatStringRefZ(&timeSpan->sr, L" 毫秒..."));
+            PhMoveReference(&timeSpan, PhConcatStringRefZ(&timeSpan->sr, PhTranslateTextZ(L" 毫秒...")));
             SendMessage(WindowHandle, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)timeSpan->Buffer);
             PhDereferenceObject(timeSpan);
         }
@@ -1866,8 +1863,8 @@ VOID KsiShowInitializingSplashScreen(
     config.hMainIcon = PhGetApplicationIcon(FALSE, USER_DEFAULT_SCREEN_DPI);
     config.pfCallback = KsiSplashScreenDialogCallbackProc;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"正在初始化 System Informer 内核驱动程序...";
-    config.pszContent = L"0 毫秒...";
+    config.pszMainInstruction = PhTranslateTextZ(L"正在初始化 System Informer 内核驱动程序...");
+    config.pszContent = PhTranslateTextZ(L"0 毫秒...");
     config.cxWidth = 200;
 
     TaskDialogIndirect(&config, NULL, NULL, NULL);
@@ -1895,8 +1892,8 @@ VOID PhInitializeKsi(
             TD_SHIELD_ERROR_ICON,
             0,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"此 Windows 版本不支持内核驱动程序，最低支持的版本为 Windows 10。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"此 Windows 版本不支持内核驱动程序，最低支持的版本为 Windows 10。")
             );
         return;
     }
@@ -1908,8 +1905,8 @@ VOID PhInitializeKsi(
             TD_SHIELD_ERROR_ICON,
             0,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"Wow64 环境下不支持内核驱动程序，请改用原生二进制文件。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"Wow64 环境下不支持内核驱动程序，请改用原生二进制文件。")
             );
         return;
     }
@@ -1922,8 +1919,8 @@ VOID PhInitializeKsi(
             TD_SHIELD_ERROR_ICON,
             0,
             FALSE,
-            L"无法加载内核驱动程序",
-            L"此体系结构不支持内核驱动程序。"
+            PhTranslateTextZ(L"无法加载内核驱动程序"),
+            PhTranslateTextZ(L"此体系结构不支持内核驱动程序。")
             );
         return;
     }
@@ -2580,24 +2577,20 @@ HRESULT CALLBACK KsiKernelSupportCheckDialogCallbackProc(
 
                 if (ReadBooleanAcquire(&context->IsSupported))
                 {
-                    config.pszMainInstruction = L"平台支持正在等待审核。";
-                    config.pszContent = L"您的内核版本正在开发分支上等待审核。"
-                        L"您的内核将在下一个版本中获得支持！";
+                    config.pszMainInstruction = PhTranslateTextZ(L"平台支持正在等待审核。");
+                    config.pszContent = PhTranslateTextZ(L"您的内核版本正在开发分支上等待审核。您的内核将在下一个版本中获得支持！"); // 语言切换：相邻字面量合并=单键
                 }
                 else
                 {
                     if (context->IsCanaryChannel)
                     {
-                        config.pszMainInstruction = L"内核版本不受支持";
-                        config.pszContent = L"尚不支持此内核版本。"
-                            L"您的内核版本正在开发分支上等待审核。";
+                        config.pszMainInstruction = PhTranslateTextZ(L"内核版本不受支持");
+                        config.pszContent = PhTranslateTextZ(L"尚不支持此内核版本。您的内核版本正在开发分支上等待审核。"); // 语言切换：相邻字面量合并=单键
                     }
                     else
                     {
-                        config.pszMainInstruction = L"内核版本不受支持";
-                        config.pszContent = L"尚不支持此内核版本。"
-                            L"要获取最新的内核支持，请切换到 Canary 更新通道"
-                            L"（帮助 > 检查更新 > Canary > 检查）。";
+                        config.pszMainInstruction = PhTranslateTextZ(L"内核版本不受支持");
+                        config.pszContent = PhTranslateTextZ(L"尚不支持此内核版本。要获取最新的内核支持，请切换到 Canary 更新通道（帮助 > 检查更新 > Canary > 检查）。"); // 语言切换：相邻字面量合并=单键
                     }
                 }
 
@@ -2620,7 +2613,7 @@ VOID KsiShowKernelSupportCheckDialog(
     statusMessage = PhpGetKsiMessage2(
         STATUS_SI_DYNDATA_UNSUPPORTED_KERNEL,
         FALSE,
-        L"正在检查待处理的平台更新...",
+        PhTranslateTextZ(L"正在检查待处理的平台更新..."),
         NULL
         );
 
@@ -2634,7 +2627,7 @@ VOID KsiShowKernelSupportCheckDialog(
     config.dwCommonButtons = TDCBF_CANCEL_BUTTON;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainIcon = TD_SHIELD_WARNING_ICON;
-    config.pszMainInstruction = L"正在检查待处理的平台更新...";
+    config.pszMainInstruction = PhTranslateTextZ(L"正在检查待处理的平台更新...");
     config.pszContent = PhGetString(statusMessage);
     config.lpCallbackData = (LONG_PTR)&context;
     config.pfCallback = KsiKernelSupportCheckDialogCallbackProc;

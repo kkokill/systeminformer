@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -227,7 +227,7 @@ INT_PTR CALLBACK PhpHandleStatisticsDlgProc(
 
                 if (PhIsNullOrEmptyString(entry->Name))
                 {
-                    unknownType = PhFormatString(L"（未知：%lu）", (ULONG)i);
+                    unknownType = PhFormatString(PhTranslateTextZ(L"（未知：%lu）"), (ULONG)i);
                     lvItemIndex = PhAddListViewItem(
                         context->ListViewHandle,
                         MAXINT,

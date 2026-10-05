@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -359,7 +359,7 @@ VOID PhpShowPluginErrorMessage(
             &stringBuilder,
             L"%s: %s (0x%lx)\n\n",
             baseName->Buffer,
-            PhGetStringOrDefault(loadError->ErrorMessage, L"发生未知错误。"),
+            PhGetStringOrDefault(loadError->ErrorMessage, PhTranslateTextZ(L"发生未知错误。")),
             loadError->Status
             );
 

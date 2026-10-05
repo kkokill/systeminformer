@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -2619,7 +2619,7 @@ PPH_STRING PhGetApartmentTypeString(
         PhInitFormatS(&format[count++], L"STA");
         break;
     case PH_APARTMENT_TYPE_MAIN_STA:
-        PhInitFormatS(&format[count++], L"主 STA");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L"主 STA"));
         break;
     case PH_APARTMENT_TYPE_APPLICATION_STA:
         PhInitFormatS(&format[count++], L"ASTA");
@@ -2628,7 +2628,7 @@ PPH_STRING PhGetApartmentTypeString(
         PhInitFormatS(&format[count++], L"MTA");
         break;
     case PH_APARTMENT_TYPE_IMPLICIT_MTA:
-        PhInitFormatS(&format[count++], L"隐式 MTA");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L"隐式 MTA"));
         break;
     default:
         assert(FALSE);

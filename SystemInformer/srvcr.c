@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -41,13 +41,16 @@ INT_PTR CALLBACK PhpCreateServiceDlgProc(
 
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
-            PhAddComboBoxStringRefs(GetDlgItem(hwndDlg, IDC_TYPE), PhServiceTypeStrings, RTL_NUMBER_OF(PhServiceTypeStrings));
-            PhAddComboBoxStringRefs(GetDlgItem(hwndDlg, IDC_STARTTYPE), PhServiceStartTypeStrings, RTL_NUMBER_OF(PhServiceStartTypeStrings));
-            PhAddComboBoxStringRefs(GetDlgItem(hwndDlg, IDC_ERRORCONTROL), PhServiceErrorControlStrings, RTL_NUMBER_OF(PhServiceErrorControlStrings));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceTypeStrings); i++) // 语言切换：显示译文
+                ComboBox_AddString(GetDlgItem(hwndDlg, IDC_TYPE), PhTranslateTextZ(PhServiceTypeStrings[i]->Buffer));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceStartTypeStrings); i++)
+                ComboBox_AddString(GetDlgItem(hwndDlg, IDC_STARTTYPE), PhTranslateTextZ(PhServiceStartTypeStrings[i]->Buffer));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceErrorControlStrings); i++)
+                ComboBox_AddString(GetDlgItem(hwndDlg, IDC_ERRORCONTROL), PhTranslateTextZ(PhServiceErrorControlStrings[i]->Buffer));
 
-            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_TYPE), L"独立进程", FALSE);
-            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_STARTTYPE), L"手动启动", FALSE);
-            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_ERRORCONTROL), L"忽略", FALSE);
+            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_TYPE), PhTranslateTextZ(L"独立进程"), FALSE);
+            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_STARTTYPE), PhTranslateTextZ(L"手动启动"), FALSE);
+            PhSelectComboBoxString(GetDlgItem(hwndDlg, IDC_ERRORCONTROL), PhTranslateTextZ(L"忽略"), FALSE);
 
             if (!PhGetOwnTokenAttributes().Elevated)
             {
@@ -167,10 +170,10 @@ INT_PTR CALLBACK PhpCreateServiceDlgProc(
                 break;
             case IDC_BROWSE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"可执行文件 (*.exe;*.sys)", L"*.exe;*.sys" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"可执行文件 (*.exe;*.sys)"), L"*.exe;*.sys" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING fileName;

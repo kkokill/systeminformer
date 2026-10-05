@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -51,7 +51,7 @@ static INT_PTR CALLBACK PhpAboutDlgProc(
             PhDereferenceObject(versionString);
 
             PhSetDialogItemText(hwndDlg, IDC_CREDITS,
-                L"鸣谢：\n"
+                PhTranslateTextZ(L"鸣谢：\n"
                 L"    <a href=\"https://github.com/wj32\">wj32</a> - Wen Jia Liu\n"
                 L"    <a href=\"https://github.com/dmex\">dmex</a> - Steven G\n"
                 L"    <a href=\"https://github.com/jxy-s\">jxy-s</a> - Johnny Shaw\n"
@@ -67,7 +67,7 @@ static INT_PTR CALLBACK PhpAboutDlgProc(
                 L"    <a href=\"https://github.com/json-c/json-c\">json-c</a> - Michael Clark\n"
                 L"    MD5 代码 - Jouni Malinen\n"
                 L"    SHA1 代码 - Filip Navara（基于 Steve Reid 的代码）\n"
-                );
+                ));
 
             PhSetDialogFocus(hwndDlg, GetDlgItem(hwndDlg, IDOK));
             PhRegisterWindowCallback(hwndDlg, PH_PLUGIN_WINDOW_EVENT_TYPE_TOPMOST, NULL);

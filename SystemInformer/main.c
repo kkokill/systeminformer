@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -47,6 +47,11 @@ RTL_ATOM PhGraphWindowAtom = RTL_ATOM_INVALID_ATOM;
 RTL_ATOM PhHexEditWindowAtom = RTL_ATOM_INVALID_ATOM;
 RTL_ATOM PhColorBoxWindowAtom = RTL_ATOM_INVALID_ATOM;
 RTL_ATOM PhTabNewWindowAtom = RTL_ATOM_INVALID_ATOM;
+
+VOID PhpStartPrintScreenHook(
+    VOID
+    );
+
 static PPH_LIST DialogList = NULL;
 static PPH_LIST FilterList = NULL;
 static PH_AUTO_POOL BaseAutoPool;
@@ -155,9 +160,11 @@ INT WINAPI wWinMain(
             NULL,
             L"警告。",
             L"%s",
+            PhTranslateTextZ(
             L"您正在 64 位 Windows 上运行 System Informer 的 32 位版本。 "
             L"大多数功能将无法正常工作。\n\n"
             L"请改用 64 位版本的 System Informer。"
+            )
             );
         PhExitApplication(STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT);
     }
@@ -200,6 +207,8 @@ INT WINAPI wWinMain(
 
     PhDrainAutoPool(&BaseAutoPool);
 
+    PhpStartPrintScreenHook(); // Print Screen 截图绿道（管理员权限前置时系统热键被 UIPI 屏蔽）
+
     result = PhMainMessageLoop();
 
     PhEnableTerminationPolicy(FALSE);
@@ -211,6 +220,76 @@ INT WINAPI wWinMain(
 
     PhExitApplication(result);
     return result;
+}
+
+// === Print Screen 截图绿道（UIPI 穿透） ===
+//
+// 程序以管理员（高完整性级别）前置时，系统注册的 Print Screen 截图热键被
+// UIPI 屏蔽且按键被系统丢弃（不产生任何键盘消息，消息循环无法拦截）。
+// WH_KEYBOARD_LL 低级钩子在 win32k 热键检查之前执行，且高完整性进程安装的
+// 钩子对所有前台（含管理员窗口）生效——由此截获 Print Screen 并转发系统
+// 截图（ms-screenclip: 裁剪截图，与 Win+Shift+S 一致），吞键阻止系统热键
+// 重复触发。副作用：系统"使用 Print Screen 键捕获屏幕"关闭时的原生全屏
+// 复制行为同样被此绿道替代。
+//
+// LL 钩子回调由系统投递到安装线程的消息循环执行：使用专用线程，主线程
+// 繁忙时不会拖慢全系统键盘响应。进程退出时系统自动卸载钩子。
+
+static HHOOK PhpPrintScreenHook = NULL;
+
+LRESULT CALLBACK PhpPrintScreenHookProc(
+    _In_ int Code,
+    _In_ WPARAM wParam,
+    _In_ LPARAM lParam
+    )
+{
+    if (Code >= 0 &&
+        wParam == WM_KEYDOWN && // 不含 WM_SYSKEYDOWN：Alt+PrtScn 保持原生"复制活动窗口"
+        ((PKBDLLHOOKSTRUCT)lParam)->vkCode == VK_SNAPSHOT)
+    {
+        static ULONG64 lastTick;
+        ULONG64 tick = GetTickCount64();
+
+        if (tick - lastTick >= 500) // 防止按住连发
+        {
+            lastTick = tick;
+            PhShellExecute(NULL, L"ms-screenclip:", NULL);
+        }
+
+        return 1;
+    }
+
+    return CallNextHookEx(PhpPrintScreenHook, Code, wParam, lParam);
+}
+
+NTSTATUS NTAPI PhpPrintScreenHookThread(
+    _In_opt_ PVOID Parameter
+    )
+{
+    MSG message;
+
+    PhpPrintScreenHook = SetWindowsHookEx(
+        WH_KEYBOARD_LL,
+        PhpPrintScreenHookProc,
+        NtCurrentImageBase(),
+        0
+        );
+
+    if (!PhpPrintScreenHook)
+        return STATUS_UNSUCCESSFUL;
+
+    // 回调投递循环：本线程生命周期即程序生命周期
+    while (GetMessage(&message, NULL, 0, 0))
+        ;
+
+    return STATUS_SUCCESS;
+}
+
+VOID PhpStartPrintScreenHook(
+    VOID
+    )
+{
+    PhCreateThread2(PhpPrintScreenHookThread, NULL);
 }
 
 /**
@@ -953,7 +1032,7 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
         config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_USE_COMMAND_LINKS | TDF_EXPAND_FOOTER_AREA;
         config.pszWindowTitle = PhApplicationName;
         config.pszMainIcon = TD_ERROR_ICON;
-        config.pszMainInstruction = L"System Informer 已崩溃 :(";
+        config.pszMainInstruction = PhTranslateTextZ(L"System Informer 已崩溃 :(");
         config.cButtons = RTL_NUMBER_OF(buttons);
         config.pButtons = buttons;
         config.nDefaultButton = 106;
@@ -1001,8 +1080,8 @@ LONG CALLBACK PhpUnhandledExceptionCallback(
             if (PhShowMessage(
                 NULL,
                 MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2,
-                L"System Informer 已崩溃 :(\r\n\r\n%s",
-                L"是否要在桌面上创建小型转储（minidump）？"
+                PhTranslateTextZ(L"System Informer 已崩溃 :(\r\n\r\n%s"),
+                PhTranslateTextZ(L"是否要在桌面上创建小型转储（minidump）？")
                 ) == IDYES)
             {
                 PhpCreateUnhandledExceptionCrashDump(ExceptionInfo, PhTriageDumpTypeMinimal);

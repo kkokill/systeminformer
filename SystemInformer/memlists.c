@@ -131,30 +131,30 @@ static VOID PhpUpdateMemoryListInfo(
     }
     else
     {
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTZEROED_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTFREE_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIED_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDNOWRITE_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDPAGEFILE_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTBAD_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY0_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY1_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY2_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY3_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY4_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY5_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY6_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY7_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED0_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED1_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED2_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED3_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED4_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED5_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED6_V, L"未知");
-        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED7_V, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTZEROED_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTFREE_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIED_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDNOWRITE_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTMODIFIEDPAGEFILE_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTBAD_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY0_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY1_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY2_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY3_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY4_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY5_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY6_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTSTANDBY7_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED0_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED1_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED2_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED3_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED4_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED5_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED6_V, PhTranslateTextZ(L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_ZLISTREPURPOSED7_V, PhTranslateTextZ(L"未知"));
     }
 }
 
@@ -180,7 +180,7 @@ PPH_STRING PhpCreateCommandStatusString(
     {
         PH_FORMAT format[3];
 
-        PhInitFormatS(&format[0], Message);
+        PhInitFormatS(&format[0], PhTranslateTextZ(Message)); // 语言切换
         PhInitFormatC(&format[1], L' ');
         PhInitFormatSR(&format[2], statusString->sr);
 
@@ -319,11 +319,11 @@ VOID NTAPI PhpCombineMemoryListsCommand(
         PH_FORMAT format[5];
 
         // Memory pages combined: %s (%llu pages)
-        PhInitFormatS(&format[0], L"已合并内存页：");
+        PhInitFormatS(&format[0], PhTranslateTextZ(L"已合并内存页："));
         PhInitFormatSize(&format[1], combineInfo.PagesCombined * PAGE_SIZE);
-        PhInitFormatS(&format[2], L"（");
+        PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
         PhInitFormatI64U(&format[3], combineInfo.PagesCombined);
-        PhInitFormatS(&format[4], L" 页）");
+        PhInitFormatS(&format[4], PhTranslateTextZ(L" 页）"));
 
         *Message = PhFormat(format, RTL_NUMBER_OF(format), 0);
     }
@@ -410,11 +410,11 @@ VOID NTAPI PhpEmptySystemFileCacheCommand(
         PH_FORMAT format[5];
 
         // System file cache emptied: %s (%llu pages)
-        PhInitFormatS(&format[0], L"已清空系统文件缓存：");
+        PhInitFormatS(&format[0], PhTranslateTextZ(L"已清空系统文件缓存："));
         PhInitFormatSize(&format[1], cacheInfo.CurrentSize);
-        PhInitFormatS(&format[2], L"（");
+        PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
         PhInitFormatI64U(&format[3], cacheInfo.CurrentSize / PAGE_SIZE);
-        PhInitFormatS(&format[4], L" 页）");
+        PhInitFormatS(&format[4], PhTranslateTextZ(L" 页）"));
 
         *Message = PhFormat(format, RTL_NUMBER_OF(format), 0);
     }

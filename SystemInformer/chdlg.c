@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -830,8 +830,8 @@ BOOLEAN PhaChoiceDialog(
     PH_CHOICE_DIALOG_CONTEXT context;
 
     memset(&context, 0, sizeof(PH_CHOICE_DIALOG_CONTEXT));
-    context.Title = Title;
-    context.Message = Message;
+    context.Title = PhTranslateTextZ(Title); // 语言切换
+    context.Message = PhTranslateTextZ(Message); // 语言切换
     context.Choices = Choices;
     context.NumberOfChoices = NumberOfChoices;
     context.Option = Option;
@@ -880,8 +880,8 @@ BOOLEAN PhChoiceDialog(
     PH_CHOICE_DIALOG_CONTEXT context;
 
     memset(&context, 0, sizeof(PH_CHOICE_DIALOG_CONTEXT));
-    context.Title = Title;
-    context.Message = Message;
+    context.Title = PhTranslateTextZ(Title); // 语言切换
+    context.Message = PhTranslateTextZ(Message); // 语言切换
     context.Choices = Choices;
     context.NumberOfChoices = NumberOfChoices;
     context.Option = Option;

@@ -251,19 +251,19 @@ INT_PTR CALLBACK PhpSessionPropertiesDlgProc(
             PhSetExtendedListView(context->ListViewHandle);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 0, L"用户");
+            PhAddListViewGroup(context->ListViewHandle, 0, PhTranslateTextZ(L"用户 "));
             //PhAddListViewGroup(context->ListViewHandle, 1, L"Profile");
 
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 0, L"用户名", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 1, L"会话 ID", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 2, L"状态", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 3, L"登录时间", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 4, L"连接时间", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 5, L"断开时间", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 6, L"最后输入时间", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 7, L"客户端名称", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 8, L"客户端地址", NULL);
-            PhAddListViewGroupItem(context->ListViewHandle, 0, 9, L"客户端显示", NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 0, PhTranslateTextZ(L"用户名"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 1, PhTranslateTextZ(L"会话 ID"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 2, PhTranslateTextZ(L"状态 "), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 3, PhTranslateTextZ(L"登录时间"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 4, PhTranslateTextZ(L"连接时间"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 5, PhTranslateTextZ(L"断开时间"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 6, PhTranslateTextZ(L"最后输入时间"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 7, PhTranslateTextZ(L"客户端名称"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 8, PhTranslateTextZ(L"客户端地址"), NULL);
+            PhAddListViewGroupItem(context->ListViewHandle, 0, 9, PhTranslateTextZ(L"客户端显示"), NULL);
 
             //PhAddListViewGroupItem(context->ListViewHandle, 1, 10, L"LastLogon", NULL);
             //PhAddListViewGroupItem(context->ListViewHandle, 1, 11, L"LastLogoff", NULL);

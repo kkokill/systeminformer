@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -926,10 +926,10 @@ INT_PTR CALLBACK PhRunAsPackageWndProc(
                 break;
             case IDC_BROWSE:
                 {
-                    PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：局部数组运行时翻译
                     {
-                        { L"可执行文件 (*.exe;*.pif;*.com;*.bat;*.cmd)", L"*.exe;*.pif;*.com;*.bat;*.cmd" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"可执行文件 (*.exe;*.pif;*.com;*.bat;*.cmd)"), L"*.exe;*.pif;*.com;*.bat;*.cmd" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog = PhCreateOpenFileDialog();
 

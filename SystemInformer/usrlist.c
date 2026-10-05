@@ -15,6 +15,7 @@
 #include <emenu.h>
 #include <lsasup.h>
 #include <mapldr.h>
+#include <phplug.h>
 #include <secedit.h>
 #include <settings.h>
 #include <phsettings.h>
@@ -55,6 +56,10 @@ static NTSTATUS (NTAPI* LsaGetLogonSessionData_I)(
 #define LOGON_NO_OPTIMIZED         0x20000  // optimized logon has been disabled for this account
 #define LOGON_NO_ELEVATION         0x40000  // Do not allow elevation for this logon
 #define LOGON_MANAGED_SERVICE      0x80000  // Managed service account
+
+#define WM_PH_LANGUAGE_CHANGED (WM_APP + 302)
+
+static PH_CALLBACK_REGISTRATION PhpUserListLanguageChangedRegistration;
 
 PPH_STRING PhpFormatUserFlags(
     _In_ ULONG UserFlags
@@ -187,6 +192,34 @@ typedef struct _PH_USER_LIST_CONTEXT
     PH_SORT_ORDER TreeNewSortOrder;
     PPH_LIST NodeList;
 } PH_USER_LIST_CONTEXT, *PPH_USER_LIST_CONTEXT;
+
+static VOID NTAPI PhpUserListLanguageChangedCallback(
+    _In_opt_ PVOID Parameter,
+    _In_opt_ PVOID Context
+    )
+{
+    PPH_USER_LIST_CONTEXT context = (PPH_USER_LIST_CONTEXT)Context;
+
+    if (context && context->WindowHandle)
+        PostMessage(context->WindowHandle, WM_PH_LANGUAGE_CHANGED, 0, 0);
+}
+
+// 语言切换：组合串（"用户数量: N"）无法被窗口重翻兜底命中，按当前语言重建
+static VOID PhpUpdateUserListMessage(
+    _In_ PPH_USER_LIST_CONTEXT Context
+    )
+{
+    PH_FORMAT format[2];
+    PPH_STRING message;
+
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"用户数量: "));
+    PhInitFormatU(&format[1], Context->NodeList->Count);
+    message = PhFormat(format, 2, 10);
+
+    SetWindowText(Context->MessageHandle, message->Buffer);
+
+    PhDereferenceObject(message);
+}
 
 VOID PhpDeleteUserNode(
     _In_ PPH_USER_NODE User
@@ -377,8 +410,6 @@ VOID PhpUserListRefresh(
     NTSTATUS status;
     ULONG logonSessionCount;
     PLUID logonSessionList;
-    PH_FORMAT format[2];
-    PPH_STRING message;
 
     TreeNew_SetRedraw(Context->TreeNewHandle, FALSE);
 
@@ -405,13 +436,7 @@ VOID PhpUserListRefresh(
         LsaFreeReturnBuffer_I(logonSessionList);
     }
 
-    PhInitFormatS(&format[0], L"用户数量: ");
-    PhInitFormatU(&format[1], Context->NodeList->Count);
-    message = PhFormat(format, 2, 10);
-
-    SetWindowText(Context->MessageHandle, message->Buffer);
-
-    PhDereferenceObject(message);
+    PhpUpdateUserListMessage(Context);
 
     TreeNew_NodesStructured(Context->TreeNewHandle);
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
@@ -764,43 +789,43 @@ BOOLEAN NTAPI PhpUserListTreeNewCallback(
                 switch (user->LogonType)
                 {
                 case UndefinedLogonType:
-                    PhInitializeStringRef(&getCellText->Text, L"未定义");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"未定义")); // 语言切换
                     break;
                 case Interactive:
-                    PhInitializeStringRef(&getCellText->Text, L"交互式");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"交互式")); // 语言切换
                     break;
                 case Network:
-                    PhInitializeStringRef(&getCellText->Text, L"网络");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"网络")); // 语言切换
                     break;
                 case Batch:
-                    PhInitializeStringRef(&getCellText->Text, L"批处理");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"批处理")); // 语言切换
                     break;
                 case Service:
-                    PhInitializeStringRef(&getCellText->Text, L"服务");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"服务  ")); // 语言切换：双尾空格标记键（上游为 Service，与 服务列表/通知 语境区分）
                     break;
                 case Proxy:
-                    PhInitializeStringRef(&getCellText->Text, L"代理");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"代理")); // 语言切换
                     break;
                 case Unlock:
-                    PhInitializeStringRef(&getCellText->Text, L"解锁");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"解锁")); // 语言切换
                     break;
                 case NetworkCleartext:
-                    PhInitializeStringRef(&getCellText->Text, L"网络明文");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"网络明文")); // 语言切换
                     break;
                 case NewCredentials:
-                    PhInitializeStringRef(&getCellText->Text, L"新凭据");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"新凭据")); // 语言切换
                     break;
                 case RemoteInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"远程交互式");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"远程交互式")); // 语言切换
                     break;
                 case CachedInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"缓存交互式");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"缓存交互式")); // 语言切换
                     break;
                 case CachedRemoteInteractive:
-                    PhInitializeStringRef(&getCellText->Text, L"缓存远程交互式");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"缓存远程交互式")); // 语言切换
                     break;
                 case CachedUnlock:
-                    PhInitializeStringRef(&getCellText->Text, L"缓存解锁");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"缓存解锁")); // 语言切换
                     break;
                 default:
                     break;
@@ -1179,7 +1204,7 @@ INT_PTR CALLBACK PhpUserListDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"搜索用户",
+                PhTranslateTextZ(L"搜索用户"),
                 SETTING_SEARCH_USERS_REGEX,
                 SETTING_SEARCH_USERS_CASE_SENSITIVE,
                 PhpUserListSearchControlCallback,
@@ -1210,10 +1235,23 @@ INT_PTR CALLBACK PhpUserListDlgProc(
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
 
             PhpUserListRefresh(context);
+
+            // 语言切换：重建组合串消息（列头/行内容由 PhRefreshAllTreeNewColumnsLanguage 统一刷新）
+            PhRegisterCallback(
+                PhGetGeneralCallback(GeneralCallbackLanguageChanged),
+                PhpUserListLanguageChangedCallback,
+                context,
+                &PhpUserListLanguageChangedRegistration
+                );
         }
         break;
     case WM_DESTROY:
         {
+            PhUnregisterCallback(
+                PhGetGeneralCallback(GeneralCallbackLanguageChanged),
+                &PhpUserListLanguageChangedRegistration
+                );
+
             PhRemoveWindowContext(hwndDlg, PH_WINDOW_CONTEXT_DEFAULT);
 
             PhSaveWindowPlacementToSetting(SETTING_USER_LIST_WINDOW_POSITION, SETTING_USER_LIST_WINDOW_SIZE, hwndDlg);
@@ -1241,6 +1279,11 @@ INT_PTR CALLBACK PhpUserListDlgProc(
                     DestroyWindow(hwndDlg);
                     break;
                 }
+        }
+        break;
+    case WM_PH_LANGUAGE_CHANGED:
+        {
+            PhpUpdateUserListMessage(context);
         }
         break;
     case WM_DPICHANGED:

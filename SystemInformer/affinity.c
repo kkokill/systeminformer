@@ -178,7 +178,7 @@ static BOOLEAN PhpShowProcessErrorAffinity(
     return PhShowContinueStatus(
         hWnd,
         PhaFormatString(
-        L"无法更改进程 %lu 的亲和性",
+        PhTranslateTextZ(L"无法更改进程 %lu 的亲和性"),
         HandleToUlong(Process->ProcessId)
         )->Buffer,
         Status,
@@ -196,7 +196,7 @@ static BOOLEAN PhpShowThreadErrorAffinity(
     return PhShowContinueStatus(
         hWnd,
         PhaFormatString(
-        L"无法更改线程 %lu 的亲和性",
+        PhTranslateTextZ(L"无法更改线程 %lu 的亲和性"),
         HandleToUlong(Thread->ThreadId)
         )->Buffer,
         Status,
@@ -218,7 +218,7 @@ VOID PhpShowThreadErrorAffinityList(
         PhAppendFormatStringBuilder(
             &stringBuilder,
             L"%s\n",
-            PhGetStringOrDefault(AffinityErrorsList->Items[i], L"发生未知错误。")
+            PhGetStringOrDefault(AffinityErrorsList->Items[i], PhTranslateTextZ(L"发生未知错误。"))
             );
     }
 
@@ -519,35 +519,35 @@ static PPH_STRING PhpCreateCpuTooltipText(
     if (hybrid)
     {
         if (info->EfficiencyClass == Context->MaximumEfficiencyClass)
-            PhAppendStringBuilder2(&stringBuilder, L"性能核（P-core）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"性能核（P-core）"));
         else if (
             info->EfficiencyClass > Context->MinimumEfficiencyClass &&
             info->EfficiencyClass < Context->MaximumEfficiencyClass
             )
-            PhAppendStringBuilder2(&stringBuilder, L"能效核（E-core）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"能效核（E-core）"));
         else if (Context->HasMidEfficiencyClass)
-            PhAppendStringBuilder2(&stringBuilder, L"低功耗能效核（LP E-core）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"低功耗能效核（LP E-core）"));
         else
-            PhAppendStringBuilder2(&stringBuilder, L"能效核（E-core）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"能效核（E-core）"));
 
         if (info->SmT)
-            PhAppendStringBuilder2(&stringBuilder, L"；超线程核心");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"；超线程核心"));
         else
-            PhAppendStringBuilder2(&stringBuilder, L"；独立物理核心");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"；独立物理核心"));
     }
     else
     {
         if (info->SmT)
-            PhAppendStringBuilder2(&stringBuilder, L"超线程核心");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"超线程核心"));
         else
-            PhAppendStringBuilder2(&stringBuilder, L"独立物理核心");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"独立物理核心"));
     }
 
     if (info->SmT)
     {
         BOOLEAN firstSibling = TRUE;
 
-        PhAppendStringBuilder2(&stringBuilder, L"（与 ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"（与 "));
 
         for (ULONG i = 0; i < MAXIMUM_PROC_PER_GROUP; i++)
         {
@@ -563,7 +563,7 @@ static PPH_STRING PhpCreateCpuTooltipText(
             firstSibling = FALSE;
         }
 
-        PhAppendStringBuilder2(&stringBuilder, L" 共享同一物理核心）");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L" 共享同一物理核心）"));
     }
 
     return PhFinalStringBuilderString(&stringBuilder);
@@ -619,7 +619,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                 for (USHORT processorGroup = 0; processorGroup < PhSystemProcessorInformation.NumberOfProcessorGroups; processorGroup++)
                 {
-                    ComboBox_AddString(context->GroupComboHandle, PhaFormatString(L"组 %hu", processorGroup)->Buffer);
+                    ComboBox_AddString(context->GroupComboHandle, PhaFormatString(PhTranslateTextZ(L"组 %hu"), processorGroup)->Buffer);
                 }
 
                 ShowWindow(context->GroupComboHandle, SW_SHOW);
@@ -715,7 +715,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                 windowText = PH_AUTO(PhGetWindowText(hwndDlg));
                 PhSetWindowText(hwndDlg, PhaFormatString(
-                    L"%s（%lu 个线程）",
+                    PhTranslateTextZ(L"%s（%lu 个线程）"),
                     windowText->Buffer,
                     context->NumberOfThreads
                     )->Buffer);
@@ -935,7 +935,7 @@ INT_PTR CALLBACK PhpProcessAffinityDlgProc(
 
                     if (affinityMask == 0)
                     {
-                        PhShowError2(hwndDlg, L"无法更改亲和性设置。", L"%s", L"必须至少选择一个 CPU。");
+                        PhShowError2(hwndDlg, L"无法更改亲和性设置。", L"%s", PhTranslateTextZ(L"必须至少选择一个 CPU。")); // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                         break;
                     }
 

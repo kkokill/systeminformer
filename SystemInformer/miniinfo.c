@@ -1134,7 +1134,7 @@ VOID PhMipUpdateSectionText(
     else
     {
         PhSetDialogItemText(PhMipWindow, IDC_SECTION,
-            PH_AUTO_T(PH_STRING, PhConcatStringRef2(&DownArrowPrefix, &Section->Name))->Buffer);
+            PH_AUTO_T(PH_STRING, PhConcatStrings2(DownArrowPrefix.Buffer, PhTranslateTextZ(Section->Name.Buffer)))->Buffer); // 语言切换
     }
 }
 
@@ -2010,7 +2010,7 @@ BOOLEAN PhMipListSectionTreeNewCallback(
             else
             {
                 getTitleText.Subtitle = PhFormatString(
-                    L"%s (%u 个进程)",
+                    PhTranslateTextZ(L"%s (%u 个进程)"),
                     processItem->ProcessName->Buffer,
                     node->ProcessGroup->Processes->Count
                     );
@@ -2022,7 +2022,8 @@ BOOLEAN PhMipListSectionTreeNewCallback(
             // Special text for hung windows
             if (node->RepresentativeIsHung)
             {
-                static CONST PH_STRINGREF hungPrefix = PH_STRINGREF_INIT(L"(未响应) ");
+                PH_STRINGREF hungPrefix;
+                PhInitializeStringRef(&hungPrefix, PhTranslateTextZ(L"(未响应) ")); // 语言切换
 
                 PhMoveReference(&getTitleText.Title, PhConcatStringRef2(&hungPrefix, &getTitleText.Title->sr));
                 getTitleText.TitleColor = RGB(0xff, 0x00, 0x00);
@@ -2030,7 +2031,8 @@ BOOLEAN PhMipListSectionTreeNewCallback(
 
             if (node->RepresentativeIsTerminated)
             {
-                static CONST PH_STRINGREF terminatedPrefix = PH_STRINGREF_INIT(L"(已终止) ");
+                PH_STRINGREF terminatedPrefix;
+                PhInitializeStringRef(&terminatedPrefix, PhTranslateTextZ(L"(已终止) ")); // 语言切换
 
                 PhMoveReference(&getTitleText.Title, PhConcatStringRef2(&terminatedPrefix, &getTitleText.Title->sr));
                 getTitleText.TitleColor = RGB(0xA9, 0xA9, 0xA9);
@@ -2311,7 +2313,7 @@ VOID PhMipShowListSectionContextMenu(
     if (selectedNode->ProcessGroup->Processes->Count != 1)
     {
         if (item = PhFindEMenuItem(menu, 0, NULL, ID_PROCESS_GOTOPROCESS))
-            PhModifyEMenuItem(item, PH_EMENU_MODIFY_TEXT, 0, L"&转到进程", NULL);
+            PhModifyEMenuItem(item, PH_EMENU_MODIFY_TEXT, 0, (PWSTR)PhTranslateTextZ(L"&转到进程"), NULL); // 语言切换：PhModifyEMenuItem 未挂钩
     }
 
     memset(&menuInfo, 0, sizeof(PH_MINIINFO_LIST_SECTION_MENU_INFORMATION));
@@ -2555,7 +2557,7 @@ BOOLEAN PhMipCommitListSectionCallback(
             FLOAT commitFraction = (FLOAT)PhPerfInformation.CommittedPages / PhPerfInformation.CommitLimit;
             PH_FORMAT format[5];
 
-            PhInitFormatS(&format[0], L"提交内存    ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"提交内存    "));
             PhInitFormatSize(&format[1], UInt32x32To64(PhPerfInformation.CommittedPages, PAGE_SIZE));
             PhInitFormatS(&format[2], L" (");
             PhInitFormatF(&format[3], commitFraction * 100, PhMaxPrecisionUnit);
@@ -2619,7 +2621,7 @@ BOOLEAN PhMipCommitListSectionCallback(
             privateBytes = *(PULONG64)getUsageText->SortData->UserData;
 
             PhMoveReference(&getUsageText->Line1, PhFormatSize(privateBytes, ULONG_MAX));
-            PhMoveReference(&getUsageText->Line2, PhCreateString(L"专用字节"));
+            PhMoveReference(&getUsageText->Line2, PhCreateString(PhTranslateTextZ(L"专用字节"))); // 语言切换
             getUsageText->Line2Color = GetSysColor(COLOR_GRAYTEXT);
         }
         return TRUE;
@@ -2667,7 +2669,7 @@ BOOLEAN PhMipPhysicalListSectionCallback(
             FLOAT physicalPercent = physicalFraction * 100;
             PH_FORMAT format[5];
 
-            PhInitFormatS(&format[0], L"物理内存    ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"物理内存    "));
             PhInitFormatSize(&format[1], UInt32x32To64(physicalUsage, PAGE_SIZE));
             PhInitFormatS(&format[2], L" (");
             PhInitFormatF(&format[3], physicalPercent, PhMaxPrecisionUnit);
@@ -2731,7 +2733,7 @@ BOOLEAN PhMipPhysicalListSectionCallback(
             privateBytes = *(PULONG64)getUsageText->SortData->UserData;
 
             PhMoveReference(&getUsageText->Line1, PhFormatSize(privateBytes, ULONG_MAX));
-            PhMoveReference(&getUsageText->Line2, PhCreateString(L"工作集"));
+            PhMoveReference(&getUsageText->Line2, PhCreateString(PhTranslateTextZ(L"工作集"))); // 语言切换
             getUsageText->Line2Color = GetSysColor(COLOR_GRAYTEXT);
         }
         return TRUE;
@@ -3112,9 +3114,9 @@ VOID PhMipGraphsFormatTooltipCommit(
 {
     PH_FORMAT format[4];
 
-    PhInitFormatS(&format[0], L"已用: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"已用: "));
     PhInitFormatSize(&format[1], UInt32x32To64(PhPerfInformation.CommittedPages, PAGE_SIZE));
-    PhInitFormatS(&format[2], L"\n限制: ");
+    PhInitFormatS(&format[2], PhTranslateTextZ(L"\n限制: "));
     PhInitFormatSize(&format[3], UInt32x32To64(PhPerfInformation.CommitLimit, PAGE_SIZE));
 
     *TooltipText = PhFormat(format, RTL_NUMBER_OF(format), 64);
@@ -3129,9 +3131,9 @@ VOID PhMipGraphsFormatTooltipPhysical(
 
     physicalUsagePages = PhSystemBasicInformation.NumberOfPhysicalPages - PhPerfInformation.AvailablePages;
 
-    PhInitFormatS(&format[0], L"已用: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"已用: "));
     PhInitFormatSize(&format[1], UInt32x32To64(physicalUsagePages, PAGE_SIZE));
-    PhInitFormatS(&format[2], L"\n总计: ");
+    PhInitFormatS(&format[2], PhTranslateTextZ(L"\n总计: "));
     PhInitFormatSize(&format[3], UInt32x32To64(PhSystemBasicInformation.NumberOfPhysicalPages, PAGE_SIZE));
 
     *TooltipText = PhFormat(format, RTL_NUMBER_OF(format), 64);
@@ -3576,13 +3578,16 @@ static BOOLEAN PhMipGraphsTreeNewCallback(
 
             SetBkMode(hdc, TRANSPARENT);
             SelectFont(hdc, CurrentParameters.Font);
-            DrawText(
-                hdc,
-                node->Title.Buffer,
-                (ULONG)node->Title.Length / sizeof(WCHAR),
-                &textRect,
-                DT_NOPREFIX | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS
-                );
+            {
+                PCWSTR titleText = PhTranslateTextZ(node->Title.Buffer); // 语言切换：图内标题显示层翻译（创建点为静态字面量，天然热切换）
+                DrawText(
+                    hdc,
+                    titleText,
+                    (ULONG)wcslen(titleText),
+                    &textRect,
+                    DT_NOPREFIX | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS
+                    );
+            }
         }
         return TRUE;
     case TreeNewGetCellTooltip:

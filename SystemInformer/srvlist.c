@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -866,8 +866,8 @@ BOOLEAN NTAPI PhpServiceTreeNewCallback(
                     PCPH_STRINGREF string;
 
                     string = PhGetServiceErrorControlString(serviceItem->ErrorControl);
-                    getCellText->Text.Buffer = string->Buffer;
-                    getCellText->Text.Length = string->Length;
+                    getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                    getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                 }
                 break;
             case PHSVTLC_GROUP:
@@ -1220,7 +1220,7 @@ BOOLEAN PhSelectAndEnsureVisibleServiceNode(
             PhMainWndHandle,
             L"无法执行该操作。",
             L"%s",
-            L"该节点无法显示，因为它当前被您的活动筛选设置或首选项隐藏。"
+            PhTranslateTextZ(L"该节点无法显示，因为它当前被您的活动筛选设置或首选项隐藏。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
             );
         return FALSE;
     }

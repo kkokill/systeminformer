@@ -164,7 +164,7 @@ VOID PhpSetEnvironmentListStatusMessage(
 {
     if (Context->ProcessItem->State & PH_PROCESS_ITEM_REMOVED || Status == STATUS_PARTIAL_COPY)
     {
-        PhMoveReference(&Context->StatusMessage, PhCreateString(L"没有可显示的环境变量。"));
+        PhMoveReference(&Context->StatusMessage, PhCreateString(PhTranslateTextZ(L"没有可显示的环境变量。")));
         TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
     }
     else
@@ -173,8 +173,8 @@ VOID PhpSetEnvironmentListStatusMessage(
 
         statusMessage = PhGetStatusMessage(Status, 0);
         PhMoveReference(&Context->StatusMessage, PhConcatStrings2(
-            L"无法查询环境信息：\n",
-            PhGetStringOrDefault(statusMessage, L"未知错误。")
+            PhTranslateTextZ(L"无法查询环境信息：\n"),
+            PhGetStringOrDefault(statusMessage, PhTranslateTextZ(L"未知错误。"))
             ));
         TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
         //TreeNew_NodesStructured(Context->TreeNewHandle);
@@ -221,9 +221,9 @@ VOID PhpRefreshEnvironmentList(
     SIZE_T i;
 
     PhpClearEnvironmentTree(Context);
-    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"进程"), NULL);
-    userRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"用户"), NULL);
-    systemRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"系统"), NULL);
+    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(PhTranslateTextZ(L"进程")), NULL);
+    userRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(PhTranslateTextZ(L"用户 ")), NULL);
+    systemRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(PhTranslateTextZ(L"系统")), NULL);
 
     if (ProcessItem->ProcessId == SYSTEM_PROCESS_ID)
     {
@@ -463,9 +463,9 @@ VOID PhpRefreshWslEnvironmentList(
     SIZE_T i;
 
     PhpClearEnvironmentTree(Context);
-    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(L"进程"), NULL);
-    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(L"用户"), NULL);
-    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(L"系统"), NULL);
+    processRootNode = PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_PROCESS, PhaCreateString(PhTranslateTextZ(L"进程")), NULL);
+    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_USER, PhaCreateString(PhTranslateTextZ(L"用户 ")), NULL);
+    PhpAddEnvironmentNode(Context, NULL, PROCESS_ENVIRONMENT_TREENODE_TYPE_GROUP | PROCESS_ENVIRONMENT_TREENODE_TYPE_SYSTEM, PhaCreateString(PhTranslateTextZ(L"系统")), NULL);
 
     if (!ProcessItem->LxssProcessId)
     {
@@ -763,9 +763,9 @@ INT_PTR CALLBACK PhpEditEnvDlgProc(
 
                     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                         hwndDlg,
-                        L"编辑",
-                        L"所选的环境变量",
-                        L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
+                        PhTranslateTextZ(L"编辑"),
+                        PhTranslateTextZ(L"所选的环境变量"),
+                        PhTranslateTextZ(L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。"),
                         FALSE
                         ))
                     {
@@ -789,12 +789,12 @@ INT_PTR CALLBACK PhpEditEnvDlgProc(
 
                             if (!NT_SUCCESS(status))
                             {
-                                PhShowStatus(hwndDlg, L"无法设置环境变量。", status, 0);
+                                PhShowStatus(hwndDlg, PhTranslateTextZ(L"无法设置环境变量。"), status, 0);
                                 break;
                             }
                             else if (status == STATUS_TIMEOUT)
                             {
-                                PhShowStatus(hwndDlg, L"无法删除环境变量。", 0, WAIT_TIMEOUT);
+                                PhShowStatus(hwndDlg, PhTranslateTextZ(L"无法删除环境变量。"), 0, WAIT_TIMEOUT);
                                 break;
                             }
 
@@ -926,9 +926,9 @@ BOOLEAN PhpEditEnvironmentNode(
 
                 if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                     Context->WindowHandle,
-                    L"编辑",
-                    L"所选的环境变量",
-                    L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
+                    PhTranslateTextZ(L"编辑"),
+                    PhTranslateTextZ(L"所选的环境变量"),
+                    PhTranslateTextZ(L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。"),
                     FALSE
                     ))
                 {
@@ -950,11 +950,11 @@ BOOLEAN PhpEditEnvironmentNode(
 
                 if (status == STATUS_TIMEOUT)
                 {
-                    PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", 0, WAIT_TIMEOUT);
+                    PhShowStatus(Context->WindowHandle, PhTranslateTextZ(L"无法设置环境变量。"), 0, WAIT_TIMEOUT);
                 }
                 else if (!NT_SUCCESS(status))
                 {
-                    PhShowStatus(Context->WindowHandle, L"无法设置环境变量。", status, 0);
+                    PhShowStatus(Context->WindowHandle, PhTranslateTextZ(L"无法设置环境变量。"), status, 0);
                 }
                 else
                 {
@@ -1718,7 +1718,7 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
             PhCreateSearchControl2(
                 hwndDlg,
                 context->SearchWindowHandle,
-                L"搜索环境变量 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索环境变量 (Ctrl+K)"),
                 SETTING_SEARCH_ENVIRONMENT_REGEX,
                 SETTING_SEARCH_ENVIRONMENT_CASE_SENSITIVE,
                 PhpProcessEnvironmentSearchControlCallback,
@@ -1737,7 +1737,7 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
             PhInitializeArray(&context->Items, sizeof(PH_ENVIRONMENT_ITEM), 100);
             context->TreeFilterEntry = PhAddTreeNewFilter(&context->TreeFilterSupport, PhpProcessEnvironmentTreeFilterCallback, context);
 
-            PhMoveReference(&context->StatusMessage, PhCreateString(L"没有可显示的环境变量。"));
+            PhMoveReference(&context->StatusMessage, PhCreateString(PhTranslateTextZ(L"没有可显示的环境变量。")));
             TreeNew_SetEmptyText(context->TreeNewHandle, &context->StatusMessage->sr, 0);
             PhLoadSettingsEnvironmentList(context);
 
@@ -1961,9 +1961,9 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
 
                     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
                         context->WindowHandle,
-                        L"删除",
-                        L"所选的环境变量",
-                        L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。",
+                        PhTranslateTextZ(L"删除"),
+                        PhTranslateTextZ(L"所选的环境变量"),
+                        PhTranslateTextZ(L"某些程序可能会在编辑进程的环境变量时限制访问或封禁您的帐户。"),
                         FALSE
                         ))
                     {
@@ -1987,11 +1987,11 @@ INT_PTR CALLBACK PhpProcessEnvironmentDlgProc(
 
                     if (status == STATUS_TIMEOUT)
                     {
-                        PhShowStatus(hwndDlg, L"无法删除环境变量。", 0, WAIT_TIMEOUT);
+                        PhShowStatus(hwndDlg, PhTranslateTextZ(L"无法删除环境变量。"), 0, WAIT_TIMEOUT);
                     }
                     else if (!NT_SUCCESS(status))
                     {
-                        PhShowStatus(hwndDlg, L"无法删除环境变量。", status, 0);
+                        PhShowStatus(hwndDlg, PhTranslateTextZ(L"无法删除环境变量。"), status, 0);
                     }
                 }
                 break;

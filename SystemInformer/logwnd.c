@@ -20,6 +20,7 @@
 #include <srvprv.h>
 
 #define WM_PH_LOG_UPDATED (WM_APP + 300)
+#define WM_PH_LANGUAGE_CHANGED (WM_APP + 301)
 
 INT_PTR CALLBACK PhpLogDlgProc(
     _In_ HWND hwndDlg,
@@ -36,6 +37,7 @@ static HWND ListViewHandle;
 static PPH_LISTVIEW_CONTEXT ListViewContext;
 static ULONG ListViewCount;
 static PH_CALLBACK_REGISTRATION LoggedRegistration;
+static PH_CALLBACK_REGISTRATION LanguageChangedRegistration;
 static BOOLEAN ListViewStateInitializing = FALSE;
 static BOOLEAN ListViewAutoScroll = FALSE;
 
@@ -71,6 +73,19 @@ static VOID NTAPI LoggedCallback(
     if (PhLogWindowHandle)
     {
         PostMessage(PhLogWindowHandle, WM_PH_LOG_UPDATED, 0, 0);
+    }
+}
+
+_Function_class_(PH_CALLBACK_FUNCTION)
+static VOID NTAPI LanguageChangedCallback(
+    _In_opt_ PVOID Parameter,
+    _In_opt_ PVOID Context
+    )
+{
+    // 语言切换：日志为虚拟列表，重设条目数并失效重绘，GETDISPINFO 会按新语言重新格式化
+    if (PhLogWindowHandle)
+    {
+        PostMessage(PhLogWindowHandle, WM_PH_LANGUAGE_CHANGED, 0, 0);
     }
 }
 
@@ -135,7 +150,7 @@ static PPH_STRING PhpGetStringForSelectedLogEntries(
         PhAppendStringBuilder2(&stringBuilder, L": ");
 
         string = PhFormatLogType(entry);
-        PhAppendStringBuilder(&stringBuilder, string);
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(string->Buffer)); // 语言切换：按当前语言显示类型
         PhAppendStringBuilder2(&stringBuilder, L" ");
         temp = PhFormatLogEntry(entry);
         PhAppendStringBuilder(&stringBuilder, &temp->sr);
@@ -214,6 +229,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
             ListViewStateInitializing = FALSE;
 
             PhRegisterCallback(PhGetGeneralCallback(GeneralCallbackLoggedEvent), LoggedCallback, NULL, &LoggedRegistration);
+            PhRegisterCallback(PhGetGeneralCallback(GeneralCallbackLanguageChanged), LanguageChangedCallback, NULL, &LanguageChangedRegistration);
             PhpUpdateLogList();
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);
@@ -227,6 +243,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
             PhDeleteLayoutManager(&WindowLayoutManager);
 
             PhUnregisterCallback(PhGetGeneralCallback(GeneralCallbackLoggedEvent), &LoggedRegistration);
+            PhUnregisterCallback(PhGetGeneralCallback(GeneralCallbackLanguageChanged), &LanguageChangedRegistration);
             PhUnregisterDialog(PhLogWindowHandle);
             PhLogWindowHandle = NULL;
 
@@ -361,7 +378,7 @@ INT_PTR CALLBACK PhpLogDlgProc(
                             PCPH_STRINGREF string;
 
                             string = PhFormatLogType(entry);
-                            wcsncpy_s(dispInfo->item.pszText, dispInfo->item.cchTextMax, string->Buffer, _TRUNCATE);
+                            wcsncpy_s(dispInfo->item.pszText, dispInfo->item.cchTextMax, PhTranslateTextZ(string->Buffer), _TRUNCATE); // 语言切换
                         }
                     }
                     else if (dispInfo->item.iSubItem == 2)
@@ -455,6 +472,12 @@ INT_PTR CALLBACK PhpLogDlgProc(
     case WM_PH_LOG_UPDATED:
         {
             PhpUpdateLogList();
+        }
+        break;
+    case WM_PH_LANGUAGE_CHANGED:
+        {
+            PhpUpdateLogList();
+            InvalidateRect(ListViewHandle, NULL, TRUE);
         }
         break;
     case WM_CONTEXTMENU:

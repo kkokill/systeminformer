@@ -172,22 +172,22 @@ static VOID PhpRefreshEventPageInfo(
         )))
     {
         EVENT_BASIC_INFORMATION basicInfo;
-        PWSTR eventType = L"未知";
-        PWSTR eventState = L"未知";
+        PCWSTR eventType = PhTranslateTextZ(L"未知");
+        PCWSTR eventState = PhTranslateTextZ(L"未知");
 
         if (NT_SUCCESS(PhGetEventBasicInformation(eventHandle, &basicInfo)))
         {
             switch (basicInfo.EventType)
             {
             case NotificationEvent:
-                eventType = L"通知";
+                eventType = PhTranslateTextZ(L"通知 "); // 尾空格标记键：英文值 Notification 对位上游（与 {通知,Notifications} 区分）
                 break;
             case SynchronizationEvent:
-                eventType = L"同步";
+                eventType = PhTranslateTextZ(L"同步 "); // 尾空格标记键：Synchronization
                 break;
             }
 
-            eventState = basicInfo.EventState > 0 ? L"是" : L"否";
+            eventState = basicInfo.EventState > 0 ? PhTranslateTextZ(L"是 ") : PhTranslateTextZ(L"否 "); // 尾空格标记键：True/False
         }
 
         PhSetDialogItemText(hwndDlg, IDC_TYPE, eventType);
@@ -380,8 +380,8 @@ static VOID PhpRefreshSemaphorePageInfo(
         }
         else
         {
-            PhSetDialogItemText(hwndDlg, IDC_CURRENTCOUNT, L"未知");
-            PhSetDialogItemText(hwndDlg, IDC_MAXIMUMCOUNT, L"未知");
+            PhSetDialogItemText(hwndDlg, IDC_CURRENTCOUNT, PhTranslateTextZ(L"未知"));
+            PhSetDialogItemText(hwndDlg, IDC_MAXIMUMCOUNT, PhTranslateTextZ(L"未知"));
         }
 
         NtClose(semaphoreHandle);
@@ -490,11 +490,11 @@ static VOID PhpRefreshTimerPageInfo(
 
         if (NT_SUCCESS(PhGetTimerBasicInformation(timerHandle, &basicInfo)))
         {
-            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, basicInfo.TimerState ? L"是" : L"否");
+            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, basicInfo.TimerState ? PhTranslateTextZ(L"是 ") : PhTranslateTextZ(L"否 "));
         }
         else
         {
-            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, L"未知");
+            PhSetDialogItemText(hwndDlg, IDC_SIGNALED, PhTranslateTextZ(L"未知"));
         }
 
         NtClose(timerHandle);
@@ -1008,7 +1008,7 @@ VOID PhSetSocketListViewItemBoolean(
     _In_ ULONG Value
     )
 {
-    PhSetSocketListViewItem(Context, Index, Value ? L"是" : L"否");
+    PhSetSocketListViewItem(Context, Index, Value ? PhTranslateTextZ(L"是") : PhTranslateTextZ(L"否"));
 }
 
 VOID PhSetSocketListViewItemBytes(
@@ -1047,7 +1047,7 @@ VOID PhSetSocketListViewItemTimeSpan(
 
     if (TimeSpan == 0)
     {
-        PhSetSocketListViewItem(Context, Index, L"无");
+        PhSetSocketListViewItem(Context, Index, PhTranslateTextZ(L"无"));
         return;
     }
 
@@ -1074,7 +1074,7 @@ VOID PhSetSocketListViewItemTimeAgo(
 
     relativeTimeString = PhFormatTimeSpanRelative(Duration);
     absoluteTimeString = PhFormatDateTime(&absoluteTimeFields);
-    itemString = PhFormatString(L"%s 前（%s）", PhGetString(relativeTimeString), PhGetString(absoluteTimeString));
+    itemString = PhFormatString(PhTranslateTextZ(L"%s 前（%s）"), PhGetString(relativeTimeString), PhGetString(absoluteTimeString));
     PhDereferenceObject(relativeTimeString);
     PhDereferenceObject(absoluteTimeString);
 
@@ -1132,7 +1132,7 @@ static NTSTATUS PhpAfdQueryFormatTdiDeviceNameWithTimeout(
     }
     else if (hTdiDevice == NULL)
     {
-        *TdiDeviceName = PhCreateString(L"无");
+        *TdiDeviceName = PhCreateString(PhTranslateTextZ(L"无"));
     }
     else
     {

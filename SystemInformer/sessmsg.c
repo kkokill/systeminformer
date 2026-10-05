@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -16,7 +16,7 @@
 
 static CONST PH_KEY_VALUE_PAIR PhpMessageBoxIconPairs[] =
 {
-    SIP(L"无", MB_OK),
+    SIP(L"无 ", MB_OK), // 尾空格标记键：与主程序 {无,N/A} 区分，英文值 None 对位上游组合框
     SIP(L"信息", MB_ICONINFORMATION),
     SIP(L"警告", MB_ICONWARNING),
     SIP(L"错误", MB_ICONERROR),
@@ -42,19 +42,19 @@ INT_PTR CALLBACK PhpSessionSendMessageDlgProc(
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             iconComboBox = GetDlgItem(hwndDlg, IDC_TYPE);
-            ComboBox_AddString(iconComboBox, L"无");
-            ComboBox_AddString(iconComboBox, L"信息");
-            ComboBox_AddString(iconComboBox, L"警告");
-            ComboBox_AddString(iconComboBox, L"错误");
-            ComboBox_AddString(iconComboBox, L"问题");
-            PhSelectComboBoxString(iconComboBox, L"无", FALSE);
+            ComboBox_AddString(iconComboBox, PhTranslateTextZ(L"无 ")); // 语言切换：与查找表同键
+            ComboBox_AddString(iconComboBox, PhTranslateTextZ(L"信息"));
+            ComboBox_AddString(iconComboBox, PhTranslateTextZ(L"警告"));
+            ComboBox_AddString(iconComboBox, PhTranslateTextZ(L"错误"));
+            ComboBox_AddString(iconComboBox, PhTranslateTextZ(L"问题"));
+            PhSelectComboBoxString(iconComboBox, PhTranslateTextZ(L"无 "), FALSE);
 
             if (currentUserName = PhGetTokenUserString(PhGetOwnTokenAttributes().TokenHandle, TRUE))
             {
                 PhSetDialogItemText(
                     hwndDlg,
                     IDC_TITLE,
-                    PhaFormatString(L"来自 %s 的消息", currentUserName->Buffer)->Buffer
+                    PhaFormatString(PhTranslateTextZ(L"来自 %s 的消息"), currentUserName->Buffer)->Buffer
                     );
                 PhDereferenceObject(currentUserName);
             }
@@ -88,12 +88,25 @@ INT_PTR CALLBACK PhpSessionSendMessageDlgProc(
                     title = PhaGetDlgItemText(hwndDlg, IDC_TITLE);
                     text = PhaGetDlgItemText(hwndDlg, IDC_TEXT);
 
-                    PhFindIntegerSiKeyValuePairs(
+                    if (!PhFindIntegerSiKeyValuePairs(
                         PhpMessageBoxIconPairs,
                         sizeof(PhpMessageBoxIconPairs),
                         PhaGetDlgItemText(hwndDlg, IDC_TYPE)->Buffer,
                         &icon
-                        );
+                        ))
+                    {
+                        // 英文模式下组合框为英文显示文本（如 None/Information），反查回中文键再匹配
+                        PPH_STRING reversedText;
+
+                        reversedText = PhCreateString(PhTranslateTextReverseZ(PhaGetDlgItemText(hwndDlg, IDC_TYPE)->Buffer));
+                        PhFindIntegerSiKeyValuePairs(
+                            PhpMessageBoxIconPairs,
+                            sizeof(PhpMessageBoxIconPairs),
+                            reversedText->Buffer,
+                            &icon
+                            );
+                        PhDereferenceObject(reversedText);
+                    }
                     PhStringToInteger64(
                         &PhaGetDlgItemText(hwndDlg, IDC_TIMEOUT)->sr,
                         10,

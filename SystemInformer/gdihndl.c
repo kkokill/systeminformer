@@ -127,7 +127,7 @@ PPH_STRING PhpGetGdiHandleInformation(
                 bitmapSize = (SIZE_T)bitmap.bmWidthBytes * (SIZE_T)bitmap.bmHeight;
 
                 return PhFormatString(
-                    L"宽度：%u，高度：%u，深度：%u，大小：%s",
+                    PhTranslateTextZ(L"宽度：%u，高度：%u，深度：%u，大小：%s"),
                     bitmap.bmWidth,
                     bitmap.bmHeight,
                     bitmap.bmBitsPixel,
@@ -143,7 +143,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGBRUSH), &brush))
             {
                 return PhFormatString(
-                    L"样式：%u，颜色：0x%08x，影线：0x%Ix",
+                    PhTranslateTextZ(L"样式：%u，颜色：0x%08x，影线：0x%Ix"),
                     brush.lbStyle,
                     _byteswap_ulong(brush.lbColor),
                     brush.lbHatch
@@ -158,7 +158,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(EXTLOGPEN), &pen))
             {
                 return PhFormatString(
-                    L"样式：0x%x，宽度：%u，颜色：0x%08x",
+                    PhTranslateTextZ(L"样式：0x%x，宽度：%u，颜色：0x%08x"),
                     pen.elpPenStyle,
                     pen.elpWidth,
                     _byteswap_ulong(pen.elpColor)
@@ -173,7 +173,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGFONT), &font))
             {
                 return PhFormatString(
-                    L"字体名：%s，高度：%d",
+                    PhTranslateTextZ(L"字体名：%s，高度：%d"),
                     font.lfFaceName,
                     font.lfHeight
                     );
@@ -190,7 +190,7 @@ PPH_STRING PhpGetGdiHandleInformation(
                 paletteSize = (SIZE_T)count * sizeof(PALETTEENTRY);
 
                 return PhFormatString(
-                    L"条目数：%u，大小：%s",
+                    PhTranslateTextZ(L"条目数：%u，大小：%s"),
                     (ULONG)count,
                     PhaFormatSize(paletteSize, ULONG_MAX)->Buffer
                     );
@@ -204,7 +204,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (GetObject(handle, sizeof(LOGPEN), &pen))
             {
                 return PhFormatString(
-                    L"样式：%u，宽度：%u，颜色：0x%08x",
+                    PhTranslateTextZ(L"样式：%u，宽度：%u，颜色：0x%08x"),
                     pen.lopnStyle,
                     pen.lopnWidth.x,
                     _byteswap_ulong(pen.lopnColor)
@@ -221,7 +221,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             if (regionSize)
             {
                 return PhFormatString(
-                    L"大小：%s",
+                    PhTranslateTextZ(L"大小：%s"),
                     PhaFormatSize(regionSize, ULONG_MAX)->Buffer
                     );
             }
@@ -269,7 +269,7 @@ PPH_STRING PhpGetGdiHandleInformation(
             }
 
             return PhFormatString(
-                L"类型：%d，HWND：0x%Ix，技术：%d，分辨率：%dx%d，BPP：%dx%d，原点：(%ld,%ld)，剪裁：%d [%ld,%ld,%ld,%ld]，位图：0x%Ix，大小：%s",
+                PhTranslateTextZ(L"类型：%d，HWND：0x%Ix，技术：%d，分辨率：%dx%d，BPP：%dx%d，原点：(%ld,%ld)，剪裁：%d [%ld,%ld,%ld,%ld]，位图：0x%Ix，大小：%s"),
                 objectType,
                 (ULONG_PTR)windowHandle,
                 technology,

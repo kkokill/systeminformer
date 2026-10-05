@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -840,13 +840,15 @@ LRESULT CALLBACK PhpOptionsButtonWndProc(
         {
             if (propSheetContext->ButtonsLabelWindowHandle)
             {
-                static CONST PH_STRINGREF text = PH_STRINGREF_INIT(L"保护");
-                static CONST PH_STRINGREF seperator = PH_STRINGREF_INIT(L": ");
-                static CONST PH_STRINGREF natext = PH_STRINGREF_INIT(L"N/A");
+                PH_STRINGREF text;
+                PH_STRINGREF seperator = PH_STRINGREF_INIT(L": ");
+                PH_STRINGREF natext = PH_STRINGREF_INIT(L"N/A");
                 HWND pageWindow;
                 LPPROPSHEETPAGE propSheetPage;
                 PPH_PROCESS_PROPPAGECONTEXT propPageContext;
                 PPH_PROCESS_PROPCONTEXT propContext = propSheetContext->PropContext;
+
+                PhInitializeStringRef(&text, PhTranslateTextZ(L"保护")); // 语言切换：选项按钮左侧标签
 
                 if (!propContext)
                 {
@@ -1070,7 +1072,7 @@ BOOLEAN PhpInitializePropSheetLayoutStage1(
         if (buttonHandle) ShowWindow(buttonHandle, SW_HIDE);
 
         // Set the Cancel button's text to "Close".
-        PhSetDialogItemText(WindowHandle, IDCANCEL, L"关闭");
+        PhSetDialogItemText(WindowHandle, IDCANCEL, PhTranslateTextZ(L"关闭"));
 
         Context->TabPageItem = tabPageItem;
         Context->LayoutInitialized = TRUE;
@@ -1431,7 +1433,7 @@ VOID PhpFlushProcessPropSheetWaitContextData(
             {
                 if ((errorMessage = PhGetStatusMessage(basicInfo.ExitStatus, 0)))
                 {
-                    PhInitFormatS(&format[3], L") 已退出，退出状态为 ");
+                    PhInitFormatS(&format[3], PhTranslateTextZ(L") 已退出，退出状态为 ")); // 语言切换
                     PhInitFormatSR(&format[4], errorMessage->sr);
 
                     statusMessage = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -1441,7 +1443,7 @@ VOID PhpFlushProcessPropSheetWaitContextData(
 
             if (PhIsNullOrEmptyString(statusMessage))
             {
-                PhInitFormatS(&format[3], L") 已退出，退出状态为 0x");
+                PhInitFormatS(&format[3], PhTranslateTextZ(L") 已退出，退出状态为 0x")); // 语言切换
                 PhInitFormatX(&format[4], basicInfo.ExitStatus);
                 //format[4].Type |= FormatPadZeros; format[4].Width = 8;
                 statusMessage = PhFormat(format, RTL_NUMBER_OF(format), 0);

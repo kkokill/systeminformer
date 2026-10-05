@@ -371,10 +371,10 @@ PPH_STRING PhMwpInitializeWindowTitle(
     }
 
     if (PhMainWndKph.Level && !PhMainWndKph.DynDataActive)
-        PhAppendStringBuilder2(&stringBuilder, L" (受限功能)"); // RF = Reduced Functionality
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L" (受限功能)")); // RF = Reduced Functionality
 
     if (PhGetOwnTokenAttributes().ElevationType == TokenElevationTypeFull)
-        PhAppendStringBuilder2(&stringBuilder, L" (管理员)");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L" (管理员)"));
 
     return PhFinalStringBuilderString(&stringBuilder);
 }
@@ -1256,11 +1256,11 @@ VOID PhMwpOnCommand(
         break;
     case ID_HACKER_SAVE:
         {
-            static PH_FILETYPE_FILTER filters[] =
+            PH_FILETYPE_FILTER filters[] = // 语言切换：去 static 运行时翻译
             {
-                { L"文本文件 (*.txt;*.log)", L"*.txt;*.log" },
-                { L"逗号分隔值 (*.csv)", L"*.csv" },
-                { L"所有文件 (*.*)", L"*.*" }
+                { (PWSTR)PhTranslateTextZ(L"文本文件 (*.txt;*.log)"), L"*.txt;*.log" },
+                { (PWSTR)PhTranslateTextZ(L"逗号分隔值 (*.csv)"), L"*.csv" },
+                { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
             };
             PVOID fileDialog = PhCreateSaveFileDialog();
             PH_FORMAT format[3];
@@ -1540,10 +1540,10 @@ VOID PhMwpOnCommand(
         break;
     case ID_TOOLS_INSPECTEXECUTABLEFILE:
         {
-            static PH_FILETYPE_FILTER filters[] =
+            PH_FILETYPE_FILTER filters[] = // 语言切换：去 static 运行时翻译
             {
-                { L"可执行文件 (*.exe;*.dll;*.com;*.ocx;*.sys;*.scr;*.cpl;*.ax;*.acm;*.lib;*.winmd;*.mui;*.mun;*.efi;*.pdb)", L"*.exe;*.dll;*.com;*.ocx;*.sys;*.scr;*.cpl;*.ax;*.acm;*.lib;*.winmd;*.mui;*.mun;*.efi;*.pdb" },
-                { L"所有文件 (*.*)", L"*.*" }
+                { (PWSTR)PhTranslateTextZ(L"可执行文件 (*.exe;*.dll;*.com;*.ocx;*.sys;*.scr;*.cpl;*.ax;*.acm;*.lib;*.winmd;*.mui;*.mun;*.efi;*.pdb)"), L"*.exe;*.dll;*.com;*.ocx;*.sys;*.scr;*.cpl;*.ax;*.acm;*.lib;*.winmd;*.mui;*.mun;*.efi;*.pdb" },
+                { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
             };
             PVOID fileDialog = PhCreateOpenFileDialog();
 
@@ -4399,7 +4399,7 @@ VOID PhMwpInitializeSubMenu(
             {
                 PPH_NF_ICON icon = PhTrayIconItemList->Items[i];
 
-                menuItem = PhCreateEMenuItem(0, ID_TRAYICONS_REGISTERED, icon->Text, NULL, icon);
+                menuItem = PhCreateEMenuItem(0, ID_TRAYICONS_REGISTERED, PhTranslateTextZ(icon->Text), NULL, icon); // 语言切换
                 PhInsertEMenuItem(trayIconsMenuItem, menuItem, ULONG_MAX);
 
                 // Update the text and check marks on the menu items.
@@ -5351,7 +5351,7 @@ VOID PhShowIconNotification(
     _In_ PCWSTR Text
     )
 {
-    PhNfShowBalloonTip(Title, Text, 10);
+    PhNfShowBalloonTip(PhTranslateTextZ(Title), PhTranslateTextZ(Text), 10); // 语言切换
 }
 
 /**
@@ -5372,7 +5372,7 @@ HRESULT PhShowIconNotificationEx(
     _In_opt_ PVOID Context
     )
 {
-    return PhNfShowBalloonTipEx(Title, Text, Timeout, Callback, Context);
+    return PhNfShowBalloonTipEx(PhTranslateTextZ(Title), PhTranslateTextZ(Text), Timeout, Callback, Context); // 语言切换
 }
 
 /**

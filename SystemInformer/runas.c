@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -139,7 +139,7 @@ static CONST PH_KEY_VALUE_PAIR PhpLogonTypePairs[] =
     SIP(L"交互式", LOGON32_LOGON_INTERACTIVE),
     SIP(L"网络", LOGON32_LOGON_NETWORK),
     SIP(L"新凭据", LOGON32_LOGON_NEW_CREDENTIALS),
-    SIP(L"服务", LOGON32_LOGON_SERVICE)
+    SIP(L"服务  ", LOGON32_LOGON_SERVICE) // 语言切换：双尾空格标记键（服务=Services 服务列表语境、服务␣=The service 通知语境，此处上游为 Service）
 };
 
 static WCHAR RunAsOldServiceName[32] = L"";
@@ -1295,14 +1295,22 @@ VOID PhRunAsExecuteCommmand(
         }
     }
 
-    if (!PhFindIntegerSiKeyValuePairs(
+    if (
+        !PhFindIntegerSiKeyValuePairs(
         PhpLogonTypePairs,
         sizeof(PhpLogonTypePairs),
         logonTypeString->Buffer,
         &logonType
-        ))
+        ) &&
+        !PhFindIntegerSiKeyValuePairs(
+        PhpLogonTypePairs,
+        sizeof(PhpLogonTypePairs),
+        PhTranslateTextReverseZ(logonTypeString->Buffer), // 语言切换：英文显示文本反查回中文键重查
+        &logonType
+        )
+        )
     {
-        PhShowStatus(Context->WindowHandle, L"无法启动程序。", STATUS_INVALID_PARAMETER, 0);
+        PhShowStatus(Context->WindowHandle, PhTranslateTextZ(L"无法启动程序。"), STATUS_INVALID_PARAMETER, 0); // 语言切换
         return;
     }
 
@@ -1437,7 +1445,7 @@ VOID PhRunAsExecuteCommmand(
                     Context->WindowHandle,
                     L"无法启动程序。",
                     L"%s",
-                    L"无法使用进程令牌启动执行别名。"
+                    PhTranslateTextZ(L"无法使用进程令牌启动执行别名。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                     );
             }
             else
@@ -1523,12 +1531,12 @@ INT_PTR CALLBACK PhpRunAsDlgProc(
                 }
             }
 
-            ComboBox_AddString(context->TypeComboBoxWindowHandle, L"批处理");
-            ComboBox_AddString(context->TypeComboBoxWindowHandle, L"交互式");
-            ComboBox_AddString(context->TypeComboBoxWindowHandle, L"网络");
-            ComboBox_AddString(context->TypeComboBoxWindowHandle, L"新凭据");
-            ComboBox_AddString(context->TypeComboBoxWindowHandle, L"服务");
-            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, L"交互式", FALSE);
+            ComboBox_AddString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"批处理"));
+            ComboBox_AddString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"交互式"));
+            ComboBox_AddString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"网络"));
+            ComboBox_AddString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"新凭据"));
+            ComboBox_AddString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"服务  "));
+            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"交互式"), FALSE);
 
             PhpAddProgramsToComboBox(context->ProgramComboBoxWindowHandle);
             PhpAddAccountsToComboBox(context->UserComboBoxWindowHandle);
@@ -1598,10 +1606,10 @@ INT_PTR CALLBACK PhpRunAsDlgProc(
                 break;
             case IDC_BROWSE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：去 static 运行时翻译
                     {
-                        { L"程序 (*.exe;*.pif;*.com;*.bat)", L"*.exe;*.pif;*.com;*.bat" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"程序 (*.exe;*.pif;*.com;*.bat)"), L"*.exe;*.pif;*.com;*.bat" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
 
@@ -1642,12 +1650,12 @@ INT_PTR CALLBACK PhpRunAsDlgProc(
                         if (IsServiceAccount(username))
                         {
                             EnableWindow(context->PasswordEditWindowHandle, FALSE);
-                            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, L"服务", FALSE);
+                            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"服务  "), FALSE);
                         }
                         else
                         {
                             EnableWindow(context->PasswordEditWindowHandle, TRUE);
-                            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, L"交互式", FALSE);
+                            PhSelectComboBoxString(context->TypeComboBoxWindowHandle, PhTranslateTextZ(L"交互式"), FALSE);
                         }
                     }
                 }
@@ -3188,10 +3196,10 @@ INT_PTR CALLBACK PhpRunFileWndProc(
                 break;
             case IDC_BROWSE:
                 {
-                    PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：局部数组运行时翻译
                     {
-                        { L"可执行文件 (*.exe;*.pif;*.com;*.bat;*.cmd)", L"*.exe;*.pif;*.com;*.bat;*.cmd" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"可执行文件 (*.exe;*.pif;*.com;*.bat;*.cmd)"), L"*.exe;*.pif;*.com;*.bat;*.cmd" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog = PhCreateOpenFileDialog();
 

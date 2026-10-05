@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -295,16 +295,16 @@ PPH_STRING PhFormatLogEntry(
             // 进程已创建：%s (%lu) 由 %s (%lu) 启动
             //PhInitFormatS(&format[0], L"进程已创建：");
             PhInitFormatSR(&format[0], Entry->Process.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatU(&format[2], HandleToUlong(Entry->Process.ProcessId));
-            PhInitFormatS(&format[3], L"）由 ");
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）由 "));
             if (Entry->Process.ParentName)
                 PhInitFormatSR(&format[4], Entry->Process.ParentName->sr);
             else
-                PhInitFormatS(&format[4], L"未知进程");
-            PhInitFormatS(&format[5], L"（");
+                PhInitFormatS(&format[4], PhTranslateTextZ(L"未知进程"));
+            PhInitFormatS(&format[5], PhTranslateTextZ(L"（"));
             PhInitFormatU(&format[6], HandleToUlong(Entry->Process.ParentProcessId));
-            PhInitFormatC(&format[7], L'）');
+            PhInitFormatS(&format[7], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"进程已创建：%s (%lu) 由 %s (%lu) 启动",
@@ -322,9 +322,9 @@ PPH_STRING PhFormatLogEntry(
             // 进程已终止：%s (%lu)；退出状态 0x%x
             //PhInitFormatS(&format[0], L"进程已终止：");
             PhInitFormatSR(&format[0], Entry->Process.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatU(&format[2], HandleToUlong(Entry->Process.ProcessId));
-            PhInitFormatS(&format[3], L"）；退出状态 ");
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）；退出状态 "));
             PhInitFormatX(&format[4], Entry->Process.ExitStatus);
 
             //return PhFormatString(
@@ -342,9 +342,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已创建：%s (%s)
             //PhInitFormatS(&format[0], L"服务已创建：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已创建：%s (%s)",
@@ -360,9 +360,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已删除：%s (%s)
             //PhInitFormatS(&format[0], L"服务已删除：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已删除：%s (%s)",
@@ -378,9 +378,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已启动：%s (%s)
             //PhInitFormatS(&format[0], L"服务已启动：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已启动：%s (%s)",
@@ -396,9 +396,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已停止：%s (%s)
             //PhInitFormatS(&format[0], L"服务已停止：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已停止：%s (%s)",
@@ -414,9 +414,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已继续：%s (%s)
             //PhInitFormatS(&format[0], L"服务已继续：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已继续：%s (%s)",
@@ -432,9 +432,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已暂停：%s (%s)
             //PhInitFormatS(&format[0], L"服务已暂停：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已暂停：%s (%s)",
@@ -450,9 +450,9 @@ PPH_STRING PhFormatLogEntry(
             // 服务已修改：%s (%s)
             //PhInitFormatS(&format[0], L"服务已修改：");
             PhInitFormatSR(&format[0], Entry->Service.Name->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Service.DisplayName->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             //return PhFormatString(
             //    L"服务已修改：%s (%s)",
@@ -467,9 +467,9 @@ PPH_STRING PhFormatLogEntry(
 
             //PhInitFormatS(&format[0], L"设备已移除：");
             PhInitFormatSR(&format[0], Entry->Device.Classification->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Device.Name->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             return PhpFormatLogEntryToBuffer(format, RTL_NUMBER_OF(format));
         }
@@ -479,9 +479,9 @@ PPH_STRING PhFormatLogEntry(
 
             //PhInitFormatS(&format[0], L"设备已到达：");
             PhInitFormatSR(&format[0], Entry->Device.Classification->sr);
-            PhInitFormatS(&format[1], L"（");
+            PhInitFormatS(&format[1], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[2], Entry->Device.Name->sr);
-            PhInitFormatC(&format[3], L'）');
+            PhInitFormatS(&format[3], PhTranslateTextZ(L"）"));
 
             return PhpFormatLogEntryToBuffer(format, RTL_NUMBER_OF(format));
         }
@@ -495,7 +495,7 @@ PPH_STRING PhFormatLogEntry(
                 return Entry->Message;
 
             extraString = PH_AUTO_T(PH_STRING, PhpFormatLogEntryExtra(Entry));
-            return PhaFormatString(L"%s [附加信息：%s]", Entry->Message->Buffer, extraString->Buffer);
+            return PhaFormatString(PhTranslateTextZ(L"%s [附加信息：%s]"), Entry->Message->Buffer, extraString->Buffer);
         }
     default:
         {
@@ -505,7 +505,7 @@ PPH_STRING PhFormatLogEntry(
                 return PhReferenceEmptyString();
 
             extraString = PH_AUTO_T(PH_STRING, PhpFormatLogEntryExtra(Entry));
-            return PhaFormatString(L"[附加信息：%s]", extraString->Buffer);
+            return PhaFormatString(PhTranslateTextZ(L"[附加信息：%s]"), extraString->Buffer);
         }
     }
 }

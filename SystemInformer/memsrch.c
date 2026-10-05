@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -1002,7 +1002,7 @@ HRESULT CALLBACK PhpMemoryStringTaskDialogCallback(
             }
 
             numberText = PhFormatUInt64(context->ResultCount, TRUE);
-            progressText = PhFormatString(L"已找到 %s 个字符串...", numberText->Buffer);
+            progressText = PhFormatString(PhTranslateTextZ(L"已找到 %s 个字符串..."), numberText->Buffer);
 
             SendMessage(hwndDlg, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)progressText->Buffer);
 
@@ -1036,7 +1036,7 @@ BOOLEAN PhpShowMemoryStringProgressDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.hwndParent = Context->ParentWindowHandle;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"正在搜索内存字符串...";
+    config.pszMainInstruction = PhTranslateTextZ(L"正在搜索内存字符串...");
     config.pszContent = L" ";
     config.cxWidth = 200;
 

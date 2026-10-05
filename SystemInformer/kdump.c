@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -143,7 +143,7 @@ HRESULT CALLBACK PhpLiveDumpProgressDialogCallbackProc(
 
                 if (fileSize.QuadPart)
                 {
-                    PhInitFormatS(&format[0], L"大小：");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"大小："));
                     PhInitFormatSize(&format[1], fileSize.QuadPart);
 
                     if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), string, sizeof(string), NULL))
@@ -153,7 +153,7 @@ HRESULT CALLBACK PhpLiveDumpProgressDialogCallbackProc(
                 }
                 else
                 {
-                    PhInitFormatS(&format[0], L"正在初始化...");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"正在初始化..."));
 
                     if (PhFormatToBuffer(format, 1, string, sizeof(string), NULL))
                     {
@@ -196,7 +196,7 @@ HRESULT CALLBACK PhpLiveDumpProgressDialogCallbackProc(
                     config.pfCallback = PhpLiveDumpPageCallbackProc;
                     config.lpCallbackData = (LONG_PTR)context;
                     config.pszWindowTitle = PhApplicationName;
-                    config.pszMainInstruction = L"实时内核转储已创建。";
+                    config.pszMainInstruction = PhTranslateTextZ(L"实时内核转储已创建。");
                     config.pszContent = PhGetString(context->FileName);
                 }
                 else
@@ -207,7 +207,7 @@ HRESULT CALLBACK PhpLiveDumpProgressDialogCallbackProc(
                     config.pfCallback = PhpLiveDumpPageCallbackProc;
                     config.lpCallbackData = (LONG_PTR)context;
                     config.pszWindowTitle = PhApplicationName;
-                    config.pszMainInstruction = L"无法保存实时内核转储。";
+                    config.pszMainInstruction = PhTranslateTextZ(L"无法保存实时内核转储。");
 
                     statusMessage = PhGetStatusMessage(context->LastStatus, 0);
                     config.pszContent = PhGetString(statusMessage);
@@ -268,7 +268,7 @@ NTSTATUS PhpLiveDumpTaskDialogThread(
     config.pfCallback = PhpLiveDumpProgressDialogCallbackProc;
     config.lpCallbackData = (LONG_PTR)context;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"正在处理实时内核转储...";
+    config.pszMainInstruction = PhTranslateTextZ(L"正在处理实时内核转储...");
     config.pszContent = L" ";
     config.cxWidth = 200;
 

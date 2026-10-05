@@ -1265,7 +1265,7 @@ PPH_STRING PhpQueryWmiProviderStatistics(
         PH_STRING_BUILDER stringBuilder;
 
         PhInitializeStringBuilder(&stringBuilder, 0x100);
-        PhAppendFormatStringBuilder(&stringBuilder, L"%s 的统计信息：\r\n\r\n", PhGetString(Entry->ProviderName));
+        PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"%s 的统计信息：\r\n\r\n"), PhGetString(Entry->ProviderName));
 
         // Note: Strings optimized for string pooling (dmex)
         if (string = PhGetWbemClassObjectString(wbemClassObject, L"ProviderOperation_AccessCheck"))
@@ -1593,7 +1593,7 @@ PPH_STRING PhpQueryWmiProviderStatistics(
             PH_STRING_BUILDER stringBuilder;
 
             PhInitializeStringBuilder(&stringBuilder, 0x100);
-            PhAppendFormatStringBuilder(&stringBuilder, L"%s 的统计信息：\r\n\r\n", PhGetString(Entry->ProviderName));
+            PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"%s 的统计信息：\r\n\r\n"), PhGetString(Entry->ProviderName));
 
             for (ULONG i = 0; i < RTL_NUMBER_OF(providerStatisticNames); i++)
             {
@@ -1712,8 +1712,8 @@ VOID PhpSetWmiProviderListStatusMessage(
 
     statusMessage = PhGetStatusMessage(0, HRESULT_CODE(Status));
     PhMoveReference(&Context->StatusMessage, PhConcatStrings2(
-        L"无法查询提供程序信息：\n",
-        PhGetStringOrDefault(statusMessage, L"未知错误。")
+        PhTranslateTextZ(L"无法查询提供程序信息：\n"),
+        PhGetStringOrDefault(statusMessage, PhTranslateTextZ(L"未知错误。"))
         ));
     TreeNew_SetEmptyText(Context->TreeNewHandle, &Context->StatusMessage->sr, 0);
     //TreeNew_NodesStructured(Context->TreeNewHandle);
@@ -2643,7 +2643,7 @@ INT_PTR CALLBACK PhpProcessWmiProvidersDlgProc(
 
             context->TreeFilterEntry = PhAddTreeNewFilter(&context->TreeFilterSupport, PhpProcessWmiProviderTreeFilterCallback, context);
 
-            PhMoveReference(&context->StatusMessage, PhCreateString(L"没有可显示的提供程序。"));
+            PhMoveReference(&context->StatusMessage, PhCreateString(PhTranslateTextZ(L"没有可显示的提供程序。"))); // 语言切换
             TreeNew_SetEmptyText(context->TreeNewHandle, &context->StatusMessage->sr, 0);
             PhLoadSettingsWmiProviderList(context);
 

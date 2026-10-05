@@ -1315,7 +1315,7 @@ static VOID EtEnvironmentDelete(
     if (!PhShowConfirmMessage(
         Context->WindowHandle,
         L"删除",
-        PhaFormatString(L"环境变量 \"%s\"", PhGetString(entry->Name))->Buffer,
+        PhaFormatString(PhTranslateTextZ(L"环境变量 \"%s\""), PhGetString(entry->Name))->Buffer,
         NULL,
         FALSE
         ))
@@ -1401,8 +1401,8 @@ static INT_PTR CALLBACK EtEnvironmentVariablesDlgProc(
             PhSetExtendedListView(context->ListViewHandle);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_USER, L"用户");
-            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_SYSTEM, L"系统");
+            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_USER, PhTranslateTextZ(L"用户 "));
+            PhAddListViewGroup(context->ListViewHandle, ENV_GROUP_SYSTEM, PhTranslateTextZ(L"系统"));
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->SearchBoxHandle, NULL, PH_ANCHOR_LEFT | PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);

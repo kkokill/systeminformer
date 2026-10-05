@@ -418,8 +418,8 @@ VOID PhpProcessMemorySave(
 
     processItem = PhReferenceProcessItem(MemoryContext->ProcessId);
     PhInitFormatS(&format[0], L"System Informer (");
-    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"未知进程") : L"未知进程");
-    PhInitFormatS(&format[2], L") 内存");
+    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, PhTranslateTextZ(L"未知进程")) : PhTranslateTextZ(L"未知进程"));
+    PhInitFormatS(&format[2], PhTranslateTextZ(L") 内存"));
     PhInitFormatS(&format[3], L".txt");
     if (processItem) PhDereferenceObject(processItem);
 
@@ -1116,7 +1116,7 @@ INT_PTR CALLBACK PhpProcessMemoryDlgProc(
                 PPH_STRING message;
 
                 message = PhGetStatusMessage(memoryContext->LastRunStatus, 0);
-                PhMoveReference(&memoryContext->ErrorMessage, PhFormatString(L"无法查询内存信息：\n%s", PhGetStringOrDefault(message, L"未知错误。")));
+                PhMoveReference(&memoryContext->ErrorMessage, PhFormatString(PhTranslateTextZ(L"无法查询内存信息：\n%s"), PhGetStringOrDefault(message, PhTranslateTextZ(L"未知错误。"))));
                 TreeNew_SetEmptyText(memoryContext->ListContext.TreeNewHandle, &memoryContext->ErrorMessage->sr, 0);
 
                 PhReplaceMemoryList(&memoryContext->ListContext, NULL);

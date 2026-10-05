@@ -166,7 +166,7 @@ static VOID FilterResults(
             {
                 PhShowError2(hwndDlg, L"无法编译正则表达式。",
                     L"“%s”位于位置 %zu。",
-                    PhGetStringOrDefault(PH_AUTO(PhPcre2GetErrorMessage(errorCode)), L"未知错误"),
+                    PhGetStringOrDefault(PH_AUTO(PhPcre2GetErrorMessage(errorCode)), PhTranslateTextZ(L"未知错误")),
                     errorOffset
                     );
                 continue;
@@ -312,7 +312,7 @@ INT_PTR CALLBACK PhpMemoryResultsDlgProc(
 
             ListView_SetItemCount(lvHandle, context->Results->Count);
 
-            PhSetDialogItemText(hwndDlg, IDC_INTRO, PhaFormatString(L"%s 个结果。",
+            PhSetDialogItemText(hwndDlg, IDC_INTRO, PhaFormatString(PhTranslateTextZ(L"%s 个结果。"),
                 PhaFormatUInt64(context->Results->Count, TRUE)->Buffer)->Buffer);
 
             {

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -112,8 +112,8 @@ BOOLEAN PhpShowElevatePrompt(
     config.dwFlags = IsWindowVisible(WindowHandle) ? TDF_POSITION_RELATIVE_TO_WINDOW : 0;
     config.pszWindowTitle = PhApplicationName;
     config.pszMainIcon = TD_ERROR_ICON;
-    config.pszMainInstruction = PhaConcatStrings2(Message, L".")->Buffer;
-    config.pszContent = L"您需要提供管理员权限。请点击继续以完成此操作。";
+    config.pszMainInstruction = PhaConcatStrings2(PhTranslateTextZ(Message), L".")->Buffer;
+    config.pszContent = PhTranslateTextZ(L"您需要提供管理员权限。请点击继续以完成此操作。");
     config.dwCommonButtons = TDCBF_CANCEL_BUTTON;
 
     config.cButtons = 1;
@@ -627,7 +627,7 @@ BOOLEAN PhUiRestartComputer(
         {
             if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机",
                 NULL,
                 FALSE
@@ -652,14 +652,14 @@ BOOLEAN PhUiRestartComputer(
             PPH_STRING messageText;
 
             messageText = PhaFormatString(
-                L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。",
-                L"执行硬性",
-                L"重启");
+                PhTranslateTextZ(L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。"),
+                PhTranslateTextZ(L"执行硬性"),
+                PhTranslateTextZ(L"重启"));
 
             // Ignore the EnableWarnings preference and always show the warning prompt. (dmex)
             if (PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机",
                 messageText->Buffer,
                 TRUE
@@ -681,14 +681,14 @@ BOOLEAN PhUiRestartComputer(
             PPH_STRING messageText;
 
             messageText = PhaFormatString(
-                L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。",
-                L"强制关键",
-                L"重启");
+                PhTranslateTextZ(L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。"),
+                PhTranslateTextZ(L"强制关键"),
+                PhTranslateTextZ(L"重启"));
 
             // Ignore the EnableWarnings preference and always show the warning prompt. (dmex)
             if (PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机",
                 messageText->Buffer,
                 TRUE
@@ -719,7 +719,7 @@ BOOLEAN PhUiRestartComputer(
         {
             if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机",
                 NULL,
                 FALSE
@@ -787,7 +787,7 @@ BOOLEAN PhUiRestartComputer(
 
             if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机",
                 NULL,
                 FALSE
@@ -836,7 +836,7 @@ BOOLEAN PhUiRestartComputer(
         {
             if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
                 WindowHandle,
-                L"重启",
+                PhTranslateTextZ(L"重启"),
                 L"该计算机以进行 Windows Defender 离线扫描",
                 NULL,
                 FALSE
@@ -883,7 +883,7 @@ BOOLEAN PhUiShutdownComputer(
         {
             if (!PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) || PhShowConfirmMessage(
                 WindowHandle,
-                L"关机",
+                PhTranslateTextZ(L"关机"),
                 L"该计算机",
                 NULL,
                 FALSE
@@ -910,14 +910,14 @@ BOOLEAN PhUiShutdownComputer(
             PPH_STRING messageText;
 
             messageText = PhaFormatString(
-                L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。",
-                L"执行硬性",
-                L"关机");
+                PhTranslateTextZ(L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。"),
+                PhTranslateTextZ(L"执行硬性"),
+                PhTranslateTextZ(L"关机"));
 
             // Ignore the EnableWarnings preference and always show the warning prompt. (dmex)
             if (PhShowConfirmMessage(
                 WindowHandle,
-                L"关机",
+                PhTranslateTextZ(L"关机"),
                 L"该计算机",
                 messageText->Buffer,
                 TRUE
@@ -939,14 +939,14 @@ BOOLEAN PhUiShutdownComputer(
             PPH_STRING messageText;
 
             messageText = PhaFormatString(
-                L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。",
-                L"强制关键",
-                L"关机");
+                PhTranslateTextZ(L"此选项将 %s %s 以无序方式进行，可能导致文件损坏或系统不稳定。"),
+                PhTranslateTextZ(L"强制关键"),
+                PhTranslateTextZ(L"关机"));
 
             // Ignore the EnableWarnings preference and always show the warning prompt. (dmex)
             if (PhShowConfirmMessage(
                 WindowHandle,
-                L"关机",
+                PhTranslateTextZ(L"关机"),
                 L"该计算机",
                 messageText->Buffer,
                 TRUE
@@ -1116,7 +1116,7 @@ VOID PhUiHandleComputerBootApplicationMenu(
 
     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
         WindowHandle,
-        L"重启",
+        PhTranslateTextZ(L"重启"),
         L"该计算机",
         NULL,
         FALSE
@@ -1172,7 +1172,7 @@ VOID PhUiHandleComputerFirmwareApplicationMenu(
 
     if (PhGetIntegerSetting(SETTING_ENABLE_WARNINGS) && !PhShowConfirmMessage(
         WindowHandle,
-        L"重启",
+        PhTranslateTextZ(L"重启"),
         L"该计算机",
         NULL,
         FALSE
@@ -1678,7 +1678,7 @@ static BOOLEAN PhpShowContinueMessageProcesses(
             object = PhaConcatStrings(
                 3,
                 Processes[0]->ProcessName->Buffer,
-                L" 和 ",
+                PhTranslateTextZ(L" 和 "),
                 Processes[1]->ProcessName->Buffer
                 )->Buffer;
         }
@@ -1705,9 +1705,9 @@ static BOOLEAN PhpShowContinueMessageProcesses(
                 object,
                 PhaConcatStrings(
                 3,
-                L"您即将 ",
-                Verb,
-                L" 一个或多个系统进程。"
+                PhTranslateTextZ(L"您即将 "),
+                PhTranslateTextZ(Verb),
+                PhTranslateTextZ(L" 一个或多个系统进程。")
                 )->Buffer,
                 TRUE
                 );
@@ -1720,18 +1720,18 @@ static BOOLEAN PhpShowContinueMessageProcesses(
             {
                 message = PhaConcatStrings(
                     3,
-                    L"您即将 ",
-                    Verb,
-                    L" 一个或多个关键进程。此操作将立即关闭操作系统。"
+                    PhTranslateTextZ(L"您即将 "),
+                    PhTranslateTextZ(Verb),
+                    PhTranslateTextZ(L" 一个或多个关键进程。此操作将立即关闭操作系统。")
                     );
             }
             else
             {
                 message = PhaConcatStrings(
                     3,
-                    L"您即将 ",
-                    Verb,
-                    L" 一个或多个关键进程。"
+                    PhTranslateTextZ(L"您即将 "),
+                    PhTranslateTextZ(Verb),
+                    PhTranslateTextZ(L" 一个或多个关键进程。")
                     );
             }
 
@@ -1783,8 +1783,8 @@ static BOOLEAN PhpShowErrorProcess(
         return PhShowContinueStatus(
             WindowHandle,
             PhaFormatString(
-            L"无法 %s %s (PID %lu)",
-            Verb,
+            PhTranslateTextZ(L"无法 %s %s (PID %lu)"),
+            PhTranslateTextZ(Verb),
             Process->ProcessName->Buffer,
             HandleToUlong(Process->ProcessId)
             )->Buffer,
@@ -1797,8 +1797,8 @@ static BOOLEAN PhpShowErrorProcess(
         return PhShowContinueStatus(
             WindowHandle,
             PhaFormatString(
-            L"无法 %s %s",
-            Verb,
+            PhTranslateTextZ(L"无法 %s %s"),
+            PhTranslateTextZ(Verb),
             Process->ProcessName->Buffer
             )->Buffer,
             Status,
@@ -1864,7 +1864,7 @@ BOOLEAN PhUiTerminateProcesses(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法终止 ", Processes[i]->ProcessName->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法终止 "), Processes[i]->ProcessName->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -2206,7 +2206,7 @@ BOOLEAN PhUiTerminateTreeProcess(
         cont = PhShowConfirmMessage(
             WindowHandle,
             L"终止",
-            PhaConcatStrings2(Process->ProcessName->Buffer, L"与后代进程")->Buffer,
+            PhaConcatStrings2(Process->ProcessName->Buffer, PhTranslateTextZ(L"与后代进程"))->Buffer,
             L"终止进程树将导致该进程及其后代进程被终止。",
             FALSE
             );
@@ -2282,7 +2282,7 @@ BOOLEAN PhUiSuspendProcesses(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法挂起 ", Processes[i]->ProcessName->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法挂起 "), Processes[i]->ProcessName->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -2441,7 +2441,7 @@ BOOLEAN PhUiSuspendTreeProcess(
         result = PhShowConfirmMessage(
             WindowHandle,
             L"挂起",
-            PhaConcatStrings2(Process->ProcessName->Buffer, L"与后代进程")->Buffer,
+            PhaConcatStrings2(Process->ProcessName->Buffer, PhTranslateTextZ(L"与后代进程"))->Buffer,
             L"挂起进程树将导致该进程及其后代进程被挂起。",
             FALSE
             );
@@ -2517,7 +2517,7 @@ BOOLEAN PhUiResumeProcesses(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法恢复 ", Processes[i]->ProcessName->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法恢复 "), Processes[i]->ProcessName->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -2676,7 +2676,7 @@ BOOLEAN PhUiResumeTreeProcess(
         result = PhShowConfirmMessage(
             WindowHandle,
             L"恢复",
-            PhConcatStringRefZ(&Process->ProcessName->sr, L"与后代进程")->Buffer,
+            PhConcatStringRefZ(&Process->ProcessName->sr, PhTranslateTextZ(L"与后代进程"))->Buffer,
             L"恢复进程树将导致该进程及其后代进程被恢复。",
             FALSE
             );
@@ -2830,7 +2830,7 @@ BOOLEAN PhUiRestartProcess(
     {
         result = PhShowConfirmMessage(
             WindowHandle,
-            L"重启",
+            PhTranslateTextZ(L"重启"),
             Process->ProcessName->Buffer,
             L"进程将使用相同的命令行、工作目录和权限重启。",
             FALSE
@@ -3154,7 +3154,7 @@ CleanupExit:
 
     if (!NT_SUCCESS(status))
     {
-        PhpShowErrorProcess(WindowHandle, L"重启", Process, status, 0);
+        PhpShowErrorProcess(WindowHandle, PhTranslateTextZ(L"重启"), Process, status, 0);
         return FALSE;
     }
 
@@ -3373,32 +3373,32 @@ BOOLEAN PhUiDebugProcess(
         PPH_STRING registryButtonText = NULL;
 
         if (windbgPath = PhFindDebuggerPath(L"windbg.exe"))
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 101, L"\U0001FA9F WinDbg\n图形化调试器，支持用户模式和内核模式调试。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 101, PhTranslateTextZ(L"\U0001FA9F WinDbg\n图形化调试器，支持用户模式和内核模式调试。") }; // 语言切换
         if (windbgPreviewPath = PhFindDebuggerPath(L"windbgx.exe"))
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 102, L"\U0001FA9F WinDbg (Preview)\n现代图形化调试器，支持用户模式和内核模式调试。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 102, PhTranslateTextZ(L"\U0001FA9F WinDbg (Preview)\n现代图形化调试器，支持用户模式和内核模式调试。") }; // 语言切换
         //if (vs2026Path = PhFindVisualStudioDebugger(SREF(L"[18.0,19.0)")))
         //    buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 107, L"\U0001F4D8 Visual Studio 2026\nFull-featured IDE with integrated debugging." };
         //if (vs2022Path = PhFindVisualStudioDebugger(SREF(L"[16.0,17.0)")))
         //    buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 108, L"\U0001F4D8 Visual Studio 2022\nFull-featured IDE with integrated debugging." };
         if (cdbPath = PhFindDebuggerPath(L"cdb.exe"))
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 103, L"\U0001F4FA CDB\n用户模式应用的命令行调试器。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 103, PhTranslateTextZ(L"\U0001F4FA CDB\n用户模式应用的命令行调试器。") }; // 语言切换
         if (kdPath = PhFindDebuggerPath(L"kd.exe"))
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 104, L"\U0001F4FA KD\n用于底层系统调试的内核调试器。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 104, PhTranslateTextZ(L"\U0001F4FA KD\n用于底层系统调试的内核调试器。") }; // 语言切换
         if (ntsdPath = PhFindDebuggerPath(L"ntsd.exe"))
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 105, L"\U0001F4FA NTSD\n传统命令行调试器，类似 CDB。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 105, PhTranslateTextZ(L"\U0001F4FA NTSD\n传统命令行调试器，类似 CDB。") }; // 语言切换
 
         // Always add registry debugger option
         if (registryDebuggerPath && registryDebuggerName)
         {
             registryButtonText = PhFormatString(
-                L"\U00002699 (系统默认)\n%s",
+                PhTranslateTextZ(L"\U00002699 (系统默认)\n%s"),
                 registryDebuggerName->Buffer
                 );
             buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 106, registryButtonText->Buffer };
         }
         else
         {
-            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 106, L"\U00002699 系统默认\nAeDebug 注册表项中未配置调试器。" };
+            buttons[buttonCount++] = (TASKDIALOG_BUTTON){ 106, PhTranslateTextZ(L"\U00002699 系统默认\nAeDebug 注册表项中未配置调试器。") }; // 语言切换
         }
 
         memset(&config, 0, sizeof(TASKDIALOGCONFIG));
@@ -3408,8 +3408,8 @@ BOOLEAN PhUiDebugProcess(
         config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(WindowHandle));
         config.dwCommonButtons = TDCBF_CANCEL_BUTTON;
         config.pszWindowTitle = PhApplicationName;
-        config.pszMainInstruction = L"选择要用于此进程的系统调试器：";
-        config.pszContent = L"您可以从下方已安装的调试工具中选择。";
+        config.pszMainInstruction = PhTranslateTextZ(L"选择要用于此进程的系统调试器：");
+        config.pszContent = PhTranslateTextZ(L"您可以从下方已安装的调试工具中选择。");
         config.cButtons = buttonCount;
         config.pButtons = buttons;
 
@@ -3657,7 +3657,7 @@ BOOLEAN PhUiSetActivityModeration(
     config.dwFlags = TDF_USE_HICON_MAIN | TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED | TDF_POSITION_RELATIVE_TO_WINDOW;
     config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(WindowHandle));
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"选择进程活动审核节流状态。";
+    config.pszMainInstruction = PhTranslateTextZ(L"选择进程活动审核节流状态。");
     config.nDefaultButton = IDCANCEL;
     config.pRadioButtons = TaskDialogRadioButtonArray;
     config.cRadioButtons = RTL_NUMBER_OF(TaskDialogRadioButtonArray);
@@ -3695,10 +3695,10 @@ BOOLEAN PhUiSetActivityModeration(
     }
 
     config.pszContent = PhaFormatString(
-        L"系统托管的活动审核设置会在可执行文件被删除或超过 7 天未执行时被 Windows 自动移除。\r\n\r\n"
-        L"映像：%s\r\n更新：%s",
+        PhTranslateTextZ(L"系统托管的活动审核设置会在可执行文件被删除或超过 7 天未执行时被 Windows 自动移除。\r\n\r\n"
+        L"映像：%s\r\n更新：%s"),
         PH_AUTO_T(PH_STRING, PhGetBaseName(Process->FileName))->Buffer,
-        (startTimeRelativeString && startTimeString) ? PhaFormatString(L" %s 前 (%s)", PhGetString(startTimeRelativeString), PhGetString(startTimeString))->Buffer : L"无"
+        (startTimeRelativeString && startTimeString) ? PhaFormatString(PhTranslateTextZ(L" %s 前 (%s)"), PhGetString(startTimeRelativeString), PhGetString(startTimeString))->Buffer : PhTranslateTextZ(L"无")
         )->Buffer;
 
     if (PhShowTaskDialog(
@@ -3980,7 +3980,7 @@ BOOLEAN PhUiSetExecutionRequiredProcess(
         if (!PhShowConfirmMessage(
             WindowHandle,
             L"更改执行必需状态",
-            PhaConcatStrings2(L"的 ", Process->ProcessName->Buffer)->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"的 "), Process->ProcessName->Buffer)->Buffer,
             L"该进程继续运行，而不是被进程生命周期管理 (PLM) 挂起或终止。",
             FALSE
             ))
@@ -4051,7 +4051,7 @@ BOOLEAN PhUiDetachFromDebuggerProcess(
 
     if (status == STATUS_PORT_NOT_SET)
     {
-        PhShowInformation2(WindowHandle, L"无法分离调试器。", L"%s", L"该进程未在调试中。");
+        PhShowInformation2(WindowHandle, L"无法分离调试器。", L"%s", PhTranslateTextZ(L"该进程未在调试中。")); // 语言切换：%s 参数不走 PhShowMessage2 挂钩
         return FALSE;
     }
 
@@ -4195,7 +4195,7 @@ BOOLEAN PhUiSetIoPriorityProcesses(
             // The operation may have failed due to the lack of SeIncreaseBasePriorityPrivilege.
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法设置 I/O 优先级 ", Processes[i]->ProcessName->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法设置 I/O 优先级 "), Processes[i]->ProcessName->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -4328,7 +4328,7 @@ BOOLEAN PhUiSetPriorityClassProcesses(
             // The operation may have failed due to the lack of SeIncreaseBasePriorityPrivilege.
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法设置优先级类 ", Processes[i]->ProcessName->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法设置优先级类 "), Processes[i]->ProcessName->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -4546,12 +4546,12 @@ VOID PhpShowActionProgressInitializeText(
     )
 {
     if (Context->ItemList->Count == 1)
-        *Object = Context->Vtable->ObjectSingular;
+        *Object = PhTranslateTextZ(Context->Vtable->ObjectSingular); // 语言切换
     else
-        *Object = Context->Vtable->ObjectPlural;
+        *Object = PhTranslateTextZ(Context->Vtable->ObjectPlural); // 语言切换
 
     // Make sure the verb is all lowercase.
-    *Verb = PhaLowerString(PhaCreateString(Context->Verb));
+    *Verb = PhaLowerString(PhaCreateString(PhTranslateTextZ(Context->Verb))); // 语言切换
 
     // "terminate" -> "Terminate"
     *VerbCaps = PhaDuplicateString(*Verb);
@@ -4631,6 +4631,7 @@ VOID PhUiNavigateActionErrorDialogPage(
         { IDNO, L"取消" },
     };
     TASKDIALOGCONFIG config;
+    TASKDIALOG_BUTTON translatedButtons[2]; // 语言切换
 
     memset(&config, 0, sizeof(TASKDIALOGCONFIG));
     config.cbSize = sizeof(TASKDIALOGCONFIG);
@@ -4645,14 +4646,24 @@ VOID PhUiNavigateActionErrorDialogPage(
 
     if (InterlockedCompareExchange(&Context->RequireElevation, FALSE, FALSE))
     {
+        translatedButtons[0].nButtonID = buttonsElevation[0].nButtonID;
+        translatedButtons[0].pszButtonText = PhTranslateTextZ(buttonsElevation[0].pszButtonText); // 语言切换
+        translatedButtons[1].nButtonID = buttonsElevation[1].nButtonID;
+        translatedButtons[1].pszButtonText = PhTranslateTextZ(buttonsElevation[1].pszButtonText); // 语言切换
+
         config.cButtons = RTL_NUMBER_OF(buttonsElevation);
-        config.pButtons = buttonsElevation;
+        config.pButtons = translatedButtons;
         config.nDefaultButton = IDYES;
     }
     else
     {
+        translatedButtons[0].nButtonID = buttons[0].nButtonID;
+        translatedButtons[0].pszButtonText = PhTranslateTextZ(buttons[0].pszButtonText); // 语言切换
+        translatedButtons[1].nButtonID = buttons[1].nButtonID;
+        translatedButtons[1].pszButtonText = PhTranslateTextZ(buttons[1].pszButtonText); // 语言切换
+
         config.cButtons = RTL_NUMBER_OF(buttons);
-        config.pButtons = buttons;
+        config.pButtons = translatedButtons;
         config.nDefaultButton = IDNO;
     }
 
@@ -4738,7 +4749,7 @@ static VOID PhpAppendActionProgressResultText(
 
     if (NT_SUCCESS(Result->Status))
     {
-        PhAppendStringBuilder2(StringBuilder, L"已完成");
+        PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"已完成"));
     }
     else
     {
@@ -4882,15 +4893,15 @@ NTSTATUS PhpUiActionPendingStartCallback(
         if (InterlockedCompareExchange(&Context->RequireElevation, FALSE, FALSE))
         {
             PhAppendStringBuilder2(&stringBuilder, L"\r\n\r\n");
-            PhAppendStringBuilder2(&stringBuilder, L"您需要提供管理员权限。"
-                L"请点击继续以完成此操作。");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"您需要提供管理员权限。"));
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"请点击继续以完成此操作。"));
         }
 
         {
             PPH_STRING message;
             PPH_STRING content;
 
-            message = PhFormatString(L"无法%s一个或多个%s：", Context->Verb, Context->Vtable->ObjectCollection);
+            message = PhFormatString(PhTranslateTextZ(L"无法%s一个或多个%s："), Context->Verb, Context->Vtable->ObjectCollection);
             content = PhFinalStringBuilderString(&stringBuilder);
 
             InterlockedExchangePointer(&Context->StatusMessage, message);
@@ -4981,7 +4992,7 @@ VOID PhShowActionProgressDialogStatusPage(
     config.dwCommonButtons = TDCBF_CANCEL_BUTTON;
     config.lpCallbackData = (LONG_PTR)Context;
     config.pfCallback = PhpUiActionProgressDialogCallbackProc;
-    config.pszMainInstruction = PhaConcatStrings(5, L"正在尝试 ", PhGetString(verb), L" ", object, L"...")->Buffer;
+    config.pszMainInstruction = PhaConcatStrings(5, PhTranslateTextZ(L"正在尝试 "), PhGetString(verb), L" ", object, L"...")->Buffer;
     config.cxWidth = 200;
 
     PhTaskDialogNavigatePage(Context->WindowHandle, &config);
@@ -5050,8 +5061,8 @@ VOID PhShowActionProgressDialogConfirmMessage(
     config.lpCallbackData = (LONG_PTR)Context;
     config.pfCallback = PhpUiActionConfirmDialogCallbackProc;
     config.pszMainIcon = Context->Warning ? TD_WARNING_ICON : TD_INFORMATION_ICON;
-    config.pszMainInstruction = PhaConcatStrings(3, L"是否要 ", action->Buffer, L"？")->Buffer;
-    if (Context->Message) config.pszContent = PhaConcatStrings2(Context->Message, L" 是否确定要继续？")->Buffer;
+    config.pszMainInstruction = PhaConcatStrings(3, PhTranslateTextZ(L"是否要 "), action->Buffer, PhTranslateTextZ(L"？"))->Buffer;
+    if (Context->Message) config.pszContent = PhaConcatStrings2(PhTranslateTextZ(Context->Message), PhTranslateTextZ(L" 是否确定要继续？"))->Buffer;
 
     buttons[0].nButtonID = IDYES;
     buttons[0].pszButtonText = verbCaps->Buffer;
@@ -5213,7 +5224,7 @@ NTSTATUS PhShowActionProgressDialogThread(
     config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED;
     config.pfCallback = PhpUiActionInitializeDialogCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
-    config.pszContent = L"正在初始化...";
+    config.pszContent = PhTranslateTextZ(L"正在初始化...");
     config.cxWidth = 200;
 
     PhShowTaskDialog(&config, NULL, NULL, NULL);
@@ -5511,7 +5522,7 @@ static BOOLEAN PhpShowContinueMessageServices(
  */
 static BOOLEAN PhpShowErrorService(
     _In_ HWND WindowHandle,
-    _In_ PWSTR Verb,
+    _In_ PCWSTR Verb,
     _In_ PPH_SERVICE_ITEM Service,
     _In_ NTSTATUS Status,
     _In_opt_ ULONG Win32Result
@@ -5520,8 +5531,8 @@ static BOOLEAN PhpShowErrorService(
     return PhShowContinueStatus(
         WindowHandle,
         PhaFormatString(
-        L"无法 %s %s。",
-        Verb,
+        PhTranslateTextZ(L"无法 %s %s。"),
+        PhTranslateTextZ(Verb), // 语言切换：动词集中查表（键如 启动/继续 /暂停/停止/删除/重启）
         Service->Name->Buffer
         )->Buffer,
         Status,
@@ -5620,7 +5631,7 @@ BOOLEAN PhUiStartServices(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法启动 ", PhGetString(Services[i]->Name))->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法启动 "), PhGetString(Services[i]->Name))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -5713,7 +5724,7 @@ BOOLEAN PhUiStartService(
 
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaConcatStrings2(L"无法启动 ", PhGetString(Service->Name))->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"无法启动 "), PhGetString(Service->Name))->Buffer,
             status,
             &connected,
             &cancelled
@@ -5826,7 +5837,7 @@ BOOLEAN PhUiContinueServices(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法继续 ", PhGetString(Services[i]->Name))->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法继续 "), PhGetString(Services[i]->Name))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -5837,7 +5848,7 @@ BOOLEAN PhUiContinueServices(
                     if (NT_SUCCESS(status = PhSvcCallControlService(PhGetString(Services[i]->Name), PhSvcControlServiceContinue)))
                         success = TRUE;
                     else
-                        PhpShowErrorService(WindowHandle, L"继续", Services[i], status, 0);
+                        PhpShowErrorService(WindowHandle, L"继续 ", Services[i], status, 0);
 
                     PhUiDisconnectFromPhSvc();
                 }
@@ -5851,7 +5862,7 @@ BOOLEAN PhUiContinueServices(
                 if (cancelled)
                     break;
 
-                if (!PhpShowErrorService(WindowHandle, L"继续", Services[i], status, 0))
+                if (!PhpShowErrorService(WindowHandle, L"继续 ", Services[i], status, 0))
                     break;
             }
         }
@@ -5928,7 +5939,7 @@ BOOLEAN PhUiContinueService(
 
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaConcatStrings2(L"无法继续 ", PhGetString(Service->Name))->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"无法继续 "), PhGetString(Service->Name))->Buffer,
             status,
             &connected,
             &cancelled
@@ -5939,7 +5950,7 @@ BOOLEAN PhUiContinueService(
                 if (NT_SUCCESS(status = PhSvcCallControlService(PhGetString(Service->Name), PhSvcControlServiceContinue)))
                     success = TRUE;
                 else
-                    PhpShowErrorService(WindowHandle, L"继续", Service, status, 0);
+                    PhpShowErrorService(WindowHandle, L"继续 ", Service, status, 0);
 
                 PhUiDisconnectFromPhSvc();
             }
@@ -5948,7 +5959,7 @@ BOOLEAN PhUiContinueService(
         {
             if (!cancelled)
             {
-                PhpShowErrorService(WindowHandle, L"继续", Service, status, 0);
+                PhpShowErrorService(WindowHandle, L"继续 ", Service, status, 0);
             }
         }
     }
@@ -6055,7 +6066,7 @@ BOOLEAN PhUiPauseServices(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法暂停 ", PhGetString(Services[i]->Name))->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法暂停 "), PhGetString(Services[i]->Name))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -6157,7 +6168,7 @@ BOOLEAN PhUiPauseService(
 
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaConcatStrings2(L"无法暂停 ", Service->Name->Buffer)->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"无法暂停 "), Service->Name->Buffer)->Buffer,
             status,
             &connected,
             &cancelled
@@ -6284,7 +6295,7 @@ BOOLEAN PhUiStopServices(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法停止 ", PhGetString(Services[i]->Name))->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法停止 "), PhGetString(Services[i]->Name))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -6386,7 +6397,7 @@ BOOLEAN PhUiStopService(
 
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaConcatStrings2(L"无法停止 ", PhGetString(Service->Name))->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"无法停止 "), PhGetString(Service->Name))->Buffer,
             status,
             &connected,
             &cancelled
@@ -6460,7 +6471,7 @@ BOOLEAN PhUiDeleteService(
 
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaConcatStrings2(L"无法删除 ", PhGetString(Service->Name))->Buffer,
+            PhaConcatStrings2(PhTranslateTextZ(L"无法删除 "), PhGetString(Service->Name))->Buffer,
             status,
             &connected,
             &cancelled
@@ -6563,7 +6574,7 @@ BOOLEAN PhUiRestartServices(
     {
         PhShowServiceProgressDialog(
             WindowHandle,
-            L"重启",
+            PhTranslateTextZ(L"重启"),
             L"重启服务可能会导致系统无法正常运行。",
             FALSE,
             Services,
@@ -6576,7 +6587,7 @@ BOOLEAN PhUiRestartServices(
 
     if (!PhpShowContinueMessageServices(
         WindowHandle,
-        L"重启",
+        PhTranslateTextZ(L"重启"),
         L"重启服务可能会导致系统无法正常运行。",
         FALSE,
         Services,
@@ -6639,7 +6650,7 @@ BOOLEAN PhUiRestartServices(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法重启 ", PhGetString(Services[i]->Name))->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法重启 "), PhGetString(Services[i]->Name))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -6830,8 +6841,8 @@ static BOOLEAN PhpShowErrorThread(
     return PhShowContinueStatus(
         WindowHandle,
         PhaFormatString(
-        L"无法 %s 线程 %lu",
-        Verb,
+        PhTranslateTextZ(L"无法 %s 线程 %lu"),
+        PhTranslateTextZ(Verb), // 语言切换：动词集中查表
         HandleToUlong(Thread->ThreadId)
         )->Buffer,
         Status,
@@ -6894,7 +6905,7 @@ BOOLEAN PhUiTerminateThreads(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaFormatString(L"无法终止线程 %lu", HandleToUlong(Threads[i]->ThreadId))->Buffer,
+                PhaFormatString(PhTranslateTextZ(L"无法终止线程 %lu"), HandleToUlong(Threads[i]->ThreadId))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -6961,7 +6972,7 @@ BOOLEAN PhUiSuspendThreads(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaFormatString(L"无法挂起线程 %lu", HandleToUlong(Threads[i]->ThreadId))->Buffer,
+                PhaFormatString(PhTranslateTextZ(L"无法挂起线程 %lu"), HandleToUlong(Threads[i]->ThreadId))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -7028,7 +7039,7 @@ BOOLEAN PhUiResumeThreads(
 
             if (!cancelled && PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaFormatString(L"无法恢复线程 %lu", HandleToUlong(Threads[i]->ThreadId))->Buffer,
+                PhaFormatString(PhTranslateTextZ(L"无法恢复线程 %lu"), HandleToUlong(Threads[i]->ThreadId))->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -7306,7 +7317,7 @@ BOOLEAN PhUiSetIoPriorityThread(
         // The operation may have failed due to the lack of SeIncreaseBasePriorityPrivilege.
         if (PhpShowErrorAndConnectToPhSvc(
             WindowHandle,
-            PhaFormatString(L"无法设置 I/O 优先级 线程 %lu", HandleToUlong(Thread->ThreadId))->Buffer,
+            PhaFormatString(PhTranslateTextZ(L"无法设置 I/O 优先级 线程 %lu"), HandleToUlong(Thread->ThreadId))->Buffer,
             status,
             &connected,
             &cancelled
@@ -7485,7 +7496,7 @@ BOOLEAN PhUiUnloadModule(
             {
                 PhShowStatus(
                     WindowHandle,
-                    PhaConcatStrings2(L"无法卸载 ", Module->Name->Buffer)->Buffer,
+                    PhaConcatStrings2(PhTranslateTextZ(L"无法卸载 "), Module->Name->Buffer)->Buffer,
                     status,
                     0
                     );
@@ -7505,7 +7516,7 @@ BOOLEAN PhUiUnloadModule(
 
             if (PhpShowErrorAndConnectToPhSvc(
                 WindowHandle,
-                PhaConcatStrings2(L"无法卸载 ", Module->Name->Buffer)->Buffer,
+                PhaConcatStrings2(PhTranslateTextZ(L"无法卸载 "), Module->Name->Buffer)->Buffer,
                 status,
                 &connected,
                 &cancelled
@@ -7516,7 +7527,7 @@ BOOLEAN PhUiUnloadModule(
                     if (NT_SUCCESS(status = PhSvcCallUnloadDriver(Module->BaseAddress, Module->Name->Buffer, Module->FileName->Buffer)))
                         success = TRUE;
                     else
-                        PhShowStatus(WindowHandle, PhaConcatStrings2(L"无法卸载 ", Module->Name->Buffer)->Buffer, status, 0);
+                        PhShowStatus(WindowHandle, PhaConcatStrings2(PhTranslateTextZ(L"无法卸载 "), Module->Name->Buffer)->Buffer, status, 0);
 
                     PhUiDisconnectFromPhSvc();
                 }
@@ -7530,10 +7541,10 @@ BOOLEAN PhUiUnloadModule(
                     WindowHandle,
                     PhaConcatStrings(
                     3,
-                    L"无法卸载 ",
+                    PhTranslateTextZ(L"无法卸载 "),
                     Module->Name->Buffer,
-                    L"。确保 System Informer 以"
-                    L"管理员权限运行。"
+                    PhTranslateTextZ(L"。确保 System Informer 以"
+                    L"管理员权限运行。")
                     )->Buffer,
                     status,
                     0
@@ -7562,7 +7573,7 @@ BOOLEAN PhUiUnloadModule(
         {
             PhShowStatus(
                 WindowHandle,
-                PhaFormatString(L"无法取消映射地址 0x%p 的节视图", Module->BaseAddress)->Buffer,
+                PhaFormatString(PhTranslateTextZ(L"无法取消映射地址 0x%p 的节视图"), Module->BaseAddress)->Buffer,
                 status,
                 0
                 );
@@ -7742,11 +7753,11 @@ static BOOLEAN PhpShowErrorHandle(
         return PhShowContinueStatus(
             WindowHandle,
             PhaFormatString(
-            L"无法 %s 句柄 \"%s\" (%s)%s",
-            Verb,
+            PhTranslateTextZ(L"无法 %s 句柄 \"%s\" (%s)%s"),
+            PhTranslateTextZ(Verb),
             Handle->BestObjectName->Buffer,
             value,
-            Verb2
+            PhTranslateTextZ(Verb2)
             )->Buffer,
             Status,
             Win32Result
@@ -7757,10 +7768,10 @@ static BOOLEAN PhpShowErrorHandle(
         return PhShowContinueStatus(
             WindowHandle,
             PhaFormatString(
-            L"无法 %s 句柄 %s%s",
-            Verb,
+            PhTranslateTextZ(L"无法 %s 句柄 %s%s"),
+            PhTranslateTextZ(Verb),
             value,
-            Verb2
+            PhTranslateTextZ(Verb2)
             )->Buffer,
             Status,
             Win32Result

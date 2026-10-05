@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -511,12 +511,12 @@ INT_PTR CALLBACK PhSipMemoryDialogProc(
             if (NT_SUCCESS(PhGetPhysicallyInstalledSystemMemory(&InstalledMemory, &ReservedMemory)))
             {
                 PhSetWindowText(totalPhysicalLabel, PhaConcatStrings2(
-                    PhaFormatSize(InstalledMemory, ULONG_MAX)->Buffer, L" 已安装")->Buffer);
+                    PhaFormatSize(InstalledMemory, ULONG_MAX)->Buffer, PhTranslateTextZ(L" 已安装"))->Buffer);
             }
             else
             {
                 PhSetWindowText(totalPhysicalLabel, PhaConcatStrings2(
-                    PhaFormatSize(UInt32x32To64(PhSystemBasicInformation.NumberOfPhysicalPages, PAGE_SIZE), ULONG_MAX)->Buffer, L" 总计")->Buffer);
+                    PhaFormatSize(UInt32x32To64(PhSystemBasicInformation.NumberOfPhysicalPages, PAGE_SIZE), ULONG_MAX)->Buffer, PhTranslateTextZ(L" 总计"))->Buffer);
             }
 
             MemoryPanel = PhCreateDialog(PhInstanceHandle, MAKEINTRESOURCE(IDD_SYSINFO_MEMPANEL), hwndDlg, PhSipMemoryPanelDialogProc, NULL);
@@ -926,16 +926,16 @@ BOOLEAN NTAPI PhSipNotifyPhysicalGraph(
                     {
                         PH_FORMAT format[13];
 
-                        PhInitFormatS(&format[0], L"物理内存：");
+                        PhInitFormatS(&format[0], PhTranslateTextZ(L"物理内存："));
                         PhInitFormatSize(&format[1], UInt32x32To64(usedPages, PAGE_SIZE));
                         PhInitFormatC(&format[2], L'\n');
-                        PhInitFormatS(&format[3], L"压缩内存：");
+                        PhInitFormatS(&format[3], PhTranslateTextZ(L"压缩内存："));
                         PhInitFormatSize(&format[4], (ULONG64)currentCompressedMemory);
                         PhInitFormatC(&format[5], L'\n');
-                        PhInitFormatS(&format[6], L"总压缩：");
+                        PhInitFormatS(&format[6], PhTranslateTextZ(L"总压缩："));
                         PhInitFormatSize(&format[7], (ULONG64)totalCompressedMemory);
                         PhInitFormatC(&format[8], L'\n');
-                        PhInitFormatS(&format[9], L"总计节省内存：");
+                        PhInitFormatS(&format[9], PhTranslateTextZ(L"总计节省内存："));
                         PhInitFormatSize(&format[10], (ULONG64)totalSavedMemory);
                         PhInitFormatC(&format[11], L'\n');
                         PhInitFormatSR(&format[12], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -1010,17 +1010,17 @@ VOID PhSipUpdateMemoryPanel(
             if (PhFindStringSiKeyValuePairs(MemoryFormFactors, sizeof(MemoryFormFactors), MemoryFormFactor, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, L"未定义");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMFORMFACTOR_V, PhTranslateTextZ(L"未定义"));
 
             if (PhFindStringSiKeyValuePairs(MemoryTypes, sizeof(MemoryTypes), MemoryType, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, L"未定义");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTYPE_V, PhTranslateTextZ(L"未定义"));
 
             if (PhFindStringSiKeyValuePairs(MemoryTechnologies, sizeof(MemoryTechnologies), MemoryTechnology, &string))
                 PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, string);
             else
-                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, L"未定义");
+                PhSetDialogItemText(MemoryPanel, IDC_ZMEMTECHNOLOGY_V, PhTranslateTextZ(L"未定义"));
 
             PhInitFormatU(&format[0], MemorySpeed);
             PhInitFormatS(&format[1], L" MT/s");

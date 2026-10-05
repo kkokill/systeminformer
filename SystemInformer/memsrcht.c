@@ -1675,10 +1675,10 @@ INT_PTR CALLBACK PhpMemoryStringsDlgProc(
                 PhpAddPendingMemoryStringsNodes(context);
 
                 if (context->State == PH_MEMSEARCH_STATE_SEARCHING)
-                    PhInitFormatS(&format[count++], L"正在搜索... ");
+                    PhInitFormatS(&format[count++], PhTranslateTextZ(L"正在搜索... "));
 
                 PhInitFormatU(&format[count++], context->StringsCount);
-                PhInitFormatS(&format[count++], L" 个字符串");
+                PhInitFormatS(&format[count++], PhTranslateTextZ(L" 个字符串"));
 
                 if (context->State == PH_MEMSEARCH_STATE_FINISHED)
                 {

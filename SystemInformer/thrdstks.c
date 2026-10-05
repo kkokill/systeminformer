@@ -603,14 +603,14 @@ PPH_STRING PhpThreadStacksInitFrameNode(
         (FrameNode->StackFrame.Machine == IMAGE_FILE_MACHINE_I386) &&
         FlagOn(FrameNode->StackFrame.Flags, PH_THREAD_STACK_FRAME_FPO_DATA_PRESENT))
     {
-        PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L"（无展开信息）"));
+        PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, PhTranslateTextZ(L"（无展开信息）")));
     }
 
     if (PhSymbolProviderInlineContextSupported() &&
         PhIsStackFrameTypeInline(FrameNode->StackFrame.InlineFrameContext))
     {
         if (symbol)
-            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L"（内联函数）"));
+            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, PhTranslateTextZ(L"（内联函数）")));
 
         // Zero inline frames so the stack matches windbg output.
         FrameNode->StackFrame.PcAddress = NULL;

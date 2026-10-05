@@ -579,11 +579,11 @@ VOID PhpProcessModulesSave(
     _In_ PPH_MODULES_CONTEXT ModulesContext
     )
 {
-    static PH_FILETYPE_FILTER filters[] =
+    PH_FILETYPE_FILTER filters[] = // 语言切换：去 static 运行时翻译
     {
-        { L"文本文件 (*.txt;*.log)", L"*.txt;*.log" },
-        { L"CSV 文件 (*.csv)", L"*.csv" },
-        { L"所有文件 (*.*)", L"*.*" }
+        { (PWSTR)PhTranslateTextZ(L"文本文件 (*.txt;*.log)"), L"*.txt;*.log" },
+        { (PWSTR)PhTranslateTextZ(L"CSV 文件 (*.csv)"), L"*.csv" },
+        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
     };
     PVOID fileDialog = PhCreateSaveFileDialog();
     PH_FORMAT format[4];
@@ -591,8 +591,8 @@ VOID PhpProcessModulesSave(
 
     processItem = PhReferenceProcessItem(ModulesContext->Provider->ProcessId);
     PhInitFormatS(&format[0], L"System Informer (");
-    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, L"未知进程") : L"未知进程");
-    PhInitFormatS(&format[2], L") 模块");
+    PhInitFormatS(&format[1], processItem ? PhGetStringOrDefault(processItem->ProcessName, PhTranslateTextZ(L"未知进程")) : PhTranslateTextZ(L"未知进程"));
+    PhInitFormatS(&format[2], PhTranslateTextZ(L") 模块"));
     PhInitFormatS(&format[3], L".txt");
     if (processItem) PhDereferenceObject(processItem);
 
@@ -1206,7 +1206,7 @@ INT_PTR CALLBACK PhpProcessModulesDlgProc(
                 else
                 {
                     message = PhGetStatusMessage(status, 0);
-                    PhMoveReference(&modulesContext->ErrorMessage, PhFormatString(L"无法查询模块信息:\n%s", PhGetStringOrDefault(message, L"未知错误。")));
+                    PhMoveReference(&modulesContext->ErrorMessage, PhFormatString(PhTranslateTextZ(L"无法查询模块信息:\n%s"), PhGetStringOrDefault(message, PhTranslateTextZ(L"未知错误。"))));
                     PhClearReference(&message);
                     TreeNew_SetEmptyText(modulesContext->TreeNewHandle, &modulesContext->ErrorMessage->sr, 0);
                 }

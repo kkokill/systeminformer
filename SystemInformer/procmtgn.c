@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -141,7 +141,7 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 {
                     PhInitializeStringBuilder(&sb, 20);
                     PhAppendStringBuilder2(&sb, L"DEP");
-                    if (data->Permanent) PhAppendStringBuilder2(&sb, L" (永久)");
+                    if (data->Permanent) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L" (永久)"));
                     *ShortDescription = PhFinalStringBuilderString(&sb);
                 }
 
@@ -171,9 +171,9 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                     if (data->EnableHighEntropy || data->EnableForceRelocateImages)
                     {
                         PhAppendStringBuilder2(&sb, L" (");
-                        if (data->EnableHighEntropy) PhAppendStringBuilder2(&sb, L"高熵, ");
-                        if (data->EnableForceRelocateImages) PhAppendStringBuilder2(&sb, L"强制重定位, ");
-                        if (data->DisallowStrippedImages) PhAppendStringBuilder2(&sb, L"禁止剥离, ");
+                        if (data->EnableHighEntropy) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"高熵, "));
+                        if (data->EnableForceRelocateImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"强制重定位, "));
+                        if (data->DisallowStrippedImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"禁止剥离, "));
                         if (PhEndsWithStringRef2(&sb.String->sr, L", ", FALSE)) PhRemoveEndStringBuilder(&sb, 2);
                         PhAppendCharStringBuilder(&sb, L')');
                     }
@@ -184,10 +184,10 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 100);
-                    PhAppendStringBuilder2(&sb, L"此进程已启用地址空间布局随机化。\r\n");
-                    if (data->EnableHighEntropy) PhAppendStringBuilder2(&sb, L"高熵随机化已启用。\r\n");
-                    if (data->EnableForceRelocateImages) PhAppendStringBuilder2(&sb, L"所有映像被强制重定位（无论其是否支持 ASLR）。\r\n");
-                    if (data->DisallowStrippedImages) PhAppendStringBuilder2(&sb, L"不允许加载剥离了重定位数据的映像。\r\n");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程已启用地址空间布局随机化。\r\n"));
+                    if (data->EnableHighEntropy) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"高熵随机化已启用。\r\n"));
+                    if (data->EnableForceRelocateImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"所有映像被强制重定位（无论其是否支持 ASLR）。\r\n"));
+                    if (data->DisallowStrippedImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"不允许加载剥离了重定位数据的映像。\r\n"));
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
 
@@ -301,14 +301,14 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (ShortDescription)
                 {
                     PhInitializeStringBuilder(&sb, 50);
-                    if (data->StrictMode) PhAppendStringBuilder2(&sb, L"严格 ");
+                    if (data->StrictMode) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"严格 "));
 
 #if !defined(NTDDI_WIN10_CO) || (NTDDI_VERSION < NTDDI_WIN10_CO)
                     if (_bittest((const PLONG)&data->Flags, 4))
 #else
                     if (data->EnableXfgAuditMode)
 #endif
-                        PhAppendStringBuilder2(&sb, L"审核 ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核 "));
 
                 #if !defined(NTDDI_WIN10_CO) || (NTDDI_VERSION < NTDDI_WIN10_CO)
                     PhAppendStringBuilder2(&sb, _bittest((const PLONG)&data->Flags, 3) ? L"XF Guard" : L"CF Guard");
@@ -329,18 +329,18 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                     if (data->EnableXfg)
                 #endif
                     {
-                        PhAppendStringBuilder2(&sb, L"此进程已启用扩展控制流防护 (XFG)。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程已启用扩展控制流防护 (XFG)。\r\n"));
 
-                        if (data->EnableXfgAuditMode) PhAppendStringBuilder2(&sb, L"审核 XFG：XFG 正在审核模式下运行。\r\n");
-                        if (data->StrictMode) PhAppendStringBuilder2(&sb, L"严格 XFG：仅可加载 XFG 模块。\r\n");
-                        if (data->EnableExportSuppression) PhAppendStringBuilder2(&sb, L"DLL 导出可被标记为 XFG 无效目标。\r\n");
+                        if (data->EnableXfgAuditMode) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核 XFG：XFG 正在审核模式下运行。\r\n"));
+                        if (data->StrictMode) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"严格 XFG：仅可加载 XFG 模块。\r\n"));
+                        if (data->EnableExportSuppression) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"DLL 导出可被标记为 XFG 无效目标。\r\n"));
                     }
                     else
                     {
-                        PhAppendStringBuilder2(&sb, L"此进程已启用控制流防护 (CFG)。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程已启用控制流防护 (CFG)。\r\n"));
 
-                        if (data->StrictMode) PhAppendStringBuilder2(&sb, L"严格 CFG：仅可加载 CFG 模块。\r\n");
-                        if (data->EnableExportSuppression) PhAppendStringBuilder2(&sb, L"DLL 导出可被标记为 CFG 无效目标。\r\n");
+                        if (data->StrictMode) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"严格 CFG：仅可加载 CFG 模块。\r\n"));
+                        if (data->EnableExportSuppression) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"DLL 导出可被标记为 CFG 无效目标。\r\n"));
                     }
 
                     *LongDescription = PhFinalStringBuilderString(&sb);
@@ -359,9 +359,9 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (ShortDescription)
                 {
                     PhInitializeStringBuilder(&sb, 50);
-                    PhAppendStringBuilder2(&sb, L"签名受限 (");
-                    if (data->MicrosoftSignedOnly) PhAppendStringBuilder2(&sb, L"仅 Microsoft, ");
-                    if (data->StoreSignedOnly) PhAppendStringBuilder2(&sb, L"仅应用商店, ");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"签名受限 ("));
+                    if (data->MicrosoftSignedOnly) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"仅 Microsoft, "));
+                    if (data->StoreSignedOnly) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"仅应用商店, "));
                     if (PhEndsWithStringRef2(&sb.String->sr, L", ", FALSE)) PhRemoveEndStringBuilder(&sb, 2);
                     PhAppendCharStringBuilder(&sb, L')');
 
@@ -371,10 +371,10 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 100);
-                    PhAppendStringBuilder2(&sb, L"此进程已启用映像签名限制。\r\n");
-                    if (data->MicrosoftSignedOnly) PhAppendStringBuilder2(&sb, L"仅允许 Microsoft 签名。\r\n");
-                    if (data->StoreSignedOnly) PhAppendStringBuilder2(&sb, L"仅允许 Windows Store 签名。\r\n");
-                    if (data->MitigationOptIn) PhAppendStringBuilder2(&sb, L"这是一项选择性加入的限制。\r\n");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程已启用映像签名限制。\r\n"));
+                    if (data->MicrosoftSignedOnly) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"仅允许 Microsoft 签名。\r\n"));
+                    if (data->StoreSignedOnly) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"仅允许 Windows Store 签名。\r\n"));
+                    if (data->MitigationOptIn) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"这是一项选择性加入的限制。\r\n"));
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
 
@@ -394,8 +394,8 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 100);
-                    PhAppendStringBuilder2(&sb, L"此进程无法使用非系统字体。\r\n");
-                    if (data->AuditNonSystemFontLoading) PhAppendStringBuilder2(&sb, L"在此进程中加载非系统字体将触发 ETW 事件。\r\n");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程无法使用非系统字体。\r\n"));
+                    if (data->AuditNonSystemFontLoading) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"在此进程中加载非系统字体将触发 ETW 事件。\r\n"));
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
 
@@ -412,9 +412,9 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (ShortDescription)
                 {
                     PhInitializeStringBuilder(&sb, 50);
-                    PhAppendStringBuilder2(&sb, L"映像受限 (");
-                    if (data->NoRemoteImages) PhAppendStringBuilder2(&sb, L"远程映像, ");
-                    if (data->NoLowMandatoryLabelImages) PhAppendStringBuilder2(&sb, L"低强制性标签映像, ");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"映像受限 ("));
+                    if (data->NoRemoteImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"远程映像, "));
+                    if (data->NoLowMandatoryLabelImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"低强制性标签映像, "));
                     if (PhEndsWithStringRef2(&sb.String->sr, L", ", FALSE)) PhRemoveEndStringBuilder(&sb, 2);
                     PhAppendCharStringBuilder(&sb, L')');
 
@@ -424,8 +424,8 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 50);
-                    if (data->NoRemoteImages) PhAppendStringBuilder2(&sb, L"无法将远程位置的映像加载到进程中。\r\n");
-                    if (data->NoLowMandatoryLabelImages) PhAppendStringBuilder2(&sb, L"无法将具有低强制性标签的映像加载到进程中。\r\n");
+                    if (data->NoRemoteImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"无法将远程位置的映像加载到进程中。\r\n"));
+                    if (data->NoLowMandatoryLabelImages) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"无法将具有低强制性标签的映像加载到进程中。\r\n"));
 
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
@@ -475,13 +475,13 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 if (LongDescription)
                 {
                     PhInitializeStringBuilder(&sb, 100);
-                    PhAppendStringBuilder2(&sb, L"此进程已启用有效载荷限制。\r\n");
-                    if (data->EnableExportAddressFilter) PhAppendStringBuilder2(&sb, L"导出地址筛选已启用。\r\n");
-                    if (data->EnableExportAddressFilterPlus) PhAppendStringBuilder2(&sb, L"导出地址筛选 (Plus) 已启用。\r\n");
-                    if (data->EnableImportAddressFilter) PhAppendStringBuilder2(&sb, L"导入地址筛选已启用。\r\n");
-                    if (data->EnableRopStackPivot) PhAppendStringBuilder2(&sb, L"StackPivot 已启用。\r\n");
-                    if (data->EnableRopCallerCheck) PhAppendStringBuilder2(&sb, L"CallerCheck 已启用。\r\n");
-                    if (data->EnableRopSimExec) PhAppendStringBuilder2(&sb, L"SimExec 已启用。\r\n");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"此进程已启用有效载荷限制。\r\n"));
+                    if (data->EnableExportAddressFilter) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"导出地址筛选已启用。\r\n"));
+                    if (data->EnableExportAddressFilterPlus) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"导出地址筛选 (Plus) 已启用。\r\n"));
+                    if (data->EnableImportAddressFilter) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"导入地址筛选已启用。\r\n"));
+                    if (data->EnableRopStackPivot) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"StackPivot 已启用。\r\n"));
+                    if (data->EnableRopCallerCheck) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"CallerCheck 已启用。\r\n"));
+                    if (data->EnableRopSimExec) PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"SimExec 已启用。\r\n"));
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }
 
@@ -565,12 +565,12 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                     PhInitializeStringBuilder(&sb, 50);
 
                     if (data->AuditUserShadowStack)
-                        PhAppendStringBuilder2(&sb, L"审核 ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核 "));
 
                     if (data->EnableUserShadowStackStrictMode)
-                        PhAppendStringBuilder2(&sb, L"严格 ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"严格 "));
 
-                    PhAppendStringBuilder2(&sb, L"堆栈保护");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"堆栈保护"));
 
                     *ShortDescription = PhFinalStringBuilderString(&sb);
                 }
@@ -579,28 +579,28 @@ BOOLEAN PhDescribeProcessMitigationPolicy(
                 {
                     PhInitializeStringBuilder(&sb, 100);
 
-                    PhAppendStringBuilder2(&sb, L"CPU 通过硬件强制实施的影子堆栈在运行时验证函数返回地址。\r\n");
+                    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"CPU 通过硬件强制实施的影子堆栈在运行时验证函数返回地址。\r\n"));
 
                     if (data->AuditUserShadowStack)
-                        PhAppendStringBuilder2(&sb, L"审核堆栈保护：将 ROP 失败记录到事件日志。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核堆栈保护：将 ROP 失败记录到事件日志。\r\n"));
 
                     if (data->EnableUserShadowStackStrictMode)
-                        PhAppendStringBuilder2(&sb, L"严格堆栈保护：检测到任何 ROP 都将导致进程终止。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"严格堆栈保护：检测到任何 ROP 都将导致进程终止。\r\n"));
 
                     if (data->AuditSetContextIpValidation)
-                        PhAppendStringBuilder2(&sb, L"审核 Set Context IP 验证：将上下文 IP 的修改记录到事件日志。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核 Set Context IP 验证：将上下文 IP 的修改记录到事件日志。\r\n"));
 
                     if (data->SetContextIpValidation)
-                        PhAppendStringBuilder2(&sb, L"Set Context IP 验证：检测到上下文 IP 被修改将导致进程终止。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"Set Context IP 验证：检测到上下文 IP 被修改将导致进程终止。\r\n"));
 
                     if (data->AuditBlockNonCetBinaries)
-                        PhAppendStringBuilder2(&sb, L"审核阻止非 CET 二进制文件：将加载不支持 CET 的二进制文件的尝试记录到事件日志。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"审核阻止非 CET 二进制文件：将加载不支持 CET 的二进制文件的尝试记录到事件日志。\r\n"));
 
                     if (data->BlockNonCetBinaries)
-                        PhAppendStringBuilder2(&sb, L"阻止不支持 CET 的二进制文件\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"阻止不支持 CET 的二进制文件\r\n"));
 
                     if (data->BlockNonCetBinariesNonEhcont)
-                        PhAppendStringBuilder2(&sb, L"阻止不支持 CET 或缺少 EH 连续性元数据的二进制文件。\r\n");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"阻止不支持 CET 或缺少 EH 连续性元数据的二进制文件。\r\n"));
 
                     *LongDescription = PhFinalStringBuilderString(&sb);
                 }

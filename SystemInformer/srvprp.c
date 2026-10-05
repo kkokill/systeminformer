@@ -526,12 +526,15 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
             context->WindowDpi = PhGetWindowDpi(GetParent(hwndDlg));
             PhSetWindowContext(GetParent(hwndDlg), PH_SERVICE_PROP_CONTEXT, context);
 
-            PhAddComboBoxStringRefs(context->TypeWindowHandle, PhServiceTypeStrings, RTL_NUMBER_OF(PhServiceTypeStrings));
-            PhAddComboBoxStringRefs(context->StartTypeWindowHandle, PhServiceStartTypeStrings, RTL_NUMBER_OF(PhServiceStartTypeStrings));
-            PhAddComboBoxStringRefs(context->ErrorControlWindowHandle, PhServiceErrorControlStrings, RTL_NUMBER_OF(PhServiceErrorControlStrings));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceTypeStrings); i++) // 语言切换：显示译文
+                ComboBox_AddString(context->TypeWindowHandle, PhTranslateTextZ(PhServiceTypeStrings[i]->Buffer));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceStartTypeStrings); i++)
+                ComboBox_AddString(context->StartTypeWindowHandle, PhTranslateTextZ(PhServiceStartTypeStrings[i]->Buffer));
+            for (ULONG i = 0; i < RTL_NUMBER_OF(PhServiceErrorControlStrings); i++)
+                ComboBox_AddString(context->ErrorControlWindowHandle, PhTranslateTextZ(PhServiceErrorControlStrings[i]->Buffer));
 
             PhSetWindowText(context->DescriptionWindowHandle, PhGetStringOrEmpty(serviceItem->DisplayName));
-            PhSelectComboBoxString(context->TypeWindowHandle, PhGetServiceTypeString(serviceItem->Type)->Buffer, FALSE);
+            PhSelectComboBoxString(context->TypeWindowHandle, PhTranslateTextZ(PhGetServiceTypeString(serviceItem->Type)->Buffer), FALSE);
 
             startType = serviceItem->StartType;
             errorControl = serviceItem->ErrorControl;
@@ -575,8 +578,8 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
                 PhCloseServiceHandle(serviceHandle);
             }
 
-            PhSelectComboBoxString(context->StartTypeWindowHandle, PhGetServiceStartTypeString(startType)->Buffer, FALSE);
-            PhSelectComboBoxString(context->ErrorControlWindowHandle, PhGetServiceErrorControlString(errorControl)->Buffer, FALSE);
+            PhSelectComboBoxString(context->StartTypeWindowHandle, PhTranslateTextZ(PhGetServiceStartTypeString(startType)->Buffer), FALSE);
+            PhSelectComboBoxString(context->ErrorControlWindowHandle, PhTranslateTextZ(PhGetServiceErrorControlString(errorControl)->Buffer), FALSE);
 
             PhSetWindowText(context->PassBoxWindowHandle, PhTranslateTextZ(L"密码"));
             Button_SetCheck(context->PassCheckBoxWindowHandle, BST_UNCHECKED);
@@ -655,10 +658,10 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
                 break;
             case IDC_BROWSE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：去 static 运行时翻译
                     {
-                        { L"可执行文件 (*.exe;*.sys)", L"*.exe;*.sys" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"可执行文件 (*.exe;*.sys)"), L"*.exe;*.sys" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING commandLine;
@@ -757,6 +760,9 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
                     ULONG newServiceType;
                     ULONG newServiceStartType;
                     ULONG newServiceErrorControl;
+                    PH_STRINGREF currentTypeDisplay;
+                    PH_STRINGREF currentStartTypeDisplay;
+                    PH_STRINGREF currentErrorControlDisplay;
                     PPH_STRING newServiceGroup = NULL;
                     PPH_STRING newServiceBinaryPath = NULL;
                     PPH_STRING newServiceUserAccount = NULL;
@@ -776,11 +782,16 @@ INT_PTR CALLBACK PhpServiceGeneralDlgProc(
                     newServiceStartType = PhGetServiceStartTypeInteger(&newServiceStartTypeString->sr);
                     newServiceErrorControl = PhGetServiceErrorControlInteger(&newServiceErrorControlString->sr);
 
-                    if (PhEqualStringRef(PhGetServiceTypeString(serviceItem->Type), &newServiceTypeString->sr, TRUE))
+                    // 语言切换：与当前值的显示文本（当前语言）比较，未变化则不下发修改
+                    PhInitializeStringRef(&currentTypeDisplay, PhTranslateTextZ(PhGetServiceTypeString(serviceItem->Type)->Buffer));
+                    PhInitializeStringRef(&currentStartTypeDisplay, PhTranslateTextZ(PhGetServiceStartTypeString(serviceItem->StartType)->Buffer));
+                    PhInitializeStringRef(&currentErrorControlDisplay, PhTranslateTextZ(PhGetServiceErrorControlString(serviceItem->ErrorControl)->Buffer));
+
+                    if (PhEqualStringRef(&newServiceTypeString->sr, &currentTypeDisplay, TRUE))
                         newServiceType = SERVICE_NO_CHANGE;
-                    if (PhEqualStringRef(PhGetServiceStartTypeString(serviceItem->StartType), &newServiceStartTypeString->sr, TRUE))
+                    if (PhEqualStringRef(&newServiceStartTypeString->sr, &currentStartTypeDisplay, TRUE))
                         newServiceStartType = SERVICE_NO_CHANGE;
-                    if (PhEqualStringRef(PhGetServiceErrorControlString(serviceItem->ErrorControl), &newServiceErrorControlString->sr, TRUE))
+                    if (PhEqualStringRef(&newServiceErrorControlString->sr, &currentErrorControlDisplay, TRUE))
                         newServiceErrorControl = SERVICE_NO_CHANGE;
 
                     if (PhGetWindowTextLength(context->GroupWindowHandle))

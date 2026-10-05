@@ -312,7 +312,7 @@ VOID PhShowHandleObjectProperties1(
                     showMemoryEditor->RegionSize = viewSize;
                     showMemoryEditor->SelectOffset = ULONG_MAX;
                     showMemoryEditor->SelectLength = 0;
-                    showMemoryEditor->Title = sectionName ? PhConcatStrings2(L"区段 - ", sectionName->Buffer) : PhCreateString(L"区段");
+                    showMemoryEditor->Title = sectionName ? PhConcatStrings2(PhTranslateTextZ(L"区段 - "), sectionName->Buffer) : PhCreateString(PhTranslateTextZ(L"区段")); // 语言切换
                     showMemoryEditor->Flags = PH_MEMORY_EDITOR_UNMAP_VIEW_OF_SECTION;
                     SystemInformer_ShowMemoryEditor(showMemoryEditor);
                 }

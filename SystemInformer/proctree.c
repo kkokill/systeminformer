@@ -1538,22 +1538,22 @@ static VOID PhpUpdateProcessNodeErrorMode(
 
                 if (errorMode & SEM_FAILCRITICALERRORS)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"失败关键, ");
+                    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"失败关键, "));
                 }
 
                 if (errorMode & SEM_NOGPFAULTERRORBOX)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"GP 错误, ");
+                    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"GP 错误, "));
                 }
 
                 if (errorMode & SEM_NOALIGNMENTFAULTEXCEPT)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"对齐错误, ");
+                    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"对齐错误, "));
                 }
 
                 if (errorMode & SEM_NOOPENFILEERRORBOX)
                 {
-                    PhAppendStringBuilder2(&stringBuilder, L"打开文件错误, ");
+                    PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"打开文件错误, "));
                 }
 
                 if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
@@ -3780,7 +3780,7 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                             if (processItem->CreateTime.QuadPart < currentTime.QuadPart)
                             {
                                 startTimeString = PhFormatTimeSpanRelative(currentTime.QuadPart - processItem->CreateTime.QuadPart);
-                                PhMoveReference(&node->RelativeStartTimeText, PhConcatStringRefZ(&startTimeString->sr, L"前"));
+                                PhMoveReference(&node->RelativeStartTimeText, PhConcatStringRefZ(&startTimeString->sr, PhTranslateTextZ(L"前")));
                                 PhDereferenceObject(startTimeString);
                             }
                             else
@@ -3808,8 +3808,18 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
 
                     if (PhGetElevationTypeString(!!processItem->IsElevated, processItem->ElevationType, &elevationType))
                     {
-                        getCellText->Text.Buffer = elevationType->Buffer;
-                        getCellText->Text.Length = elevationType->Length;
+                        PCWSTR translated = PhTranslateTextZ(elevationType->Buffer); // 语言切换：GETCELLTEXT 显示回调处翻译=天然热切换
+
+                        if (translated != elevationType->Buffer)
+                        {
+                            getCellText->Text.Buffer = (PWSTR)translated; // 字典表静态串，只读安全
+                            getCellText->Text.Length = wcslen(translated) * sizeof(WCHAR);
+                        }
+                        else
+                        {
+                            getCellText->Text.Buffer = elevationType->Buffer;
+                            getCellText->Text.Length = elevationType->Length;
+                        }
                     }
                 }
                 break;
@@ -3867,19 +3877,19 @@ BOOLEAN NTAPI PhpProcessTreeNewCallback(
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_ENABLED))
                     {
                         if (FlagOn(node->DepStatus, PH_PROCESS_DEP_PERMANENT))
-                            PhAppendStringBuilder2(&sb, L"DEP (永久), ");
+                            PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"DEP (永久), "));
                         else
                             PhAppendStringBuilder2(&sb, L"DEP, ");
                     }
 
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_ATL_THUNK_EMULATION_DISABLED))
-                        PhAppendStringBuilder2(&sb, L"ATL 模拟, ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"ATL 模拟, "));
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_EXECUTE_ENABLED))
-                        PhAppendStringBuilder2(&sb, L"已启用执行, ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"已启用执行, "));
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_IMAGE_ENABLED))
-                        PhAppendStringBuilder2(&sb, L"已启用映像, ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"已启用映像, "));
                     if (FlagOn(node->DepStatus, PH_PROCESS_DEP_DISABLE_EXCEPTION_CHAIN))
-                        PhAppendStringBuilder2(&sb, L"已禁用链, ");
+                        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"已禁用链, "));
 
                     if (PhEndsWithString2(sb.String, L", ", FALSE))
                         PhRemoveEndStringBuilder(&sb, 2);
@@ -6134,7 +6144,7 @@ BOOLEAN PhSelectAndEnsureVisibleProcessNodes(
             PhMainWndHandle,
             L"无法执行该操作。",
             L"%s",
-            L"该节点当前被正在生效的筛选设置或首选项隐藏，因此无法显示。"
+            PhTranslateTextZ(L"该节点当前被正在生效的筛选设置或首选项隐藏，因此无法显示。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
             );
         return FALSE;
     }

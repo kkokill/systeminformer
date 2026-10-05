@@ -187,9 +187,9 @@ PPH_PLUGIN_TREE_ROOT_NODE AddPluginsNode(
     pluginNode->PluginOptions = Plugin->Information.HasOptions;
     pluginNode->InternalName = PhCreateString2(&Plugin->Name);
     if (Plugin->Information.DisplayName)
-        pluginNode->Name = PhCreateString(Plugin->Information.DisplayName);
+        pluginNode->Name = PhCreateString(PhTranslateTextZ(Plugin->Information.DisplayName)); // 语言切换：创建时翻译，重开插件窗口生效
     if (Plugin->Information.Description)
-        pluginNode->Description = PhCreateString(Plugin->Information.Description);
+        pluginNode->Description = PhCreateString(PhTranslateTextZ(Plugin->Information.Description));
 
     if (fileName = PhGetPluginFileName(Plugin))
     {
@@ -926,7 +926,7 @@ VOID PhpRefreshPluginDetails(
     if (fileName = PhGetPluginFileName(SelectedPlugin))
         baseName = PH_AUTO(PhGetBaseName(fileName));
 
-    PhSetDialogItemText(hwndDlg, IDC_NAME, SelectedPlugin->Information.DisplayName ? SelectedPlugin->Information.DisplayName : L"（未命名）");
+    PhSetDialogItemText(hwndDlg, IDC_NAME, SelectedPlugin->Information.DisplayName ? SelectedPlugin->Information.DisplayName : PhTranslateTextZ(L"（未命名）"));
     PhSetDialogItemText(hwndDlg, IDC_INTERNALNAME, SelectedPlugin->Name.Buffer);
     PhSetDialogItemText(hwndDlg, IDC_AUTHOR, SelectedPlugin->Information.Author);
     PhSetDialogItemText(hwndDlg, IDC_FILENAME, PhGetStringOrEmpty(baseName));
@@ -935,12 +935,12 @@ VOID PhpRefreshPluginDetails(
 
     if (fileName && NT_SUCCESS(PhInitializeImageVersionInfoEx(&versionInfo, &fileName->sr, FALSE)))
     {
-        PhSetDialogItemText(hwndDlg, IDC_VERSION, PhGetStringOrDefault(versionInfo.FileVersion, L"未知"));
+        PhSetDialogItemText(hwndDlg, IDC_VERSION, PhGetStringOrDefault(versionInfo.FileVersion, PhTranslateTextZ(L"未知")));
         PhDeleteImageVersionInfo(&versionInfo);
     }
     else
     {
-        PhSetDialogItemText(hwndDlg, IDC_VERSION, L"未知");
+        PhSetDialogItemText(hwndDlg, IDC_VERSION, PhTranslateTextZ(L"未知"));
     }
 
     ShowWindow(GetDlgItem(hwndDlg, IDC_OPENURL), SelectedPlugin->Information.Url ? SW_SHOW : SW_HIDE);

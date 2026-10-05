@@ -215,18 +215,14 @@ PPH_STRING PhGetProcessProtectionString(
 {
     if (Protection.Level)
     {
-        static PPH_STRING PhpProtectionNoneString = NULL;
         PH_FORMAT format[6];
         ULONG count = 0;
         PCWSTR type;
         PCWSTR signer;
 
-        if (!PhpProtectionNoneString)
-            PhpProtectionNoneString = PhCreateString(L"无");
-
         if (IsSecureProcess)
         {
-            PhInitFormatS(&format[count++], L"安全 ");
+            PhInitFormatS(&format[count++], PhTranslateTextZ(L"安全 "));
         }
 
         if (PhIndexStringSiKeyValuePairs(
@@ -236,11 +232,11 @@ PPH_STRING PhGetProcessProtectionString(
             &type
             ))
         {
-            PhInitFormatS(&format[count++], type);
+            PhInitFormatS(&format[count++], PhTranslateTextZ(type));
         }
         else
         {
-            PhInitFormatS(&format[count++], L"未知");
+            PhInitFormatS(&format[count++], PhTranslateTextZ(L"未知"));
         }
 
         if (PhIndexStringSiKeyValuePairs(
@@ -251,33 +247,28 @@ PPH_STRING PhGetProcessProtectionString(
             ))
         {
             PhInitFormatS(&format[count++], L" (");
-            PhInitFormatS(&format[count++], signer);
+            PhInitFormatS(&format[count++], PhTranslateTextZ(signer));
             PhInitFormatS(&format[count++], L")");
         }
         else
         {
             PhInitFormatS(&format[count++], L" (");
-            PhInitFormatS(&format[count++], L"未知");
+            PhInitFormatS(&format[count++], PhTranslateTextZ(L"未知"));
             PhInitFormatS(&format[count++], L")");
         }
 
         if (Protection.Audit)
         {
-            PhInitFormatS(&format[count++], L" (审核)");
+            PhInitFormatS(&format[count++], PhTranslateTextZ(L" (审核)"));
         }
 
         return PhFormat(format, count, 10);
     }
     else
     {
-        static PPH_STRING PhpProtectionSecureIUMString = NULL;
-
-        if (!PhpProtectionSecureIUMString)
-            PhpProtectionSecureIUMString = PhCreateString(L"安全 (IUM)");
-
         if (IsSecureProcess)
         {
-            return PhReferenceObject(PhpProtectionSecureIUMString);
+            return PhCreateString(PhTranslateTextZ(L"安全 (IUM)"));
         }
     }
 
@@ -1191,8 +1182,8 @@ VOID PhShellExecuteUserString(
                     WindowHandle,
                     L"无法执行命令。",
                     L"%s\n%s",
-                    PhGetStringOrDefault(ntMessage, L"发生未知错误。"),
-                    ErrorMessage
+                    PhGetStringOrDefault(ntMessage, PhTranslateTextZ(L"发生未知错误。")), // 语言切换
+                    PhTranslateTextZ(ErrorMessage) // 语言切换：va_arg 填充参数引擎覆盖不到
                     );
                 PhDereferenceObject(ntMessage);
             }
@@ -1495,12 +1486,12 @@ PPH_STRING PhGetBuildTime(
 
     // Reject impossible day/time values before constructing a timestamp.
     if (dayOfYear == 0 || dayOfYear > 366 || hour > 23 || minute > 59)
-        return PhCreateString(L"未知");
+        return PhCreateString(PhTranslateTextZ(L"未知")); // 语言切换
 
     leapYear = (year % 4 == 0 && ((year % 100 != 0) || (year % 400 == 0))) ? 1 : 0;
 
     if ((!leapYear && dayOfYear > 365) || year < 2000)
-        return PhCreateString(L"未知");
+        return PhCreateString(PhTranslateTextZ(L"未知")); // 语言切换
 
     month = 1;
 
@@ -1512,7 +1503,7 @@ PPH_STRING PhGetBuildTime(
     }
 
     if (month > 12)
-        return PhCreateString(L"未知");
+        return PhCreateString(PhTranslateTextZ(L"未知")); // 语言切换
 
     // Build a UTC SYSTEMTIME first; convert to local time for display if possible.
     memset(&utcSystemTime, 0, sizeof(utcSystemTime));
@@ -1552,16 +1543,16 @@ PCWSTR PhGetBuildReleaseChannelString(
     switch (PhGetIntegerSetting(SETTING_RELEASE_CHANNEL))
     {
     case PhReleaseChannel:
-        return L"正式版";
+        return PhTranslateTextZ(L"正式版"); // 语言切换
     case PhPreviewChannel:
-        return L"预览版";
+        return PhTranslateTextZ(L"预览版"); // 语言切换
     case PhCanaryChannel:
-        return L"Canary 版";
+        return PhTranslateTextZ(L"Canary 版"); // 语言切换
     case PhDeveloperChannel:
-        return L"开发者版";
+        return PhTranslateTextZ(L"开发者版"); // 语言切换
     }
 
-    return L"未知";
+    return PhTranslateTextZ(L"未知"); // 语言切换
 }
 
 VOID PhWritePhTextHeader(
@@ -1587,9 +1578,9 @@ VOID PhWritePhTextHeader(
         PhWriteStringFormatAsUtf8FileStream(FileStream, L" %s", PhOsVersion.CSDVersion);
 
 #ifdef _WIN64
-    PhWriteStringAsUtf8FileStream2(FileStream, L" (64 位)");
+    PhWriteStringAsUtf8FileStream2(FileStream, PhTranslateTextZ(L" (64 位)")); // 语言切换
 #else
-    PhWriteStringAsUtf8FileStream2(FileStream, L" (32 位)");
+    PhWriteStringAsUtf8FileStream2(FileStream, PhTranslateTextZ(L" (32 位)")); // 语言切换
 #endif
 
     PhQuerySystemTime(&time);
@@ -2215,7 +2206,7 @@ BOOLEAN PhInsertCopyCellEMenuItem(
 
     PhInitializeStringRefLongHint(&columnText, Column->Text);
     escapedText = PhEscapeStringForMenuPrefix(&columnText);
-    PhInitFormatS(&format[0], L"复制 \""); // Copy \"%s\"
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"复制 \"")); // Copy \"%s\"
     PhInitFormatSR(&format[1], escapedText->sr);
     PhInitFormatS(&format[2], L"\"");
     menuItemText = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -2349,7 +2340,7 @@ BOOLEAN PhInsertCopyListViewEMenuItem(
     indexInParent++;
 
     escapedText = PhEscapeStringForMenuPrefix(&columnText);
-    PhInitFormatS(&format[0], L"复制 \""); // Copy \"%s\"
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"复制 \"")); // Copy \"%s\"
     PhInitFormatSR(&format[1], escapedText->sr);
     PhInitFormatS(&format[2], L"\"");
     menuItemText = PhFormat(format, RTL_NUMBER_OF(format), 0);

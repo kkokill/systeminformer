@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -217,31 +217,31 @@ PPH_STRING PhGetMemoryRegionTypeExString(
     PhInitializeStringBuilder(&stringBuilder, 0x50);
 
     if (MemoryItem->Private)
-        PhAppendStringBuilder2(&stringBuilder, L"私有, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"私有, "));
     if (MemoryItem->MappedDataFile)
-        PhAppendStringBuilder2(&stringBuilder, L"映射数据文件, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射数据文件, "));
     if (MemoryItem->MappedImage)
-        PhAppendStringBuilder2(&stringBuilder, L"映射映像, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射映像, "));
     if (MemoryItem->MappedPageFile)
-        PhAppendStringBuilder2(&stringBuilder, L"映射页面文件, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射页面文件, "));
     if (MemoryItem->MappedPhysical)
-        PhAppendStringBuilder2(&stringBuilder, L"映射物理内存, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射物理内存, "));
     if (MemoryItem->DirectMapped)
-        PhAppendStringBuilder2(&stringBuilder, L"直接映射, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"直接映射, "));
     if (MemoryItem->SoftwareEnclave)
-        PhAppendStringBuilder2(&stringBuilder, L"软件 enclave, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"软件 enclave, "));
     if (MemoryItem->PageSize64K)
-        PhAppendStringBuilder2(&stringBuilder, L"页大小 64K, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"页大小 64K, "));
     if (MemoryItem->PlaceholderReservation)
-        PhAppendStringBuilder2(&stringBuilder, L"占位符, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"占位符, "));
     if (MemoryItem->MappedAwe)
-        PhAppendStringBuilder2(&stringBuilder, L"映射 AWE, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射 AWE, "));
     if (MemoryItem->MappedWriteWatch)
-        PhAppendStringBuilder2(&stringBuilder, L"映射 WriteWatch, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映射 WriteWatch, "));
     if (MemoryItem->PageSizeLarge)
-        PhAppendStringBuilder2(&stringBuilder, L"大页, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"大页, "));
     if (MemoryItem->PageSizeHuge)
-        PhAppendStringBuilder2(&stringBuilder, L"超大页, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"超大页, "));
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);

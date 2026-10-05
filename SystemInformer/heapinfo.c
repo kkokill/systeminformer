@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -317,31 +317,31 @@ PPH_STRING PhGetProcessHeapFlagsText(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (Flags & HEAP_NO_SERIALIZE)
-        PhAppendStringBuilder2(&stringBuilder, L"不串行化, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"不串行化, "));
     if (Flags & HEAP_GROWABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"可增长, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可增长, "));
     if (Flags & HEAP_GENERATE_EXCEPTIONS)
-        PhAppendStringBuilder2(&stringBuilder, L"生成异常, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"生成异常, "));
     if (Flags & HEAP_ZERO_MEMORY)
-        PhAppendStringBuilder2(&stringBuilder, L"清零内存, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"清零内存, "));
     if (Flags & HEAP_REALLOC_IN_PLACE_ONLY)
-        PhAppendStringBuilder2(&stringBuilder, L"就地重分配, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"就地重分配, "));
     if (Flags & HEAP_TAIL_CHECKING_ENABLED)
-        PhAppendStringBuilder2(&stringBuilder, L"尾检查, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"尾检查, "));
     if (Flags & HEAP_FREE_CHECKING_ENABLED)
-        PhAppendStringBuilder2(&stringBuilder, L"释放检查, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"释放检查, "));
     if (Flags & HEAP_DISABLE_COALESCE_ON_FREE)
-        PhAppendStringBuilder2(&stringBuilder, L"释放时合并, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"释放时合并, "));
     if (Flags & HEAP_CREATE_ALIGN_16)
-        PhAppendStringBuilder2(&stringBuilder, L"16 字节对齐, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"16 字节对齐, "));
     if (Flags & HEAP_CREATE_ENABLE_TRACING)
-        PhAppendStringBuilder2(&stringBuilder, L"可跟踪, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可跟踪, "));
     if (Flags & HEAP_CREATE_ENABLE_EXECUTE)
-        PhAppendStringBuilder2(&stringBuilder, L"可执行, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可执行, "));
     if (Flags & HEAP_CREATE_SEGMENT_HEAP)
-        PhAppendStringBuilder2(&stringBuilder, L"段堆, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"段堆, "));
     if (Flags & HEAP_CREATE_HARDENED)
-        PhAppendStringBuilder2(&stringBuilder, L"段强化, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"段强化, "));
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -554,7 +554,7 @@ VOID PhpEnumerateProcessHeaps(
                 Context->WindowHandle,
                 L"无法查询 32 位堆信息。",
                 L"%s",
-                L"找不到 32 位版本的 System Informer。"
+                PhTranslateTextZ(L"找不到 32 位版本的 System Informer。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                 );
             goto CleanupExit;
         }

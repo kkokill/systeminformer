@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -292,7 +292,7 @@ PPH_STRING PhpInformerGetTimeText(
     PhInitFormatI64UWithWidth(&format[4], systemTime.wSecond, 2);
     PhInitFormatC(&format[5], L'.');
     PhInitFormatI64UWithWidth(&format[6], subSecondTicks, 7);
-    PhInitFormatS(&format[7], systemTime.wHour >= 12 ? L" 下午" : L" 上午");
+    PhInitFormatS(&format[7], systemTime.wHour >= 12 ? PhTranslateTextZ(L" 下午") : PhTranslateTextZ(L" 上午"));
 
     return PhFormat(format, RTL_NUMBER_OF(format), 24);
 }
@@ -1348,9 +1348,9 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
     if (hasContent)
         PhAppendStringBuilder(&sb, &separator);
     if (File->RequestorMode == 0)
-        PhAppendStringBuilder2(&sb, L"模式：内核");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"模式：内核"));
     else
-        PhAppendStringBuilder2(&sb, L"模式：用户");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"模式：用户"));
     hasContent = TRUE;
 
     //
@@ -1438,7 +1438,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
 
             if (File->DeletePending)
             {
-                PhAppendStringBuilder2(&sb, L"删除挂起");
+                PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"删除挂起"));
                 foHasContent = TRUE;
             }
 
@@ -1446,7 +1446,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             {
                 if (foHasContent)
                     PhAppendStringBuilder2(&sb, L", ");
-                PhAppendStringBuilder2(&sb, L"忙碌");
+                PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"忙碌"));
                 foHasContent = TRUE;
             }
 
@@ -1454,7 +1454,7 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             {
                 if (foHasContent)
                     PhAppendStringBuilder2(&sb, L", ");
-                PhAppendStringBuilder2(&sb, L"锁定操作");
+                PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"锁定操作"));
             }
 
             hasContent = TRUE;
@@ -1471,9 +1471,9 @@ PPH_STRING PhpInformerAppendFileCommonDetails(
             PhAppendStringBuilder(&sb, &separator);
 
         if (File->IsSystemPagingFile)
-            PhAppendStringBuilder2(&sb, L"页面文件：系统");
+            PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"页面文件：系统"));
         else
-            PhAppendStringBuilder2(&sb, L"页面文件：是");
+            PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"页面文件：是"));
 
         hasContent = TRUE;
     }
@@ -2264,7 +2264,7 @@ PPH_STRING PhpInformerFormatDetailsText(
                 // Disposition
                 //
 
-                PhAppendStringBuilder2(&createSb, L"处置：");
+                PhAppendStringBuilder2(&createSb, PhTranslateTextZ(L"处置："));
                 PhAppendStringBuilder(&createSb, PhpInformerGetDispositionName(disposition));
 
                 //
@@ -2298,7 +2298,7 @@ PPH_STRING PhpInformerFormatDetailsText(
                 {
                     static const PH_STRINGREF shareSep = PH_STRINGREF_INIT(L", ShareMode: ");
                     PhAppendStringBuilder(&createSb, &shareSep);
-                    PhAppendStringBuilder(&createSb, &shareNames[shareAccess & 7]);
+                    PhAppendStringBuilder2(&createSb, PhTranslateTextZ(shareNames[shareAccess & 7].Buffer));
                 }
 
                 //
@@ -2505,7 +2505,7 @@ PPH_STRING PhpInformerFormatDetailsText(
                 PhInitFormatS(&format[2], L", Length: ");
                 PhInitFormatI64D(&format[3], Message->Kernel.File.Pre.LockControl.Length.QuadPart);
                 PhInitFormatS(&format[4], L", Exclusive: ");
-                PhInitFormatS(&format[5], Message->Kernel.File.Parameters.LockControl.ExclusiveLock ? L"是" : L"否");
+                PhInitFormatS(&format[5], Message->Kernel.File.Parameters.LockControl.ExclusiveLock ? PhTranslateTextZ(L"是") : PhTranslateTextZ(L"否"));
 
                 perOpDetails = PhFormat(format, 6, 60);
             }
@@ -2602,7 +2602,7 @@ PPH_STRING PhpInformerResolveProcessText(
     {
         PH_FORMAT format[3];
 
-        PhInitFormatS(&format[0], L"不存在的进程 (");
+        PhInitFormatS(&format[0], PhTranslateTextZ(L"不存在的进程 ("));
         PhInitFormatU(&format[1], HandleToUlong(ProcessId));
         PhInitFormatC(&format[2], L')');
 

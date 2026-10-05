@@ -459,7 +459,7 @@ INT_PTR CALLBACK PhOptionsDialogProc(
                 section = PhOptionsCreateSection(L"通用", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTGENERAL), PhpOptionsGeneralDlgProc, NULL);
                 PhOptionsCreateSectionAdvanced(L"高级", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTADVANCED), PhpOptionsAdvancedDlgProc, NULL);
                 PhOptionsCreateSection(L"高亮", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTHIGHLIGHTING), PhpOptionsHighlightingDlgProc, NULL);
-                PhOptionsCreateSection(L"托盘图标", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTTRAYICON), PhpOptionsTrayIconDlgProc, NULL);
+                PhOptionsCreateSection(L"托盘图标", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTTRAYICON), PhpOptionsTrayIconDlgProc, NULL); // 语言切换：Name 存原文、显示层翻译（与其他节统一）
                 PhOptionsCreateSection(L"图表", PhInstanceHandle, MAKEINTRESOURCE(IDD_OPTGRAPHS), PhpOptionsGraphsDlgProc, NULL);
                 PhOptionsCreateSection(L"插件", PhInstanceHandle, MAKEINTRESOURCE(IDD_PLUGINS), PhPluginsDlgProc, NULL);
 
@@ -1142,18 +1142,18 @@ VOID PhpSetDefaultTaskManager(
     _In_ HWND ParentWindowHandle
     )
 {
-    PWSTR message;
+    PCWSTR message;
 
     if (PhpIsDefaultTaskManager())
     {
-        message = L"是否恢复为默认的 Windows 任务管理器？";
+        message = PhTranslateTextZ(L"是否恢复为默认的 Windows 任务管理器？"); // 语言切换
     }
     else
     {
-        message = L"是否将 System Informer 设为默认的 Windows 任务管理器？";
+        message = PhTranslateTextZ(L"是否将 System Informer 设为默认的 Windows 任务管理器？"); // 语言切换
 
         // Warn the user when we're not installed into secure location. (dmex)
-        if (!PhShowOptionsDefaultInstallLocation(ParentWindowHandle, L"更改默认任务管理器"))
+        if (!PhShowOptionsDefaultInstallLocation(ParentWindowHandle, PhTranslateTextZ(L"更改默认任务管理器"))) // 语言切换：%s 参数不走 PhShowMessage2 挂钩
         {
             return;
         }
@@ -1542,13 +1542,13 @@ VOID PhpRefreshTaskManagerState(
 
     if (PhpIsDefaultTaskManager())
     {
-        PhSetWindowText(GetDlgItem(WindowHandle, IDC_DEFSTATE), L"System Informer 是默认任务管理器：");
-        PhSetWindowText(GetDlgItem(WindowHandle, IDC_REPLACETASKMANAGER), L"恢复默认...");
+        PhSetWindowText(GetDlgItem(WindowHandle, IDC_DEFSTATE), PhTranslateTextZ(L"System Informer 是默认任务管理器："));
+        PhSetWindowText(GetDlgItem(WindowHandle, IDC_REPLACETASKMANAGER), PhTranslateTextZ(L"恢复默认..."));
     }
     else
     {
-        PhSetWindowText(GetDlgItem(WindowHandle, IDC_DEFSTATE), L"System Informer 不是默认任务管理器：");
-        PhSetWindowText(GetDlgItem(WindowHandle, IDC_REPLACETASKMANAGER), L"设为默认...");
+        PhSetWindowText(GetDlgItem(WindowHandle, IDC_DEFSTATE), PhTranslateTextZ(L"System Informer 不是默认任务管理器："));
+        PhSetWindowText(GetDlgItem(WindowHandle, IDC_REPLACETASKMANAGER), PhTranslateTextZ(L"设为默认..."));
     }
 }
 
@@ -2280,7 +2280,7 @@ INT_PTR CALLBACK PhpOptionsGeneralDlgProc(
                                                 PhOptionsWindowHandle,
                                                 L"无法配置此选项。",
                                                 L"%s",
-                                                L"启用隐藏选项前，您需要至少启用一个托盘图标（查看菜单 > 托盘图标）。"
+                                                PhTranslateTextZ(L"启用隐藏选项前，您需要至少启用一个托盘图标（查看菜单 > 托盘图标）。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                                                 );
                                             SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
                                             return TRUE;
@@ -2297,7 +2297,7 @@ INT_PTR CALLBACK PhpOptionsGeneralDlgProc(
                                                 PhOptionsWindowHandle,
                                                 L"无法启用以管理员身份启动选项。",
                                                 L"%s",
-                                                L"您需要以管理员权限启用此选项。"
+                                                PhTranslateTextZ(L"您需要以管理员权限启用此选项。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                                                 );
 
                                             SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
@@ -2310,7 +2310,7 @@ INT_PTR CALLBACK PhpOptionsGeneralDlgProc(
                                             HRESULT status;
                                             PPH_STRING quotedFileName;
 
-                                            if (!PhShowOptionsDefaultInstallLocation(PhOptionsWindowHandle, L"启用“以管理员身份启动”选项"))
+                                            if (!PhShowOptionsDefaultInstallLocation(PhOptionsWindowHandle, PhTranslateTextZ(L"启用“以管理员身份启动”选项"))) // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                                             {
                                                 SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
                                                 return TRUE;
@@ -2516,7 +2516,7 @@ static INT_PTR CALLBACK PhpOptionsAdvancedEditDlgProc(
             }
             else
             {
-                PhSetDialogItemText(hwndDlg, IDC_DESCRIPTION, L"无可用的架构描述。");
+                PhSetDialogItemText(hwndDlg, IDC_DESCRIPTION, PhTranslateTextZ(L"无可用的架构描述。"));
             }
 
             if (editContext->SettingSchema)
@@ -2841,7 +2841,7 @@ static PPH_STRING OptionsAdvancedFormatSupportedValues(
         BOOLEAN first = TRUE;
 
         if (Type == IntegerSettingType)
-            PhAppendStringBuilder2(&stringBuilder, L"（十六进制）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"（十六进制）"));
 
         for (ULONG i = 0; i < count; i++)
         {
@@ -2880,7 +2880,7 @@ static PPH_STRING OptionsAdvancedFormatSupportedValues(
         ULONG64 maximum = maximumNode ? (ULONG64)PhGetJsonInt64Object(maximumNode) : 0;
 
         if (Type == IntegerSettingType)
-            PhAppendFormatStringBuilder(&stringBuilder, L"（十六进制）%I64x - %I64x", minimum, maximum);
+            PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"（十六进制）%I64x - %I64x"), minimum, maximum);
         else
             PhAppendFormatStringBuilder(&stringBuilder, L"%I64u - %I64u", minimum, maximum);
     }
@@ -2889,10 +2889,10 @@ static PPH_STRING OptionsAdvancedFormatSupportedValues(
         switch (Type)
         {
         case StringSettingType:
-            PhAppendStringBuilder2(&stringBuilder, L"字符串");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"字符串"));
             break;
         case IntegerSettingType:
-            PhAppendStringBuilder2(&stringBuilder, L"整数（十六进制）");
+            PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"整数（十六进制）"));
             break;
         case IntegerPairSettingType:
             PhAppendStringBuilder2(&stringBuilder, L"x,y");
@@ -3221,16 +3221,16 @@ BOOLEAN NTAPI OptionsAdvancedTreeNewCallback(
                     switch (node->Type)
                     {
                     case StringSettingType:
-                        PhInitializeStringRef(&getCellText->Text, L"字符串");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"字符串"));
                         break;
                     case IntegerSettingType:
-                        PhInitializeStringRef(&getCellText->Text, L"整数");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"整数")); // 语言切换
                         break;
                     case IntegerPairSettingType:
-                        PhInitializeStringRef(&getCellText->Text, L"整数对");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"整数对")); // 语言切换
                         break;
                     case ScalableIntegerPairSettingType:
-                        PhInitializeStringRef(&getCellText->Text, L"可缩放整数对");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"可缩放整数对")); // 语言切换
                         break;
                     }
                 }
@@ -4016,17 +4016,17 @@ INT_PTR CALLBACK PhpOptionsHighlightingDlgProc(
             PhSetExtendedListView(HighlightingListViewHandle);
             ExtendedListView_SetItemColorFunction(HighlightingListViewHandle, PhpColorItemColorFunction);
             ListView_EnableGroupView(HighlightingListViewHandle, TRUE);
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_PROCESSES_AND_THREADS, L"进程");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_THREADS, L"线程");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_NETWORK, L"网络");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_ENVIRONMENT, L"环境");
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_PROCESSES_AND_THREADS, PhTranslateTextZ(L"进程 "));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_THREADS, PhTranslateTextZ(L"线程 "));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_NETWORK, PhTranslateTextZ(L"网络"));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_ENVIRONMENT, PhTranslateTextZ(L"环境"));
             PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_WMI, L"WMI");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_TOKEN, L"令牌");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_MEMORY, L"内存");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_MODULES, L"模块");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_IMAGES, L"映像和 DLL");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_HANDLES, L"句柄");
-            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_SERVICES, L"服务");
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_TOKEN, PhTranslateTextZ(L"令牌"));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_MEMORY, PhTranslateTextZ(L"内存"));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_MODULES, PhTranslateTextZ(L"模块"));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_IMAGES, PhTranslateTextZ(L"映像和 DLL"));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_HANDLES, PhTranslateTextZ(L"句柄 "));
+            PhAddListViewGroup(HighlightingListViewHandle, PH_OPTIONS_HIGHLIGHTING_GROUP_SERVICES, PhTranslateTextZ(L"服务"));
 
             for (ULONG i = 0; i < RTL_NUMBER_OF(ColorItems); i++)
             {
@@ -4335,8 +4335,8 @@ INT_PTR CALLBACK PhpOptionsTrayIconDlgProc(
             PhAddListViewColumn(IconListViewHandle, 0, 0, 0, LVCFMT_LEFT, 230, L"名称");
             PhSetExtendedListView(IconListViewHandle);
             ListView_EnableGroupView(IconListViewHandle, TRUE);
-            PhAddListViewGroup(IconListViewHandle, PH_OPTIONS_TRAY_ICON_GROUP_NOTIFICATIONS, L"通知");
-            PhAddListViewGroup(IconListViewHandle, PH_OPTIONS_TRAY_ICON_GROUP_TRAY_ICONS, L"托盘图标");
+            PhAddListViewGroup(IconListViewHandle, PH_OPTIONS_TRAY_ICON_GROUP_NOTIFICATIONS, PhTranslateTextZ(L"通知"));
+            PhAddListViewGroup(IconListViewHandle, PH_OPTIONS_TRAY_ICON_GROUP_TRAY_ICONS, PhTranslateTextZ(L"托盘图标"));
 
             for (ULONG i = 0; i < RTL_NUMBER_OF(TrayIconNotifyItems); i++)
             {
@@ -4367,7 +4367,7 @@ INT_PTR CALLBACK PhpOptionsTrayIconDlgProc(
                     IconListViewHandle,
                     PH_OPTIONS_TRAY_ICON_GROUP_TRAY_ICONS,
                     MAXINT,
-                    icon->Text,
+                    PhTranslateTextZ(icon->Text), // 语言切换
                     icon
                     );
                 ListView_SetCheckState(IconListViewHandle, lvItemIndex, !!(icon->Flags & PH_NF_ICON_ENABLED));
@@ -4502,10 +4502,10 @@ INT_PTR CALLBACK PhpOptionsThemesDlgProc(
             SetDlgItemCheckForSetting(hwndDlg, IDC_ENABLETHEME, SETTING_ENABLE_THEME_SUPPORT);
 
             comboHandle = GetDlgItem(hwndDlg, IDC_THEMEMODE);
-            ComboBox_AddString(comboHandle, L"自动");
-            ComboBox_AddString(comboHandle, L"浅色");
-            ComboBox_AddString(comboHandle, L"深色");
-            ComboBox_AddString(comboHandle, L"自定义");
+            ComboBox_AddString(comboHandle, PhTranslateTextZ(L"自动"));
+            ComboBox_AddString(comboHandle, PhTranslateTextZ(L"浅色"));
+            ComboBox_AddString(comboHandle, PhTranslateTextZ(L"深色"));
+            ComboBox_AddString(comboHandle, PhTranslateTextZ(L"自定义"));
             ComboBox_SetCurSel(comboHandle, PhGetIntegerSetting(SETTING_THEME_MODE));
             EnableWindow(comboHandle, PhGetIntegerSetting(SETTING_ENABLE_THEME_SUPPORT) != 0);
         }
@@ -4681,7 +4681,7 @@ INT_PTR CALLBACK PhpOptionsGraphsDlgProc(
                         NMLVGETINFOTIP* getInfoTip = (NMLVGETINFOTIP*)lParam;
                         PH_STRINGREF tip;
 
-                        PhInitializeStringRefLongHint(&tip, ColorItems[getInfoTip->iItem].Description);
+                        PhInitializeStringRefLongHint(&tip, PhTranslateTextZ(ColorItems[getInfoTip->iItem].Description)); // 语言切换
                         PhCopyListViewInfoTip(getInfoTip, &tip);
                     }
                 }

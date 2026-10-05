@@ -64,7 +64,7 @@ PPH_STRING PhpaGetRelativeTimeString(
     PhLargeIntegerToLocalSystemTime(&timeFields, &time);
     timeString = PhaFormatDateTime(&timeFields);
 
-    return PhaFormatString(L"%s 前（%s）", timeRelativeString->Buffer, timeString->Buffer);
+    return PhaFormatString(PhTranslateTextZ(L"%s 前（%s）"), timeRelativeString->Buffer, timeString->Buffer);
 }
 
 INT_PTR CALLBACK PhpProcessRecordDlgProc(
@@ -147,7 +147,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
             }
             else
             {
-                PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(L"未知进程（%u）",
+                PhSetDialogItemText(hwndDlg, IDC_PARENT, PhaFormatString(PhTranslateTextZ(L"未知进程（%u）"),
                     HandleToUlong(context->Record->ParentProcessId))->Buffer);
 
                 EnableWindow(GetDlgItem(hwndDlg, IDC_PROPERTIES), FALSE);
@@ -273,7 +273,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                                 PhAppendFormatStringBuilder(&sb, L"[%d] %s\r\n\r\n", i, PhGetString(commandLineList->Items[i]));
                             }
 
-                            PhAppendFormatStringBuilder(&sb, L"[完整] %s\r\n", PhGetString(context->Record->CommandLine));
+                            PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"[完整] %s\r\n"), PhGetString(context->Record->CommandLine));
 
                             commandLineString = PhFinalStringBuilderString(&sb);
 
@@ -306,7 +306,7 @@ INT_PTR CALLBACK PhpProcessRecordDlgProc(
                             hwndDlg,
                             L"无法显示进程属性。",
                             L"%s",
-                            L"进程已终止；仅进程记录可用。"
+                            PhTranslateTextZ(L"进程已终止；仅进程记录可用。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                             );
                     }
                 }

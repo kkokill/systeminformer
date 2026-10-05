@@ -481,19 +481,19 @@ VOID PhMwpOnServiceAdded(
                 PhSwapReference(&PhMwpLastNotificationDetails.ServiceName, ServiceItem->Name);
 
                 // The service %s (%s) has been created.
-                PhInitFormatS(&format[0], L"服务 ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"服务 "));
                 PhInitFormatSR(&format[1], ServiceItem->Name->sr);
-                PhInitFormatS(&format[2], L"（");
+                PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
                 PhInitFormatSR(&format[3], ServiceItem->DisplayName->sr);
-                PhInitFormatS(&format[4], L"）已创建");
+                PhInitFormatS(&format[4], PhTranslateTextZ(L"）已创建"));
 
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
                 {
-                    PhShowIconNotification(L"服务已创建", formatBuffer);
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已创建"), formatBuffer);
                 }
                 else
                 {
-                    PhShowIconNotification(L"服务已创建",
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已创建"),
                         PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
                 }
             }
@@ -558,19 +558,19 @@ VOID PhMwpOnServiceModified(
                 PhSwapReference(&PhMwpLastNotificationDetails.ServiceName, serviceItem->Name);
 
                 // The service %s (%s) has been started.
-                PhInitFormatS(&format[0], L"服务 ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"服务 "));
                 PhInitFormatSR(&format[1], serviceItem->Name->sr);
-                PhInitFormatS(&format[2], L"（");
+                PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
                 PhInitFormatSR(&format[3], serviceItem->DisplayName->sr);
-                PhInitFormatS(&format[4], L"）已启动");
+                PhInitFormatS(&format[4], PhTranslateTextZ(L"）已启动"));
 
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
                 {
-                    PhShowIconNotification(L"服务已启动", formatBuffer);
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已启动"), formatBuffer);
                 }
                 else
                 {
-                    PhShowIconNotification(L"服务已启动",
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已启动"),
                         PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
                 }
             }
@@ -587,19 +587,19 @@ VOID PhMwpOnServiceModified(
                 PhSwapReference(&PhMwpLastNotificationDetails.ServiceName, serviceItem->Name);
 
                 // The service %s (%s) has been stopped.
-                PhInitFormatS(&format[0], L"服务 ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"服务 "));
                 PhInitFormatSR(&format[1], serviceItem->Name->sr);
-                PhInitFormatS(&format[2], L"（");
+                PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
                 PhInitFormatSR(&format[3], serviceItem->DisplayName->sr);
-                PhInitFormatS(&format[4], L"）已停止");
+                PhInitFormatS(&format[4], PhTranslateTextZ(L"）已停止"));
 
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
                 {
-                    PhShowIconNotification(L"服务已停止", formatBuffer);
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已停止"), formatBuffer);
                 }
                 else
                 {
-                    PhShowIconNotification(L"服务已停止",
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已停止"),
                         PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
                 }
             }
@@ -616,19 +616,19 @@ VOID PhMwpOnServiceModified(
                 PhSwapReference(&PhMwpLastNotificationDetails.ServiceName, serviceItem->Name);
 
                 // The service %s (%s) has been modified.
-                PhInitFormatS(&format[0], L"服务 ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"服务 "));
                 PhInitFormatSR(&format[1], serviceItem->Name->sr);
-                PhInitFormatS(&format[2], L"（");
+                PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
                 PhInitFormatSR(&format[3], serviceItem->DisplayName->sr);
-                PhInitFormatS(&format[4], L"）已修改");
+                PhInitFormatS(&format[4], PhTranslateTextZ(L"）已修改"));
 
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
                 {
-                    PhShowIconNotification(L"服务已修改", formatBuffer);
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已修改"), formatBuffer);
                 }
                 else
                 {
-                    PhShowIconNotification(L"服务已修改",
+                    PhShowIconNotification(PhTranslateTextZ(L"服务已修改"),
                         PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
                 }
             }
@@ -656,19 +656,19 @@ VOID PhMwpOnServiceRemoved(
             PhSwapReference(&PhMwpLastNotificationDetails.ServiceName, ServiceItem->Name);
 
             // The service %s (%s) has been deleted.
-            PhInitFormatS(&format[0], L"服务 ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"服务 "));
             PhInitFormatSR(&format[1], ServiceItem->Name->sr);
-            PhInitFormatS(&format[2], L"（");
+            PhInitFormatS(&format[2], PhTranslateTextZ(L"（"));
             PhInitFormatSR(&format[3], ServiceItem->DisplayName->sr);
-            PhInitFormatS(&format[4], L"）已删除");
+            PhInitFormatS(&format[4], PhTranslateTextZ(L"）已删除"));
 
             if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
             {
-                PhShowIconNotification(L"服务已删除", formatBuffer);
+                PhShowIconNotification(PhTranslateTextZ(L"服务已删除"), formatBuffer);
             }
             else
             {
-                PhShowIconNotification(L"服务已删除",
+                PhShowIconNotification(PhTranslateTextZ(L"服务已删除"),
                     PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
             }
         }

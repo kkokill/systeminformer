@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -62,7 +62,7 @@ INT_PTR CALLBACK PhpMemoryProtectDlgProc(
             PhCenterWindow(hwndDlg, GetParent(hwndDlg));
 
             PhSetDialogItemText(hwndDlg, IDC_INTRO,
-                L"可能的值：\r\n"
+                PhTranslateTextZ(L"可能的值：\r\n"
                 L"\r\n"
                 L"0x01 - PAGE_NOACCESS\r\n"
                 L"0x02 - PAGE_READONLY\r\n"
@@ -76,7 +76,7 @@ INT_PTR CALLBACK PhpMemoryProtectDlgProc(
                 L"0x100 - PAGE_GUARD\r\n"
                 L"0x200 - PAGE_NOCACHE\r\n"
                 L"0x400 - PAGE_WRITECOMBINE\r\n"
-                );
+                ));
 
             PhSetDialogFocus(hwndDlg, GetDlgItem(hwndDlg, IDC_VALUE));
 

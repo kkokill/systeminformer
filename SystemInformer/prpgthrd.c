@@ -847,8 +847,8 @@ VOID PhpProcessThreadsSave(
 
     processItem = PhReferenceProcessItem(ThreadsContext->Provider->ProcessId);
     PhInitFormatS(&format[0], L"System Informer (");
-    PhInitFormatS(&format[1], PhGetStringOrDefault(processItem->ProcessName, L"未知进程"));
-    PhInitFormatS(&format[2], L") 线程");
+    PhInitFormatS(&format[1], PhGetStringOrDefault(processItem->ProcessName, PhTranslateTextZ(L"未知进程")));
+    PhInitFormatS(&format[2], PhTranslateTextZ(L") 线程"));
     PhInitFormatS(&format[3], L".txt");
     if (processItem) PhDereferenceObject(processItem);
 
@@ -1351,8 +1351,8 @@ INT_PTR CALLBACK PhpProcessThreadsDlgProc(
                         else
                         {
                             PhShowStatus(hwndDlg, PhaFormatString(
-                                L"无法%s线程 %lu 的提升优先级", // string pooling optimization (dmex)
-                                L"设置",
+                                PhTranslateTextZ(L"无法%s线程 %lu 的提升优先级"), // string pooling optimization (dmex)
+                                PhTranslateTextZ(L"设置"),
                                 HandleToUlong(threadItem->ThreadId)
                                 )->Buffer, status, 0);
                         }
@@ -1424,7 +1424,7 @@ INT_PTR CALLBACK PhpProcessThreadsDlgProc(
                     {
                         PhEditSecurity(
                             PhCsForceNoParent ? NULL : hwndDlg,
-                            PhaFormatString(L"线程 %u", HandleToUlong(threadItem->ThreadId))->Buffer,
+                            PhaFormatString(PhTranslateTextZ(L"线程 %u"), HandleToUlong(threadItem->ThreadId))->Buffer,
                             L"线程",
                             PhpThreadPermissionsOpenThread,
                             PhpThreadPermissionsCloseHandle,

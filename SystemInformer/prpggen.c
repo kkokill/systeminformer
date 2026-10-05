@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -65,9 +65,9 @@ PPH_STRING PhGetProcessItemProtectionText(
 
             // Isolated User Mode (IUM) (dmex)
             if (ProcessItem->Protection.Type == PsProtectedTypeNone && ProcessItem->IsSecureProcess)
-                return PhConcatStrings2(L"Secure (IUM)", signer);
+                return PhConcatStrings2(L"Secure (IUM)", PhTranslateTextZ(signer)); // 语言切换
 
-            return PhConcatStrings2(type, signer);
+            return PhConcatStrings2(PhTranslateTextZ(type), PhTranslateTextZ(signer)); // 语言切换
         }
         else
         {
@@ -75,9 +75,9 @@ PPH_STRING PhGetProcessItemProtectionText(
                 return PhCreateString(L"Secure (IUM)");
 
             if (ProcessItem->IsProtectedProcess)
-                return PhCreateString(L"是");
+                return PhCreateString(PhTranslateTextZ(L"是")); // 语言切换
 
-            return PhCreateString(L"无");
+            return PhCreateString(PhTranslateTextZ(L"无"));
         }
     }
 
@@ -250,7 +250,7 @@ VOID PhpUpdateProcessMitigationPolicies(
             }
             else
             {
-                PhSetDialogItemText(hwndDlg, IDC_MITIGATION, L"无");
+                PhSetDialogItemText(hwndDlg, IDC_MITIGATION, PhTranslateTextZ(L"无"));
             }
 
             PhDeleteStringBuilder(&sb);
@@ -489,7 +489,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 if (processItem->VerifySignerName)
                 {
                     PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME_LINK,
-                        PhaFormatString(L"<a>（已验证）%s</a>", processItem->VerifySignerName->Buffer)->Buffer);
+                        PhaFormatString(PhTranslateTextZ(L"<a>（已验证）%s</a>"), processItem->VerifySignerName->Buffer)->Buffer);
                     ShowWindow(GetDlgItem(hwndDlg, IDC_COMPANYNAME), SW_HIDE);
                     ShowWindow(GetDlgItem(hwndDlg, IDC_COMPANYNAME_LINK), SW_SHOW);
                 }
@@ -497,7 +497,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                 {
                     PhSetDialogItemText(hwndDlg, IDC_COMPANYNAME,
                         PhaConcatStrings2(
-                        L"（已验证） ",
+                        PhTranslateTextZ(L"（已验证） "),
                         PhGetStringOrEmpty(processItem->VersionInfo.CompanyName)
                         )->Buffer);
                 }
@@ -1074,7 +1074,7 @@ INT_PTR CALLBACK PhpProcessGeneralDlgProc(
                             startTimeString = PhaFormatDateTime(&startTimeFields);
 
                             PhSetWindowText(context->StartedLabelHandle, PhaFormatString(
-                                L"%s前（%s）",
+                                PhTranslateTextZ(L"%s前（%s）"),
                                 PhGetString(startTimeRelativeString),
                                 PhGetString(startTimeString)
                                 )->Buffer);

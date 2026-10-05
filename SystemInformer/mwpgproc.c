@@ -1138,22 +1138,22 @@ VOID PhMwpOnProcessAdded(
                 PhMwpLastNotificationDetails.ProcessId = ProcessItem->ProcessId;
 
                 // The process %s (%lu) was created by %s (%lu)
-                PhInitFormatS(&format[0], L"该进程 ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"该进程 "));
                 PhInitFormatSR(&format[1], ProcessItem->ProcessName->sr);
                 PhInitFormatS(&format[2], L" (");
                 PhInitFormatU(&format[3], HandleToUlong(ProcessItem->ProcessId));
-                PhInitFormatS(&format[4], L")，由父进程 ");
-                PhInitFormatS(&format[5], PhGetStringOrDefault(parentName, L"未知进程")); // todo: SR type (dmex)
+                PhInitFormatS(&format[4], PhTranslateTextZ(L")，由父进程 "));
+                PhInitFormatS(&format[5], PhGetStringOrDefault(parentName, PhTranslateTextZ(L"未知进程"))); // todo: SR type (dmex)
                 PhInitFormatS(&format[6], L" (");
                 PhInitFormatU(&format[7], HandleToUlong(ProcessItem->ParentProcessId));
                 PhInitFormatC(&format[8], L')');
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
                 {
-                    PhShowIconNotification(L"进程已创建", formatBuffer);
+                    PhShowIconNotification(PhTranslateTextZ(L"进程已创建"), formatBuffer);
                 }
                 else
                 {
-                    PhShowIconNotification(L"进程已创建",
+                    PhShowIconNotification(PhTranslateTextZ(L"进程已创建"),
                         PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
                 }
 
@@ -1221,20 +1221,20 @@ VOID PhMwpOnProcessRemoved(
             PhMwpLastNotificationDetails.ProcessId = ProcessItem->ProcessId;
 
             // The process %s (%lu) was terminated with status 0x%x
-            PhInitFormatS(&format[0], L"该进程 ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"该进程 "));
             PhInitFormatSR(&format[1], ProcessItem->ProcessName->sr);
             PhInitFormatS(&format[2], L" (");
             PhInitFormatU(&format[3], HandleToUlong(ProcessItem->ProcessId));
-            PhInitFormatS(&format[4], L") 已终止，状态码 0x");
+            PhInitFormatS(&format[4], PhTranslateTextZ(L") 已终止，状态码 0x"));
             PhInitFormatX(&format[5], exitStatus);
 
             if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), formatBuffer, sizeof(formatBuffer), NULL))
             {
-                PhShowIconNotification(L"进程已终止", formatBuffer);
+                PhShowIconNotification(PhTranslateTextZ(L"进程已终止"), formatBuffer);
             }
             else
             {
-                PhShowIconNotification(L"进程已终止",
+                PhShowIconNotification(PhTranslateTextZ(L"进程已终止"),
                     PH_AUTO_T(PH_STRING, PhFormat(format, RTL_NUMBER_OF(format), 0))->Buffer);
             }
         }

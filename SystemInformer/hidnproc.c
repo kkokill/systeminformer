@@ -125,7 +125,7 @@ VOID PhZombieProcessesCleanupList(
         PhDereferenceObject(UpdateList);
     }
     {
-        PPH_STRING string = PhFormatString(L"%u 个僵尸进程，%u 个已终止进程。",
+        PPH_STRING string = PhFormatString(PhTranslateTextZ(L"%u 个僵尸进程，%u 个已终止进程。"),
             NumberOfZombieProcesses, NumberOfTerminatedProcesses);
         PhSetDialogItemText(PhZombieProcessesWindowHandle, IDC_DESCRIPTION, string->Buffer);
         InvalidateRect(GetDlgItem(PhZombieProcessesWindowHandle, IDC_DESCRIPTION), NULL, TRUE);
@@ -203,13 +203,13 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
             ExtendedListView_AddFallbackColumn(lvHandle, 2);
             ExtendedListView_SetItemColorFunction(lvHandle, PhpZombieProcessesColorFunction);
 
-            ComboBox_AddString(methodHandle, L"暴力扫描");
-            ComboBox_AddString(methodHandle, L"CSR 句柄");
-            ComboBox_AddString(methodHandle, L"ETW 句柄");
-            ComboBox_AddString(methodHandle, L"进程句柄");
-            ComboBox_AddString(methodHandle, L"注册表句柄");
-            ComboBox_AddString(methodHandle, L"Ntdll 句柄");
-            PhSelectComboBoxString(methodHandle, L"进程句柄", FALSE);
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"暴力扫描"));
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"CSR 句柄"));
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"ETW 句柄"));
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"进程句柄"));
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"注册表句柄"));
+            ComboBox_AddString(methodHandle, PhTranslateTextZ(L"Ntdll 句柄"));
+            PhSelectComboBoxString(methodHandle, PhTranslateTextZ(L"进程句柄"), FALSE);
 
             MinimumSize.left = 0;
             MinimumSize.top = 0;
@@ -257,17 +257,17 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
 
                     ProcessesList = PhCreateList(40);
 
-                    if (PhEqualString2(method, L"暴力扫描", TRUE))
+                    if (PhEqualString2(method, PhTranslateTextZ(L"暴力扫描"), TRUE))
                         ProcessesMethod = BruteForceScanMethod;
-                    else if (PhEqualString2(method, L"CSR 句柄", TRUE))
+                    else if (PhEqualString2(method, PhTranslateTextZ(L"CSR 句柄"), TRUE))
                         ProcessesMethod = CsrHandlesScanMethod;
-                    else if (PhEqualString2(method, L"进程句柄", TRUE))
+                    else if (PhEqualString2(method, PhTranslateTextZ(L"进程句柄"), TRUE))
                         ProcessesMethod = ProcessHandleScanMethod;
-                    else if (PhEqualString2(method, L"注册表句柄", TRUE))
+                    else if (PhEqualString2(method, PhTranslateTextZ(L"注册表句柄"), TRUE))
                         ProcessesMethod = RegistryScanMethod;
-                    else if (PhEqualString2(method, L"ETW 句柄", TRUE))
+                    else if (PhEqualString2(method, PhTranslateTextZ(L"ETW 句柄"), TRUE))
                         ProcessesMethod = EtwGuidScanMethod;
-                    else if (PhEqualString2(method, L"Ntdll 句柄", TRUE))
+                    else if (PhEqualString2(method, PhTranslateTextZ(L"Ntdll 句柄"), TRUE))
                         ProcessesMethod = NtdllScanMethod;
 
                     NumberOfZombieProcesses = 0;
@@ -381,12 +381,12 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
                         {
                             PhWriteStringAsUtf8FileStream(fileStream, (PPH_STRINGREF)&PhUnicodeByteOrderMark);
                             PhWritePhTextHeader(fileStream);
-                            PhWriteStringAsUtf8FileStream2(fileStream, L"方法： ");
+                            PhWriteStringAsUtf8FileStream2(fileStream, PhTranslateTextZ(L"方法： "));
                             PhWriteStringAsUtf8FileStream2(fileStream,
-                                ProcessesMethod == BruteForceScanMethod ? L"暴力扫描\r\n" : L"CSR 句柄\r\n");
+                                ProcessesMethod == BruteForceScanMethod ? PhTranslateTextZ(L"暴力扫描\r\n") : PhTranslateTextZ(L"CSR 句柄\r\n"));
                             PhWriteStringFormatAsUtf8FileStream(
                                 fileStream,
-                                L"僵尸进程：%u\r\n已终止：%u\r\n\r\n",
+                                PhTranslateTextZ(L"僵尸进程：%u\r\n已终止：%u\r\n\r\n"),
                                 NumberOfZombieProcesses,
                                 NumberOfTerminatedProcesses
                                 );
@@ -400,9 +400,9 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
                                     PPH_ZOMBIE_PROCESS_ENTRY entry = ProcessesList->Items[i];
 
                                     if (entry->Type == ZombieProcess)
-                                        PhWriteStringAsUtf8FileStream2(fileStream, L"[僵尸进程] ");
+                                        PhWriteStringAsUtf8FileStream2(fileStream, PhTranslateTextZ(L"[僵尸进程] "));
                                     else if (entry->Type == TerminatedProcess)
-                                        PhWriteStringAsUtf8FileStream2(fileStream, L"[已终止] ");
+                                        PhWriteStringAsUtf8FileStream2(fileStream, PhTranslateTextZ(L"[已终止] "));
                                     else if (entry->Type != NormalProcess)
                                         continue;
 
@@ -410,7 +410,7 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
                                     {
                                         PhWriteStringFormatAsUtf8FileStream(
                                             fileStream,
-                                            L"%s (%u) 句柄数：%u\r\n",
+                                            PhTranslateTextZ(L"%s (%u) 句柄数：%u\r\n"),
                                             entry->FileName->Buffer,
                                             HandleToUlong(entry->ProcessId),
                                             entry->HandleCount
@@ -581,7 +581,7 @@ INT_PTR CALLBACK PhpZombieProcessesDlgProc(
             if (NT_SUCCESS(status))
             {
                 PhSetDialogItemText(hwndDlg, IDC_DESCRIPTION, PhaFormatString(
-                    L"%u 个僵尸进程，%u 个已终止进程。",
+                    PhTranslateTextZ(L"%u 个僵尸进程，%u 个已终止进程。"),
                     NumberOfZombieProcesses,
                     NumberOfTerminatedProcesses
                     )->Buffer);

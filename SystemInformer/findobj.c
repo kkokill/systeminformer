@@ -698,7 +698,7 @@ VOID PhpPopulateObjectTypes(
     objectTypeList = PhCreateList(100);
 
     // Add a custom object type for searching all objects.
-    ComboBox_AddString(Context->TypeWindowHandle, L"全部");
+    ComboBox_AddString(Context->TypeWindowHandle, PhTranslateTextZ(L"全部"));
     ComboBox_SetCurSel(Context->TypeWindowHandle, 0);
 
     // Enumerate the available object types.
@@ -870,7 +870,7 @@ static BOOLEAN MatchTypeString(
     _In_ PPH_STRINGREF Input
     )
 {
-    if (PhEqualString2(Context->SearchTypeString, L"全部", FALSE))
+    if (PhEqualString2(Context->SearchTypeString, PhTranslateTextZ(L"全部"), FALSE))
         return TRUE;
 
     return PhEqualStringRef(Input, &Context->SearchTypeString->sr, TRUE);
@@ -1118,7 +1118,7 @@ NTSTATUS PhpFindObjectsThreadStart(
         goto CleanupExit;
 
     if (PhEqualString2(context->SearchTypeString, L"File", TRUE) ||
-        PhEqualString2(context->SearchTypeString, L"全部", FALSE))
+        PhEqualString2(context->SearchTypeString, PhTranslateTextZ(L"全部"), FALSE))
     {
         if (NT_SUCCESS(PhEnumProcesses(&processes)))
         {
@@ -1383,7 +1383,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                             break;
                         }
 
-                        PhSetDialogItemText(hwndDlg, IDOK, L"取消");
+                        PhSetDialogItemText(hwndDlg, IDOK, PhTranslateTextZ(L"取消"));
 
                         PhSetCursor(PhLoadCursor(NULL, IDC_APPSTARTING));
                     }
@@ -1569,7 +1569,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                             if (!NT_SUCCESS(status))
                             {
                                 if (!PhShowContinueStatus(hwndDlg,
-                                    PhaFormatString(L"无法关闭 \"%s\"", PhGetStringOrDefault(handleObjectNodes[i]->BestObjectName, L"??"))->Buffer,
+                                    PhaFormatString(PhTranslateTextZ(L"无法关闭 \"%s\""), PhGetStringOrDefault(handleObjectNodes[i]->BestObjectName, L"??"))->Buffer,
                                     status,
                                     0
                                     ))
@@ -1723,7 +1723,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
 
             // Add the result count to the window title. (dmex)
             PhSetWindowText(hwndDlg, PhaFormatString(
-                L"%s（%lu 个结果）",
+                PhTranslateTextZ(L"%s（%lu 个结果）"),
                 PhGetStringOrEmpty(context->WindowText),
                 context->SearchResultsAddIndex
                 )->Buffer);
@@ -1733,7 +1733,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
             context->SearchThreadHandle = NULL;
             context->SearchStop = FALSE;
 
-            PhSetDialogItemText(hwndDlg, IDOK, L"查找");
+            PhSetDialogItemText(hwndDlg, IDOK, PhTranslateTextZ(L"查找"));
             EnableWindow(GetDlgItem(hwndDlg, IDOK), TRUE);
             PhSetCursor(PhLoadCursor(NULL, IDC_ARROW));
 
@@ -1743,7 +1743,7 @@ INT_PTR CALLBACK PhFindObjectsDlgProc(
                     hwndDlg,
                     L"由于系统句柄总数过多，无法搜索句柄。",
                     L"%s",
-                    L"请检查是否有进程打开了数量极多的句柄。"
+                    PhTranslateTextZ(L"请检查是否有进程打开了数量极多的句柄。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                     );
             }
         }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -87,7 +87,7 @@ PhShowKsiNotConnected(
         L"System Informer is not connected to the kernel driver or lacks the required state "
         L"necessary for this feature. Make sure that the \"Enable kernel-mode driver\" option is "
         L"enabled and that System Informer is running with administrator privileges.",
-        Message
+        PhTranslateTextZ(Message) // 语言切换
         );
 }
 
@@ -105,7 +105,7 @@ PhGetKsiNotConnectedString(
         L"System Informer is not connected to the kernel driver or lacks the required state "
         L"necessary for this feature. Make sure that the \"Enable kernel-mode driver\" option is "
         L"enabled and that System Informer is running with administrator privileges.",
-        Message
+        PhTranslateTextZ(Message) // 语言切换
         );
 }
 

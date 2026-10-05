@@ -961,7 +961,7 @@ INT_PTR CALLBACK PhpProcessHandlesDlgProc(
                 else
                 {
                     message = PhGetStatusMessage(status, 0);
-                    PhMoveReference(&handlesContext->ErrorMessage, PhFormatString(L"无法查询句柄信息:\n%s", PhGetStringOrDefault(message, L"未知错误。")));
+                    PhMoveReference(&handlesContext->ErrorMessage, PhFormatString(PhTranslateTextZ(L"无法查询句柄信息:\n%s"), PhGetStringOrDefault(message, PhTranslateTextZ(L"未知错误。"))));
                     PhClearReference(&message);
                     TreeNew_SetEmptyText(handlesContext->TreeNewHandle, &handlesContext->ErrorMessage->sr, 0);
                 }

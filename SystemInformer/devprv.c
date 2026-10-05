@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -3600,19 +3600,19 @@ PPH_STRING PhpDevSysPowerPowerDataString(
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D1Latency);
-        PhInitFormatS(&format[count++], L" D1 延迟");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L" D1 延迟"));
     }
     if (PowerData->PD_D2Latency)
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D2Latency);
-        PhInitFormatS(&format[count++], L" D2 延迟");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L" D2 延迟"));
     }
     if (PowerData->PD_D2Latency)
     {
         PhInitFormatS(&format[count++], L", ");
         PhInitFormatU(&format[count++], PowerData->PD_D3Latency);
-        PhInitFormatS(&format[count++], L" D3 延迟");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L" D3 延迟"));
     }
     PhInitFormatS(&format[count++], L", S0->");
     PhInitFormatSR(&format[count++], *PhpDevPowerStateString(PowerData->PD_PowerStateMapping[PowerSystemWorking]));
@@ -3634,7 +3634,7 @@ PPH_STRING PhpDevSysPowerPowerDataString(
     PhInitFormatS(&format[count++], L"))");
     if (PowerData->PD_DeepestSystemWake != PowerSystemUnspecified)
     {
-        PhInitFormatS(&format[count++], L"，最深唤醒状态 ");
+        PhInitFormatS(&format[count++], PhTranslateTextZ(L"，最深唤醒状态 "));
         PhInitFormatSR(&format[count++], *PhpDevSysPowerStateString(PowerData->PD_DeepestSystemWake));
     }
 

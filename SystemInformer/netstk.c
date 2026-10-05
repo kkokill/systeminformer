@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -93,7 +93,7 @@ VOID PhShowNetworkStackDialog(
     else
     {
         PhDereferenceObject(networkStackContext.SymbolProvider);
-        PhShowError(ParentWindowHandle, L"%s", L"无法打开进程。");
+        PhShowError(ParentWindowHandle, L"%s", PhTranslateTextZ(L"无法打开进程。"));
         return;
     }
 

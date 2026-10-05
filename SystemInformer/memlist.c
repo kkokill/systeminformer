@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -558,61 +558,61 @@ PPH_STRING PhGetMemoryRegionUseText(
         return PhCreateString(L"HYPERVISOR_SHARED_DATA");
     case PebRegion:
     case Peb32Region:
-        return PhFormatString(L"PEB%s", type == Peb32Region ? L" 32 位" : L"");
+        return PhFormatString(L"PEB%s", type == Peb32Region ? PhTranslateTextZ(L" 32 位") : L"");
     case TebRegion:
     case Teb32Region:
-        return PhFormatString(L"TEB%s (线程 %lu)",
-            type == Teb32Region ? L" 32 位" : L"", HandleToUlong(MemoryItem->u.Teb.ThreadId));
+        return PhFormatString(PhTranslateTextZ(L"TEB%s (线程 %lu)"),
+            type == Teb32Region ? PhTranslateTextZ(L" 32 位") : L"", HandleToUlong(MemoryItem->u.Teb.ThreadId));
     case StackRegion:
     case Stack32Region:
-        return PhFormatString(L"栈%s (线程 %lu)",
-            type == Stack32Region ? L" 32 位" : L"", HandleToUlong(MemoryItem->u.Stack.ThreadId));
+        return PhFormatString(PhTranslateTextZ(L"栈%s (线程 %lu)"),
+            type == Stack32Region ? PhTranslateTextZ(L" 32 位") : L"", HandleToUlong(MemoryItem->u.Stack.ThreadId));
     case HeapRegion:
     case Heap32Region:
         return PhFormatString(L"%s%s (ID %lu)",
-            MemoryItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.Heap.Class) : L"堆",
-            type == Heap32Region ? L" 32 位" : L"", (ULONG)MemoryItem->u.Heap.Index + 1);
+            MemoryItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.Heap.Class) : PhTranslateTextZ(L"堆"),
+            type == Heap32Region ? PhTranslateTextZ(L" 32 位") : L"", (ULONG)MemoryItem->u.Heap.Index + 1);
     case HeapSegmentRegion:
     case HeapSegment32Region:
-        return PhFormatString(L"%s 段%s (ID %lu)",
-            MemoryItem->u.HeapSegment.HeapItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.HeapSegment.HeapItem->u.Heap.Class) : L"堆",
-            type == HeapSegment32Region ? L" 32 位" : L"", (ULONG)MemoryItem->u.HeapSegment.HeapItem->u.Heap.Index + 1);
+        return PhFormatString(PhTranslateTextZ(L"%s 段%s (ID %lu)"),
+            MemoryItem->u.HeapSegment.HeapItem->u.Heap.ClassValid ? PhGetProcessHeapClassText(MemoryItem->u.HeapSegment.HeapItem->u.Heap.Class) : PhTranslateTextZ(L"堆"),
+            type == HeapSegment32Region ? PhTranslateTextZ(L" 32 位") : L"", (ULONG)MemoryItem->u.HeapSegment.HeapItem->u.Heap.Index + 1);
     case CfgBitmapRegion:
     case CfgBitmap32Region:
-        return PhFormatString(L"CFG 位图%s",
-            type == CfgBitmap32Region ? L" 32 位" : L"");
+        return PhFormatString(PhTranslateTextZ(L"CFG 位图%s"),
+            type == CfgBitmap32Region ? PhTranslateTextZ(L" 32 位") : L"");
     case ApiSetMapRegion:
         return PhFormatString(L"ApiSetMap");
     case ReadOnlySharedMemoryRegion:
-        return PhFormatString(L"CSR 共享内存");
+        return PhFormatString(PhTranslateTextZ(L"CSR 共享内存"));
     case CodePageDataRegion:
-        return PhFormatString(L"代码页数据");
+        return PhFormatString(PhTranslateTextZ(L"代码页数据"));
     case GdiSharedHandleTableRegion:
-        return PhFormatString(L"GDI 共享句柄表");
+        return PhFormatString(PhTranslateTextZ(L"GDI 共享句柄表"));
     case ShimDataRegion:
-        return PhFormatString(L"Shim 数据");
+        return PhFormatString(PhTranslateTextZ(L"Shim 数据"));
     case ActivationContextDataRegion:
         switch (MemoryItem->u.ActivationContextData.Type)
         {
         case ProcessActivationContext:
-            return PhFormatString(L"进程激活上下文数据");
+            return PhFormatString(PhTranslateTextZ(L"进程激活上下文数据"));
         case SystemActivationContext:
-            return PhFormatString(L"系统激活上下文数据");
+            return PhFormatString(PhTranslateTextZ(L"系统激活上下文数据"));
         default:
-            return PhFormatString(L"激活上下文数据");
+            return PhFormatString(PhTranslateTextZ(L"激活上下文数据"));
         }
     case WerRegistrationDataRegion:
-        return PhFormatString(L"WER 注册数据");
+        return PhFormatString(PhTranslateTextZ(L"WER 注册数据"));
     case SiloSharedDataRegion:
-        return PhFormatString(L"Silo 共享数据");
+        return PhFormatString(PhTranslateTextZ(L"Silo 共享数据"));
     case TelemetryCoverageRegion:
-        return PhFormatString(L"遥测覆盖映射");
+        return PhFormatString(PhTranslateTextZ(L"遥测覆盖映射"));
     case ProcessParametersRegion:
         return PhFormatString(L"USER_PROCESS_PARAMETERS");
     case LeapSecondDataRegion:
         return PhFormatString(L"LEAP_SECOND_DATA");
     case DesktopHeapRegion:
-        return PhFormatString(L"桌面堆");
+        return PhFormatString(PhTranslateTextZ(L"桌面堆"));
     default:
         return NULL;
     }
@@ -941,7 +941,7 @@ BOOLEAN NTAPI PhpMemoryTreeNewCallback(
 
                         PhInitFormatSR(&format[0], *PhGetMemoryTypeString(memoryItem->Type));
                         PhInitFormatS(&format[1], L": ");
-                        PhInitFormatSR(&format[2], *PhGetMemoryStateString(memoryItem->State));
+                        PhInitFormatS(&format[2], PhTranslateTextZ(PhGetMemoryStateString(memoryItem->State)->Buffer));
 
                         if (PhFormatToBuffer(format, 3, node->TypeText, sizeof(node->TypeText), &returnLength))
                         {

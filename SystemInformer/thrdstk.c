@@ -649,9 +649,9 @@ BOOLEAN NTAPI ThreadStackTreeNewCallback(
                     PhMoveReference(&fileName, PhGetFileName(fileName));
 
                     // File: %s: line %lu\n
-                    PhInitFormatS(&format[0], L"文件：");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"文件："));
                     PhInitFormatSR(&format[1], fileName->sr);
-                    PhInitFormatS(&format[2], L"：第 ");
+                    PhInitFormatS(&format[2], PhTranslateTextZ(L"：第 "));
                     PhInitFormatU(&format[3], lineInfo.LineNumber);
                     PhInitFormatS(&format[4], L"\n");
 
@@ -663,7 +663,7 @@ BOOLEAN NTAPI ThreadStackTreeNewCallback(
                     {
                         PhAppendFormatStringBuilder(
                             &stringBuilder,
-                            L"文件：%s：第 %lu 行\n",
+                            PhTranslateTextZ(L"文件：%s：第 %lu 行\n"),
                             fileName->Buffer,
                             lineInfo.LineNumber
                             );
@@ -1355,7 +1355,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
         {
             PH_FORMAT format[3];
 
-            PhInitFormatS(&format[0], L"正在处理堆栈帧 #");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"正在处理堆栈帧 #"));
             PhInitFormatU(&format[1], threadStackContext->NewList->Count);
             PhInitFormatS(&format[2], L"...");
 
@@ -1363,7 +1363,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
         }
         else
         {
-            PhMoveReference(&threadStackContext->StatusMessage, PhCreateString(L"正在处理堆栈帧..."));
+            PhMoveReference(&threadStackContext->StatusMessage, PhCreateString(PhTranslateTextZ(L"正在处理堆栈帧...")));
         }
     }
     PhReleaseQueuedLockExclusive(&threadStackContext->StatusLock);
@@ -1384,7 +1384,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
             (StackFrame->Machine == IMAGE_FILE_MACHINE_I386) &&
             !(StackFrame->Flags & PH_THREAD_STACK_FRAME_FPO_DATA_PRESENT))
         {
-            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L" (无展开信息)"));
+            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, PhTranslateTextZ(L" (无展开信息)")));
         }
 
         if (PhPluginsEnabled)
@@ -1420,7 +1420,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
                 PH_FORMAT format[3];
 
                 PhInitFormatSR(&format[0], lineFileName->sr);
-                PhInitFormatS(&format[1], L"，行号 ");
+                PhInitFormatS(&format[1], PhTranslateTextZ(L"，行号 "));
                 PhInitFormatU(&format[2], lineInfo.LineNumber);
 
                 lineText = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -1430,7 +1430,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
 
         if (symbol && PhIsStackFrameTypeInline(StackFrame->InlineFrameContext))
         {
-            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L" (内联函数)"));
+            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, PhTranslateTextZ(L" (内联函数)")));
         }
     }
     else
@@ -1448,7 +1448,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
             (StackFrame->Machine == IMAGE_FILE_MACHINE_I386) &&
             !(StackFrame->Flags & PH_THREAD_STACK_FRAME_FPO_DATA_PRESENT))
         {
-            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, L" (无展开信息)"));
+            PhMoveReference(&symbol, PhConcatStringRefZ(&symbol->sr, PhTranslateTextZ(L" (无展开信息)")));
         }
 
         if (PhPluginsEnabled)
@@ -1483,7 +1483,7 @@ BOOLEAN NTAPI PhpWalkThreadStackCallback(
                 PH_FORMAT format[3];
 
                 PhInitFormatSR(&format[0], lineFileName->sr);
-                PhInitFormatS(&format[1], L"，行号 ");
+                PhInitFormatS(&format[1], PhTranslateTextZ(L"，行号 "));
                 PhInitFormatU(&format[2], lineInfo.LineNumber);
 
                 lineText = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -1651,7 +1651,7 @@ VOID PhpSymbolProviderEventCallbackHandler(
         statusMessage = PhReferenceObject(event->EventMessage);
         break;
     case PH_SYMBOL_EVENT_TYPE_LOAD_END:
-        statusMessage = PhCreateString(L"正在加载符号...");
+        statusMessage = PhCreateString(PhTranslateTextZ(L"正在加载符号...")); // 语言切换
         break;
     case PH_SYMBOL_EVENT_TYPE_PROGRESS:
         {
@@ -1740,8 +1740,8 @@ HRESULT CALLBACK PhpThreadStackTaskDialogCallback(
             progress = context->SymbolProgress;
             PhReleaseQueuedLockShared(&context->StatusLock);
 
-            SendMessage(context->TaskDialogHandle, TDM_SET_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhGetStringOrDefault(message, L"正在处理堆栈帧..."));
-            SendMessage(context->TaskDialogHandle, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)PhGetStringOrDefault(content, L"正在加载映像符号..."));
+            SendMessage(context->TaskDialogHandle, TDM_SET_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhGetStringOrDefault(message, PhTranslateTextZ(L"正在处理堆栈帧...")));
+            SendMessage(context->TaskDialogHandle, TDM_SET_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)PhGetStringOrDefault(content, PhTranslateTextZ(L"正在加载映像符号...")));
 
             PhClearReference(&message);
             PhClearReference(&content);
@@ -1822,8 +1822,8 @@ BOOLEAN PhpShowThreadStackWindow(
     config.lpCallbackData = (LONG_PTR)Context;
     config.hwndParent = Context->WindowHandle;
     config.pszWindowTitle = PhApplicationName;
-    config.pszMainInstruction = L"正在处理堆栈帧...";
-    config.pszContent = PhGetStringOrDefault(Context->StatusContent, L"正在加载映像符号...");
+    config.pszMainInstruction = PhTranslateTextZ(L"正在处理堆栈帧...");
+    config.pszContent = PhGetStringOrDefault(Context->StatusContent, PhTranslateTextZ(L"正在加载映像符号..."));
     config.cxWidth = 200;
 
     return PhShowTaskDialog(&config, &result, NULL, NULL) && result != IDCANCEL;
@@ -1837,7 +1837,7 @@ NTSTATUS PhpRefreshThreadStack(
     ULONG i;
 
     Context->StopWalk = FALSE;
-    PhMoveReference(&Context->StatusMessage, PhCreateString(L"正在处理堆栈帧..."));
+    PhMoveReference(&Context->StatusMessage, PhCreateString(PhTranslateTextZ(L"正在处理堆栈帧...")));
 
     if (!PhpShowThreadStackWindow(Context))
     {

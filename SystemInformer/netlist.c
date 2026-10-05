@@ -1104,7 +1104,7 @@ BOOLEAN PhSelectAndEnsureVisibleNetworkNode(
             PhMainWndHandle,
             L"无法执行该操作。",
             L"%s",
-            L"此节点无法显示，因为它当前被您的活动筛选设置或首选项隐藏。"
+            PhTranslateTextZ(L"此节点无法显示，因为它当前被您的活动筛选设置或首选项隐藏。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
             );
         return FALSE;
     }

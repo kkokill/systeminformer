@@ -2651,6 +2651,7 @@ namespace CustomBuildTool
                             "-e", "tools/PortableLauncher",
                             "-e", "tools/Localization",
                             "-e", "build/build*portable.cmd",
+                            "-e", "build/lang_backup",
                             "-e", "bin/portable",
                             "-e", "bin/Release64/lang",
                             "-e", "phlib/translate.c",

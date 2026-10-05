@@ -4,12 +4,20 @@ rem   build\output\SystemInformer-Portable\
 rem     App\SystemInformer\        - program files (from bin\Release64)
 rem     Data\                      - persistent settings (SystemInformer.exe.settings.json)
 rem     SystemInformerPortable.exe - launcher (built from tools\PortableLauncher)
+rem Also creates the distributable zip:
+rem   build\output\SystemInformer-Portable-<version>-x64.zip
+rem     (top-level SystemInformer-Portable folder; Data\ is excluded - the
+rem      launcher recreates it on first run)
 rem Note: Data\ is intentionally preserved across repacks.
 
 setlocal EnableExtensions
 cd /d "%~dp0.."
 
-set "MSBUILD=D:\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
+rem MSBuild: prefer VS 18 on C: (current install location), fall back to D:
+rem (older install) and to the non-amd64 host variant.
+set "MSBUILD=C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
+if not exist "%MSBUILD%" set "MSBUILD=D:\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64\MSBuild.exe"
+if not exist "%MSBUILD%" set "MSBUILD=C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe"
 if not exist "%MSBUILD%" set "MSBUILD=D:\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe"
 if not exist "%MSBUILD%" (
     echo MSBuild not found. Set the MSBUILD variable to the amd64 MSBuild.exe path.
@@ -52,7 +60,7 @@ if exist "%OUTPUT%\SystemInformerPortable.exe" del /f /q "%OUTPUT%\SystemInforme
 mkdir "%OUTPUT%\App\SystemInformer" 2>nul
 mkdir "%OUTPUT%\Data" 2>nul
 
-robocopy bin\Release64 "%OUTPUT%\App\SystemInformer" /e /xf *.pdb /njh /njs /ndl /nfl
+robocopy bin\Release64 "%OUTPUT%\App\SystemInformer" /e /xf *.pdb *.exp *.lib /njh /njs /ndl /nfl
 if errorlevel 8 (
     echo robocopy failed with code %errorlevel%
     exit /b 1
@@ -60,6 +68,20 @@ if errorlevel 8 (
 
 copy /y "tools\PortableLauncher\bin\Release64\SystemInformerPortable.exe" "%OUTPUT%\SystemInformerPortable.exe" >nul
 
+rem Create the distributable zip with the Windows built-in bsdtar (-a picks
+rem the zip format from the file extension). Data\ stays out of the zip.
+set "ZIPNAME=SystemInformer-Portable-%APPVER%-x64.zip"
+if exist "build\output\%ZIPNAME%" del /f /q "build\output\%ZIPNAME%"
+pushd build\output
+tar -a -c -f "%ZIPNAME%" --exclude "SystemInformer-Portable/Data" --exclude "SystemInformer-Portable/Data/*" "SystemInformer-Portable"
+set "TAREXIT=%errorlevel%"
+popd
+if not "%TAREXIT%"=="0" (
+    echo Failed to create zip package: %ZIPNAME%
+    exit /b 1
+)
+
 echo.
 echo Portable package created: %CD%\%OUTPUT%
+echo Zip package created: %CD%\build\output\%ZIPNAME%
 exit /b 0

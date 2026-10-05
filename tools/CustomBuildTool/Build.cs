@@ -2512,6 +2512,27 @@ namespace CustomBuildTool
         /// <returns>true if the cleanup process completes; otherwise, false.</returns>
         public static bool CleanupBuildEnvironment()
         {
+            // bin/ 整树未被 git 跟踪，git clean -x -d 会把 bin/ 折叠为整树删除，
+            // -e 深层排除（bin/Release64/lang）救不出内部子目录（实测验证）。
+            // 故清理前临时搬出运行时语言文件（zh-en.lang，由 tools/Localization
+            // 脚本手动生成、构建不会重建），清理完成后在 finally 中还原。
+            string langFolder = Path.Combine(BuildWorkingFolder, "bin", "Release64", "lang");
+            string langBackupFolder = Path.Combine(BuildWorkingFolder, "build", "lang_backup");
+            bool langMoved = false;
+
+            try
+            {
+                if (Directory.Exists(langFolder))
+                {
+                    Directory.Move(langFolder, langBackupFolder);
+                    langMoved = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.PrintColorMessage($"[Cleanup] {ex}", ConsoleColor.Red);
+            }
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(Utils.GetGitFilePath()))
@@ -2520,6 +2541,8 @@ namespace CustomBuildTool
                     // and packaged output) out of the git-based cleanup.
                     // Keep the runtime translation/localization files (untracked
                     // work files of the Chinese localization pipeline) as well.
+                    // Keep the Chinese localization maintenance scripts (BOM fix,
+                    // dictionary order check, audit/scan helpers) out of cleanup.
                     string output = Utils.ExecuteGitCommand(BuildWorkingFolder,
                         [
                             "clean", "-x", "-d", "-f",
@@ -2534,6 +2557,11 @@ namespace CustomBuildTool
                             "-e", "phlib/translate_window.c",
                             "-e", "phlib/include/translate.h",
                             "-e", "SystemInformer/langmgr.c",
+                            "-e", "_scan_*.ps1",
+                            "-e", "_scan_*.txt",
+                            "-e", "tools/peview/_*.ps1",
+                            "-e", "tools/peview/_menu_amp_*",
+                            "-e", "plugins/ExtendedTools/_*.ps1",
                         ]);
 
                     Program.PrintColorMessage(output, ConsoleColor.DarkGray);
@@ -2627,6 +2655,24 @@ namespace CustomBuildTool
             catch (Exception ex)
             {
                 Program.PrintColorMessage($"[Cleanup] {ex}", ConsoleColor.Red);
+            }
+            finally
+            {
+                if (langMoved)
+                {
+                    // git clean 已删除整个 bin/，还原前重建父目录链；
+                    // 还原失败时备份留在 build\lang_backup 并提示位置
+                    try
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(langFolder));
+                        Directory.Move(langBackupFolder, langFolder);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.PrintColorMessage($"[Cleanup] {ex}", ConsoleColor.Red);
+                        Program.PrintColorMessage("[Cleanup] Language files preserved in build\\lang_backup", ConsoleColor.Yellow);
+                    }
+                }
             }
 
             return true;

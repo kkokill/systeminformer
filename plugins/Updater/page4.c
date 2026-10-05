@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -83,7 +83,7 @@ VOID ShowProgressDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.pfCallback = ShowProgressCallbackProc;
 
-    config.pszWindowTitle = L"System Informer - 更新器";
+    config.pszWindowTitle = PhTranslateTextZ(L"System Informer - 更新器");
     if (Context->SwitchingChannel)
     {
         PCWSTR channelName;
@@ -107,14 +107,14 @@ VOID ShowProgressDialog(
             break;
         }
 
-        config.pszMainInstruction = PhaFormatString(L"正在下载 %s 渠道 %s...", channelName, PhGetStringOrEmpty(Context->Version))->Buffer;
+        config.pszMainInstruction = PhaFormatString(PhTranslateTextZ(L"正在下载 %s 渠道 %s..."), channelName, PhGetStringOrEmpty(Context->Version))->Buffer;
     }
     else
     {
-        config.pszMainInstruction = PhaFormatString(L"正在下载更新 %s...", PhGetStringOrEmpty(Context->Version))->Buffer;
+        config.pszMainInstruction = PhaFormatString(PhTranslateTextZ(L"正在下载更新 %s..."), PhGetStringOrEmpty(Context->Version))->Buffer;
     }
 
-    config.pszContent = L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s";
+    config.pszContent = PhTranslateTextZ(L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s");
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }

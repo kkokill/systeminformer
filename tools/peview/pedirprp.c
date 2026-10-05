@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -14,9 +14,6 @@
 
 #include "../thirdparty/ssdeep/fuzzy.h"
 #include "../thirdparty/tlsh/tlsh_wrapper.h"
-
-static PH_STRINGREF EmptyDirectoriesText = PH_STRINGREF_INIT(L"没有可显示的目录。");
-static PH_STRINGREF LoadingDirectoriesText = PH_STRINGREF_INIT(L"正在从映像加载目录...");
 
 typedef enum _PV_DIRECTORY_TREE_COLUMN_ITEM
 {
@@ -167,7 +164,7 @@ VOID PvAddPendingDirectoryNodes(
 VOID PvpPeEnumerateImageDataDirectory(
     _In_ PPV_DIRECTORY_CONTEXT Context,
     _In_ ULONG Index,
-    _In_ PWSTR Name
+    _In_ PCWSTR Name
     )
 {
     PPV_DIRECTORY_NODE directoryNode;
@@ -350,22 +347,22 @@ NTSTATUS PvpPeDirectoryEnumerateThread(
     )
 {
     // for (ULONG i = 0; i < IMAGE_NUMBEROF_DIRECTORY_ENTRIES; i++)
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXPORT, L"导出");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IMPORT, L"导入");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_RESOURCE, L"资源");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXCEPTION, L"异常");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_SECURITY, L"安全");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BASERELOC, L"基址重定位");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DEBUG, L"调试");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_ARCHITECTURE, L"体系结构");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_GLOBALPTR, L"全局 PTR");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXPORT, PhTranslateTextZ(L"导出"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IMPORT, PhTranslateTextZ(L"导入"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_RESOURCE, PhTranslateTextZ(L"资源"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_EXCEPTION, PhTranslateTextZ(L"异常 "));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_SECURITY, PhTranslateTextZ(L"安全"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BASERELOC, PhTranslateTextZ(L"基址重定位"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DEBUG, PhTranslateTextZ(L"调试"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_ARCHITECTURE, PhTranslateTextZ(L"体系结构"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_GLOBALPTR, PhTranslateTextZ(L"全局 PTR"));
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_TLS, L"TLS");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, L"加载配置");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT, L"绑定导入");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, PhTranslateTextZ(L"加载配置"));
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT, PhTranslateTextZ(L"绑定导入"));
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_IAT, L"IAT");
-    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT, L"延迟加载导入");
+    PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_DELAY_IMPORT, PhTranslateTextZ(L"延迟加载导入"));
     PvpPeEnumerateImageDataDirectory(Context, IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR, L"CLR");
-    PvpPeEnumerateImageDataDirectory(Context, 15, L"保留");
+    PvpPeEnumerateImageDataDirectory(Context, 15, PhTranslateTextZ(L"保留 "));
 
     PostMessage(Context->DialogHandle, WM_PV_SEARCH_FINISHED, 0, 0);
     return STATUS_SUCCESS;
@@ -423,6 +420,8 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
     {
     case WM_INITDIALOG:
         {
+            PH_STRINGREF emptyText;
+
             context->DialogHandle = hwndDlg;
             context->TreeNewHandle = GetDlgItem(hwndDlg, IDC_TREELIST);
             context->SearchHandle = GetDlgItem(hwndDlg, IDC_TREESEARCH);
@@ -431,7 +430,7 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"搜索目录 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索目录 (Ctrl+K)"),
                 PvpPeDirectorySearchControl,
                 context
                 );
@@ -441,7 +440,8 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
             PhLoadSettingsDirectoryList(context);
             PvConfigTreeBorders(context->TreeNewHandle);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &LoadingDirectoriesText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"正在从映像加载目录..."));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->SearchHandle, NULL, PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -496,9 +496,12 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
         break;
     case WM_PV_SEARCH_FINISHED:
         {
+            PH_STRINGREF emptyText;
+
             PvAddPendingDirectoryNodes(context);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &EmptyDirectoriesText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"没有可显示的目录。"));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             TreeNew_NodesStructured(context->TreeNewHandle);
         }
@@ -517,7 +520,7 @@ INT_PTR CALLBACK PvPeDirectoryDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(

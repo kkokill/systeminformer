@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -92,7 +92,7 @@ LOGICAL DllMain(
             if (!PluginInstance)
                 return FALSE;
 
-            info->DisplayName = L"扩展通知";
+            info->DisplayName = L"扩展通知"; // 语言切换：由 plugman.c 创建节点时统一翻译（此处预译会导致热切换后残留旧语言）
             info->Description = L"过滤通知。";
 
             PhRegisterCallback(
@@ -328,28 +328,28 @@ VOID NTAPI ShowOptionsCallback(
     PPH_PLUGIN_OPTIONS_POINTERS optionsEntry = (PPH_PLUGIN_OPTIONS_POINTERS)Parameter;
 
     optionsEntry->CreateSection(
-        L"通知 - 进程",
+        PhTranslateTextZ(L"通知 - 进程"),
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_PROCESSES),
         ProcessesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"通知 - 服务",
+        PhTranslateTextZ(L"通知 - 服务"),
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_SERVICES),
         ServicesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"通知 - 设备",
+        PhTranslateTextZ(L"通知 - 设备"),
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_DEVICES),
         DevicesDlgProc,
         NULL
         );
     optionsEntry->CreateSection(
-        L"通知 - 日志记录",
+        PhTranslateTextZ(L"通知 - 日志记录"),
         NtCurrentImageBase(),
         MAKEINTRESOURCE(IDD_LOGGING),
         LoggingDlgProc,
@@ -450,7 +450,11 @@ PPH_STRING FormatFilterEntry(
     _In_ PFILTER_ENTRY Entry
     )
 {
-    return PhConcatStrings2(Entry->Type == FilterInclude ? L"[包含] " : L"[排除] ", Entry->Filter->Buffer);
+    // 语言切换：拼接串无法整串查表，前缀按当前语言包装
+    return PhConcatStrings2(
+        Entry->Type == FilterInclude ? PhTranslateTextZ(L"[包含] ") : PhTranslateTextZ(L"[排除] "),
+        Entry->Filter->Buffer
+        );
 }
 
 VOID AddEntriesToListBox(
@@ -998,10 +1002,11 @@ INT_PTR CALLBACK LoggingDlgProc(
             {
             case IDC_BROWSE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    // 语言切换：去掉 static 以便运行时按当前语言翻译过滤器名
+                    PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"日志文件 (*.txt;*.log)", L"*.txt;*.log" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"日志文件 (*.txt;*.log)"), L"*.txt;*.log" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING fileName;

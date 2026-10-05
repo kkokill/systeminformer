@@ -35,9 +35,9 @@ INT_PTR CALLBACK OptionsDlgProc(
                 Button_SetCheck(GetDlgItem(WindowHandle, IDC_AUTOCHECKBOX), BST_CHECKED);
 
                 comboBoxHandle = GetDlgItem(WindowHandle, IDC_UPDATE_INTERVAL);
-                ComboBox_AddString(comboBoxHandle, L"1 天");
-                ComboBox_AddString(comboBoxHandle, L"1 周");
-                ComboBox_AddString(comboBoxHandle, L"1 月");
+                ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 天"));
+                ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 周"));
+                ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 月"));
 
                 updateInterval = PhGetIntegerSetting(SETTING_NAME_UPDATE_INTERVAL);
                 switch (updateInterval)
@@ -74,7 +74,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     timeRelativeString = PH_AUTO(PhFormatTimeSpanRelative(currentTime.QuadPart - lastTimeUpdateTicks.QuadPart));
 
                     PhSetDialogItemText(WindowHandle, IDC_TEXT, PhaFormatString(
-                        L"上次更新检查：%s（%s 前）",
+                        PhTranslateTextZ(L"上次更新检查：%s（%s 前）"),
                         PhGetStringOrEmpty(timeString),
                         PhGetStringOrEmpty(timeRelativeString)
                         )->Buffer);
@@ -91,7 +91,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     {
                         timeRelativeString = PH_AUTO(PhFormatTimeSpanRelative(time.QuadPart));
                         PhSetDialogItemText(WindowHandle, IDC_TEXT2, PhaFormatString(
-                            L"下次更新检查：%s（%s）",
+                            PhTranslateTextZ(L"下次更新检查：%s（%s）"),
                             PhGetStringOrEmpty(timeString),
                             PhGetStringOrEmpty(timeRelativeString)
                             )->Buffer);
@@ -99,7 +99,7 @@ INT_PTR CALLBACK OptionsDlgProc(
                     else
                     {
                         PhSetDialogItemText(WindowHandle, IDC_TEXT2, PhaFormatString(
-                            L"下次更新检查：%s",
+                            PhTranslateTextZ(L"下次更新检查：%s"),
                             PhGetStringOrEmpty(timeString)
                             )->Buffer);
                     }
@@ -144,9 +144,9 @@ INT_PTR CALLBACK OptionsDlgProc(
 
                         if (ComboBox_GetCount(comboBoxHandle) == 0)
                         {
-                            ComboBox_AddString(comboBoxHandle, L"1 天");
-                            ComboBox_AddString(comboBoxHandle, L"1 周");
-                            ComboBox_AddString(comboBoxHandle, L"1 月");
+                            ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 天"));
+                            ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 周"));
+                            ComboBox_AddString(comboBoxHandle, PhTranslateTextZ(L"1 月"));
                         }
 
                         if (ComboBox_GetCurSel(comboBoxHandle) == CB_ERR)
@@ -740,7 +740,7 @@ INT_PTR CALLBACK TextDlgProc(
                     NMLVEMPTYMARKUP* listview = (NMLVEMPTYMARKUP*)lParam;
 
                     listview->dwFlags = EMF_CENTERED;
-                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), L"正在查询变更日志...", _TRUNCATE);
+                    wcsncpy_s(listview->szMarkup, RTL_NUMBER_OF(listview->szMarkup), PhTranslateTextZ(L"正在查询变更日志..."), _TRUNCATE);
 
                     SetWindowLongPtr(WindowHandle, DWLP_MSGRESULT, TRUE);
                     return TRUE;

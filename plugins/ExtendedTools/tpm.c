@@ -648,31 +648,31 @@ NTSTATUS EtEnumerateTpmEntries(
         PhDereferenceObject(string);
 
         if ((attributes & (TPMA_NV_OWNERREAD | TPMA_NV_OWNERWRITE)) == (TPMA_NV_OWNERREAD | TPMA_NV_OWNERWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"读/写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, PhTranslateTextZ(L"读/写")); // 语言切换
         else if ((attributes & TPMA_NV_OWNERREAD) == TPMA_NV_OWNERREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"读");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, PhTranslateTextZ(L"读")); // 语言切换
         else if ((attributes & TPMA_NV_OWNERWRITE) == TPMA_NV_OWNERWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, PhTranslateTextZ(L"写")); // 语言切换
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, L"无");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 2, PhTranslateTextZ(L"无")); // 语言切换
 
         if ((attributes & (TPMA_NV_AUTHREAD | TPMA_NV_AUTHWRITE)) == (TPMA_NV_AUTHREAD | TPMA_NV_AUTHWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"读/写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, PhTranslateTextZ(L"读/写")); // 语言切换
         else if ((attributes & TPMA_NV_AUTHREAD) == TPMA_NV_AUTHREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"读");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, PhTranslateTextZ(L"读")); // 语言切换
         else if ((attributes & TPMA_NV_AUTHWRITE) == TPMA_NV_AUTHWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, PhTranslateTextZ(L"写")); // 语言切换
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, L"无");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 3, PhTranslateTextZ(L"无")); // 语言切换
 
         if ((attributes & (TPMA_NV_PPREAD | TPMA_NV_PPWRITE)) == (TPMA_NV_PPREAD | TPMA_NV_PPWRITE))
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"读/写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, PhTranslateTextZ(L"读/写")); // 语言切换
         else if ((attributes & TPMA_NV_PPREAD) == TPMA_NV_PPREAD)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"读");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, PhTranslateTextZ(L"读")); // 语言切换
         else if ((attributes & TPMA_NV_PPWRITE) == TPMA_NV_PPWRITE)
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"写");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, PhTranslateTextZ(L"写")); // 语言切换
         else
-            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, L"无");
+            PhSetListViewSubItem(Context->ListViewHandle, lvItemIndex, 4, PhTranslateTextZ(L"无")); // 语言切换
 
         // clear the bits we've broken out into their own columns
         attributes &= ~(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -125,11 +125,11 @@ VOID UpdateSetProgressFinalizingState(
         return;
 
     Context->ProgressFinalizing = TRUE;
-    UpdaterUpdateProgressToast(Context, MainInstruction);
+    UpdaterUpdateProgressToast(Context, PhTranslateTextZ(MainInstruction));
 
     if (Context->DialogHandle)
     {
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)MainInstruction);
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhTranslateTextZ(MainInstruction));
     }
 }
 
@@ -410,7 +410,7 @@ NTSTATUS NTAPI UpdateWinHttpTransferCallbackStage5(
             LARGE_INTEGER allocationSize;
             PPH_STRING string;
 
-            string = PhFormatString(L"正在下载 release %s...", PhGetStringOrEmpty(updater->Version));
+            string = PhFormatString(PhTranslateTextZ(L"正在下载 release %s..."), PhGetStringOrEmpty(updater->Version));
             UpdateSetDialogInitialProgressText(updater, string->Buffer);
             PhDereferenceObject(string);
 
@@ -704,6 +704,8 @@ VOID UpdateSetDialogStatusText(
     _In_ PCWSTR MainInstruction
     )
 {
+    MainInstruction = PhTranslateTextZ(MainInstruction);
+
     if (Context->DialogHandle)
         SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)MainInstruction);
     else if (Context->ToastMode)
@@ -723,7 +725,7 @@ VOID UpdateSetDialogInitialProgressText(
     if (Context->DialogHandle)
     {
         SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)MainInstruction);
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s");
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)PhTranslateTextZ(L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s"));
     }
     else if (Context->ToastMode)
     {

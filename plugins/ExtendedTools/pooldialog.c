@@ -214,7 +214,7 @@ INT_PTR CALLBACK EtPoolMonDlgProc(
             PhCreateSearchControl(
                 WindowHandle,
                 context->SearchboxHandle,
-                L"搜索池标签 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索池标签 (Ctrl+K)"), // 语言切换
                 EtPoolMonSearchControlCallback,
                 context
                 );

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -132,14 +132,15 @@ INT WINAPI wWinMain(
         PhGuiSupportInitialization();
         PhSettingsInitialization();
         PvInitializeSettings();
+        PhSetApplicationLanguage(PhGetIntegerSetting(L"Language") == 1);
         PvInitializeSuperclassControls();
         PhShowWarning2(
             NULL,
-            L"警告。",
+            PhTranslateTextZ(L"警告。"),
             L"%s",
-            L"您正在 64 位 Windows 上运行 32 位版本的 PE Viewer。"
+            PhTranslateTextZ(L"您正在 64 位 Windows 上运行 32 位版本的 PE Viewer。"
             L"大多数功能将无法正常工作。\n\n"
-            L"请改为运行 64 位版本的 PE Viewer。"
+            L"请改为运行 64 位版本的 PE Viewer。")
             );
         PhExitApplication(STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT);
     }
@@ -148,6 +149,7 @@ INT WINAPI wWinMain(
     PhGuiSupportInitialization();
     PhSettingsInitialization();
     PvInitializeSettings();
+    PhSetApplicationLanguage(PhGetIntegerSetting(L"Language") == 1); // 启动时恢复语言模式（决定 .rc 资源选哪套模板）
     PvPropInitialization();
     PhScrollNewWindowInitialization();
     PhTreeNewInitialization();
@@ -324,9 +326,9 @@ INT WINAPI wWinMain(
         if (!NT_SUCCESS(status))
         {
             if (status == STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT)
-                PhShowError2(NULL, L"无法加载该文件。", L"%s", L"PE Viewer 不支持此映像类型。");
+                PhShowError2(NULL, PhTranslateTextZ(L"无法加载该文件。"), L"%s", PhTranslateTextZ(L"PE Viewer 不支持此映像类型。"));
             else
-                PhShowStatus(NULL, L"无法加载该文件。", status, 0);
+                PhShowStatus(NULL, PhTranslateTextZ(L"无法加载该文件。"), status, 0);
         }
     }
 

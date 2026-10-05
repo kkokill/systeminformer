@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -160,7 +160,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 ULONG bytesPerRow;
 
                 for (ULONG i = 0; i < ARRAYSIZE(bytesPerRowStrings); i++)
-                    bytesPerRowStrings[i] = PhaFormatString(L"%u 字节/行", 1 << (2 + i))->Buffer;
+                    bytesPerRowStrings[i] = PhaFormatString(PhTranslateTextZ(L"%u 字节/行"), 1 << (2 + i))->Buffer; // 语言切换
 
                 PhAddComboBoxStrings(context->BytesPerRowHandle, bytesPerRowStrings, ARRAYSIZE(bytesPerRowStrings));
 
@@ -170,7 +170,7 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 {
                     HexEdit_SetBytesPerRow(context->HexEditHandle, bytesPerRow);
                     PhSelectComboBoxString(context->BytesPerRowHandle, PhaFormatString(
-                        L"%u 字节/行", bytesPerRow)->Buffer, FALSE);
+                        PhTranslateTextZ(L"%u 字节/行"), bytesPerRow)->Buffer, FALSE); // 语言切换
                 }
             }
 
@@ -209,10 +209,10 @@ INT_PTR CALLBACK EtFirmwareEditorDlgProc(
                 break;
             case IDC_FIRMWARE_SAVE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：局部数组每次重新查表
                     {
-                        { L"二进制文件 (*.bin)", L"*.bin" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"二进制文件 (*.bin)"), L"*.bin" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
 

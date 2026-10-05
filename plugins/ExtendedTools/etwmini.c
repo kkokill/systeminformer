@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -55,7 +55,7 @@ BOOLEAN EtpDiskListSectionCallback(
         {
             PH_FORMAT format[4];
 
-            PhInitFormatS(&format[0], L"磁盘    R: ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"磁盘    R: ")); // 语言切换
             PhInitFormatSize(&format[1], EtDiskReadDelta.Delta);
             format[1].Type |= FormatUsePrecision;
             format[1].Precision = 0;
@@ -198,7 +198,7 @@ BOOLEAN EtpNetworkListSectionCallback(
         {
             PH_FORMAT format[4];
 
-            PhInitFormatS(&format[0], L"网络    R: ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"网络    R: ")); // 语言切换
             PhInitFormatSize(&format[1], EtNetworkReceiveDelta.Delta);
             format[1].Type |= FormatUsePrecision;
             format[1].Precision = 0;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -66,7 +66,7 @@ INT_PTR CALLBACK PvpExlfImportsDlgProc(
             PhSetListViewStyle(lvHandle, TRUE, TRUE);
             PhSetControlTheme(lvHandle, L"explorer");
             PhAddListViewColumn(lvHandle, 0, 0, 0, LVCFMT_LEFT, 40, L"#");
-            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 130, L"模块");
+            PhAddListViewColumn(lvHandle, 1, 1, 1, LVCFMT_LEFT, 130, L"模块 ");
             PhAddListViewColumn(lvHandle, 2, 2, 2, LVCFMT_LEFT, 210, L"名称");
             PhAddListViewColumn(lvHandle, 3, 3, 3, LVCFMT_LEFT, 100, L"类型");
             PhAddListViewColumn(lvHandle, 4, 4, 4, LVCFMT_LEFT, 80, L"绑定");

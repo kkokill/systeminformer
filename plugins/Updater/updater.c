@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -970,12 +970,12 @@ NTSTATUS UpdateDownloadThread(
     PBYTE httpBuffer = NULL;
     ULONG httpBufferLength;
 
-    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)L"正在初始化下载请求...");
+    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhTranslateTextZ(L"正在初始化下载请求..."));
 
     if (!NT_SUCCESS(status = PhHttpCrackUrl(context->SetupFileDownloadUrl, &downloadHostPath, &downloadUrlPath, &httpPort)))
         goto CleanupExit;
 
-    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)L"正在连接...");
+    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhTranslateTextZ(L"正在连接..."));
 
     if (!NT_SUCCESS(status = PhHttpInitialize(&httpContext)))
         goto CleanupExit;
@@ -989,12 +989,12 @@ NTSTATUS UpdateDownloadThread(
 
     PhHttpSetFeature(httpContext, PH_HTTP_FEATURE_KEEP_ALIVE, FALSE);
 
-    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)L"正在发送下载请求...");
+    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhTranslateTextZ(L"正在发送下载请求..."));
 
     if (!NT_SUCCESS(status = PhHttpSendRequest(httpContext, PH_HTTP_NO_ADDITIONAL_HEADERS, 0, PH_HTTP_NO_REQUEST_DATA, 0, 0)))
         goto CleanupExit;
 
-    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)L"正在等待响应...");
+    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)PhTranslateTextZ(L"正在等待响应..."));
 
     if (!NT_SUCCESS(status = PhHttpReceiveResponse(httpContext)))
         goto CleanupExit;
@@ -1012,9 +1012,9 @@ NTSTATUS UpdateDownloadThread(
         goto CleanupExit;
     }
 
-    string = PhFormatString(L"正在下载发行版 %s...", PhGetStringOrEmpty(context->Version));
+    string = PhFormatString(PhTranslateTextZ(L"正在下载发行版 %s..."), PhGetStringOrEmpty(context->Version));
     SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, (LPARAM)string->Buffer);
-    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)L"已下载：约 ~ / ~ (0%)\r\n速度：~ KB/s");
+    SendMessage(context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, (LPARAM)PhTranslateTextZ(L"已下载：约 ~ / ~ (0%)\r\n速度：~ KB/s"));
     PhDereferenceObject(string);
 
     // Create temporary file.
@@ -1112,13 +1112,13 @@ NTSTATUS UpdateDownloadThread(
         WCHAR stringformat[MAX_PATH];
 
         // L"已下载：%s / %s (%.0f%%)\r\n速度：%s/s"
-        PhInitFormatS(&format[0], L"已下载：");
+        PhInitFormatS(&format[0], PhTranslateTextZ(L"已下载："));
         PhInitFormatSize(&format[1], totalDownloaded);
         PhInitFormatS(&format[2], L" / ");
         PhInitFormatSize(&format[3], contentLength);
         PhInitFormatS(&format[4], L" (");
         PhInitFormatU(&format[5], percent);
-        PhInitFormatS(&format[6], L"%)\r\n速度：");
+        PhInitFormatS(&format[6], PhTranslateTextZ(L"%)\r\n速度："));
         PhInitFormatSize(&format[7], timeBitsPerSecond);
         PhInitFormatS(&format[8], L"/s");
 
@@ -1283,13 +1283,13 @@ LRESULT CALLBACK TaskDialogSubclassProc(
                     WCHAR string[MAX_PATH];
 
                     // L"已下载：%s / %s (%.0f%%)\r\n速度：%s/s"
-                    PhInitFormatS(&format[0], L"已下载：");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"已下载："));
                     PhInitFormatSize(&format[1], context->ProgressDownloaded);
                     PhInitFormatS(&format[2], L" / ");
                     PhInitFormatSize(&format[3], context->ProgressTotal);
                     PhInitFormatS(&format[4], L" (");
                     PhInitFormatI64U(&format[5], percent);
-                    PhInitFormatS(&format[6], L"%)\r\n速度：");
+                    PhInitFormatS(&format[6], PhTranslateTextZ(L"%)\r\n速度："));
                     PhInitFormatSize(&format[7], context->ProgressBitsPerSecond);
                     PhInitFormatS(&format[8], L"/s");
 
@@ -1447,7 +1447,7 @@ NTSTATUS ShowUpdateDialogThread(
     // Start TaskDialog bootstrap
     config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED;
     config.hInstance = NtCurrentImageBase();
-    config.pszContent = L"正在初始化...";
+    config.pszContent = PhTranslateTextZ(L"正在初始化...");
     config.lpCallbackData = (LONG_PTR)context;
     config.pfCallback = TaskDialogBootstrapCallback;
     PhShowTaskDialog(&config, NULL, NULL, NULL);
@@ -1575,8 +1575,8 @@ VOID ShowStartupUpdateDialog(
     if (PhGetIntegerSetting(SETTING_NAME_SHOW_NOTIFICATION))
     {
         if (HR_SUCCESS(PhShowIconNotificationEx(
-            L"New version of System Informer available",
-            L"Help menu > Check for updates",
+            L"有新版本的 System Informer 可供使用",
+            L"帮助菜单 > 检查更新",
             5000,
             NULL,
             NULL
@@ -1596,7 +1596,7 @@ VOID ShowStartupUpdateDialog(
         TASKDIALOGCONFIG config = { sizeof(TASKDIALOGCONFIG) };
         config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED;
         config.hInstance = NtCurrentImageBase();
-        config.pszContent = L"正在初始化...";
+        config.pszContent = PhTranslateTextZ(L"正在初始化...");
         config.lpCallbackData = (LONG_PTR)context;
         config.pfCallback = TaskDialogBootstrapCallback;
         PhShowTaskDialog(&config, NULL, NULL, NULL);

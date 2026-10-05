@@ -1484,9 +1484,9 @@ INT_PTR CALLBACK EspServiceTriggerDlgProc(
                             WindowHandle,
                             TD_OK_BUTTON | TD_CANCEL_BUTTON,
                             TD_WARNING_ICON,
-                            PhaFormatString(L"触发器类型 \"%s\" 不允许配置数据项。", typeString->Buffer)->Buffer,
+                            PhaFormatString(PhTranslateTextZ(L"触发器类型 \"%s\" 不允许配置数据项。"), typeString->Buffer)->Buffer, // 语言切换：动态串需包格式串
                             L"%s",
-                            L"如果继续，它们将被移除。"
+                            PhTranslateTextZ(L"如果继续，它们将被移除。") // 语言切换：%s 参数不走 PhShowMessage2 挂钩
                             ) != IDOK)
                         {
                             goto DoNotClose;

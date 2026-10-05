@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -10,11 +10,6 @@
  */
 
 #include "updater.h"
-
-static TASKDIALOG_BUTTON TaskDialogButtonArray[] =
-{
-    { IDOK, L"下载(&D)" }
-};
 
 /**
  * \brief Callback procedure for the Update Available task dialog page.
@@ -69,6 +64,10 @@ VOID ShowAvailableDialog(
     )
 {
     TASKDIALOGCONFIG config;
+    TASKDIALOG_BUTTON TaskDialogButtonArray[] =
+    {
+        { IDOK, PhTranslateTextZ(L"下载(&D)") }
+    };
 
     memset(&config, 0, sizeof(TASKDIALOGCONFIG));
     config.cbSize = sizeof(TASKDIALOGCONFIG);
@@ -81,35 +80,35 @@ VOID ShowAvailableDialog(
     config.lpCallbackData = (LONG_PTR)Context;
     config.pfCallback = ShowAvailableCallbackProc;
 
-    config.pszWindowTitle = L"System Informer - 更新器";
+    config.pszWindowTitle = PhTranslateTextZ(L"System Informer - 更新器");
     if (Context->SwitchingChannel)
     {
         switch (Context->Channel)
         {
         case PhReleaseChannel:
-            config.pszMainInstruction = L"是否下载 Release 版本？";
+            config.pszMainInstruction = PhTranslateTextZ(L"是否下载 Release 版本？");
             break;
         //case PhPreviewChannel:
         //    config.pszMainInstruction = L"是否下载 Preview 版本？";
         //    break;
         case PhCanaryChannel:
-            config.pszMainInstruction = L"是否下载 Canary 版本？";
+            config.pszMainInstruction = PhTranslateTextZ(L"是否下载 Canary 版本？");
             break;
         //case PhDeveloperChannel:
         //    config.pszMainInstruction = L"是否下载 Developer 版本？";
         //    break;
         default:
-            config.pszMainInstruction = L"是否下载更新？";
+            config.pszMainInstruction = PhTranslateTextZ(L"是否下载更新？");
             break;
         }
     }
     else
     {
-        config.pszMainInstruction = L"有新版 System Informer 可供下载。";
+        config.pszMainInstruction = PhTranslateTextZ(L"有新版 System Informer 可供下载。");
     }
 
     config.pszContent = PhaFormatString(
-        L"版本: %s\r\n下载大小: %s\r\n\r\n<A HREF=\"changelog.txt\">查看变更日志</A>",
+        PhTranslateTextZ(L"版本: %s\r\n下载大小: %s\r\n\r\n<A HREF=\"changelog.txt\">查看变更日志</A>"),
         PhGetStringOrEmpty(Context->Version),
         PhGetStringOrEmpty(Context->SetupFileLength)
         )->Buffer;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -215,7 +215,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 {
                                     PvpCHPAddValue(
                                         lvHandle,
-                                        PhFormatString(L"代码范围 %lu Native", i)->Buffer,
+                                        PhFormatString(PhTranslateTextZ(L"代码范围 %lu Native"), i)->Buffer,
                                         PhFormatString(L"[0x%lx, 0x%lx]", start, end),
                                         PhReferenceEmptyString()
                                         );
@@ -224,7 +224,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 {
                                     PvpCHPAddValue(
                                         lvHandle,
-                                        PhFormatString(L"代码范围 %lu", i)->Buffer,
+                                        PhFormatString(PhTranslateTextZ(L"代码范围 %lu"), i)->Buffer,
                                         PhFormatString(L"[0x%lx, 0x%lx]", start, end),
                                         PhReferenceEmptyString()
                                         );
@@ -375,16 +375,16 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
                                 switch (table[i].Type)
                                 {
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_ARM64:
-                                    type = PhFormatString(L"代码范围 %lu ARM64", i);
+                                    type = PhFormatString(PhTranslateTextZ(L"代码范围 %lu ARM64"), i);
                                     break;
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_ARM64EC:
-                                    type = PhFormatString(L"代码范围 %lu ARM64EC", i);
+                                    type = PhFormatString(PhTranslateTextZ(L"代码范围 %lu ARM64EC"), i);
                                     break;
                                 case IMAGE_ARM64EC_CODE_MAP_TYPE_AMD64:
-                                    type = PhFormatString(L"代码范围 %lu AMD64", i);
+                                    type = PhFormatString(PhTranslateTextZ(L"代码范围 %lu AMD64"), i);
                                     break;
                                 default:
-                                    type = PhFormatString(L"代码范围 %lu UNKNOWN (%lu)", i, table[i].Type);
+                                    type = PhFormatString(PhTranslateTextZ(L"代码范围 %lu UNKNOWN (%lu)"), i, table[i].Type);
                                     break;
                                 }
 
@@ -410,7 +410,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
 
                                 PvpCHPAddValue(
                                     lvHandle,
-                                    PhFormatString(L"重定向条目 %lu", i)->Buffer,
+                                    PhFormatString(PhTranslateTextZ(L"重定向条目 %lu"), i)->Buffer,
                                     PhFormatString(L"0x%lx -> 0x%lx", table[i].Source, table[i].Destination),
                                     PhFormatString(L"%ls -> %ls", source->Buffer, dest->Buffer)
                                     );
@@ -432,7 +432,7 @@ INT_PTR CALLBACK PvpPeCHPEDlgProc(
 
                                 PvpCHPAddValue(
                                     lvHandle,
-                                    PhFormatString(L"代码入口范围 %lu", i)->Buffer,
+                                    PhFormatString(PhTranslateTextZ(L"代码入口范围 %lu"), i)->Buffer,
                                     PhFormatString(
                                         L"[0x%lx, 0x%lx] 0x%lx",
                                         table[i].StartRva,

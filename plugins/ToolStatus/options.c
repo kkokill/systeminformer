@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -67,6 +67,13 @@ ULONG GraphTypeGetTypeInteger(
         return integer;
     }
 
+    // 语言切换：设置保存的是下拉显示文本（译文），按译文回解析
+    for (ULONG i = 0; i < RTL_NUMBER_OF(GraphTypePairs); i++)
+    {
+        if (PhEqualStringZ(SidType, PhTranslateTextZ((PCWSTR)GraphTypePairs[i].Key), FALSE))
+            return (ULONG)(ULONG_PTR)GraphTypePairs[i].Value;
+    }
+
     return 0;
 }
 
@@ -94,8 +101,10 @@ INT_PTR CALLBACK OptionsDlgProc(
             Button_SetCheck(GetDlgItem(WindowHandle, IDC_ENABLE_LARGETOOLBARICON), ToolStatusConfig.ToolBarLargeIcons ? BST_CHECKED : BST_UNCHECKED);
 
             graphTypeHandle = GetDlgItem(WindowHandle, IDC_CURRENT);
-            PhAddComboBoxStrings(graphTypeHandle, (PCWSTR*)GraphTypeStrings, RTL_NUMBER_OF(GraphTypeStrings));
-            PhSelectComboBoxString(graphTypeHandle, GraphTypeGetTypeString(PhGetIntegerSetting(SETTING_NAME_TASKBARDISPLAYSTYLE)), FALSE);
+            // 语言切换：PhAddComboBoxStrings 不查表，填充处逐项翻译；选中项按译文匹配
+            for (ULONG i = 0; i < RTL_NUMBER_OF(GraphTypeStrings); i++)
+                ComboBox_AddString(graphTypeHandle, PhTranslateTextZ(GraphTypeStrings[i]));
+            PhSelectComboBoxString(graphTypeHandle, PhTranslateTextZ(GraphTypeGetTypeString(PhGetIntegerSetting(SETTING_NAME_TASKBARDISPLAYSTYLE))), FALSE);
         }
         break;
     case WM_DESTROY:

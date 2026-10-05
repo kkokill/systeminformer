@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -12,9 +12,6 @@
 
 #include <peview.h>
 #include "colmgr.h"
-
-static PH_STRINGREF EmptyExportsText = PH_STRINGREF_INIT(L"没有要显示的导出。");
-static PH_STRINGREF LoadingExportsText = PH_STRINGREF_INIT(L"正在从映像加载导出...");
 
 typedef enum _PV_EXPORT_TREE_COLUMN_ITEM
 {
@@ -436,6 +433,8 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
     {
     case WM_INITDIALOG:
         {
+            PH_STRINGREF emptyText;
+
             context->WindowHandle = hwndDlg;
             context->TreeNewHandle = GetDlgItem(hwndDlg, IDC_TREELIST);
             context->SearchHandle = GetDlgItem(hwndDlg, IDC_TREESEARCH);
@@ -444,7 +443,7 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"搜索导出 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索导出 (Ctrl+K)"),
                 PvpPeExportsSearchControlCallback,
                 context
                 );
@@ -454,7 +453,8 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
             PhLoadSettingsExportList(context);
             PvConfigTreeBorders(context->TreeNewHandle);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &LoadingExportsText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"正在从映像加载导出..."));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->SearchHandle, NULL, PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -509,9 +509,12 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
         break;
     case WM_PV_SEARCH_FINISHED:
         {
+            PH_STRINGREF emptyText;
+
             PvAddPendingExportNodes(context);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &EmptyExportsText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"没有要显示的导出。"));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             TreeNew_NodesStructured(context->TreeNewHandle);
         }
@@ -530,7 +533,7 @@ INT_PTR CALLBACK PvPeExportsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -903,7 +906,7 @@ BOOLEAN NTAPI PvExportTreeNewCallback(
             case PV_EXPORT_TREE_COLUMN_ITEM_SUPPRESSION:
                 {
                     if (node->ExportSuppressed)
-                        PhInitializeStringRef(&getCellText->Text, L"是");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"是"));
                     else
                         PhInitializeEmptyStringRef(&getCellText->Text);
                 }

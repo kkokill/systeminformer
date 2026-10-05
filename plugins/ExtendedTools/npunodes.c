@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -141,7 +141,7 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
                             // %.2f%% (%s)
                             PhInitFormatF(&format[0], gpu * 100, EtMaxPrecisionUnit);
                             PhInitFormatS(&format[1], L"% (");
-                            PhInitFormatSR(&format[2], engineName->sr);
+                            PhInitFormatS(&format[2], PhTranslateTextZ(engineName->Buffer)); // 语言切换
                             PhInitFormatC(&format[3], L')');
 
                             PhMoveReference(&GraphState[i].Text, PhFormat(format, RTL_NUMBER_OF(format), 0));
@@ -152,7 +152,7 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
 
                             // %.2f%% (Node %lu)
                             PhInitFormatF(&format[0], gpu * 100, EtMaxPrecisionUnit);
-                            PhInitFormatS(&format[1], L"% (Node ");
+                            PhInitFormatS(&format[1], PhTranslateTextZ(L"% (节点 ")); // 语言切换
                             PhInitFormatU(&format[2], i);
                             PhInitFormatC(&format[3], L')');
 
@@ -212,7 +212,7 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
                                     PH_FORMAT format[2];
 
                                     // Adapter %lu
-                                    PhInitFormatS(&format[0], L"Adapter ");
+                                    PhInitFormatS(&format[0], PhTranslateTextZ(L"适配器 ")); // 语言切换
                                     PhInitFormatU(&format[1], adapterIndex);
 
                                     adapterDescription = PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -220,7 +220,7 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
                             }
                             else
                             {
-                                adapterDescription = PhCreateString(L"Unknown Adapter");
+                                adapterDescription = PhCreateString(PhTranslateTextZ(L"未知适配器")); // 语言切换
                             }
 
                             if (!PhIsNullOrEmptyString(adapterEngineName))
@@ -229,11 +229,11 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
 
                                 // %.2f%%\nNode %lu (%s) on %s\n%s
                                 PhInitFormatF(&format[0], gpu * 100, EtMaxPrecisionUnit);
-                                PhInitFormatS(&format[1], L"%\nNode ");
+                                PhInitFormatS(&format[1], PhTranslateTextZ(L"%\n节点 ")); // 语言切换
                                 PhInitFormatU(&format[2], i);
                                 PhInitFormatS(&format[3], L" (");
-                                PhInitFormatSR(&format[4], adapterEngineName->sr);
-                                PhInitFormatS(&format[5], L") on ");
+                                PhInitFormatS(&format[4], PhTranslateTextZ(adapterEngineName->Buffer)); // 语言切换
+                                PhInitFormatS(&format[5], PhTranslateTextZ(L")，位于 ")); // 语言切换
                                 PhInitFormatSR(&format[6], adapterDescription->sr);
                                 PhInitFormatC(&format[7], L'\n');
                                 PhInitFormatSR(&format[8], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -246,9 +246,9 @@ BOOLEAN EtpNpuNodesGraphMessageCallback(
 
                                 // %.2f%%\nNode %lu on %s\n%s
                                 PhInitFormatF(&format[0], gpu * 100, EtMaxPrecisionUnit);
-                                PhInitFormatS(&format[1], L"%\nNode ");
+                                PhInitFormatS(&format[1], PhTranslateTextZ(L"%\n节点 ")); // 语言切换
                                 PhInitFormatU(&format[2], i);
-                                PhInitFormatS(&format[3], L" on ");
+                                PhInitFormatS(&format[3], PhTranslateTextZ(L"，位于 ")); // 语言切换
                                 PhInitFormatSR(&format[4], adapterDescription->sr);
                                 PhInitFormatC(&format[5], L'\n');
                                 PhInitFormatSR(&format[6], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);

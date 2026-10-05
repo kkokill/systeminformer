@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -178,9 +178,9 @@ VOID EtProcessTreeNewInitializing(
             previousAdapterIndex = adapterIndex;
 
             if (nodeName && nodeName->Length)
-                columnText = PhFormatString(L"GPU %lu 节点 %lu (%s)", adapterIndex, adapterNodeIndex, nodeName->Buffer);
+                columnText = PhFormatString(PhTranslateTextZ(L"GPU %lu 节点 %lu (%s)"), adapterIndex, adapterNodeIndex, PhTranslateTextZ(nodeName->Buffer)); // 语言切换
             else
-                columnText = PhFormatString(L"GPU %lu 节点 %lu", adapterIndex, adapterNodeIndex);
+                columnText = PhFormatString(PhTranslateTextZ(L"GPU %lu 节点 %lu"), adapterIndex, adapterNodeIndex); // 语言切换
 
             PhAddItemList(EtGpuNodeColumnTextList, columnText);
             EtpAddTreeNewColumn(
@@ -1684,12 +1684,15 @@ VOID EtNetworkTreeNewMessage(
                             PH_STRINGREF_INIT(L"不允许，受限制"),
                         };
 
-                        block->TextCacheLength[message->SubId] = strings[block->FirewallStatus].Length;
+                        PCWSTR translated = PhTranslateTextZ(strings[block->FirewallStatus].Buffer); // 语言切换
+                        SIZE_T translatedLength = wcslen(translated) * sizeof(WCHAR);
+
+                        block->TextCacheLength[message->SubId] = translatedLength;
                         memcpy_s(
                             block->TextCache[message->SubId],
                             sizeof(block->TextCache[message->SubId]),
-                            strings[block->FirewallStatus].Buffer,
-                            strings[block->FirewallStatus].Length
+                            translated,
+                            translatedLength
                             );
                     }
                 }

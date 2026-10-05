@@ -334,7 +334,7 @@ PPH_STRING EtWbclFormatLeaf(
     )
 {
     if (Size == 0)
-        return PhCreateString(L"(空)");
+        return PhCreateString(PhTranslateTextZ(L"(空)")); // 语言切换
 
     if (Size == 1)
     {
@@ -444,7 +444,7 @@ PPH_STRING EtWbclFormatEventData(
     )
 {
     if (EventSize == 0)
-        return PhCreateString(L"(无数据)");
+        return PhCreateString(PhTranslateTextZ(L"(无数据)")); // 语言切换
 
     switch (EventType)
     {
@@ -473,7 +473,7 @@ PPH_STRING EtWbclFormatEventData(
                     nameString = PhCreateString(L"?");
 
                 result = PhFormatString(
-                    L"变量：%s\r\nGUID: %s\r\n数据长度：%I64u",
+                    PhTranslateTextZ(L"变量：%s\r\nGUID: %s\r\n数据长度：%I64u"), // 语言切换
                     nameString->Buffer,
                     guidString->Buffer,
                     variable->VariableDataLength
@@ -494,7 +494,7 @@ PPH_STRING EtWbclFormatEventData(
             if (EventSize >= RTL_SIZEOF_THROUGH_FIELD(ET_UEFI_IMAGE_LOAD_EVENT, LengthOfDevicePath))
             {
                 return PhFormatString(
-                    L"映像基址：0x%I64x\r\n映像长度：0x%I64x\r\n链接时地址：0x%I64x\r\n设备路径长度：%I64u 字节",
+                    PhTranslateTextZ(L"映像基址：0x%I64x\r\n映像长度：0x%I64x\r\n链接时地址：0x%I64x\r\n设备路径长度：%I64u 字节"), // 语言切换
                     image->ImageLocationInMemory,
                     image->ImageLengthInMemory,
                     image->ImageLinkTimeAddress,
@@ -510,7 +510,7 @@ PPH_STRING EtWbclFormatEventData(
             if (EventSize >= sizeof(ET_UEFI_PLATFORM_FIRMWARE_BLOB))
             {
                 return PhFormatString(
-                    L"Blob 基址：0x%I64x\r\nBlob 长度：0x%I64x",
+                    PhTranslateTextZ(L"Blob 基址：0x%I64x\r\nBlob 长度：0x%I64x"), // 语言切换
                     blob->BlobBase,
                     blob->BlobLength
                     );
@@ -1022,10 +1022,10 @@ VOID EtWbclLoadFileLog(
     _In_ PWBCL_WINDOW_CONTEXT Context
     )
 {
-    static PH_FILETYPE_FILTER filters[] =
+    PH_FILETYPE_FILTER filters[] = // 语言切换：运行时翻译，非 static（PhTranslateTextZ 非编译期常量）
     {
-        { L"度量启动日志 (*.log)", L"*.log" },
-        { L"所有文件 (*.*)", L"*.*" }
+        { (PWSTR)PhTranslateTextZ(L"度量启动日志 (*.log)"), L"*.log" },
+        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
     };
     PVOID fileDialog;
 
@@ -1071,10 +1071,10 @@ VOID EtWbclShowEntryDetails(
     PhInitializeStringBuilder(&stringBuilder, 0x200);
 
     typeName = EtWbclEventTypeToString(Entry->EventType);
-    PhAppendFormatStringBuilder(&stringBuilder, L"PCR 索引：%lu\r\n", Entry->PcrIndex);
-    PhAppendFormatStringBuilder(&stringBuilder, L"事件类型：%s (0x%08lx)\r\n",
-        typeName ? typeName : L"未知", Entry->EventType);
-    PhAppendFormatStringBuilder(&stringBuilder, L"摘要 (%s)：", EtWbclAlgorithmToString(Entry->FirstDigestAlg));
+    PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"PCR 索引：%lu\r\n"), Entry->PcrIndex); // 语言切换
+    PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"事件类型：%s (0x%08lx)\r\n"), // 语言切换
+        typeName ? typeName : PhTranslateTextZ(L"未知"), Entry->EventType);
+    PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"摘要 (%s)："), EtWbclAlgorithmToString(Entry->FirstDigestAlg)); // 语言切换
 
     if (Entry->FirstDigestSize != 0)
     {
@@ -1083,18 +1083,18 @@ VOID EtWbclShowEntryDetails(
         PhDereferenceObject(hexString);
     }
 
-    PhAppendFormatStringBuilder(&stringBuilder, L"\r\n事件大小：%lu 字节\r\n\r\n", Entry->EventSize);
+    PhAppendFormatStringBuilder(&stringBuilder, PhTranslateTextZ(L"\r\n事件大小：%lu 字节\r\n\r\n"), Entry->EventSize); // 语言切换
 
     if (Entry->Details)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"详细信息：\r\n");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"详细信息：\r\n")); // 语言切换
         PhAppendStringBuilder(&stringBuilder, &Entry->Details->sr);
         PhAppendStringBuilder2(&stringBuilder, L"\r\n");
     }
 
     if (Entry->EventSize != 0)
     {
-        PhAppendStringBuilder2(&stringBuilder, L"\r\n原始事件数据：\r\n");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"\r\n原始事件数据：\r\n")); // 语言切换
         hexString = PhBufferToHexString((PUCHAR)Entry->EventData, Entry->EventSize);
         PhAppendStringBuilder(&stringBuilder, &hexString->sr);
         PhDereferenceObject(hexString);

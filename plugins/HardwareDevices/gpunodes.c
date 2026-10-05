@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -543,7 +543,7 @@ BOOLEAN GraphicsDeviceNodesMessageCallback(
                     // %.2f%% (%s)
                     PhInitFormatF(&format[0], gpu * 100, 2);
                     PhInitFormatS(&format[1], L"% (");
-                    PhInitFormatSR(&format[2], engineName->sr);
+                    PhInitFormatS(&format[2], PhTranslateTextZ(engineName->Buffer)); // 语言切换
                     PhInitFormatC(&format[3], L')');
 
                     PhMoveReference(&graphState->Text, PhFormat(format, RTL_NUMBER_OF(format), 0));
@@ -554,7 +554,7 @@ BOOLEAN GraphicsDeviceNodesMessageCallback(
 
                     // %.2f%% (Node %lu)
                     PhInitFormatF(&format[0], gpu * 100, 2);
-                    PhInitFormatS(&format[1], L"% (Node ");
+                    PhInitFormatS(&format[1], PhTranslateTextZ(L"% (节点 ")); // 语言切换
                     PhInitFormatU(&format[2], index);
                     PhInitFormatC(&format[3], L')');
 
@@ -619,11 +619,11 @@ BOOLEAN GraphicsDeviceNodesMessageCallback(
 
                         // %.2f%%\nNode %lu (%s) on %s\n%s
                         PhInitFormatF(&format[0], gpu * 100, 2);
-                        PhInitFormatS(&format[1], L"%\nNode ");
+                        PhInitFormatS(&format[1], PhTranslateTextZ(L"%\n节点 ")); // 语言切换
                         PhInitFormatU(&format[2], index);
                         PhInitFormatS(&format[3], L" (");
-                        PhInitFormatSR(&format[4], engineName->sr);
-                        PhInitFormatS(&format[5], L") on ");
+                        PhInitFormatS(&format[4], PhTranslateTextZ(engineName->Buffer)); // 语言切换
+                        PhInitFormatS(&format[5], PhTranslateTextZ(L")，位于 ")); // 语言切换
                         PhInitFormatSR(&format[6], context->Description->sr);
                         PhInitFormatC(&format[7], L'\n');
                         PhInitFormatSR(&format[8], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -636,7 +636,7 @@ BOOLEAN GraphicsDeviceNodesMessageCallback(
 
                         // %.2f%%\nNode %lu on %s\n%s
                         PhInitFormatF(&format[0], gpu * 100, 2);
-                        PhInitFormatS(&format[1], L"%\nNode ");
+                        PhInitFormatS(&format[1], PhTranslateTextZ(L"%\n节点 ")); // 语言切换
                         PhInitFormatU(&format[2], index);
                         PhInitFormatC(&format[3], L'\n');
                         PhInitFormatSR(&format[4], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);

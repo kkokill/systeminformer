@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -49,7 +49,12 @@ INT_PTR CALLBACK OptionsDlgProc(
             PhSetDialogItemText(WindowHandle, IDC_KEYTEXT, PhGetStringOrEmpty(PhaGetStringSetting(SETTING_NAME_GEOLITE_API_KEY)));
             PhSetDialogItemText(WindowHandle, IDC_GEOIDTEXT, PhGetStringOrEmpty(PhaGetStringSetting(SETTING_NAME_GEOLITE_API_ID)));
 
-            PhAddComboBoxStringRefs(comboHandle, OptionsGeoLiteEdition, RTL_NUMBER_OF(OptionsGeoLiteEdition));
+            // 语言切换支持：下拉项运行时填充需调用点查表（PhAddComboBoxStringRefs 不查表）
+            for (ULONG i = 0; i < RTL_NUMBER_OF(OptionsGeoLiteEdition); i++)
+            {
+                ComboBox_AddString(comboHandle, PhTranslateTextZ(OptionsGeoLiteEdition[i]->Buffer));
+            }
+
             ComboBox_SetCurSel(comboHandle, PhGetIntegerSetting(SETTING_NAME_GEOLITE_DB_TYPE));
 
             PhInitializeLayoutManager(&LayoutManager, WindowHandle);
@@ -126,10 +131,11 @@ INT_PTR CALLBACK OptionsDlgProc(
                 break;
             case IDC_GEOCONF:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    // 语言切换支持：过滤器显示名查表（PH_FILETYPE_FILTER 首成员非 const，需去 static 运行时初始化）
+                    PH_FILETYPE_FILTER filters[] =
                     {
-                        { L"GeoIP.conf 文件 (*.conf)", L"*.conf" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"GeoIP.conf 文件 (*.conf)"), L"*.conf" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
                     PPH_STRING fileName = NULL;

@@ -902,10 +902,10 @@ INT_PTR CALLBACK TracertDlgProc(
             LONG dpiValue;
 
             PhSetWindowText(hwndDlg,
-                PhaFormatString(L"正在追踪 %s...", context->RemoteAddressString)->Buffer
+                PhaFormatString(PhTranslateTextZ(L"正在追踪 %s..."), context->RemoteAddressString)->Buffer
                 );
             PhSetWindowText(GetDlgItem(hwndDlg, IDC_STATUS),
-                PhaFormatString(L"正在追踪到 %s 的路由，数据包大小 %lu 字节...", context->RemoteAddressString, PhGetIntegerSetting(SETTING_NAME_PING_SIZE))->Buffer
+                PhaFormatString(PhTranslateTextZ(L"正在追踪到 %s 的路由，数据包大小 %lu 字节..."), context->RemoteAddressString, PhGetIntegerSetting(SETTING_NAME_PING_SIZE))->Buffer
                 );
 
             dpiValue = PhGetWindowDpi(hwndDlg);
@@ -978,11 +978,11 @@ INT_PTR CALLBACK TracertDlgProc(
             case IDC_REFRESH:
                 {
                     PhSetWindowText(context->WindowHandle, PhaFormatString(
-                        L"正在追踪 %s...",
+                        PhTranslateTextZ(L"正在追踪 %s..."),
                         context->RemoteAddressString
                         )->Buffer);
                     PhSetWindowText(GetDlgItem(hwndDlg, IDC_STATUS), PhaFormatString(
-                        L"正在追踪到 %s 的路由，数据包大小 %lu 字节...",
+                        PhTranslateTextZ(L"正在追踪到 %s 的路由，数据包大小 %lu 字节..."),
                         context->RemoteAddressString,
                         PhGetIntegerSetting(SETTING_NAME_PING_SIZE)
                         )->Buffer);
@@ -1135,15 +1135,15 @@ INT_PTR CALLBACK TracertDlgProc(
             EnableWindow(GetDlgItem(hwndDlg, IDC_REFRESH), TRUE);
 
             PhSetWindowText(context->WindowHandle, PhaFormatString(
-                L"正在追踪 %s... %s",
+                PhTranslateTextZ(L"正在追踪 %s... %s"),
                 context->RemoteAddressString,
-                failed ? L"错误" : (context->PingContinuous ? L"正在持续 Ping" : L"完成")
+                failed ? PhTranslateTextZ(L"错误") : (context->PingContinuous ? PhTranslateTextZ(L"正在持续 Ping") : PhTranslateTextZ(L"完成"))
                 )->Buffer);
             PhSetWindowText(GetDlgItem(hwndDlg, IDC_STATUS), PhaFormatString(
-                L"正在追踪到 %s 的路由，数据包大小 %lu 字节... %s.",
+                PhTranslateTextZ(L"正在追踪到 %s 的路由，数据包大小 %lu 字节... %s."),
                 context->RemoteAddressString,
                 PhGetIntegerSetting(SETTING_NAME_PING_SIZE),
-                failed ? L"错误" : (context->PingContinuous ? L"正在持续 Ping" : L"完成")
+                failed ? PhTranslateTextZ(L"错误") : (context->PingContinuous ? PhTranslateTextZ(L"正在持续 Ping") : PhTranslateTextZ(L"完成"))
                 )->Buffer);
 
             TreeNew_NodesStructured(context->TreeNewHandle);

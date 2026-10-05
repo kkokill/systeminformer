@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -87,7 +87,7 @@ static VOID EtSetPipeNodeColumn(
     if (Index >= ET_PIPE_COLUMN_MAXIMUM)
         return;
 
-    PhMoveReference(&Node->Columns[Index], Text ? PhCreateString(Text) : NULL);
+    PhMoveReference(&Node->Columns[Index], Text ? PhCreateString(PhTranslateTextZ(Text)) : NULL); // 语言切换
 }
 
 static VOID EtClearPipeNodes(
@@ -882,7 +882,7 @@ INT_PTR CALLBACK EtPipeEnumDlgProc(
             PhCreateSearchControl(
                 WindowHandle,
                 context->SearchBoxHandle,
-                L"搜索命名管道 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索命名管道 (Ctrl+K)"), // 语言切换
                 EtPipeSearchControlCallback,
                 context
                 );

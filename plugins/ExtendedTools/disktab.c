@@ -143,7 +143,7 @@ BOOLEAN EtpDiskPageCallback(
                     {
                         DiskTreeErrorText = PhFormatString(
                             L"%s %s (%lu)",
-                            L"无法启动内核事件跟踪会话： ",
+                            PhTranslateTextZ(L"无法启动内核事件跟踪会话： "), // 语言切换
                             statusMessage->Buffer,
                             EtEtwStatus
                             );
@@ -153,7 +153,7 @@ BOOLEAN EtpDiskPageCallback(
                     {
                         DiskTreeErrorText = PhFormatString(
                             L"%s (%lu)",
-                            L"无法启动内核事件跟踪会话： ",
+                            PhTranslateTextZ(L"无法启动内核事件跟踪会话： "), // 语言切换
                             EtEtwStatus
                             );
                     }
@@ -964,22 +964,22 @@ BOOLEAN NTAPI EtpDiskTreeNewCallback(
                 switch (diskItem->IoPriority)
                 {
                 case IoPriorityVeryLow:
-                    PhInitializeStringRef(&getCellText->Text, L"极低");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"极低")); // 语言切换
                     break;
                 case IoPriorityLow:
-                    PhInitializeStringRef(&getCellText->Text, L"低");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"低")); // 语言切换
                     break;
                 case IoPriorityNormal:
-                    PhInitializeStringRef(&getCellText->Text, L"正常");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"正常")); // 语言切换
                     break;
                 case IoPriorityHigh:
-                    PhInitializeStringRef(&getCellText->Text, L"高");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"高")); // 语言切换
                     break;
                 case IoPriorityCritical:
-                    PhInitializeStringRef(&getCellText->Text, L"严重");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"严重")); // 语言切换
                     break;
                 default:
-                    PhInitializeStringRef(&getCellText->Text, L"未知");
+                    PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"未知")); // 语言切换
                     break;
                 }
                 break;
@@ -1147,11 +1147,11 @@ PPH_STRING EtpGetDiskItemProcessName(
         if (DiskItem->ProcessName)
             PhInitFormatSR(&format[0], DiskItem->ProcessName->sr);
         else
-            PhInitFormatS(&format[0], L"未知进程");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"未知进程")); // 语言切换
     }
     else
     {
-        PhInitFormatS(&format[0], L"无进程");
+        PhInitFormatS(&format[0], PhTranslateTextZ(L"无进程")); // 语言切换
     }
 
     return PhFormat(format, RTL_NUMBER_OF(format), 0);
@@ -1406,7 +1406,7 @@ VOID EtHandleDiskCommand(
                         SETTING_PROGRAM_INSPECT_EXECUTABLES,
                         fileName->Buffer,
                         FALSE,
-                        L"请确保 PE 查看器可执行文件存在。"
+                        PhTranslateTextZ(L"请确保 PE 查看器可执行文件存在。") // 语言切换
                         );
                 }
 
@@ -1475,7 +1475,7 @@ VOID EtpInitializeDiskMenu(
             {
                 if (item = PhFindEMenuItem(Menu, 0, NULL, ID_DISK_GOTOPROCESS))
                 {
-                    item->Text = L"进程属性";
+                    item->Text = (PWSTR)PhTranslateTextZ(L"进程属性"); // 语言切换
                     item->Flags &= ~PH_EMENU_TEXT_OWNED;
                 }
             }
@@ -1511,14 +1511,14 @@ VOID EtShowDiskContextMenu(
         PPH_EMENU_ITEM item;
 
         menu = PhCreateEMenu();
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_GOTOPROCESS, L"转到进程(&G)", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_GOTOPROCESS, PhTranslateTextZ(L"转到进程(&G)"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_OPENFILELOCATION, L"打开文件位置(&F)\bEnter", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_OPENFILELOCATION, PhTranslateTextZ(L"打开文件位置(&F)\bEnter"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_INSPECT, L"检查(&I)", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_PROPERTIES, L"属性(&R)", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_INSPECT, PhTranslateTextZ(L"检查(&I)"), NULL, NULL), ULONG_MAX); // 语言切换
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_PROPERTIES, PhTranslateTextZ(L"属性(&R)"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_COPY, L"复制(&C)\bCtrl+C", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, ID_DISK_COPY, PhTranslateTextZ(L"复制(&C)\bCtrl+C"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertCopyCellEMenuItem(menu, ID_DISK_COPY, TreeWindowHandle, ContextMenuEvent->Column);
         PhSetFlagsEMenuItem(menu, ID_DISK_OPENFILELOCATION, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);
 

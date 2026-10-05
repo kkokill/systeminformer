@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -12,8 +12,6 @@
 #include <peview.h>
 #include <strsrch.h>
 
-static PH_STRINGREF EmptyStringsText = PH_STRINGREF_INIT(L"没有要显示的字符串。");
-static PH_STRINGREF LoadingStringsText = PH_STRINGREF_INIT(L"正在从映像加载字符串...");
 
 typedef struct _PV_STRINGS_SETTINGS
 {
@@ -238,7 +236,7 @@ BOOLEAN NTAPI PvpStringSearchCallback(
     {
         if (!Context->FileSystemNode)
         {
-            Context->FileSystemNode = PhpCreateStringsCategoryNode(L"文件系统");
+            Context->FileSystemNode = PhpCreateStringsCategoryNode((PWSTR)PhTranslateTextZ(L"文件系统"));
             PhAddItemList(Context->SearchResults, Context->FileSystemNode);
         }
 
@@ -248,7 +246,7 @@ BOOLEAN NTAPI PvpStringSearchCallback(
     {
         if (!Context->RegistryNode)
         {
-            Context->RegistryNode = PhpCreateStringsCategoryNode(L"注册表");
+            Context->RegistryNode = PhpCreateStringsCategoryNode((PWSTR)PhTranslateTextZ(L"注册表"));
             PhAddItemList(Context->SearchResults, Context->RegistryNode);
         }
 
@@ -838,7 +836,8 @@ VOID PvpSearchStrings(
     Context->EndPointer = PTR_ADD_OFFSET(Context->ReadPointer, PvMappedImage.ViewSize);
     Context->RegionSkips = PhCreateList(5);
 
-    TreeNew_SetEmptyText(Context->TreeNewHandle, &LoadingStringsText, 0);
+    PH_STRINGREF emptyText = PH_STRINGREF_INIT(PhTranslateTextZ(L"正在从映像加载字符串..."));
+    TreeNew_SetEmptyText(Context->TreeNewHandle, &emptyText, 0);
     TreeNew_NodesStructured(Context->TreeNewHandle);
     TreeNew_SetRedraw(Context->TreeNewHandle, TRUE);
 
@@ -942,7 +941,7 @@ INT_PTR CALLBACK PvpStringsMinimumLengthDlgProc(
 
                     if (!minimumLength || minimumLength > MAXULONG32)
                     {
-                        PhShowError2(hwndDlg, L"无效的最小长度", L"%s", L"");
+                        PhShowError2(hwndDlg, PhTranslateTextZ(L"无效的最小长度"), L"%s", L"");
                         break;
                     }
 
@@ -1086,7 +1085,8 @@ INT_PTR CALLBACK PvStringsDlgProc(
         {
             PvpAddPendingStringsNodes(context);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &EmptyStringsText, 0);
+            PH_STRINGREF emptyText = PH_STRINGREF_INIT(PhTranslateTextZ(L"没有要显示的字符串。"));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             TreeNew_NodesStructured(context->TreeNewHandle);
         }
@@ -1105,7 +1105,7 @@ INT_PTR CALLBACK PvStringsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1163,13 +1163,13 @@ INT_PTR CALLBACK PvStringsDlgProc(
                     ansi = PhCreateEMenuItem(0, 1, L"ANSI", NULL, NULL);
                     utf8 = PhCreateEMenuItem(0, 2, L"UTF-8", NULL, NULL);
                     unicode = PhCreateEMenuItem(0, 3, L"UTF-16", NULL, NULL);
-                    extendedUnicode = PhCreateEMenuItem(0, 4, L"扩展字符集", NULL, NULL);
-                    skipExecutableSection = PhCreateEMenuItem(0, 5, L"跳过 .text 节", NULL, NULL);
-                    skipHighEntropySections = PhCreateEMenuItem(0, 6, L"跳过高熵节", NULL, NULL);
-                    skipStringsWithNumbers = PhCreateEMenuItem(0, 7, L"跳过包含数字的字符串", NULL, NULL);
-                    skipStringsWithSymbols = PhCreateEMenuItem(0, 8, L"跳过包含符号的字符串", NULL, NULL);
-                    minimumLength = PhCreateEMenuItem(0, 9, L"最小长度...", NULL, NULL);
-                    refresh = PhCreateEMenuItem(0, 10, L"刷新", NULL, NULL);
+                    extendedUnicode = PhCreateEMenuItem(0, 4, PhTranslateTextZ(L"扩展字符集"), NULL, NULL);
+                    skipExecutableSection = PhCreateEMenuItem(0, 5, PhTranslateTextZ(L"跳过 .text 节"), NULL, NULL);
+                    skipHighEntropySections = PhCreateEMenuItem(0, 6, PhTranslateTextZ(L"跳过高熵节"), NULL, NULL);
+                    skipStringsWithNumbers = PhCreateEMenuItem(0, 7, PhTranslateTextZ(L"跳过包含数字的字符串"), NULL, NULL);
+                    skipStringsWithSymbols = PhCreateEMenuItem(0, 8, PhTranslateTextZ(L"跳过包含符号的字符串"), NULL, NULL);
+                    minimumLength = PhCreateEMenuItem(0, 9, PhTranslateTextZ(L"最小长度..."), NULL, NULL);
+                    refresh = PhCreateEMenuItem(0, 10, PhTranslateTextZ(L"刷新"), NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, ansi, ULONG_MAX);

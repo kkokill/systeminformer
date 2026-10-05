@@ -78,7 +78,7 @@ ULONG EtAddSMBIOSGroup(
     )
 {
     ULONG group = Context->GroupCounter++;
-    PhAddListViewGroup(Context->ListViewHandle, group, Name);
+    PhAddListViewGroup(Context->ListViewHandle, group, PhTranslateTextZ(Name)); // 语言切换
     return group;
 }
 
@@ -90,8 +90,8 @@ VOID EtAddSMBIOSItem(
     )
 {
     ULONG index = Context->IndexCounter++;
-    PhAddListViewGroupItem(Context->ListViewHandle, Group, index, Name, NULL);
-    PhSetListViewSubItem(Context->ListViewHandle, index, 1, Value);
+    PhAddListViewGroupItem(Context->ListViewHandle, Group, index, PhTranslateTextZ(Name), NULL); // 语言切换
+    PhSetListViewSubItem(Context->ListViewHandle, index, 1, PhTranslateTextZ(Value)); // 语言切换
 }
 
 VOID EtAddSMBIOSBoolean(

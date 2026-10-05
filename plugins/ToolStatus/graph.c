@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -927,7 +927,7 @@ BOOLEAN PhysicalHistoryGraphMessageCallback(
                     physicalUsage = PhGetItemCircularBuffer_ULONG(SystemStatistics.PhysicalHistory, getTooltipText->Index);
 
                     // Physical memory: %s\n%s
-                    PhInitFormatS(&format[0], L"物理内存：");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"物理内存：")); // 语言切换
                     PhInitFormatSize(&format[1], UInt32x32To64(physicalUsage, PAGE_SIZE));
                     PhInitFormatC(&format[2], L'\n');
                     PhInitFormatSR(&format[3], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);
@@ -1034,7 +1034,7 @@ BOOLEAN CommitHistoryGraphMessageCallback(
                     commitUsage = PhGetItemCircularBuffer_ULONG(SystemStatistics.CommitHistory, getTooltipText->Index);
 
                     // Commit charge: %s\n%s
-                    PhInitFormatS(&format[0], L"已提交内存：");
+                    PhInitFormatS(&format[0], PhTranslateTextZ(L"已提交内存：")); // 语言切换
                     PhInitFormatSize(&format[1], UInt32x32To64(commitUsage, PAGE_SIZE));
                     PhInitFormatC(&format[2], L'\n');
                     PhInitFormatSR(&format[3], PH_AUTO_T(PH_STRING, PhGetStatisticsTimeString(NULL, getTooltipText->Index))->sr);

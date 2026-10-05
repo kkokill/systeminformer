@@ -15,6 +15,7 @@
 #include <windows.devices.power.h>
 
 #define ET_WM_POWERGRID_UPDATE (WM_APP + 1)
+#define ET_WM_POWERGRID_LANGUAGE (WM_APP + 2)
 
 // 峰谷电价时段类型
 #define ET_TARIFF_VALLEY        1   // 低谷
@@ -79,6 +80,7 @@ typedef struct _POWER_GRID_WINDOW_CONTEXT
     PPH_STRING TariffTemplateName;
     UINT64 TariffTableEndTicks;
     ET_POWER_GRID_SUMMARY TariffSummary;
+    PH_CALLBACK_REGISTRATION LanguageChangedRegistration;
 } POWER_GRID_WINDOW_CONTEXT, *PPOWER_GRID_WINDOW_CONTEXT;
 
 typedef struct _ET_POWER_GRID_UPDATE
@@ -276,10 +278,10 @@ VOID EtAddSummaryWindowText(
     EtpFormatPowerGridDateTime(forecastEnd, endBuffer, NULL);
 
     PhInitializeStringBuilder(&sb, 512);
-    PhAppendFormatStringBuilder(&sb, L"预测时段：%s 至 %s\r\n", startBuffer, endBuffer);
-    PhAppendFormatStringBuilder(&sb, L"总时段数：%u（每段约 %.0f 分钟，共约 %.0f 分钟）\r\n", Summary->TotalBlocks, blockMinutes, totalMinutes);
-    PhAppendFormatStringBuilder(&sb, L"平均严重程度：%.4f\r\n", Summary->AverageSeverity);
-    PhAppendFormatStringBuilder(&sb, L"低影响时段：%u / %u（%.1f%%）\r\n", Summary->LowImpactCount, Summary->TotalBlocks, lowImpactRatio);
+    PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"预测时段：%s 至 %s\r\n"), startBuffer, endBuffer);
+    PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"总时段数：%u（每段约 %.0f 分钟，共约 %.0f 分钟）\r\n"), Summary->TotalBlocks, blockMinutes, totalMinutes);
+    PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"平均严重程度：%.4f\r\n"), Summary->AverageSeverity);
+    PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"低影响时段：%u / %u（%.1f%%）\r\n"), Summary->LowImpactCount, Summary->TotalBlocks, lowImpactRatio);
 
     if (Summary->BestLowSeverity < DBL_MAX)
     {
@@ -289,11 +291,11 @@ VOID EtAddSummaryWindowText(
         bestLowEnd = EtpAddTicks(Summary->BestLowStart, Summary->BlockDuration.Duration);
         EtpFormatPowerGridDateTime(Summary->BestLowStart, rangeFrom, NULL);
         EtpFormatPowerGridDateTime(bestLowEnd, rangeTo, NULL);
-        PhAppendFormatStringBuilder(&sb, L"预测低影响时间：严重程度 %.4f，%s 至 %s\r\n", Summary->BestLowSeverity, rangeFrom, rangeTo);
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"预测低影响时间：严重程度 %.4f，%s 至 %s\r\n"), Summary->BestLowSeverity, rangeFrom, rangeTo);
     }
     else
     {
-        PhAppendStringBuilder2(&sb, L"预测低影响时间：N/A\r\n");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"预测低影响时间：N/A\r\n"));
     }
 
     PhSetWindowText(SummaryHandle, PhFinalStringBuilderString(&sb)->Buffer);
@@ -321,18 +323,18 @@ PPH_STRING EtpFormatRelativeTimeString(
 
     if (totalMinutes == 0)
     {
-        return PhCreateString(future ? L"即将开始" : L"刚刚");
+        return PhCreateString(future ? PhTranslateTextZ(L"即将开始") : PhTranslateTextZ(L"刚刚"));
     }
 
     if (hours > 0)
     {
         if (minutes > 0)
-            return PhFormatString(future ? L"%u 小时 %u 分后" : L"%u 小时 %u 分前", hours, minutes);
+            return PhFormatString(future ? PhTranslateTextZ(L"%u 小时 %u 分后") : PhTranslateTextZ(L"%u 小时 %u 分前"), hours, minutes);
 
-        return PhFormatString(future ? L"%u 小时后" : L"%u 小时前", hours);
+        return PhFormatString(future ? PhTranslateTextZ(L"%u 小时后") : PhTranslateTextZ(L"%u 小时前"), hours);
     }
 
-    return PhFormatString(future ? L"%u 分后" : L"%u 分前", minutes);
+    return PhFormatString(future ? PhTranslateTextZ(L"%u 分后") : PhTranslateTextZ(L"%u 分前"), minutes);
 }
 
 BOOLEAN EtpIsPowerGridEntryActive(
@@ -354,13 +356,13 @@ static PCWSTR EtpGetTariffTypeName(
     switch (Type)
     {
     case ET_TARIFF_VALLEY:
-        return L"低谷";
+        return PhTranslateTextZ(L"低谷");
     case ET_TARIFF_PEAK:
-        return L"高峰";
+        return PhTranslateTextZ(L"高峰");
     case ET_TARIFF_CRITICAL:
-        return L"尖峰";
+        return PhTranslateTextZ(L"尖峰");
     default:
-        return L"平段";
+        return PhTranslateTextZ(L"平段");
     }
 }
 
@@ -605,9 +607,9 @@ static PCWSTR EtpGetTariffSeasonName(
 {
     switch (Season)
     {
-    case 1: return L"夏季（7-8 月）";
-    case 2: return L"冬季（1、12 月）";
-    default: return L"春秋季";
+    case 1: return PhTranslateTextZ(L"夏季（7-8 月）");
+    case 2: return PhTranslateTextZ(L"冬季（1、12 月）");
+    default: return PhTranslateTextZ(L"春秋季");
     }
 }
 
@@ -826,12 +828,12 @@ static VOID EtpBuildTariffEntries(
         // 跨过今天 24:00 的条目标注"次日"，避免与今天时段混淆
         EtpFormatPowerGridTimeOnly(entry->BlockStartTime, timeBuffer); // 列1：开始时间（仅时间）
         entry->LowImpact = startTicks >= tableEndTicks
-            ? PhConcatStrings2(L"次日 ", timeBuffer)
+            ? PhConcatStrings2(PhTranslateTextZ(L"次日 "), timeBuffer)
             : PhCreateString(timeBuffer);
 
         EtpFormatPowerGridTimeOnly(entry->BlockEndTime, timeBuffer); // 列2：结束时间（仅时间）
         entry->TimeUntilStart = endTicks >= tableEndTicks
-            ? PhConcatStrings2(L"次日 ", timeBuffer)
+            ? PhConcatStrings2(PhTranslateTextZ(L"次日 "), timeBuffer)
             : PhCreateString(timeBuffer);
 
         durationSpan.Duration = (INT64)(endTicks - startTicks);
@@ -864,27 +866,27 @@ VOID EtAddTariffSummaryText(
     PhInitializeStringBuilder(&sb, 512);
 
     if (Summary->TariffAutoSwitched)
-        PhAppendStringBuilder2(&sb, L"微软电网预测数据不可用，已自动切换至峰谷电价模式。\r\n");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"微软电网预测数据不可用，已自动切换至峰谷电价模式。\r\n"));
 
     if (Summary->TariffFallback)
-        PhAppendStringBuilder2(&sb, L"自定义时段配置无效，已回退通用模板。\r\n");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"自定义时段配置无效，已回退通用模板。\r\n"));
 
-    // 内置模板显示季节版本（自定义配置无季节概念）
+    // 内置模板显示季节版本（自定义配置无季节概念）；模板名按显示点翻译
     if (PhEqualStringZ(PhGetStringOrEmpty(TemplateName), L"自定义", FALSE))
     {
-        PhAppendFormatStringBuilder(&sb, L"时段模板：%s\r\n", PhGetStringOrEmpty(TemplateName));
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"时段模板：%s\r\n"), PhTranslateTextZ(PhGetStringOrEmpty(TemplateName)));
     }
     else
     {
-        PhAppendFormatStringBuilder(&sb, L"时段模板：%s（%s）\r\n",
-            PhGetStringOrEmpty(TemplateName), EtpGetTariffSeasonName(EtpGetTariffSeason()));
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"时段模板：%s（%s）\r\n"),
+            PhTranslateTextZ(PhGetStringOrEmpty(TemplateName)), EtpGetTariffSeasonName(EtpGetTariffSeason()));
     }
 
     if (Summary->TariffValid && Summary->TariffCurrentType)
     {
         EtpFormatPowerGridTimeOnly(Summary->TariffCurrentStart, startBuffer);
         EtpFormatPowerGridTimeOnly(Summary->TariffCurrentEnd, endBuffer);
-        PhAppendFormatStringBuilder(&sb, L"当前时段：%s（%s 至 %s）\r\n",
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"当前时段：%s（%s 至 %s）\r\n"),
             EtpGetTariffTypeName(Summary->TariffCurrentType), startBuffer, endBuffer);
     }
 
@@ -892,27 +894,27 @@ VOID EtAddTariffSummaryText(
     {
         PPH_STRING relative = EtpFormatRelativeTimeString(Summary->TariffNextValleyStart, nowDateTime);
         EtpFormatPowerGridDateTime(Summary->TariffNextValleyStart, startBuffer, NULL);
-        PhAppendFormatStringBuilder(&sb, L"下一低谷：%s（%s）\r\n", startBuffer, PhGetStringOrEmpty(relative));
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"下一低谷：%s（%s）\r\n"), startBuffer, PhGetStringOrEmpty(relative));
         PhDereferenceObject(relative);
     }
     else
     {
-        PhAppendStringBuilder2(&sb, L"下一低谷：无\r\n");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"下一低谷：无\r\n"));
     }
 
     if (Summary->TariffHasPeak)
     {
         PPH_STRING relative = EtpFormatRelativeTimeString(Summary->TariffNextPeakStart, nowDateTime);
         EtpFormatPowerGridDateTime(Summary->TariffNextPeakStart, startBuffer, NULL);
-        PhAppendFormatStringBuilder(&sb, L"下一高峰：%s（%s）\r\n", startBuffer, PhGetStringOrEmpty(relative));
+        PhAppendFormatStringBuilder(&sb, PhTranslateTextZ(L"下一高峰：%s（%s）\r\n"), startBuffer, PhGetStringOrEmpty(relative));
         PhDereferenceObject(relative);
     }
     else
     {
-        PhAppendStringBuilder2(&sb, L"下一高峰：无\r\n");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"下一高峰：无\r\n"));
     }
 
-    PhAppendStringBuilder2(&sb, L"时段设置为典型参考值，请以当地公告为准。");
+    PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"时段设置为典型参考值，请以当地公告为准。"));
 
     PhSetWindowText(SummaryHandle, PhFinalStringBuilderString(&sb)->Buffer);
     PhDeleteStringBuilder(&sb);
@@ -985,24 +987,35 @@ static VOID EtpInitTariffCombo(
     )
 {
     PPH_STRING saved;
-    LONG index;
+    ULONG index;
 
     ComboBox_ResetContent(Context->ProvinceComboHandle);
 
     for (ULONG i = 0; i < RTL_NUMBER_OF(EtpTariffTemplates); i++)
     {
-        ComboBox_AddString(Context->ProvinceComboHandle, EtpTariffTemplates[i].Name);
+        ComboBox_AddString(Context->ProvinceComboHandle, PhTranslateTextZ(EtpTariffTemplates[i].Name)); // 语言切换
     }
 
+    // 下拉项显示的是译文，保存/查找必须用模板表原始名（配置键存原始名）
+    index = 0;
     saved = PhGetStringSetting(SETTING_NAME_POWER_GRID_TARIFF_TEMPLATE);
-    index = ComboBox_FindStringExact(Context->ProvinceComboHandle, -1, PhGetStringOrEmpty(saved));
+
+    if (saved && saved->Length != 0)
+    {
+        for (ULONG i = 0; i < RTL_NUMBER_OF(EtpTariffTemplates); i++)
+        {
+            if (PhEqualStringZ(PhGetStringOrEmpty(saved), EtpTariffTemplates[i].Name, FALSE))
+            {
+                index = i;
+                break;
+            }
+        }
+    }
+
     PhDereferenceObject(saved);
 
-    if (index == CB_ERR)
-        index = 0;
-
-    ComboBox_SetCurSel(Context->ProvinceComboHandle, index);
-    PhMoveReference(&Context->TariffTemplateName, PhGetComboBoxString(Context->ProvinceComboHandle, (ULONG)index));
+    ComboBox_SetCurSel(Context->ProvinceComboHandle, (LONG)index);
+    PhMoveReference(&Context->TariffTemplateName, PhCreateString(EtpTariffTemplates[index].Name));
 }
 
 static VOID EtpRebuildTariffEntries(
@@ -1081,7 +1094,7 @@ VOID EtpApplyModeToUi(
     if (Context->ModeSetting > ET_POWER_GRID_MODE_TARIFF)
         Context->ModeSetting = ET_POWER_GRID_MODE_AUTO;
 
-    SetWindowText(Context->ModeButtonHandle, modeCaptions[Context->ModeSetting]);
+    SetWindowText(Context->ModeButtonHandle, PhTranslateTextZ(modeCaptions[Context->ModeSetting])); // 语言切换
 
     EtpShowModeControls(Context, Context->ModeSetting == ET_POWER_GRID_MODE_TARIFF);
 
@@ -1117,6 +1130,7 @@ INT_PTR CALLBACK EtpTariffConfigDlgProc(
         {
             PPH_STRING custom;
 
+            SetWindowText(WindowHandle, PhTranslateTextZ(L"自定义峰谷时段")); // 语言切换
             custom = PhGetStringSetting(SETTING_NAME_POWER_GRID_TARIFF_CUSTOM);
             PhSetDialogItemText(WindowHandle, IDC_POWER_GRID_TARIFF_EDIT, PhGetStringOrEmpty(custom));
             PhDereferenceObject(custom);
@@ -1144,9 +1158,9 @@ INT_PTR CALLBACK EtpTariffConfigDlgProc(
                     {
                         EtpFreeTariffRules(rules);
                         PhShowMessage(WindowHandle, MB_OK | MB_ICONWARNING,
-                            L"时段配置格式无效。\n"
+                            PhTranslateTextZ(L"时段配置格式无效。\n"
                             L"格式：类型:起-止;...（1=低谷 2=平段 3=高峰 4=尖峰）\n"
-                            L"例如：1:23:00-7:00;3:7:00-10:00;4:10:00-12:00");
+                            L"例如：1:23:00-7:00;3:7:00-10:00;4:10:00-12:00"));
                     }
                 }
                 return TRUE;
@@ -1341,7 +1355,7 @@ NTSTATUS NTAPI EtpEnumeratePowerGridForecast(
 
         entry = PhAllocateZero(sizeof(ET_POWER_GRID_ENTRY));
         entry->Severity = PhFormatString(L"%.2f", severity);
-        entry->LowImpact = PhCreateString(isLowUserExperienceImpact ? L"是" : L"否");
+        entry->LowImpact = PhCreateString(PhTranslateTextZ(isLowUserExperienceImpact ? L"是" : L"否")); // 语言切换
         EtpFormatPowerGridDateTime(blockStart, blockStartBuffer, NULL);
         entry->StartTime = PhCreateString(blockStartBuffer);
         entry->BlockDuration = PhCreateString(blockDurationBuffer);
@@ -1411,6 +1425,18 @@ CleanupExit:
     return STATUS_SUCCESS;
 }
 
+// 语言切换广播在主线程回调，投递到对话框线程处理（热刷新标题/下拉/列表/摘要）
+_Function_class_(PH_CALLBACK_FUNCTION)
+static VOID NTAPI EtpPowerGridLanguageChangedCallback(
+    _In_opt_ PVOID Parameter,
+    _In_opt_ PVOID Context
+    )
+{
+    PPOWER_GRID_WINDOW_CONTEXT context = (PPOWER_GRID_WINDOW_CONTEXT)Context;
+
+    PostMessage(context->WindowHandle, ET_WM_POWERGRID_LANGUAGE, 0, 0);
+}
+
 INT_PTR CALLBACK EtPowerGridDlgProc(
     _In_ HWND WindowHandle,
     _In_ UINT WindowMessage,
@@ -1448,6 +1474,7 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
             context->WindowFont = PhCreateTreeWindowFont(PhGetWindowDpi(WindowHandle));
 
             PhSetApplicationWindowIcon(WindowHandle);
+            SetWindowText(WindowHandle, PhTranslateTextZ(L"电网预测")); // 语言切换
 
             PhSetListViewStyle(context->ListViewHandle, TRUE, TRUE);
             PhSetControlTheme(context->ListViewHandle, L"explorer");
@@ -1467,6 +1494,13 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
 
             EtpInitTariffCombo(context);
 
+            PhRegisterCallback(
+                PhGetGeneralCallback(GeneralCallbackLanguageChanged),
+                EtpPowerGridLanguageChangedCallback,
+                context,
+                &context->LanguageChangedRegistration
+                );
+
             context->ModeSetting = (UCHAR)PhGetIntegerSetting(SETTING_NAME_POWER_GRID_MODE);
             EtpApplyModeToUi(context);
 
@@ -1482,6 +1516,8 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
     case WM_DESTROY:
         {
             PhRemoveWindowContext(WindowHandle, PH_WINDOW_CONTEXT_DEFAULT);
+
+            PhUnregisterCallback(PhGetGeneralCallback(GeneralCallbackLanguageChanged), &context->LanguageChangedRegistration);
 
             PhSaveWindowPlacementToSetting(SETTING_NAME_POWER_GRID_WINDOW_POSITION, SETTING_NAME_POWER_GRID_WINDOW_SIZE, WindowHandle);
 
@@ -1559,7 +1595,7 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
                                 // 峰谷模式：刷新第 5 列"距开始"
                                 if (param->ActiveFlag)
                                 {
-                                    PhSetListViewSubItem(context->ListViewHandle, index, 4, L"活动中");
+                                    PhSetListViewSubItem(context->ListViewHandle, index, 4, PhTranslateTextZ(L"活动中")); // 语言切换
                                 }
                                 else
                                 {
@@ -1576,7 +1612,7 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
 
                                 if (param->ActiveFlag)
                                 {
-                                    PhSetListViewSubItem(context->ListViewHandle, index, 4, L"活动中");
+                                    PhSetListViewSubItem(context->ListViewHandle, index, 4, PhTranslateTextZ(L"活动中")); // 语言切换
                                 }
                                 else
                                 {
@@ -1639,15 +1675,12 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
                     {
                         LONG index = ComboBox_GetCurSel(context->ProvinceComboHandle);
 
-                        if (index != CB_ERR)
+                        if (index != CB_ERR && (ULONG)index < RTL_NUMBER_OF(EtpTariffTemplates))
                         {
-                            PPH_STRING name = PhGetComboBoxString(context->ProvinceComboHandle, (ULONG)index);
+                            PCWSTR name = EtpTariffTemplates[index].Name;
 
-                            if (name)
-                            {
-                                PhSetStringSetting(SETTING_NAME_POWER_GRID_TARIFF_TEMPLATE, PhGetStringOrEmpty(name));
-                                PhMoveReference(&context->TariffTemplateName, name);
-                            }
+                            PhSetStringSetting(SETTING_NAME_POWER_GRID_TARIFF_TEMPLATE, name);
+                            PhMoveReference(&context->TariffTemplateName, PhCreateString(name));
 
                             if ((ULONG)index == ET_TARIFF_TEMPLATE_CUSTOM_INDEX && !EtpHasTariffCustomConfig())
                             {
@@ -1884,6 +1917,23 @@ INT_PTR CALLBACK EtPowerGridDlgProc(
             }
 
             PhFree(update);
+        }
+        break;
+    case ET_WM_POWERGRID_LANGUAGE:
+        {
+            SetWindowText(WindowHandle, PhTranslateTextZ(L"电网预测")); // 语言切换
+            EtpInitTariffCombo(context);
+
+            if (context->EffectiveMode == ET_POWER_GRID_MODE_TARIFF)
+            {
+                // 自动切换峰谷（ModeSetting 为 AUTO）时保持渲染，避免重出切换提示
+                EtpSetupListViewColumns(context->ListViewHandle, ET_POWER_GRID_MODE_TARIFF);
+                EtpRebuildTariffEntries(context, FALSE);
+            }
+            else
+            {
+                EtpApplyModeToUi(context);
+            }
         }
         break;
     }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -11,15 +11,7 @@
 
 #include "nettools.h"
 
-TASKDIALOG_BUTTON RestartButtonArray[] =
-{
-    { IDYES, L"重启" }
-};
-
-TASKDIALOG_BUTTON DownloadButtonArray[] =
-{
-    { IDOK, L"下载" }
-};
+// 语言切换支持：任务对话框按钮文本需运行时查表，改由各显示函数以局部数组填充
 
 HRESULT CALLBACK CheckForUpdatesDbCallbackProc(
     _In_ HWND WindowHandle,
@@ -195,14 +187,21 @@ VOID ShowDbCheckForUpdatesDialog(
     config.dwCommonButtons = TDCBF_CLOSE_BUTTON;
     config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(Context->DialogHandle));
     config.cxWidth = 200;
-    config.pButtons = DownloadButtonArray;
-    config.cButtons = ARRAYSIZE(DownloadButtonArray);
+    {
+        TASKDIALOG_BUTTON downloadButtonArray[] =
+        {
+            { IDOK, PhTranslateTextZ(L"下载") }
+        };
+
+        config.pButtons = downloadButtonArray;
+        config.cButtons = ARRAYSIZE(downloadButtonArray);
+    }
     config.pfCallback = CheckForUpdatesDbCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
 
-    config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-    config.pszMainInstruction = L"下载最新的 GeoLite 数据库？";
-    config.pszContent = L"本产品包含由 MaxMind 创建的 GeoLite2 数据，可从 <a href=\"https://www.maxmind.com\">https://www.maxmind.com</a> 获取。\r\n\r\n选择下载以继续。";
+    config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+    config.pszMainInstruction = PhTranslateTextZ(L"下载最新的 GeoLite 数据库？");
+    config.pszContent = PhTranslateTextZ(L"本产品包含由 MaxMind 创建的 GeoLite2 数据，可从 <a href=\"https://www.maxmind.com\">https://www.maxmind.com</a> 获取。\r\n\r\n选择下载以继续。");
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -222,9 +221,9 @@ VOID ShowDbCheckingForUpdatesDialog(
     config.pfCallback = CheckingForUpdatesDbCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
 
-    config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-    config.pszMainInstruction = L"正在下载";
-    config.pszContent = L"已下载: ~ / ~ (~%%)\r\n速度: ~/秒";
+    config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+    config.pszMainInstruction = PhTranslateTextZ(L"正在下载");
+    config.pszContent = PhTranslateTextZ(L"已下载: ~ / ~ (~%%)\r\n速度: ~/秒");
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -243,12 +242,20 @@ VOID ShowDbInstallRestartDialog(
     config.cxWidth = 200;
     config.pfCallback = RestartDbTaskDialogCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
-    config.pButtons = RestartButtonArray;
-    config.cButtons = ARRAYSIZE(RestartButtonArray);
+    {
+        TASKDIALOG_BUTTON restartButtonArray[] =
+        {
+            // 尾空格标记键：词典 {重启, restart} 为小写通用值，按钮需大写 Restart
+            { IDYES, PhTranslateTextZ(L"重启 ") }
+        };
 
-    config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-    config.pszMainInstruction = L"GeoLite 数据库已更新。";
-    config.pszContent = L"请重启 System Informer 以使更改生效...";
+        config.pButtons = restartButtonArray;
+        config.cButtons = ARRAYSIZE(restartButtonArray);
+    }
+
+    config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+    config.pszMainInstruction = PhTranslateTextZ(L"GeoLite 数据库已更新。");
+    config.pszContent = PhTranslateTextZ(L"请重启 System Informer 以使更改生效...");
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
 }
@@ -269,8 +276,8 @@ VOID ShowDbUpdateFailedDialog(
     config.pfCallback = FinalDbTaskDialogCallbackProc;
     config.lpCallbackData = (LONG_PTR)Context;
 
-    config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-    config.pszMainInstruction = L"下载 GeoLite 数据库时出错。";
+    config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+    config.pszMainInstruction = PhTranslateTextZ(L"下载 GeoLite 数据库时出错。");
 
     if (Context->ErrorCode)
     {
@@ -278,7 +285,7 @@ VOID ShowDbUpdateFailedDialog(
 
         if (Context->ErrorCode == ERROR_ACCESS_DENIED)
         {
-            config.pszContent = PhaFormatString(L"[%lu] 访问被拒绝（无效的许可证密钥）", Context->ErrorCode)->Buffer;
+            config.pszContent = PhaFormatString(PhTranslateTextZ(L"[%lu] 访问被拒绝（无效的许可证密钥）"), Context->ErrorCode)->Buffer;
         }
         else if (errorMessage = PhHttpGetErrorMessage(Context->ErrorCode))
         {
@@ -293,7 +300,7 @@ VOID ShowDbUpdateFailedDialog(
     }
     else
     {
-        config.pszContent = L"点击重试以重新下载更新。";
+        config.pszContent = PhTranslateTextZ(L"点击重试以重新下载更新。");
     }
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);
@@ -310,9 +317,9 @@ VOID ShowDbInvalidSettingsDialog(
     config.dwFlags = TDF_USE_HICON_MAIN | TDF_ALLOW_DIALOG_CANCELLATION;
     config.dwCommonButtons = TDCBF_CLOSE_BUTTON;
     config.hMainIcon = PhGetApplicationIcon(FALSE, PhGetWindowDpi(Context->DialogHandle));
-    config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-    config.pszMainInstruction = L"无法下载 GeoLite 更新。";
-    config.pszContent = L"请在下载 GeoLite 更新之前检查 选项 > 网络工具 > GeoLite ID 或密钥 是否已配置。";
+    config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+    config.pszMainInstruction = PhTranslateTextZ(L"无法下载 GeoLite 更新。");
+    config.pszContent = PhTranslateTextZ(L"请在下载 GeoLite 更新之前检查 选项 > 网络工具 > GeoLite ID 或密钥 是否已配置。");
     config.cxWidth = 200;
 
     PhTaskDialogNavigatePage(Context->DialogHandle, &config);

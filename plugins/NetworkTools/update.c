@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -231,7 +231,7 @@ BOOLEAN GeoLiteDownloadUpdateToFile(
         PhGetString(httpRequestString)
         ));
 
-    SetDialogStatusText(Context->DialogHandle, L"正在连接...");
+    SetDialogStatusText(Context->DialogHandle, PhTranslateTextZ(L"正在连接..."));
 
     if (!NT_SUCCESS(status = PhHttpInitialize(&httpContext)))
         goto CleanupExit;
@@ -240,7 +240,7 @@ BOOLEAN GeoLiteDownloadUpdateToFile(
     if (!NT_SUCCESS(status = PhHttpBeginRequest(httpContext, NULL, PhGetString(httpRequestString), PH_HTTP_FLAG_SECURE)))
         goto CleanupExit;
 
-    SetDialogStatusText(Context->DialogHandle, L"正在发送下载请求...");
+    SetDialogStatusText(Context->DialogHandle, PhTranslateTextZ(L"正在发送下载请求..."));
 
     {
         PPH_STRING key = PhGetStringSetting(SETTING_NAME_GEOLITE_API_KEY);
@@ -263,7 +263,7 @@ BOOLEAN GeoLiteDownloadUpdateToFile(
     if (!NT_SUCCESS(status = PhHttpSendRequest(httpContext, PH_HTTP_NO_ADDITIONAL_HEADERS, 0, PH_HTTP_NO_REQUEST_DATA, 0, PH_HTTP_IGNORE_REQUEST_TOTAL_LENGTH)))
         goto CleanupExit;
 
-    SetDialogStatusText(Context->DialogHandle, L"正在等待响应...");
+    SetDialogStatusText(Context->DialogHandle, PhTranslateTextZ(L"正在等待响应..."));
 
     if (!NT_SUCCESS(status = PhHttpReceiveResponse(httpContext)))
         goto CleanupExit;
@@ -274,7 +274,7 @@ BOOLEAN GeoLiteDownloadUpdateToFile(
 
     // Update status message.
 
-    httpString = GeoLiteDatabaseNameFormatString(L"正在下载 GeoLite2-%s...");
+    httpString = GeoLiteDatabaseNameFormatString((PWSTR)PhTranslateTextZ(L"正在下载 GeoLite2-%s..."));
     SendMessage(Context->DialogHandle, TDM_SET_MARQUEE_PROGRESS_BAR, FALSE, 0);
     SetDialogStatusText(Context->DialogHandle, PhGetString(httpString));
     PhDereferenceObject(httpString);
@@ -434,15 +434,15 @@ BOOLEAN GeoLiteDownloadUpdateToFile(
                 WCHAR string[MAX_PATH];
 
                 // L"已下载: %s / %s (%.0f%%)\r\n速度: %s/秒"
-                PhInitFormatS(&format[0], L"已下载: ");
+                PhInitFormatS(&format[0], PhTranslateTextZ(L"已下载: "));
                 PhInitFormatSize(&format[1], bytesTotalDownloaded);
                 PhInitFormatS(&format[2], L" / ");
                 PhInitFormatSize(&format[3], httpContentLength);
                 PhInitFormatS(&format[4], L" (");
                 PhInitFormatU(&format[5], percent);
-                PhInitFormatS(&format[6], L"%)\r\n速度: ");
+                PhInitFormatS(&format[6], PhTranslateTextZ(L"%)\r\n速度: "));
                 PhInitFormatSize(&format[7], timeBitsPerSecond);
-                PhInitFormatS(&format[8], L"/秒");
+                PhInitFormatS(&format[8], PhTranslateTextZ(L"/秒"));
 
                 if (PhFormatToBuffer(format, RTL_NUMBER_OF(format), string, sizeof(string), NULL))
                 {
@@ -747,7 +747,7 @@ NTSTATUS GeoLiteUpdateTaskDialogThread(
     context->ParentWindowHandle = Parameter;
 
     config.dwFlags = TDF_ALLOW_DIALOG_CANCELLATION | TDF_CAN_BE_MINIMIZED;
-    config.pszContent = L"正在初始化...";
+    config.pszContent = PhTranslateTextZ(L"正在初始化...");
     config.lpCallbackData = (LONG_PTR)context;
     config.pfCallback = GeoLiteDialogBootstrapCallback;
 
@@ -858,13 +858,13 @@ VOID ShowGeoLiteUpdateDialog(
         config.pfCallback = GeoLiteMissingKeyTaskDialogCallbackProc;
         config.cxWidth = 200;
 
-        config.pszWindowTitle = L"网络工具 - GeoLite 更新器";
-        config.pszMainInstruction = L"无法下载 GeoLite 数据库更新。";
-        config.pszContent =
+        config.pszWindowTitle = PhTranslateTextZ(L"网络工具 - GeoLite 更新器");
+        config.pszMainInstruction = PhTranslateTextZ(L"无法下载 GeoLite 数据库更新。");
+        config.pszContent = PhTranslateTextZ(
             L"下载 GeoLite 数据库更新需要许可证密钥和账号，但未配置密钥或账号。\n\n"
             L"GeoLite 许可证密钥和账号是免费的。如果您不确定如何创建密钥，请在此处查看文档：<a href=\"https://support.maxmind.com/hc/en-us/articles/4407111582235-Generate-a-License-Key\">生成许可证密钥</a>\n\n"
             L"创建密钥后，您可以将其复制粘贴到 选项 窗口 > 网络工具 设置中，System Informer 即可开始下载 GeoLite 数据库更新。\n\n"
-            L"特别感谢 MaxMind (<a href=\"https://www.maxmind.com\">https://www.maxmind.com</a>) 持续提供免费的 GeoLite 服务 <3";
+            L"特别感谢 MaxMind (<a href=\"https://www.maxmind.com\">https://www.maxmind.com</a>) 持续提供免费的 GeoLite 服务 <3");
 
         PhShowTaskDialog(&config, NULL, NULL, NULL);
     }

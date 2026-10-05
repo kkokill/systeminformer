@@ -152,7 +152,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 ULONG bytesPerRow;
 
                 for (ULONG i = 0; i < ARRAYSIZE(bytesPerRowStrings); i++)
-                    bytesPerRowStrings[i] = PhaFormatString(L"%u 字节/行", 1 << (2 + i))->Buffer;
+                    bytesPerRowStrings[i] = PhaFormatString(PhTranslateTextZ(L"%u 字节/行"), 1 << (2 + i))->Buffer; // 语言切换
 
                 PhAddComboBoxStrings(context->BytesPerRowHandle, bytesPerRowStrings, ARRAYSIZE(bytesPerRowStrings));
 
@@ -162,7 +162,7 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 {
                     HexEdit_SetBytesPerRow(context->HexEditHandle, bytesPerRow);
                     PhSelectComboBoxString(context->BytesPerRowHandle, PhaFormatString(
-                        L"%u 字节/行", bytesPerRow)->Buffer, FALSE);
+                        PhTranslateTextZ(L"%u 字节/行"), bytesPerRow)->Buffer, FALSE); // 语言切换
                 }
             }
 
@@ -197,10 +197,10 @@ INT_PTR CALLBACK EtTpmEditorDlgProc(
                 break;
             case IDC_TPM_SAVE:
                 {
-                    static PH_FILETYPE_FILTER filters[] =
+                    PH_FILETYPE_FILTER filters[] = // 语言切换：运行时翻译，非 static（PhTranslateTextZ 非编译期常量）
                     {
-                        { L"二进制文件 (*.bin)", L"*.bin" },
-                        { L"所有文件 (*.*)", L"*.*" }
+                        { (PWSTR)PhTranslateTextZ(L"二进制文件 (*.bin)"), L"*.bin" },
+                        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
                     };
                     PVOID fileDialog;
 

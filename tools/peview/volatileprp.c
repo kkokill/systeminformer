@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -118,7 +118,7 @@ VOID PvEnumerateVolatileEntries(
                 break;
             default:
             case PhsrlInvalid:
-                PhSetListViewSubItem(ListViewHandle, lvItemIndex, 2, L"（未命名）");
+                PhSetListViewSubItem(ListViewHandle, lvItemIndex, 2, PhTranslateTextZ(L"（未命名）"));
                 break;
             }
 
@@ -191,8 +191,8 @@ INT_PTR CALLBACK PvpPeVolatileDlgProc(
             PhAddLayoutItem(&context->LayoutManager, context->ListViewHandle, NULL, PH_ANCHOR_ALL);
 
             ListView_EnableGroupView(context->ListViewHandle, TRUE);
-            PhAddListViewGroup(context->ListViewHandle, 2, L"易失性范围表");
-            PhAddListViewGroup(context->ListViewHandle, 1, L"易失性 RVA 表");
+            PhAddListViewGroup(context->ListViewHandle, 2, PhTranslateTextZ(L"易失性范围表"));
+            PhAddListViewGroup(context->ListViewHandle, 1, PhTranslateTextZ(L"易失性 RVA 表"));
             PvEnumerateVolatileEntries(context->ListViewHandle);
 
             PhInitializeWindowTheme(hwndDlg, PhEnableThemeSupport);

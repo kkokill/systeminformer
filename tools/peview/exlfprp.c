@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -20,17 +20,17 @@ PWSTR PvpGetSymbolTypeName(
     switch (ELF_ST_TYPE(TypeInfo))
     {
     case STT_NOTYPE:
-        return L"无类型";
+        return (PWSTR)PhTranslateTextZ(L"无类型");
     case STT_OBJECT:
-        return L"对象";
+        return (PWSTR)PhTranslateTextZ(L"对象");
     case STT_FUNC:
-        return L"函数";
+        return (PWSTR)PhTranslateTextZ(L"函数");
     case STT_SECTION:
-        return L"节";
+        return (PWSTR)PhTranslateTextZ(L"节");
     case STT_FILE:
-        return L"文件";
+        return (PWSTR)PhTranslateTextZ(L"文件");
     case STT_COMMON:
-        return L"公共";
+        return (PWSTR)PhTranslateTextZ(L"公共");
     case STT_TLS:
         return L"TLS";
     case STT_GNU_IFUNC:
@@ -47,13 +47,13 @@ PWSTR PvpGetSymbolBindingName(
     switch (ELF_ST_BIND(TypeInfo))
     {
     case STB_LOCAL:
-        return L"局部";
+        return (PWSTR)PhTranslateTextZ(L"局部");
     case STB_GLOBAL:
-        return L"全局";
+        return (PWSTR)PhTranslateTextZ(L"全局");
     case STB_WEAK:
-        return L"弱";
+        return (PWSTR)PhTranslateTextZ(L"弱");
     case STB_GNU_UNIQUE:
-        return L"唯一";
+        return (PWSTR)PhTranslateTextZ(L"唯一");
     }
 
     return L"***ERROR***";
@@ -66,13 +66,13 @@ PWSTR PvpGetSymbolVisibility(
     switch (ELF_ST_VISIBILITY(OtherInfo))
     {
     case STV_DEFAULT:
-        return L"默认";
+        return (PWSTR)PhTranslateTextZ(L"默认");
     case STV_INTERNAL:
-        return L"内部";
+        return (PWSTR)PhTranslateTextZ(L"内部");
     case STV_HIDDEN:
-        return L"隐藏";
+        return (PWSTR)PhTranslateTextZ(L"隐藏");
     case STV_PROTECTED:
-        return L"受保护";
+        return (PWSTR)PhTranslateTextZ(L"受保护");
     }
 
     return L"***ERROR***";
@@ -89,7 +89,7 @@ PPH_STRING PvpGetSymbolSectionName(
     case SHN_ABS:
         return PhCreateString(L"ABS");
     case SHN_COMMON:
-        return PhCreateString(L"公共");
+        return PhCreateString(PhTranslateTextZ(L"公共"));
     }
 
     return PhaFormatUInt64(Index, TRUE);
@@ -200,9 +200,9 @@ VOID PvpSetWslmageVersionInfo(
     _In_ HWND WindowHandle
     )
 {
-    PhSetDialogItemText(WindowHandle, IDC_NAME, L"加载中...");
-    PhSetDialogItemText(WindowHandle, IDC_COMPANYNAME, L"加载中...");
-    PhSetDialogItemText(WindowHandle, IDC_VERSION, L"加载中...");
+    PhSetDialogItemText(WindowHandle, IDC_NAME, PhTranslateTextZ(L"加载中..."));
+    PhSetDialogItemText(WindowHandle, IDC_COMPANYNAME, PhTranslateTextZ(L"加载中..."));
+    PhSetDialogItemText(WindowHandle, IDC_VERSION, PhTranslateTextZ(L"加载中..."));
 
     PhCreateThread2(PvpQueryWslImageThreadStart, WindowHandle);
 

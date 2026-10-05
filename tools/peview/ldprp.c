@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -40,33 +40,33 @@ PPH_STRING PvpGetPeGuardFlagsText(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (GuardFlags & IMAGE_GUARD_CF_INSTRUMENTED)
-        PhAppendStringBuilder2(&stringBuilder, L"已插桩, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"已插桩, "));
     if (GuardFlags & IMAGE_GUARD_CFW_INSTRUMENTED)
-        PhAppendStringBuilder2(&stringBuilder, L"已插桩（写入）, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"已插桩（写入）, "));
     if (GuardFlags & IMAGE_GUARD_CF_FUNCTION_TABLE_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"函数表, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"函数表, "));
     if (GuardFlags & IMAGE_GUARD_SECURITY_COOKIE_UNUSED)
-        PhAppendStringBuilder2(&stringBuilder, L"未使用的安全 Cookie, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"未使用的安全 Cookie, "));
     if (GuardFlags & IMAGE_GUARD_PROTECT_DELAYLOAD_IAT)
-        PhAppendStringBuilder2(&stringBuilder, L"延迟加载 IAT 受保护, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"延迟加载 IAT 受保护, "));
     if (GuardFlags & IMAGE_GUARD_DELAYLOAD_IAT_IN_ITS_OWN_SECTION)
-        PhAppendStringBuilder2(&stringBuilder, L"延迟加载专用节区, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"延迟加载专用节区, "));
     if (GuardFlags & IMAGE_GUARD_CF_ENABLE_EXPORT_SUPPRESSION)
-        PhAppendStringBuilder2(&stringBuilder, L"导出抑制, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"导出抑制, "));
     if (GuardFlags & IMAGE_GUARD_CF_EXPORT_SUPPRESSION_INFO_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"导出信息抑制, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"导出信息抑制, "));
     if (GuardFlags & IMAGE_GUARD_CF_LONGJUMP_TABLE_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"长跳转表, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"长跳转表, "));
     if (GuardFlags & IMAGE_GUARD_RETPOLINE_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"存在 Retpoline, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"存在 Retpoline, "));
     if (GuardFlags & IMAGE_GUARD_EH_CONTINUATION_TABLE_PRESENT_V1 || GuardFlags & IMAGE_GUARD_EH_CONTINUATION_TABLE_PRESENT_V2)
-        PhAppendStringBuilder2(&stringBuilder, L"EH 续延表, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"EH 续延表, "));
     if (GuardFlags & IMAGE_GUARD_XFG_ENABLED)
         PhAppendStringBuilder2(&stringBuilder, L"XFG, ");
     if (GuardFlags & IMAGE_GUARD_CASTGUARD_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"Cast 防护, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"Cast 防护, "));
     if (GuardFlags & IMAGE_GUARD_MEMCPY_PRESENT)
-        PhAppendStringBuilder2(&stringBuilder, L"受防护的 memcpy, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"受防护的 memcpy, "));
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -90,37 +90,37 @@ PPH_STRING PvpGetPeDependentLoadFlagsText(
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (DependentLoadFlags & DONT_RESOLVE_DLL_REFERENCES)
-        PhAppendStringBuilder2(&stringBuilder, L"忽略 DLL 引用, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"忽略 DLL 引用, "));
     if (DependentLoadFlags & LOAD_LIBRARY_AS_DATAFILE)
-        PhAppendStringBuilder2(&stringBuilder, L"数据文件, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"数据文件, "));
     if (DependentLoadFlags & 0x00000004) // LOAD_PACKAGED_LIBRARY
-        PhAppendStringBuilder2(&stringBuilder, L"打包库, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"打包库, "));
     if (DependentLoadFlags & LOAD_WITH_ALTERED_SEARCH_PATH)
-        PhAppendStringBuilder2(&stringBuilder, L"更改的搜索路径, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"更改的搜索路径, "));
     if (DependentLoadFlags & LOAD_IGNORE_CODE_AUTHZ_LEVEL)
-        PhAppendStringBuilder2(&stringBuilder, L"忽略 Authz 级别, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"忽略 Authz 级别, "));
     if (DependentLoadFlags & LOAD_LIBRARY_AS_IMAGE_RESOURCE)
-        PhAppendStringBuilder2(&stringBuilder, L"映像资源, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"映像资源, "));
     if (DependentLoadFlags & LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE)
-        PhAppendStringBuilder2(&stringBuilder, L"数据文件（独占）, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"数据文件（独占）, "));
     if (DependentLoadFlags & LOAD_LIBRARY_REQUIRE_SIGNED_TARGET)
-        PhAppendStringBuilder2(&stringBuilder, L"要求已签名目标, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"要求已签名目标, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索 DLL 加载目录, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索 DLL 加载目录, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_APPLICATION_DIR)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索应用程序目录, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索应用程序目录, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_USER_DIRS)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索用户目录, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索用户目录, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_SYSTEM32)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索 system32, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索 system32, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_DEFAULT_DIRS)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索默认目录, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索默认目录, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SAFE_CURRENT_DIRS)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索安全的当前目录, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索安全的当前目录, "));
     if (DependentLoadFlags & LOAD_LIBRARY_SEARCH_SYSTEM32_NO_FORWARDER)
-        PhAppendStringBuilder2(&stringBuilder, L"搜索 system32（无转发）, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"搜索 system32（无转发）, "));
     if (DependentLoadFlags & LOAD_LIBRARY_OS_INTEGRITY_CONTINUITY)
-        PhAppendStringBuilder2(&stringBuilder, L"OS 完整性连续性, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"OS 完整性连续性, "));
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -178,7 +178,7 @@ VOID PvpAddPeEnclaveConfig(
         ADD_VALUE(L"Enclave 映像 ID", PH_AUTO_T(PH_STRING, PhFormatGuid((PGUID)enclaveConfig->ImageID))->Buffer);
         ADD_VALUE(L"Enclave 映像版本", PhaFormatUInt64(enclaveConfig->ImageVersion, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 安全版本", PhaFormatUInt64(enclaveConfig->SecurityVersion, TRUE)->Buffer);
-        ADD_VALUE(L"Enclave 大小", PhaFormatUInt64(enclaveConfig->EnclaveSize, TRUE)->Buffer);
+        ADD_VALUE(L"Enclave 大小 ", PhaFormatUInt64(enclaveConfig->EnclaveSize, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 线程数", PhaFormatUInt64(enclaveConfig->NumberOfThreads, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 标志", PhaFormatUInt64(enclaveConfig->EnclaveFlags, TRUE)->Buffer);
     }
@@ -191,7 +191,7 @@ VOID PvpAddPeEnclaveConfig(
         ADD_VALUE(L"Enclave 映像 ID", PH_AUTO_T(PH_STRING, PhFormatGuid((PGUID)enclaveConfig->ImageID))->Buffer);
         ADD_VALUE(L"Enclave 映像版本", PhaFormatUInt64(enclaveConfig->ImageVersion, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 安全版本", PhaFormatUInt64(enclaveConfig->SecurityVersion, TRUE)->Buffer);
-        ADD_VALUE(L"Enclave 大小", PhaFormatUInt64(enclaveConfig->EnclaveSize, TRUE)->Buffer);
+        ADD_VALUE(L"Enclave 大小 ", PhaFormatUInt64(enclaveConfig->EnclaveSize, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 线程数", PhaFormatUInt64(enclaveConfig->NumberOfThreads, TRUE)->Buffer);
         ADD_VALUE(L"Enclave 标志", PhaFormatUInt64(enclaveConfig->EnclaveFlags, TRUE)->Buffer);
     }
@@ -213,7 +213,7 @@ VOID PvpAddPeLockPrefixTable(
     for (i = 0; i < lockPrefix.NumberOfEntries; i++)
     {
         ADD_VALUE(
-            PhaFormatString(L"Lock 前缀 %lu", i)->Buffer,
+            PhaFormatString(PhTranslateTextZ(L"Lock 前缀 %lu"), i)->Buffer,
             PhaFormatString(L"0x%I64x", lockPrefix.Entries[i])->Buffer
             );
     }

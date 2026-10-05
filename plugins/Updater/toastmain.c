@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2026 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -167,7 +167,7 @@ VOID UpdaterUpdateProgressToast(
         PPH_STRING speedString;
 
         speedString = PhFormatSize(bitsPerSecond, ULONG_MAX);
-        statusString = PhFormatString(L"速度: %s/s", PhGetStringOrEmpty(speedString));
+        statusString = PhFormatString(PhTranslateTextZ(L"速度: %s/s"), PhGetStringOrEmpty(speedString));
         if (speedString)
             PhDereferenceObject(speedString);
     }
@@ -202,7 +202,7 @@ VOID UpdaterUpdateProgressToast(
     }
     else
     {
-        valueString = PhCreateString(L"已下载: ~ / ~");
+        valueString = PhCreateString(PhTranslateTextZ(L"已下载: ~ / ~"));
     }
 
     if (!valueString || !statusString)
@@ -412,6 +412,7 @@ BOOLEAN UpdaterShowAvailableToast(
     sizeEsc = PhEscapeStringForXml(PhGetStringOrEmpty(Context->SetupFileLength));
 
     xml = PhFormatString(
+        PhTranslateTextZ(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
         L"<text>System Informer - 有可用更新</text>"
@@ -420,7 +421,7 @@ BOOLEAN UpdaterShowAvailableToast(
         L"<actions>"
         L"<action content=\"下载\" arguments=\"" UPDATER_TOAST_ACTION_DOWNLOAD L"\" activationType=\"foreground\"/>"
         L"</actions>"
-        L"</toast>",
+        L"</toast>"),
         PhGetStringOrEmpty(versionEsc),
         PhGetStringOrEmpty(sizeEsc)
         );
@@ -490,6 +491,7 @@ BOOLEAN UpdaterShowProgressToast(
     versionEsc = PhEscapeStringForXml(PhGetStringOrEmpty(Context->Version));
 
     xml = PhFormatString(
+        PhTranslateTextZ(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
         L"<text>正在下载 System Informer %s</text>"
@@ -499,7 +501,7 @@ BOOLEAN UpdaterShowProgressToast(
         L"<actions>"
         L"<action content=\"关闭\" arguments=\"dismiss\" activationType=\"system\"/>"
         L"</actions>"
-        L"</toast>",
+        L"</toast>"),
         PhGetStringOrEmpty(versionEsc)
         );
 
@@ -546,7 +548,7 @@ BOOLEAN UpdaterShowProgressToast(
     }
 
     Context->ToastMode = TRUE;
-    UpdaterUpdateProgressToast(Context, L"开始下载...");
+    UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"开始下载..."));
 
     PhReferenceObject(Context);
     PhCreateThread2(UpdateInstallerDownloadThreadStage1, Context);
@@ -570,6 +572,7 @@ BOOLEAN UpdaterShowReadyToInstallToast(
     versionEsc = PhEscapeStringForXml(PhGetStringOrEmpty(Context->Version));
 
     xml = PhFormatString(
+        PhTranslateTextZ(
         L"<toast launch=\"\" scenario=\"reminder\">"
         L"<visual><binding template=\"ToastGeneric\">"
         L"<text>System Informer %s</text>"
@@ -579,7 +582,7 @@ BOOLEAN UpdaterShowReadyToInstallToast(
         L"<action content=\"安装\" arguments=\"" UPDATER_TOAST_ACTION_INSTALL L"\" activationType=\"foreground\"/>"
         L"<action content=\"取消\" arguments=\"dismiss\" activationType=\"system\"/>"
         L"</actions>"
-        L"</toast>",
+        L"</toast>"),
         PhGetStringOrEmpty(versionEsc)
         );
 
@@ -665,11 +668,11 @@ BOOLEAN UpdaterShowFailedToast(
 
     if (SignatureFailed)
     {
-        errorText = L"签名检查失败。";
+        errorText = PhTranslateTextZ(L"签名检查失败。");
     }
     else if (HashFailed)
     {
-        errorText = L"哈希检查失败。";
+        errorText = PhTranslateTextZ(L"哈希检查失败。");
     }
     else if (Context->UpdateStatus)
     {
@@ -689,21 +692,22 @@ BOOLEAN UpdaterShowFailedToast(
         }
         else
         {
-            errorText = L"点击“检查更新”以重试。";
+            errorText = PhTranslateTextZ(L"点击“检查更新”以重试。");
         }
     }
     else
     {
-        errorText = L"点击检查更新以重试。";
+        errorText = PhTranslateTextZ(L"点击检查更新以重试。");
     }
 
     xml = PhFormatString(
+        PhTranslateTextZ(
         L"<toast launch=\"\" duration=\"long\">"
         L"<visual><binding template=\"ToastGeneric\">"
         L"<text>System Informer 更新失败</text>"
         L"<text>%s</text>"
         L"</binding></visual>"
-        L"</toast>",
+        L"</toast>"),
         errorText
         );
 

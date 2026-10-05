@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -18,6 +18,7 @@ VOID PvAddDefaultSettings(
     )
 {
     PhpAddIntegerSetting(L"FirstRun", L"1");
+    PhpAddIntegerSetting(L"Language", L"0"); // 0=简体中文, 1=English
     PhpAddStringSetting(L"Font", L""); // null
     PhpAddStringSetting(L"DbgHelpSearchPath", L"SRV*C:\\Symbols*https://msdl.microsoft.com/download/symbols");
     PhpAddIntegerSetting(L"DbgHelpUndecorate", L"1");

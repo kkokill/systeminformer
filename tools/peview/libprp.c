@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -32,7 +32,7 @@ VOID PvLibProperties(
 
     if (!NT_SUCCESS(status))
     {
-        PhShowStatus(NULL, L"无法加载归档文件", status, 0);
+        PhShowStatus(NULL, PhTranslateTextZ(L"无法加载归档文件"), status, 0);
         return;
     }
 
@@ -116,16 +116,16 @@ INT_PTR CALLBACK PvpLibExportsDlgProc(
                     switch (importEntry.Type)
                     {
                     case IMPORT_OBJECT_CODE:
-                        type = L"代码";
+                        type = (PWSTR)PhTranslateTextZ(L"代码");
                         break;
                     case IMPORT_OBJECT_DATA:
-                        type = L"数据";
+                        type = (PWSTR)PhTranslateTextZ(L"数据");
                         break;
                     case IMPORT_OBJECT_CONST:
-                        type = L"常量";
+                        type = (PWSTR)PhTranslateTextZ(L"常量");
                         break;
                     default:
-                        type = L"未知";
+                        type = (PWSTR)PhTranslateTextZ(L"未知");
                         break;
                     }
 
@@ -134,19 +134,19 @@ INT_PTR CALLBACK PvpLibExportsDlgProc(
                     switch (importEntry.NameType)
                     {
                     case IMPORT_OBJECT_ORDINAL:
-                        type = L"序号";
+                        type = (PWSTR)PhTranslateTextZ(L"序号");
                         break;
                     case IMPORT_OBJECT_NAME:
-                        type = L"名称";
+                        type = (PWSTR)PhTranslateTextZ(L"名称");
                         break;
                     case IMPORT_OBJECT_NAME_NO_PREFIX:
-                        type = L"名称，无前缀";
+                        type = (PWSTR)PhTranslateTextZ(L"名称，无前缀");
                         break;
                     case IMPORT_OBJECT_NAME_UNDECORATE:
-                        type = L"名称，未修饰";
+                        type = (PWSTR)PhTranslateTextZ(L"名称，未修饰");
                         break;
                     default:
-                        type = L"未知";
+                        type = (PWSTR)PhTranslateTextZ(L"未知");
                         break;
                     }
 

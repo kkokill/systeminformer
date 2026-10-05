@@ -125,7 +125,7 @@ PPH_STRINGREF rgTags[] =
 PPH_STRINGREF rgLocationTypeString[] =
 {
     SREF(L"NULL"),
-    SREF(L"静态"),
+    SREF(L"静态 "),
     SREF(L"TLS"),
     SREF(L"寄存器相对"),
     SREF(L"this 相对"),
@@ -211,7 +211,7 @@ VOID PrintSymTag(
     _In_ ULONG SymbolTag
     )
 {
-    PhAppendStringBuilder(StringBuilder, rgTags[SymbolTag]);
+    PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(rgTags[SymbolTag]->Buffer));
     PhAppendStringBuilder2(StringBuilder, L": ");
 }
 
@@ -268,7 +268,7 @@ VOID PrintLocation(
 
     if (IDiaSymbol_get_locationType(IDiaSymbol, &dwLocType) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"优化代码中的符号");
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"优化代码中的符号"));
         return;
     }
 
@@ -279,7 +279,7 @@ VOID PrintLocation(
             (IDiaSymbol_get_addressSection(IDiaSymbol, &dwSect) == S_OK) &&
             (IDiaSymbol_get_addressOffset(IDiaSymbol, &dwOff) == S_OK))
         {
-            PhAppendStringBuilder(StringBuilder,rgLocationTypeString[dwLocType]);
+            PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(rgLocationTypeString[dwLocType]->Buffer));
             PhAppendFormatStringBuilder(StringBuilder, L", [%08X][%04X:%08X]", dwRVA, dwSect, dwOff);
         }
         break;
@@ -291,7 +291,7 @@ VOID PrintLocation(
             (IDiaSymbol_get_addressSection(IDiaSymbol, &dwSect) == S_OK) &&
             (IDiaSymbol_get_addressOffset(IDiaSymbol, &dwOff) == S_OK))
         {
-            PhAppendStringBuilder(StringBuilder, rgLocationTypeString[dwLocType]);
+            PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(rgLocationTypeString[dwLocType]->Buffer));
             PhAppendFormatStringBuilder(StringBuilder, L", [%08X][%04X:%08X]", dwRVA, dwSect, dwOff);
         }
         break;
@@ -314,7 +314,7 @@ VOID PrintLocation(
         if ((IDiaSymbol_get_offset(IDiaSymbol, &lOffset) == S_OK) &&
             (IDiaSymbol_get_bitPosition(IDiaSymbol, &dwBitPos) == S_OK) &&
             (IDiaSymbol_get_length(IDiaSymbol, &ulLen) == S_OK)) {
-            PhAppendFormatStringBuilder(StringBuilder, L"this(bf)+0x%X:0x%X 长度(0x%X)", lOffset, dwBitPos, (ULONG)ulLen);
+            PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"this(bf)+0x%X:0x%X 长度(0x%X)"), lOffset, dwBitPos, (ULONG)ulLen);
         }
         break;
 
@@ -330,7 +330,7 @@ VOID PrintLocation(
         {
             if (IDiaSymbol_get_slot(IDiaSymbol, &dwSlot) == S_OK)
             {
-                PhAppendStringBuilder(StringBuilder, rgLocationTypeString[dwLocType]);
+                PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(rgLocationTypeString[dwLocType]->Buffer));
                 PhAppendFormatStringBuilder(StringBuilder, L", [%08X]", dwSlot);
             }
         }
@@ -353,27 +353,27 @@ VOID PrintLocation(
     case LocIsNull:
         break;
     default:
-        PhAppendFormatStringBuilder(StringBuilder, L"错误 - 无效的位置类型：0x%X", dwLocType);
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"错误 - 无效的位置类型：0x%X"), dwLocType);
         break;
     }
 }
 
 VOID PrintBool(
     _In_ PPH_STRING_BUILDER StringBuilder,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_ BOOL Value
     )
 {
     if (Value)
     {
         PhAppendStringBuilder2(StringBuilder, Name);
-        PhAppendStringBuilder2(StringBuilder, L": 是\r\n");
+        PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L": 是\r\n"));
     }
 }
 
 VOID PrintHex(
     _In_ PPH_STRING_BUILDER StringBuilder,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_ ULONG64 Value
     )
 {
@@ -386,7 +386,7 @@ VOID PrintHex(
 
 VOID PrintBSTR(
     _In_ PPH_STRING_BUILDER StringBuilder,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_ BSTR Value
     )
 {
@@ -409,7 +409,7 @@ VOID PrintName(
 
     if (IDiaSymbol_get_name(pSymbol, &bstrName) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"(无)");
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"(无) "));
         return;
     }
 
@@ -446,11 +446,11 @@ VOID PrintData(
 
     if (IDiaSymbol_get_dataKind(IDiaSymbol, &dwDataKind) != S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L"错误 - PrintData() get_dataKind");
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"错误 - PrintData() get_dataKind"));
         return;
     }
 
-    PhAppendStringBuilder(StringBuilder, rgDataKind[dwDataKind]);
+    PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(rgDataKind[dwDataKind]->Buffer));
     PrintSymbolType(StringBuilder, IDiaSymbol);
 
     PhAppendStringBuilder2(StringBuilder, L", ");
@@ -492,7 +492,7 @@ VOID PrintType(
 
     if (IDiaSymbol_get_symTag(pSymbol, &dwTag) != S_OK)
     {
-        PhAppendStringBuilder2(StringBuilder, L"错误 - 无法获取符号的 SymTag\n");
+        PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"错误 - 无法获取符号的 SymTag\n"));
         return;
     }
     IDiaSymbol_get_length(pSymbol, &ulLen);
@@ -533,7 +533,7 @@ VOID PrintType(
         break;
 
     case SymTagFunctionType:
-        PhAppendStringBuilder2(StringBuilder, L"函数 ");
+        PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"函数 "));
         break;
 
     case SymTagPointerType:
@@ -761,7 +761,7 @@ VOID PrintType(
 
             if ((IDiaSymbol_get_dataBytes(pSymbol, cbData, &cbData, NULL) == S_OK) && (cbData != 0))
             {
-                PhAppendFormatStringBuilder(StringBuilder, L", 数据: ");
+                PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L", 数据: "));
 
                 BYTE* pbData = PhAllocate(cbData);
 
@@ -797,7 +797,7 @@ VOID PrintSymbolType(
 
     if (IDiaSymbol_get_type(Symbol, &idiaSymbolType) == S_OK)
     {
-        PhAppendFormatStringBuilder(StringBuilder, L", 类型: ");
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L", 类型: "));
 
         PrintType(StringBuilder, idiaSymbolType);
 
@@ -975,7 +975,7 @@ VOID PrintTypeInDetail(
         break;
 
     default:
-        PhAppendFormatStringBuilder(StringBuilder, L"错误 - PrintTypeInDetail() 无效的 SymTag\n");
+        PhAppendFormatStringBuilder(StringBuilder, PhTranslateTextZ(L"错误 - PrintTypeInDetail() 无效的 SymTag\n"));
     }
 
     PhAppendCharStringBuilder(StringBuilder, L'\n');
@@ -992,91 +992,91 @@ VOID PrintTypeInDetail(
         {
             if (dwValue < RTL_NUMBER_OF(rgLanguage))
             {
-                PhAppendStringBuilder2(StringBuilder, L"语言: ");
+                PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"语言: "));
                 PhAppendStringBuilder(StringBuilder, rgLanguage[dwValue]);
                 PhAppendStringBuilder2(StringBuilder, L"\r\n");
             }
             else
             {
-                PrintHex(StringBuilder, L"语言", (ULONG64)dwValue);
+                PrintHex(StringBuilder, PhTranslateTextZ(L"语言"), (ULONG64)dwValue);
             }
         }
 
         if (IDiaSymbol_get_wasInlined(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"已内联", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"已内联"), bValue);
         if (IDiaSymbol_get_sourceFileName(IDiaSymbolDetail, &bstrValue) == S_OK)
         {
-            PrintBSTR(StringBuilder, L"源文件", bstrValue);
+            PrintBSTR(StringBuilder, PhTranslateTextZ(L"源文件"), bstrValue);
             PhSymbolProviderFreeDiaString(bstrValue);
         }
         if (IDiaSymbol_get_volatileType(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"易失", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"易失"), bValue);
         if (IDiaSymbol_get_compilerGenerated(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"编译器生成", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"编译器生成"), bValue);
         if (IDiaSymbol_get_exceptionHandlerVirtualAddress(IDiaSymbolDetail, &ullValue) == S_OK)
-            PrintHex(StringBuilder, L"异常处理程序 VA", ullValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"异常处理程序 VA"), ullValue);
         if (IDiaSymbol_get_framePointerPresent(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"存在帧指针", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"存在帧指针"), bValue);
         if (IDiaSymbol_get_hasAlloca(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含 Alloca", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含 Alloca"), bValue);
         if (IDiaSymbol_get_hasInlAsm(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含内联汇编", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含内联汇编"), bValue);
         if (IDiaSymbol_get_isLocationControlFlowDependent(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"位置依赖控制流", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"位置依赖控制流"), bValue);
         if (IDiaSymbol_get_isLTCG(IDiaSymbolDetail, &bValue) == S_OK)
             PrintBool(StringBuilder, L"LTCG", bValue);
         if (IDiaSymbol_get_isPGO(IDiaSymbolDetail, &bValue) == S_OK)
             PrintBool(StringBuilder, L"PGO", bValue);
         if (IDiaSymbol_get_frameSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"帧大小", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"帧大小"), (ULONG64)dwValue);
 
         {
             IDiaSymbol9* pSymbol9;
             if (IUnknown_QueryInterface(IDiaSymbolDetail, &IID_IDiaSymbol9, (void**)&pSymbol9) == S_OK)
             {
                 if (pSymbol9->lpVtbl->get_framePadSize(pSymbol9, &dwValue) == S_OK)
-                    PrintHex(StringBuilder, L"帧填充大小", (ULONG64)dwValue);
+                    PrintHex(StringBuilder, PhTranslateTextZ(L"帧填充大小"), (ULONG64)dwValue);
                 IDiaSymbol9_Release(pSymbol9);
             }
         }
 
         if (IDiaSymbol_get_hasControlFlowCheck(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含控制流检查", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含控制流检查"), bValue);
         if (IDiaSymbol_get_hasLongJump(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含 LongJump", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含 LongJump"), bValue);
         if (IDiaSymbol_get_hasSetJump(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含 SetJump", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含 SetJump"), bValue);
         if (IDiaSymbol_get_hasEH(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含 EH", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含 EH"), bValue);
         if (IDiaSymbol_get_hasSecurityChecks(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"含安全检查", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"含安全检查"), bValue);
         if (IDiaSymbol_get_libraryName(IDiaSymbolDetail, &bstrValue) == S_OK)
         {
-            PrintBSTR(StringBuilder, L"库名", bstrValue);
+            PrintBSTR(StringBuilder, PhTranslateTextZ(L"库名"), bstrValue);
             PhSymbolProviderFreeDiaString(bstrValue);
         }
         if (IDiaSymbol_get_managed(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"托管", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"托管"), bValue);
         if (IDiaSymbol_get_packed(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"已打包", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"已打包"), bValue);
         if (IDiaSymbol_get_platform(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"平台", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"平台"), (ULONG64)dwValue);
         if (IDiaSymbol_get_staticSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"静态大小", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"静态大小"), (ULONG64)dwValue);
         if (IDiaSymbol_get_finalLiveStaticSize(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"最终活动静态大小", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"最终活动静态大小"), (ULONG64)dwValue);
         if (IDiaSymbol_get_PGODynamicInstructionCount(IDiaSymbolDetail, &ullValue) == S_OK)
-            PrintHex(StringBuilder, L"PGO 动态指令计数", ullValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"PGO 动态指令计数"), ullValue);
         if (IDiaSymbol_get_strictGSCheck(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"严格 GS 检查", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"严格 GS 检查"), bValue);
         if (IDiaSymbol_get_targetSection(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"目标节", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"目标节"), (ULONG64)dwValue);
         if (IDiaSymbol_get_pure(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"纯虚", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"纯虚"), bValue);
         if (IDiaSymbol_get_rank(IDiaSymbolDetail, &dwValue) == S_OK)
-            PrintHex(StringBuilder, L"秩", (ULONG64)dwValue);
+            PrintHex(StringBuilder, PhTranslateTextZ(L"秩"), (ULONG64)dwValue);
         if (IDiaSymbol_get_RValueReference(IDiaSymbolDetail, &bValue) == S_OK)
-            PrintBool(StringBuilder, L"右值引用", bValue);
+            PrintBool(StringBuilder, PhTranslateTextZ(L"右值引用"), bValue);
 
         {
             IDiaSymbol3* pSymbol3;
@@ -1085,13 +1085,13 @@ VOID PrintTypeInDetail(
                 IDiaSymbol* pInlinee;
                 if (pSymbol3->lpVtbl->get_inlinee(pSymbol3, &pInlinee) == S_OK)
                 {
-                    PhAppendStringBuilder2(StringBuilder, L"内联目标: ");
+                    PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"内联目标: "));
                     PrintName(StringBuilder, pInlinee);
                     PhAppendStringBuilder2(StringBuilder, L"\r\n");
                     IDiaSymbol_Release(pInlinee);
                 }
                 if (pSymbol3->lpVtbl->get_inlineeId(pSymbol3, &dwValue) == S_OK)
-                    PrintHex(StringBuilder, L"内联目标 ID", (ULONG64)dwValue);
+                    PrintHex(StringBuilder, PhTranslateTextZ(L"内联目标 ID"), (ULONG64)dwValue);
                 IDiaSymbol3_Release(pSymbol3);
             }
         }
@@ -1111,7 +1111,7 @@ VOID PrintTypeInDetail(
             if (IUnknown_QueryInterface(IDiaSymbolDetail, &IID_IDiaSymbol7, (void**)&pSymbol7) == S_OK)
             {
                 if (pSymbol7->lpVtbl->get_isSignRet(pSymbol7, &bValue) == S_OK)
-                    PrintBool(StringBuilder, L"返回值有符号", bValue);
+                    PrintBool(StringBuilder, PhTranslateTextZ(L"返回值有符号"), bValue);
                 IDiaSymbol7_Release(pSymbol7);
             }
         }
@@ -1125,7 +1125,7 @@ VOID PrintTypeInDetail(
                     pbData = PhAllocate(cbData);
                     if (pSymbol10->lpVtbl->get_sourceLink(pSymbol10, cbData, &cbData, (BYTE*)pbData) == S_OK)
                     {
-                        PhAppendStringBuilder2(StringBuilder, L"Source Link: 已找到\r\n");
+                        PhAppendStringBuilder2(StringBuilder, PhTranslateTextZ(L"Source Link: 已找到\r\n"));
                     }
                     PhFree(pbData);
                 }
@@ -1194,7 +1194,7 @@ ULONG PePdbGetSymbolDepth(
 PPV_SYMBOL_NODE PePdbCreateSyntheticSymbolNode(
     _In_ PPDB_SYMBOL_CONTEXT Context,
     _In_opt_ PPV_SYMBOL_NODE Parent,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_ PPH_STRINGREF Data
     )
 {
@@ -1303,7 +1303,7 @@ PPV_SYMBOL_NODE PePdbCreateDiaSymbolNode(
     else if (bstrName)
         symbol->Name = PhCreateString(bstrName);
     else if (symbolTag == SymTagExe)
-        symbol->Name = PhCreateString(L"全局作用域");
+        symbol->Name = PhCreateString(PhTranslateTextZ(L"全局作用域"));
     else
         symbol->Name = PhFormatString(L"%s <%lu>", symbolTagText->Buffer, symbolId);
 
@@ -1599,7 +1599,7 @@ VOID PePdbSetSyntheticSymbolData(
 PPV_SYMBOL_NODE PePdbCreateSyntheticSymbolNode2(
     _In_ PPDB_SYMBOL_CONTEXT Context,
     _In_opt_ PPV_SYMBOL_NODE Parent,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_opt_ PPH_STRING Data
     )
 {
@@ -1645,7 +1645,7 @@ VOID PePdbDumpDiaSourceFiles(
     if (IDiaSession_findFile(DiaSession, NULL, NULL, nsNone, &enumSourceFiles) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"源文件", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"源文件"), NULL);
 
     while (IDiaEnumSourceFiles_Next(enumSourceFiles, 1, &sourceFile, &count) == S_OK && count == 1)
     {
@@ -1660,8 +1660,8 @@ VOID PePdbDumpDiaSourceFiles(
         PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"源文件",
-            PhFormatString(L"ID: %lu，校验和类型: %lu", uniqueId, checksumType)
+            fileName ? fileName : PhTranslateTextZ(L"源文件"),
+            PhFormatString(PhTranslateTextZ(L"ID: %lu，校验和类型: %lu"), uniqueId, checksumType)
             );
 
         if (fileName)
@@ -1687,7 +1687,7 @@ VOID PePdbDumpDiaLineNumbers(
     if (IDiaSession_findLinesByRVA(DiaSession, 0, ULONG_MAX, &enumLineNumbers) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"行号", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"行号 "), NULL);
 
     while (IDiaEnumLineNumbers_Next(enumLineNumbers, 1, &lineNumber, &count) == S_OK && count == 1)
     {
@@ -1722,7 +1722,7 @@ VOID PePdbDumpDiaLineNumbers(
         if (fileName)
             name = PhFormatString(L"%s:%lu", fileName, line);
         else
-            name = PhFormatString(L"行 %lu", line);
+            name = PhFormatString(PhTranslateTextZ(L"行 %lu"), line);
 
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
@@ -1770,7 +1770,7 @@ VOID PePdbDumpDiaInputAssemblyFiles(
     if (IDiaSession_findInputAssemblyFiles(DiaSession, &enumInputAssemblyFiles) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"输入汇编文件", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"输入汇编文件"), NULL);
 
     while (IDiaEnumInputAssemblyFiles_Next(enumInputAssemblyFiles, 1, &inputAssemblyFile, &count) == S_OK && count == 1)
     {
@@ -1789,7 +1789,7 @@ VOID PePdbDumpDiaInputAssemblyFiles(
         PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"输入汇编文件",
+            fileName ? fileName : PhTranslateTextZ(L"输入汇编文件"),
             PhFormatString(
                 L"Id: %lu, Index: %lu, TimeStamp: 0x%08lx, PdbAvailableAtILMerge: %s",
                 uniqueId,
@@ -1822,7 +1822,7 @@ VOID PePdbDumpDiaInjectedSource(
     if (IDiaSession_findInjectedSource(DiaSession, NULL, &enumInjectedSources) != S_OK)
         return;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"注入的源码", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"注入的源码"), NULL);
 
     while (IDiaEnumInjectedSources_Next(enumInjectedSources, 1, &injectedSource, &count) == S_OK && count == 1)
     {
@@ -1844,7 +1844,7 @@ VOID PePdbDumpDiaInjectedSource(
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
-            fileName ? fileName : L"注入的源码",
+            fileName ? fileName : PhTranslateTextZ(L"注入的源码"),
             PhFormatString(
                 L"VirtualFile: %s, ObjectFile: %s, Crc: 0x%08lx, Compression: %lu",
                 virtualFileName ? virtualFileName : L"",
@@ -1880,7 +1880,7 @@ VOID PePdbDumpDiaSectionContribs(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"节", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"节"), NULL);
 
     while (IDiaEnumSectionContribs_Next(EnumSectionContribs, 1, &sectionContrib, &count) == S_OK && count == 1)
     {
@@ -1922,12 +1922,12 @@ VOID PePdbDumpDiaSectionContribs(
             PhFormatString(
                 L"CompilandId: %lu, Flags: %s%s%s%s%s%s, DataCrc: 0x%08lx, RelocationsCrc: 0x%08lx",
                 compilandId,
-                code ? L"代码 " : L"",
-                initializedData ? L"已初始化数据 " : L"",
-                uninitializedData ? L"未初始化数据 " : L"",
-                execute ? L"执行 " : L"",
-                read ? L"读 " : L"",
-                write ? L"写" : L"",
+                code ? PhTranslateTextZ(L"代码 ") : L"",
+                initializedData ? PhTranslateTextZ(L"已初始化数据 ") : L"",
+                uninitializedData ? PhTranslateTextZ(L"未初始化数据 ") : L"",
+                execute ? PhTranslateTextZ(L"执行 ") : L"",
+                read ? PhTranslateTextZ(L"读 ") : L"",
+                write ? PhTranslateTextZ(L"写") : L"",
                 dataCrc,
                 relocationsCrc
                 )
@@ -1955,7 +1955,7 @@ VOID PePdbDumpDiaSegments(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"段映射", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"段映射"), NULL);
 
     while (IDiaEnumSegments_Next(EnumSegments, 1, &segment, &count) == S_OK && count == 1)
     {
@@ -1979,7 +1979,7 @@ VOID PePdbDumpDiaSegments(
         IDiaSegment_get_write(segment, &write);
         IDiaSegment_get_execute(segment, &execute);
 
-        name = PhFormatString(L"帧 %lu", frame);
+        name = PhFormatString(PhTranslateTextZ(L"帧 %lu"), frame);
         node = PePdbCreateSyntheticSymbolNode2(
             Context,
             categoryNode,
@@ -1987,9 +1987,9 @@ VOID PePdbDumpDiaSegments(
             PhFormatString(
                 L"AddressSection: %lu, Flags: %s%s%s",
                 addressSection,
-                read ? L"读 " : L"",
-                write ? L"写 " : L"",
-                execute ? L"执行" : L""
+                read ? PhTranslateTextZ(L"读 ") : L"",
+                write ? PhTranslateTextZ(L"写 ") : L"",
+                execute ? PhTranslateTextZ(L"执行") : L""
                 )
             );
 
@@ -2015,7 +2015,7 @@ VOID PePdbDumpDiaFrameData(
     ULONG count = 0;
     PPV_SYMBOL_NODE categoryNode;
 
-    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, L"帧数据", NULL);
+    categoryNode = PePdbCreateSyntheticSymbolNode2(Context, Root, PhTranslateTextZ(L"帧数据"), NULL);
 
     while (IDiaEnumFrameData_Next(EnumFrameData, 1, &frameData, &count) == S_OK && count == 1)
     {
@@ -2457,7 +2457,7 @@ NTSTATUS PeDumpFileSymbols(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(NULL, L"无法加载该文件。", status, 0);
+                PhShowStatus(NULL, PhTranslateTextZ(L"无法加载该文件。"), status, 0);
                 return status;
             }
 
@@ -2479,7 +2479,7 @@ NTSTATUS PeDumpFileSymbols(
 
         if (!NT_SUCCESS(status))
         {
-            PhShowStatus(NULL, L"无法加载该文件。", status, 0);
+            PhShowStatus(NULL, PhTranslateTextZ(L"无法加载该文件。"), status, 0);
             return status;
         }
     }
@@ -2487,7 +2487,7 @@ NTSTATUS PeDumpFileSymbols(
     if (!baseOfDll)
     {
         PostMessage(Context->WindowHandle, WM_PV_SEARCH_FINISHED, 0, 0);
-        PhShowStatus(NULL, L"无法加载该文件。", STATUS_UNSUCCESSFUL, 0);
+        PhShowStatus(NULL, PhTranslateTextZ(L"无法加载该文件。"), STATUS_UNSUCCESSFUL, 0);
         return STATUS_UNSUCCESSFUL;
     }
 

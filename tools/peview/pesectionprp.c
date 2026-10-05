@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -14,9 +14,6 @@
 
 #include "../thirdparty/ssdeep/fuzzy.h"
 #include "../thirdparty/tlsh/tlsh_wrapper.h"
-
-static PH_STRINGREF EmptySectionsText = PH_STRINGREF_INIT(L"没有要显示的节。");
-static PH_STRINGREF LoadingSectionsText = PH_STRINGREF_INIT(L"正在从映像加载节...");
 
 typedef enum _PV_SECTION_TREE_COLUMN_ITEM
 {
@@ -215,50 +212,50 @@ PPH_STRING PvGetSectionCharacteristics(
     WCHAR pointer[PH_PTR_STR_LEN_1];
 
     if (Characteristics == 0)
-        return PhCreateString(L"关联 (0x0)");
+        return PhCreateString(PhTranslateTextZ(L"关联 (0x0)"));
 
     PhInitializeStringBuilder(&stringBuilder, 10);
 
     if (Characteristics & IMAGE_SCN_TYPE_NO_PAD)
-        PhAppendStringBuilder2(&stringBuilder, L"无填充, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"无填充, "));
     if (Characteristics & IMAGE_SCN_CNT_CODE)
-        PhAppendStringBuilder2(&stringBuilder, L"代码, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"代码, "));
     if (Characteristics & IMAGE_SCN_CNT_INITIALIZED_DATA)
-        PhAppendStringBuilder2(&stringBuilder, L"已初始化数据, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"已初始化数据, "));
     if (Characteristics & IMAGE_SCN_CNT_UNINITIALIZED_DATA)
-        PhAppendStringBuilder2(&stringBuilder, L"未初始化数据, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"未初始化数据, "));
     if (Characteristics & IMAGE_SCN_LNK_INFO)
-        PhAppendStringBuilder2(&stringBuilder, L"注释, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"注释, "));
     if (Characteristics & IMAGE_SCN_LNK_REMOVE)
-        PhAppendStringBuilder2(&stringBuilder, L"已排除, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"已排除, "));
     if (Characteristics & IMAGE_SCN_LNK_COMDAT)
         PhAppendStringBuilder2(&stringBuilder, L"COMDAT, ");
     if (Characteristics & IMAGE_SCN_NO_DEFER_SPEC_EXC)
-        PhAppendStringBuilder2(&stringBuilder, L"推测异常, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"推测异常, "));
     if (Characteristics & IMAGE_SCN_GPREL)
-        PhAppendStringBuilder2(&stringBuilder, L"GP 相对, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"GP 相对, "));
     if (Characteristics & IMAGE_SCN_MEM_PURGEABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"可清除, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可清除, "));
     if (Characteristics & IMAGE_SCN_MEM_LOCKED)
-        PhAppendStringBuilder2(&stringBuilder, L"已锁定, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"已锁定, "));
     if (Characteristics & IMAGE_SCN_MEM_PRELOAD)
-        PhAppendStringBuilder2(&stringBuilder, L"预加载, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"预加载, "));
     if (Characteristics & IMAGE_SCN_LNK_NRELOC_OVFL)
-        PhAppendStringBuilder2(&stringBuilder, L"扩展重定位, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"扩展重定位, "));
     if (Characteristics & IMAGE_SCN_MEM_DISCARDABLE)
-        PhAppendStringBuilder2(&stringBuilder, L"可丢弃, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可丢弃, "));
     if (Characteristics & IMAGE_SCN_MEM_NOT_CACHED)
-        PhAppendStringBuilder2(&stringBuilder, L"不可缓存, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"不可缓存, "));
     if (Characteristics & IMAGE_SCN_MEM_NOT_PAGED)
-        PhAppendStringBuilder2(&stringBuilder, L"不可分页, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"不可分页, "));
     if (Characteristics & IMAGE_SCN_MEM_SHARED)
-        PhAppendStringBuilder2(&stringBuilder, L"可共享, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可共享, "));
     if (Characteristics & IMAGE_SCN_MEM_EXECUTE)
-        PhAppendStringBuilder2(&stringBuilder, L"可执行, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可执行, "));
     if (Characteristics & IMAGE_SCN_MEM_READ)
-        PhAppendStringBuilder2(&stringBuilder, L"可读, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可读, "));
     if (Characteristics & IMAGE_SCN_MEM_WRITE)
-        PhAppendStringBuilder2(&stringBuilder, L"可写, ");
+        PhAppendStringBuilder2(&stringBuilder, PhTranslateTextZ(L"可写, "));
 
     if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
         PhRemoveEndStringBuilder(&stringBuilder, 2);
@@ -466,6 +463,8 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
     {
     case WM_INITDIALOG:
         {
+            PH_STRINGREF emptyText;
+
             context->DialogHandle = hwndDlg;
             context->TreeNewHandle = GetDlgItem(hwndDlg, IDC_TREELIST);
             context->SearchHandle = GetDlgItem(hwndDlg, IDC_TREESEARCH);
@@ -474,7 +473,7 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
             PvCreateSearchControl(
                 hwndDlg,
                 context->SearchHandle,
-                L"搜索节 (Ctrl+K)",
+                PhTranslateTextZ(L"搜索节 (Ctrl+K)"),
                 PvpPeSectionsSearchControlCallback,
                 context
                 );
@@ -484,7 +483,8 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
             PhLoadSettingsSectionList(context);
             PvConfigTreeBorders(context->TreeNewHandle);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &LoadingSectionsText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"正在从映像加载节..."));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             PhInitializeLayoutManager(&context->LayoutManager, hwndDlg);
             PhAddLayoutItem(&context->LayoutManager, context->SearchHandle, NULL, PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -558,14 +558,14 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_SETTINGS), &rect))
                         break;
 
-                    writableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_WRITE, L"隐藏可写", NULL, NULL);
-                    executableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_EXECUTE, L"隐藏可执行", NULL, NULL);
-                    codeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_CODE, L"隐藏代码", NULL, NULL);
-                    readMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_READ, L"隐藏可读", NULL, NULL);
-                    highlightWriteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_WRITE, L"高亮可写", NULL, NULL);
-                    highlightExecuteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, L"高亮可执行", NULL, NULL);
-                    highlightCodeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_CODE, L"高亮代码", NULL, NULL);
-                    highlightReadMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_READ, L"高亮可读", NULL, NULL);
+                    writableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_WRITE, PhTranslateTextZ(L"隐藏可写"), NULL, NULL);
+                    executableMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_EXECUTE, PhTranslateTextZ(L"隐藏可执行"), NULL, NULL);
+                    codeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_CODE, PhTranslateTextZ(L"隐藏代码"), NULL, NULL);
+                    readMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIDE_READ, PhTranslateTextZ(L"隐藏可读"), NULL, NULL);
+                    highlightWriteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_WRITE, PhTranslateTextZ(L"高亮可写"), NULL, NULL);
+                    highlightExecuteMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, PhTranslateTextZ(L"高亮可执行"), NULL, NULL);
+                    highlightCodeMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_CODE, PhTranslateTextZ(L"高亮代码"), NULL, NULL);
+                    highlightReadMenuItem = PhCreateEMenuItem(0, SECTION_TREE_MENU_ITEM_HIGHLIGHT_READ, PhTranslateTextZ(L"高亮可读"), NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, writableMenuItem, ULONG_MAX);
@@ -619,9 +619,12 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
         break;
     case WM_PV_SEARCH_FINISHED:
         {
+            PH_STRINGREF emptyText;
+
             PvAddPendingSectionNodes(context);
 
-            TreeNew_SetEmptyText(context->TreeNewHandle, &EmptySectionsText, 0);
+            PhInitializeStringRef(&emptyText, PhTranslateTextZ(L"没有要显示的节。"));
+            TreeNew_SetEmptyText(context->TreeNewHandle, &emptyText, 0);
 
             TreeNew_NodesStructured(context->TreeNewHandle);
         }
@@ -640,7 +643,7 @@ INT_PTR CALLBACK PvPeSectionsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(

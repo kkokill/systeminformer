@@ -23,25 +23,25 @@ PPH_STRING EtFirmwareAttributeToString(
     PhInitializeStringBuilder(&sb, 0x100);
 
     if (Attribute & EFI_VARIABLE_NON_VOLATILE)
-        PhAppendStringBuilder2(&sb, L"非易失性, ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"非易失性, ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_BOOTSERVICE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"引导服务, ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"引导服务, ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_RUNTIME_ACCESS)
-        PhAppendStringBuilder2(&sb, L"运行时访问, ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"运行时访问, ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_HARDWARE_ERROR_RECORD)
-        PhAppendStringBuilder2(&sb, L"硬件错误记录, "); 
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"硬件错误记录, ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_AUTHENTICATED_WRITE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"认证写入访问, ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"认证写入访问, ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS)
-        PhAppendStringBuilder2(&sb, L"认证写入访问 (时间基于), ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"认证写入访问 (时间基于), ")); // 语言切换
 
     if (Attribute & EFI_VARIABLE_APPEND_WRITE)
-        PhAppendStringBuilder2(&sb, L"追加写入, ");
+        PhAppendStringBuilder2(&sb, PhTranslateTextZ(L"追加写入, ")); // 语言切换
 
     if (PhEndsWithStringRef2(&sb.String->sr, L", ", FALSE))
         PhRemoveEndStringBuilder(&sb, 2);
@@ -472,7 +472,7 @@ VOID EtShowFirmwareDialog(
             ParentWindowHandle,
             L"无法查询固件表。",
             L"%s",
-            L"Windows 使用旧 BIOS。"
+            PhTranslateTextZ(L"Windows 使用旧 BIOS。") // 语言切换
             );
     }
 

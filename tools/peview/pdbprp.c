@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -454,8 +454,20 @@ BOOLEAN NTAPI PvSymbolTreeNewCallback(
                 {
                     if (node->Data)
                     {
-                        getCellText->Text.Buffer = node->Data->Buffer;
-                        getCellText->Text.Length = node->Data->Length;
+                        // 语言切换：SymTag 等数据列查翻译字典（命中时译文为 NUL 结尾静态串）
+                        PCWSTR buffer = node->Data->Buffer;
+                        PCWSTR translated = PhTranslateTextZ(buffer);
+
+                        if (translated != buffer)
+                        {
+                            getCellText->Text.Buffer = (PWSTR)translated;
+                            getCellText->Text.Length = wcslen(translated) * sizeof(WCHAR);
+                        }
+                        else
+                        {
+                            getCellText->Text.Buffer = node->Data->Buffer;
+                            getCellText->Text.Length = node->Data->Length;
+                        }
                     }
                     else
                     {
@@ -1009,16 +1021,16 @@ INT_PTR CALLBACK PvpSymbolsDlgProc(
                     if (!PhGetWindowRect(GetDlgItem(hwndDlg, IDC_SETTINGS), &rect))
                         break;
 
-                    writableMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_WRITE, L"隐藏可写", NULL, NULL);
-                    executableMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_EXECUTE, L"隐藏可执行", NULL, NULL);
-                    codeMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_CODE, L"隐藏代码", NULL, NULL);
-                    readMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_READ, L"隐藏可读", NULL, NULL);
-                    parametersMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_PARAMETERS, L"隐藏参数", NULL, NULL);
-                    filterWriteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_FILTER_WRITE, L"过滤非可写", NULL, NULL);
-                    highlightWriteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_WRITE, L"高亮可写", NULL, NULL);
-                    highlightExecuteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, L"高亮可执行", NULL, NULL);
-                    highlightCodeMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_CODE, L"高亮代码", NULL, NULL);
-                    highlightReadMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_READ, L"高亮可读", NULL, NULL);
+                    writableMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_WRITE, PhTranslateTextZ(L"隐藏可写"), NULL, NULL);
+                    executableMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_EXECUTE, PhTranslateTextZ(L"隐藏可执行"), NULL, NULL);
+                    codeMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_CODE, PhTranslateTextZ(L"隐藏代码"), NULL, NULL);
+                    readMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_READ, PhTranslateTextZ(L"隐藏可读"), NULL, NULL);
+                    parametersMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIDE_PARAMETERS, PhTranslateTextZ(L"隐藏参数"), NULL, NULL);
+                    filterWriteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_FILTER_WRITE, PhTranslateTextZ(L"过滤非可写"), NULL, NULL);
+                    highlightWriteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_WRITE, PhTranslateTextZ(L"高亮可写"), NULL, NULL);
+                    highlightExecuteMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_EXECUTE, PhTranslateTextZ(L"高亮可执行"), NULL, NULL);
+                    highlightCodeMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_CODE, PhTranslateTextZ(L"高亮代码"), NULL, NULL);
+                    highlightReadMenuItem = PhCreateEMenuItem(0, PV_SYMBOL_TREE_MENU_ITEM_HIGHLIGHT_READ, PhTranslateTextZ(L"高亮可读"), NULL, NULL);
 
                     menu = PhCreateEMenu();
                     PhInsertEMenuItem(menu, writableMenuItem, ULONG_MAX);
@@ -1117,7 +1129,7 @@ INT_PTR CALLBACK PvpSymbolsDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, 1, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(
@@ -1187,7 +1199,7 @@ VOID PvPdbProperties(
 
     if (!PhDoesFileExistWin32(PhGetString(PvFileName)))
     {
-        PhShowStatus(NULL, L"无法加载 pdb 文件", STATUS_FILE_NOT_AVAILABLE, 0);
+        PhShowStatus(NULL, PhTranslateTextZ(L"无法加载 pdb 文件"), STATUS_FILE_NOT_AVAILABLE, 0);
         return;
     }
 

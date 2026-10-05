@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -84,6 +84,8 @@ static INT PvPropertiesWindowShowCommand = SW_SHOW;
 static PH_LAYOUT_MANAGER PvTabWindowLayoutManager;
 static PPH_LIST PvTabSectionList = NULL;
 static PPV_WINDOW_SECTION PvTabCurrentSection = NULL;
+static BOOLEAN PvPropertiesWindowReopen = FALSE; // 语言切换后请求重建属性窗口
+static PPH_STRING PvPropertiesWindowReopenPage = NULL; // 重建后要恢复的节名
 
 VOID PvShowPePropertiesWindow(
     VOID
@@ -93,37 +95,73 @@ VOID PvShowPePropertiesWindow(
     MSG message;
     PH_AUTO_POOL autoPool;
 
-    PhInitializeAutoPool(&autoPool);
-
-    PvPropertiesWindowHandle = PhCreateDialog(
-        PhInstanceHandle,
-        MAKEINTRESOURCE(IDD_TABWINDOW),
-        NULL,
-        PvTabWindowDialogProc,
-        NULL
-        );
-
-    if (PhGetIntegerSetting(L"MainWindowState") == SW_MAXIMIZE)
-        PvPropertiesWindowShowCommand = SW_MAXIMIZE;
-
-    ShowWindow(PvPropertiesWindowHandle, PvPropertiesWindowShowCommand);
-    SetForegroundWindow(PvPropertiesWindowHandle);
-
-    while (result = GetMessage(&message, NULL, 0, 0))
+    // 语言切换后重建窗口：所有页面（含已填充的列表/树内容）按新语言全部重建
+    do
     {
-        if (result == -1)
-            break;
+        PvPropertiesWindowReopen = FALSE;
 
-        if (!IsDialogMessage(PvPropertiesWindowHandle, &message))
+        PhInitializeAutoPool(&autoPool);
+
+        PvPropertiesWindowHandle = PhCreateDialog(
+            PhInstanceHandle,
+            MAKEINTRESOURCE(IDD_TABWINDOW),
+            NULL,
+            PvTabWindowDialogProc,
+            NULL
+            );
+
+        if (PhGetIntegerSetting(L"MainWindowState") == SW_MAXIMIZE)
+            PvPropertiesWindowShowCommand = SW_MAXIMIZE;
+
+        ShowWindow(PvPropertiesWindowHandle, PvPropertiesWindowShowCommand);
+        SetForegroundWindow(PvPropertiesWindowHandle);
+
+        PhTranslateWindowTree(PvPropertiesWindowHandle); // 英文模式首启：翻译左侧节树等窗口文本
+
+        while (result = GetMessage(&message, NULL, 0, 0))
         {
-            TranslateMessage(&message);
-            DispatchMessage(&message);
+            if (result == -1)
+                break;
+
+            if (!IsDialogMessage(PvPropertiesWindowHandle, &message))
+            {
+                TranslateMessage(&message);
+                DispatchMessage(&message);
+            }
+
+            PhDrainAutoPool(&autoPool);
         }
 
-        PhDrainAutoPool(&autoPool);
-    }
+        PhDeleteAutoPool(&autoPool);
+    } while (PvPropertiesWindowReopen);
+}
 
-    PhDeleteAutoPool(&autoPool);
+VOID PvUpdatePropertiesWindowTitle(
+    VOID
+    )
+{
+    if (PvPropertiesWindowHandle)
+    {
+        PhSetWindowText(
+            PvPropertiesWindowHandle,
+            PhaFormatString(PhTranslateTextZ(L"%s 属性"), PhGetString(PvFileName))->Buffer
+            );
+    }
+}
+
+VOID PvRequestPropertiesWindowReopen(
+    VOID
+    )
+{
+    // 语言切换后重建属性窗口：记录当前节页，销毁后由 PvShowPePropertiesWindow 循环重建
+    if (PvPropertiesWindowHandle && !PvPropertiesWindowReopen)
+    {
+        if (PvTabCurrentSection)
+            PhMoveReference(&PvPropertiesWindowReopenPage, PhCreateString2(&PvTabCurrentSection->Name));
+
+        PvPropertiesWindowReopen = TRUE;
+        DestroyWindow(PvPropertiesWindowHandle);
+    }
 }
 
 VOID PvAddTreeViewSections(
@@ -142,7 +180,7 @@ VOID PvAddTreeViewSections(
 
     // General page
     section = PvCreateTabSection(
-        L"常规",
+        L"常规 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEGENERAL),
         PvPeGeneralDlgProc,
@@ -162,7 +200,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG, &entry)))
     {
         PvCreateTabSection(
-            L"加载配置",
+            L"加载配置 ",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PELOADCONFIG),
             PvPeLoadConfigDlgProc,
@@ -172,7 +210,7 @@ VOID PvAddTreeViewSections(
 
     // Sections page
     PvCreateTabSection(
-        L"节",
+        L"节 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESECTIONS),
         PvPeSectionsDlgProc,
@@ -181,7 +219,7 @@ VOID PvAddTreeViewSections(
 
     // Directories page
     PvCreateTabSection(
-        L"目录",
+        L"目录 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEDIRECTORY),
         PvPeDirectoryDlgProc,
@@ -193,7 +231,7 @@ VOID PvAddTreeViewSections(
         (NT_SUCCESS(PhGetMappedImageDelayImports(&imports, &PvMappedImage)) && imports.NumberOfDlls != 0))
     {
         PvCreateTabSection(
-            L"导入",
+            L"导入 ",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEIMPORTS),
             PvPeImportsDlgProc,
@@ -218,7 +256,7 @@ VOID PvAddTreeViewSections(
         propSheetPage->lParam = (LPARAM)propPageContext;
 
         PvCreateTabSection(
-            L"导出",
+            L"导出 ",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PEEXPORTS),
             PvPeExportsDlgProc,
@@ -255,7 +293,7 @@ VOID PvAddTreeViewSections(
     if (NT_SUCCESS(PhGetMappedImageDataDirectory(&PvMappedImage, IMAGE_DIRECTORY_ENTRY_RESOURCE, &entry)))
     {
         PvCreateTabSection(
-            L"资源",
+            L"资源 ",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PERESOURCES),
             PvPeResourcesDlgProc,
@@ -617,7 +655,7 @@ VOID PvAddTreeViewSections(
 
     // Extended attributes page
     PvCreateTabSection(
-        L"属性",
+        L"属性 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEATTR),
         PvpPeExtendedAttributesDlgProc,
@@ -626,7 +664,7 @@ VOID PvAddTreeViewSections(
 
     // Streams page
     PvCreateTabSection(
-        L"流",
+        L"流 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESTREAMS),
         PvpPeStreamsDlgProc,
@@ -653,7 +691,7 @@ VOID PvAddTreeViewSections(
 
     // Processes page
     PvCreateTabSection(
-        L"进程",
+        L"进程 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PIDS),
         PvpPeProcessesDlgProc,
@@ -662,7 +700,7 @@ VOID PvAddTreeViewSections(
 
     // Hashes page
     PvCreateTabSection(
-        L"哈希",
+        L"哈希 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PEHASHES),
         PvpPeHashesDlgProc,
@@ -680,7 +718,7 @@ VOID PvAddTreeViewSections(
 
     // Symbols page
     PvCreateTabSection(
-        L"符号",
+        L"符号 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_PESYMBOLS),
         PvpSymbolsDlgProc,
@@ -689,7 +727,7 @@ VOID PvAddTreeViewSections(
 
     // Strings page
     PvCreateTabSection(
-        L"字符串",
+        L"字符串 ",
         PhInstanceHandle,
         MAKEINTRESOURCE(IDD_STRINGS),
         PvStringsDlgProc,
@@ -709,7 +747,7 @@ VOID PvAddTreeViewSections(
     if (KphLevelEx(FALSE) >= KphLevelMed)
     {
         PvCreateTabSection(
-            L"映射",
+            L"映射 ",
             PhInstanceHandle,
             MAKEINTRESOURCE(IDD_PERELOCATIONS),
             PvpMappingsDlgProc,
@@ -744,7 +782,17 @@ VOID PvAddTreeViewSections(
         NULL
         );
 
-    if (PhGetIntegerSetting(L"MainWindowPageRestoreEnabled"))
+    // 语言切换重建：优先恢复重建前的节页
+    if (PvPropertiesWindowReopenPage)
+    {
+        PPV_WINDOW_SECTION reopenSection;
+
+        if (reopenSection = PvFindTabSectionByName(&PvPropertiesWindowReopenPage->sr))
+            TreeView_SelectItem(PvTabTreeControl, reopenSection->TreeItemHandle);
+
+        PhClearReference(&PvPropertiesWindowReopenPage);
+    }
+    else if (PhGetIntegerSetting(L"MainWindowPageRestoreEnabled"))
     {
         PPH_STRING startPage;
         PPV_WINDOW_SECTION startSection;
@@ -792,7 +840,10 @@ INT_PTR CALLBACK PvTabWindowDialogProc(
             PvTabTreeControl = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
             PvTabContainerControl = GetDlgItem(hwndDlg, IDD_CONTAINER);
 
-            PhSetWindowText(hwndDlg, PhaFormatString(L"%s 属性", PhGetString(PvFileName))->Buffer);
+            // 语言按钮文本显示目标语言，由 PvEnumLanguageButtonProc 全权管理，重翻遍历跳过
+            PhSetWindowNoRetranslate(GetDlgItem(hwndDlg, IDC_LANGUAGE));
+
+            PhSetWindowText(hwndDlg, PhaFormatString(PhTranslateTextZ(L"%s 属性"), PhGetString(PvFileName))->Buffer);
 
             //PhSetWindowStyle(GetDlgItem(hwndDlg, IDC_SEPARATOR), SS_OWNERDRAW, SS_OWNERDRAW);
             PhSetControlTheme(PvTabTreeControl, L"explorer");
@@ -806,6 +857,7 @@ INT_PTR CALLBACK PvTabWindowDialogProc(
             PhAddLayoutItem(&PvTabWindowLayoutManager, PvTabContainerControl, NULL, PH_ANCHOR_LEFT | PH_ANCHOR_TOP | PH_ANCHOR_RIGHT | PH_ANCHOR_BOTTOM);
             PhAddLayoutItem(&PvTabWindowLayoutManager, GetDlgItem(hwndDlg, IDC_OPTIONS), NULL, PH_ANCHOR_LEFT | PH_ANCHOR_BOTTOM);
             PhAddLayoutItem(&PvTabWindowLayoutManager, GetDlgItem(hwndDlg, IDC_SECURITY), NULL, PH_ANCHOR_LEFT | PH_ANCHOR_BOTTOM);
+            PhAddLayoutItem(&PvTabWindowLayoutManager, GetDlgItem(hwndDlg, IDC_LANGUAGE), NULL, PH_ANCHOR_LEFT | PH_ANCHOR_BOTTOM);
             PhAddLayoutItem(&PvTabWindowLayoutManager, GetDlgItem(hwndDlg, IDOK), NULL, PH_ANCHOR_RIGHT | PH_ANCHOR_BOTTOM);
 
             if (PhEnableThemeSupport)
@@ -926,6 +978,13 @@ INT_PTR CALLBACK PvTabWindowDialogProc(
                         PhpCloseFileSecurity,
                         NULL
                         );
+                }
+                break;
+            case IDC_LANGUAGE:
+                {
+                    // 底排按钮实时切换语言；随后重建属性窗口，刷新所有已填充的页面内容
+                    PvApplyApplicationLanguage(!PhTranslateIsEnglishEnabled());
+                    PvRequestPropertiesWindowReopen();
                 }
                 break;
             }

@@ -243,33 +243,33 @@ VOID UpdateBitsStatusText(
     case BG_JOB_STATE_QUEUED:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在排队 BITS 下载..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"正在排队 BITS 下载...")));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"正在排队 BITS 下载...");
+                UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"正在排队 BITS 下载..."));
         }
         break;
     case BG_JOB_STATE_CONNECTING:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在通过 BITS 连接..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"正在通过 BITS 连接...")));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"正在通过 BITS 连接...");
+                UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"正在通过 BITS 连接..."));
         }
         break;
     case BG_JOB_STATE_TRANSFERRING:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在通过 BITS 下载..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"正在通过 BITS 下载...")));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"正在通过 BITS 下载...");
+                UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"正在通过 BITS 下载..."));
         }
         break;
     case BG_JOB_STATE_TRANSIENT_ERROR:
         {
             if (Context->DialogHandle)
-                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"BITS 下载重试中..."));
+                SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"BITS 下载重试中...")));
             else if (Context->ToastMode)
-                UpdaterUpdateProgressToast(Context, L"BITS 下载重试中...");
+                UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"BITS 下载重试中..."));
         }
         break;
     }
@@ -328,12 +328,12 @@ EXTERN_C NTSTATUS UpdateDownloadFileWithBits(
 
     if (Context->DialogHandle)
     {
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(L"正在初始化 BITS 下载..."));
-        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, reinterpret_cast<LPARAM>(L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s"));
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_MAIN_INSTRUCTION, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"正在初始化 BITS 下载...")));
+        SendMessage(Context->DialogHandle, TDM_UPDATE_ELEMENT_TEXT, TDE_CONTENT, reinterpret_cast<LPARAM>(PhTranslateTextZ(L"已下载: ~ / ~ (0%)\r\n速度: ~ KB/s")));
     }
     else if (Context->ToastMode)
     {
-        UpdaterUpdateProgressToast(Context, L"正在初始化 BITS 下载...");
+        UpdaterUpdateProgressToast(Context, PhTranslateTextZ(L"正在初始化 BITS 下载..."));
     }
 
     memset(Result, 0, sizeof(UPDATER_DOWNLOAD_RESULT));

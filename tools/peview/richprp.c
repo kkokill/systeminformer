@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -48,7 +48,7 @@ PWSTR PvpGetProductIdName(
     else if (ProductId == 1)
         return L"Linker (Import Table)";
 
-    return PhaFormatString(L"报告错误 (%lu)", ProductId)->Buffer;
+    return PhaFormatString(PhTranslateTextZ(L"报告错误 (%lu)"), ProductId)->Buffer;
 }
 
 PWSTR PvpGetProductIdComponent(
@@ -326,7 +326,7 @@ PWSTR PvpGetProductIdComponent(
         return L"Profile Guided Optimization (Output) (C11)";
     }
 
-    return PhaFormatString(L"报告错误 (%lu)", ProductId)->Buffer;
+    return PhaFormatString(PhTranslateTextZ(L"报告错误 (%lu)"), ProductId)->Buffer;
 }
 
 VOID PvpPeEnumProdEntries(

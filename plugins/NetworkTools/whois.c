@@ -764,7 +764,7 @@ BOOLEAN NetworkToolsQueryWhois(
 
     if (Progress)
     {
-        PPH_STRING message = PhFormatString(L"正在连接到 %s...", PhGetStringOrEmpty(whoisServerName));
+        PPH_STRING message = PhFormatString(PhTranslateTextZ(L"正在连接到 %s..."), PhGetStringOrEmpty(whoisServerName));
 
         Progress(PhGetString(message), Context);
         PhDereferenceObject(message);

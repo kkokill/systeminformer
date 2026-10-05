@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -541,14 +541,14 @@ BOOLEAN NTAPI PvCertificateTreeNewCallback(
                     {
                     case PV_CERTIFICATE_NODE_TYPE_IMAGE:
                     case PV_CERTIFICATE_NODE_TYPE_IMAGEARRAY:
-                        PhInitializeStringRef(&getCellText->Text, L"映像");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"映像"));
                         break;
                     //case PV_CERTIFICATE_NODE_TYPE_IMAGEARRAY:
                     //    PhInitializeStringRef(&getCellText->Text, L"Chained");
                     //    break;
                     case PV_CERTIFICATE_NODE_TYPE_NESTED:
                     case PV_CERTIFICATE_NODE_TYPE_NESTEDARRAY:
-                        PhInitializeStringRef(&getCellText->Text, L"嵌套");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"嵌套"));
                         break;
                     //case PV_CERTIFICATE_NODE_TYPE_NESTEDARRAY:
                     //    PhInitializeStringRef(&getCellText->Text, L"Chained");
@@ -833,7 +833,7 @@ PPH_STRING PvpPeGetRelativeTimeString(
     PhLargeIntegerToLocalSystemTime(&timeFields, &time);
     timeString = PH_AUTO(PvpPeFormatDateTime(&timeFields));
 
-    return PhFormatString(L"%s (%s前)", timeString->Buffer, timeRelativeString->Buffer);
+    return PhFormatString(PhTranslateTextZ(L"%s (%s前)"), timeString->Buffer, timeRelativeString->Buffer);
 }
 
 typedef BOOLEAN (CALLBACK* PH_CERT_ENUM_CALLBACK)(
@@ -1366,7 +1366,7 @@ VOID PvpPeEnumerateFileCertificates(
     if (certificateDirectoryLength)
     {
         PhSetWindowText(Context->LabelHandle, PhaFormatString(
-            L"大小: %s (证书数: %s)",
+            PhTranslateTextZ(L"大小: %s (证书数: %s)"),
             PhaFormatSize(certificateDirectoryLength, ULONG_MAX)->Buffer,
             PhaFormatSize(Context->TotalSize, ULONG_MAX)->Buffer
             )->Buffer);
@@ -1561,10 +1561,10 @@ INT_PTR CALLBACK PvpPeSecurityDlgProc(
                     if (numberOfNodes != 0)
                     {
                         menu = PhCreateEMenu();
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"查看证书...", NULL, NULL), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"保存证书...", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"查看证书..."), NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"保存证书..."), NULL, NULL), ULONG_MAX);
                         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                         PhInsertCopyCellEMenuItem(menu, USHRT_MAX, context->TreeNewHandle, contextMenuEvent->Column);
 
                         selectedItem = PhShowEMenu(

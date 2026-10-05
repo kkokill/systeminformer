@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -213,10 +213,10 @@ PPH_STRING PvpPeResourceDumpFileName(
     _In_ HWND ParentWindow
     )
 {
-    static PH_FILETYPE_FILTER filters[] =
+    PH_FILETYPE_FILTER filters[] =
     {
-        { L"资源数据 (*.data)", L"*.data" },
-        { L"所有文件 (*.*)", L"*.*" }
+        { (PWSTR)PhTranslateTextZ(L"资源数据 (*.data)"), L"*.data" },
+        { (PWSTR)PhTranslateTextZ(L"所有文件 (*.*)"), L"*.*" }
     };
     PPH_STRING fileName = NULL;
     PVOID fileDialog;
@@ -321,7 +321,7 @@ VOID PvpPeResourceSaveToFile(
 
             if (!NT_SUCCESS(status))
             {
-                PhShowStatus(WindowHandle, L"无法保存资源。", status, 0);
+                PhShowStatus(WindowHandle, PhTranslateTextZ(L"无法保存资源。"), status, 0);
             }
         }
     }
@@ -412,7 +412,7 @@ VOID PvpPeEnumMappedImageResources(
                 }
                 else
                 {
-                    resourceNode->LcidString = PhCreateString(L"中性"); // LOCALE_NEUTRAL
+                    resourceNode->LcidString = PhCreateString(PhTranslateTextZ(L"中性")); // LOCALE_NEUTRAL
                 }
             }
             else
@@ -686,10 +686,10 @@ INT_PTR CALLBACK PvPeResourcesDlgProc(
             if (numberOfNodes != 0)
             {
                 menu = PhCreateEMenu();
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, L"显示资源...", NULL, NULL), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"保存资源...", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 2, PhTranslateTextZ(L"显示资源..."), NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"保存资源..."), NULL, NULL), ULONG_MAX);
                 PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                 PhInsertCopyCellEMenuItem(menu, USHRT_MAX, context->TreeNewHandle, contextMenuEvent->Column);
 
                 selectedItem = PhShowEMenu(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2026 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -98,13 +98,13 @@ PCWSTR EtCacheLatencyTypeString(
     switch (Type)
     {
     case 1:
-        return L"数据";
+        return PhTranslateTextZ(L"数据"); // 语言切换
     case 2:
-        return L"指令";
+        return PhTranslateTextZ(L"指令"); // 语言切换
     case 3:
-        return L"统一";
+        return PhTranslateTextZ(L"统一"); // 语言切换
     default:
-        return L"未知";
+        return PhTranslateTextZ(L"未知"); // 语言切换
     }
 }
 
@@ -1021,7 +1021,7 @@ VOID EtCacheLatencyAddSummaryRows(
         }
 
         PhSetWindowText(Context->SummaryLabelHandles[slot], PhaFormatString(
-            L"L%lu %s 延迟：%lu 周期 (%lu KB)",
+            PhTranslateTextZ(L"L%lu %s 延迟：%lu 周期 (%lu KB)"), // 语言切换
             cache->Level,
             EtCacheLatencyTypeString(cache->Type),
             samples ? (ULONG)(sum / samples) : 0,
@@ -1047,7 +1047,7 @@ VOID EtCacheLatencyAddSummaryRows(
     }
 
     PhSetWindowText(Context->SummaryLabelHandles[3], PhaFormatString(
-        L"DRAM 延迟：%lu 周期 (%lu KB)",
+        PhTranslateTextZ(L"DRAM 延迟：%lu 周期 (%lu KB)"), // 语言切换
         dramSamples ? (ULONG)(dramSum / dramSamples) : 0,
         1u << dramRow
         )->Buffer);

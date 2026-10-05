@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -199,9 +199,9 @@ INT_PTR CALLBACK PvpPeExtendedAttributesDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, L"删除(&D)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, 1, PhTranslateTextZ(L"删除(&D)"), NULL, NULL), ULONG_MAX);
                     PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PvInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     item = PhShowEMenu(
@@ -257,7 +257,7 @@ INT_PTR CALLBACK PvpPeExtendedAttributesDlgProc(
                                     }
                                     else
                                     {
-                                        PhShowStatus(hwndDlg, L"无法移除特性。", status, 0);
+                                        PhShowStatus(hwndDlg, PhTranslateTextZ(L"无法移除特性。"), status, 0);
                                     }
 
                                     PhClearReference(&nameUtf);

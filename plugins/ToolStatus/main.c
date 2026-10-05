@@ -385,13 +385,13 @@ VOID NTAPI TabPageUpdatedCallback(
     switch (tabIndex)
     {
     case 0:
-        Edit_SetCueBannerText(SearchboxHandle, L"搜索进程 (Ctrl+K)");
+        Edit_SetCueBannerText(SearchboxHandle, PhTranslateTextZ(L"搜索进程 (Ctrl+K)")); // 语言切换
         break;
     case 1:
-        Edit_SetCueBannerText(SearchboxHandle, L"搜索服务 (Ctrl+K)");
+        Edit_SetCueBannerText(SearchboxHandle, PhTranslateTextZ(L"搜索服务 (Ctrl+K)")); // 语言切换
         break;
     case 2:
-        Edit_SetCueBannerText(SearchboxHandle, L"搜索网络 (Ctrl+K)");
+        Edit_SetCueBannerText(SearchboxHandle, PhTranslateTextZ(L"搜索网络 (Ctrl+K)")); // 语言切换
         break;
     default:
         {
@@ -399,7 +399,7 @@ VOID NTAPI TabPageUpdatedCallback(
             PPH_STRING text;
 
             text = PH_AUTO_T(PH_STRING, GetTabIndexBannerText(tabIndex, &string));
-            Edit_SetCueBannerText(SearchboxHandle, PhGetStringOrDefault(text, L"搜索已禁用"));
+            Edit_SetCueBannerText(SearchboxHandle, PhGetStringOrDefault(text, PhTranslateTextZ(L"搜索已禁用"))); // 语言切换
         }
         break;
     }

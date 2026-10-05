@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -726,7 +726,7 @@ VOID PvShowResourceViewerDialog(
 
     if (!NT_SUCCESS(PhGetMappedImageResources(&resources, MappedImage)))
     {
-        PhShowError(ParentWindowHandle, L"%s", L"无法枚举映像资源。");
+        PhShowError(ParentWindowHandle, L"%s", PhTranslateTextZ(L"无法枚举映像资源。"));
         return;
     }
 
@@ -743,7 +743,7 @@ VOID PvShowResourceViewerDialog(
     if (!found || entry.Size == 0 || !NT_SUCCESS(PhMappedImageRvaToVa(MappedImage, entry.Offset, &data)) || !data)
     {
         PhFree(resources.ResourceEntries);
-        PhShowError(ParentWindowHandle, L"%s", L"无法定位资源数据。");
+        PhShowError(ParentWindowHandle, L"%s", PhTranslateTextZ(L"无法定位资源数据。"));
         return;
     }
 

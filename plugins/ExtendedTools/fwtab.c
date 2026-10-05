@@ -171,7 +171,7 @@ BOOLEAN FwTabPageCallback(
                     {
                         EtFwStatusText = PhFormatString(
                             L"%s %s (%lu)",
-                            L"无法启动防火墙事件跟踪会话： ",
+                            PhTranslateTextZ(L"无法启动防火墙事件跟踪会话： "), // 语言切换
                             statusMessage->Buffer,
                             EtFwStatus);
                         PhDereferenceObject(statusMessage);
@@ -180,7 +180,7 @@ BOOLEAN FwTabPageCallback(
                     {
                         EtFwStatusText = PhFormatString(
                             L"%s (%lu)",
-                            L"无法启动防火墙事件跟踪会话： ",
+                            PhTranslateTextZ(L"无法启动防火墙事件跟踪会话： "), // 语言切换
                             EtFwStatus);
                     }
 
@@ -1274,8 +1274,8 @@ BOOLEAN NTAPI FwTreeNewCallback(
 
                         if (PhIndexStringRefSiKeyValuePairs(FwEventDirectionLoopbackPairs, sizeof(FwEventDirectionLoopbackPairs), node->Direction, &string))
                         {
-                            getCellText->Text.Buffer = string->Buffer;
-                            getCellText->Text.Length = string->Length;
+                            getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                            getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                         }
                     }
                     else
@@ -1284,8 +1284,8 @@ BOOLEAN NTAPI FwTreeNewCallback(
 
                         if (PhIndexStringRefSiKeyValuePairs(FwEventDirectionPairs, sizeof(FwEventDirectionPairs), node->Direction, &string))
                         {
-                            getCellText->Text.Buffer = string->Buffer;
-                            getCellText->Text.Length = string->Length;
+                            getCellText->Text.Buffer = (PWSTR)PhTranslateTextZ(string->Buffer); // 实时翻译
+                            getCellText->Text.Length = (USHORT)PhCountStringZ(getCellText->Text.Buffer) * sizeof(WCHAR);
                         }
                     }
                 }
@@ -1326,7 +1326,7 @@ BOOLEAN NTAPI FwTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"正在解析...")); // 语言切换
                     }
                 }
                 break;
@@ -1356,7 +1356,7 @@ BOOLEAN NTAPI FwTreeNewCallback(
                     }
                     else
                     {
-                        PhInitializeStringRef(&getCellText->Text, L"正在解析...");
+                        PhInitializeStringRef(&getCellText->Text, PhTranslateTextZ(L"正在解析...")); // 语言切换
                     }
                 }
                 break;
@@ -2031,7 +2031,7 @@ VOID EtFwHandleFwCommand(
                         SETTING_PROGRAM_INSPECT_EXECUTABLES,
                         PhGetString(entry->ProcessFileName),
                         FALSE,
-                        L"请确保 PE 查看器可执行文件存在。"
+                        PhTranslateTextZ(L"请确保 PE 查看器可执行文件存在。") // 语言切换
                         );
                 }
             }
@@ -2110,17 +2110,17 @@ VOID ShowFwContextMenu(
 
         menu = PhCreateEMenu();
         PhInsertEMenuItem(menu, pingMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PING, L"Ping", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, traceMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_TRACERT, L"路由跟踪", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, traceMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_TRACERT, PhTranslateTextZ(L"路由跟踪"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, whoisMenu = PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_WHOIS, L"Whois", NULL, NULL), ULONG_MAX);
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_GOTOPROCESS, L"转到进程", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_GOTOPROCESS, PhTranslateTextZ(L"转到进程"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_OPENFILELOCATION, L"打开文件位置\bEnter", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_OPENFILELOCATION, PhTranslateTextZ(L"打开文件位置\bEnter"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_INSPECT, L"检查", NULL, NULL), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PROPERTIES, L"属性", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_INSPECT, PhTranslateTextZ(L"检查"), NULL, NULL), ULONG_MAX); // 语言切换
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_PROPERTIES, PhTranslateTextZ(L"属性"), NULL, NULL), ULONG_MAX); // 语言切换
         PhInsertEMenuItem(menu, PhCreateEMenuSeparator(), ULONG_MAX);
-        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_COPY, L"复制\bCtrl+C", NULL, NULL), ULONG_MAX);
+        PhInsertEMenuItem(menu, PhCreateEMenuItem(0, FW_ITEM_COMMAND_ID_COPY, PhTranslateTextZ(L"复制\bCtrl+C"), NULL, NULL), ULONG_MAX); // 语言切换
         InitializeFwMenu(menu, fwItems, numberOfFwItems);
         PhInsertCopyCellEMenuItem(menu, FW_ITEM_COMMAND_ID_COPY, TreeWindowHandle, ContextMenuEvent->Column);
         PhSetFlagsEMenuItem(menu, FW_ITEM_COMMAND_ID_GOTOPROCESS, PH_EMENU_DEFAULT, PH_EMENU_DEFAULT);

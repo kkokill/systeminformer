@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -717,46 +717,46 @@ VOID PvPeUpdateImageHeaderProperties(
     ListView_DeleteAllItems(Context->ListViewHandle);
 
     // DOS Headers
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MAGIC, L"魔术数字", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_BYTES, L"文件最后一页的字节数", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_PAGES, L"文件页数", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RELOCATIONS, L"重定位项", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_PARAGRAPH, L"以段计的头部大小", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MINPARA, L"所需最小额外段落数", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MAXPARA, L"所需最大额外段落数", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITRELSS, L"初始（相对）SS 值", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITRELSP, L"初始 SP 值", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_CHECKSUM, L"校验和", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITIP, L"初始 IP 值", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITCS, L"初始（相对）CS 值", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RELOCADDR, L"重定位表的文件地址", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OVERLAY, L"覆盖编号", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MAGIC, PhTranslateTextZ(L"魔术数字"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_BYTES, PhTranslateTextZ(L"文件最后一页的字节数"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_PAGES, PhTranslateTextZ(L"文件页数"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RELOCATIONS, PhTranslateTextZ(L"重定位项"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_PARAGRAPH, PhTranslateTextZ(L"以段计的头部大小"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MINPARA, PhTranslateTextZ(L"所需最小额外段落数"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_MAXPARA, PhTranslateTextZ(L"所需最大额外段落数"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITRELSS, PhTranslateTextZ(L"初始（相对）SS 值"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITRELSP, PhTranslateTextZ(L"初始 SP 值"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_CHECKSUM, PhTranslateTextZ(L"校验和"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITIP, PhTranslateTextZ(L"初始 IP 值"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_INITCS, PhTranslateTextZ(L"初始（相对）CS 值"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RELOCADDR, PhTranslateTextZ(L"重定位表的文件地址"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OVERLAY, PhTranslateTextZ(L"覆盖编号"), NULL);
     //PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RESERVED1, L"Reserved words", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OEMID, L"OEM 标识符（用于 e_oeminfo）", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OEMINFO, L"OEM 信息（e_oemid 特定）", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OEMID, PhTranslateTextZ(L"OEM 标识符（用于 e_oeminfo）"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_OEMINFO, PhTranslateTextZ(L"OEM 信息（e_oemid 特定）"), NULL);
     //PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_RESERVED2, L"Reserved words", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_EXEHDRADDR, L"新 EXE 头的文件地址", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PVP_IMAGE_HEADER_INDEX_DOS_EXEHDRADDR, PhTranslateTextZ(L"新 EXE 头的文件地址"), NULL);
     // DOS Stub
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBSIZE, L"存根大小", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBENTROPY, L"存根熵", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBHASH, L"存根哈希", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHSIZE, L"Rich 大小", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHENTROPY, L"Rich 熵", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHHASH, L"Rich 哈希", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_SIZE, L"总大小", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_ENTROPY, L"总熵", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_HASH, L"总哈希", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBSIZE, PhTranslateTextZ(L"存根大小"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBENTROPY, PhTranslateTextZ(L"存根熵"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_STUBHASH, PhTranslateTextZ(L"存根哈希"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHSIZE, PhTranslateTextZ(L"Rich 大小"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHENTROPY, PhTranslateTextZ(L"Rich 熵"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_RICHHASH, PhTranslateTextZ(L"Rich 哈希"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_SIZE, PhTranslateTextZ(L"总大小"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_ENTROPY, PhTranslateTextZ(L"总熵"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PVP_IMAGE_HEADER_INDEX_DOS_HASH, PhTranslateTextZ(L"总哈希"), NULL);
     // File Headers
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_NTSIG, L"签名", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_MACHINE, L"机器", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_NTSIG, PhTranslateTextZ(L"签名"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_MACHINE, PhTranslateTextZ(L"机器"), NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_SECTIONS, L"NumberOfSections", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_TIMESTAMP, L"时间戳", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_TIMESTAMP, PhTranslateTextZ(L"时间戳 "), NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_SYMTABLEADDR, L"PointerToSymbolTable", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_SYMTABLECOUNT, L"NumberOfSymbols", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_OPTHDRSIZE, L"SizeOfOptionalHeader", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_CHARACTERISTICS, L"特征", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PVP_IMAGE_HEADER_INDEX_FILE_CHARACTERISTICS, PhTranslateTextZ(L"特征"), NULL);
     // Optional Headers
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_MAGIC, L"魔术", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_MAGIC, PhTranslateTextZ(L"魔术"), NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_LINKERVERSION, L"LinkerVersion", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SIZEOFCODE, L"SizeOfCode", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_INITSIZE, L"SizeOfInitializedData", NULL);
@@ -774,7 +774,7 @@ VOID PvPeUpdateImageHeaderProperties(
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SIZEOFIMAGE, L"SizeOfImage", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SIZEOFHEADERS, L"SizeOfHeaders", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_CHECKSUM, L"CheckSum", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SUBSYSTEM, L"子系统", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SUBSYSTEM, PhTranslateTextZ(L"子系统"), NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_DLLCHARACTERISTICS, L"DllCharacteristics", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SIZEOFSTACKRESERVE, L"SizeOfStackReserve", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_SIZEOFSTACKCOMMIT, L"SizeOfStackCommit", NULL);
@@ -783,9 +783,9 @@ VOID PvPeUpdateImageHeaderProperties(
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_LOADERFLAGS, L"LoaderFlags", NULL);
     PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PVP_IMAGE_HEADER_INDEX_OPT_NUMBEROFRVA, L"NumberOfRvaAndSizes", NULL);
     // Overlay Data
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_SIZE, L"数据大小", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_ENTROPY, L"数据熵", NULL);
-    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_HASH, L"数据哈希", NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_SIZE, PhTranslateTextZ(L"数据大小"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_ENTROPY, PhTranslateTextZ(L"数据熵"), NULL);
+    PhAddListViewGroupItem(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PVP_IMAGE_HEADER_INDEX_PE_OVERLAY_HASH, PhTranslateTextZ(L"数据哈希"), NULL);
 
     // DOS Headers
     PvSetPeImageDosHeaderProperties(Context);
@@ -808,11 +808,11 @@ VOID PvPeAddImageHeaderGroups(
     ExtendedListView_SetRedraw(Context->ListViewHandle, FALSE);
 
     ListView_EnableGroupView(Context->ListViewHandle, TRUE);
-    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, L"DOS 头");
-    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, L"DOS 存根");
-    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, L"文件头");
-    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, L"可选头");
-    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, L"覆盖存根");
+    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSHDR, PhTranslateTextZ(L"DOS 头"));
+    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_DOSSTUB, PhTranslateTextZ(L"DOS 存根"));
+    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_FILEHDR, PhTranslateTextZ(L"文件头"));
+    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OPTHDR, PhTranslateTextZ(L"可选头"));
+    PhAddListViewGroup(Context->ListViewHandle, PVP_IMAGE_HEADER_CATEGORY_OVERLAY, PhTranslateTextZ(L"覆盖存根"));
 
     ExtendedListView_SetRedraw(Context->ListViewHandle, TRUE);
 }

@@ -157,42 +157,42 @@ PWSTR StatusBarGetText(
     switch (CommandID)
     {
     case ID_STATUS_CPUUSAGE:
-        return L"CPU 使用率";
+        return (PWSTR)PhTranslateTextZ(L"CPU 使用率"); // 语言切换：绘制回调处翻译=天然热切换
     case ID_STATUS_PHYSICALMEMORY:
-        return L"物理内存";
+        return (PWSTR)PhTranslateTextZ(L"物理内存");
     case ID_STATUS_NUMBEROFPROCESSES:
-        return L"进程数";
+        return (PWSTR)PhTranslateTextZ(L"进程数");
     case ID_STATUS_COMMITCHARGE:
-        return L"已提交内存";
+        return (PWSTR)PhTranslateTextZ(L"已提交内存");
     case ID_STATUS_FREEMEMORY:
-        return L"可用物理内存";
+        return (PWSTR)PhTranslateTextZ(L"可用物理内存");
     case ID_STATUS_NUMBEROFTHREADS:
-        return L"线程数";
+        return (PWSTR)PhTranslateTextZ(L"线程数");
     case ID_STATUS_NUMBEROFHANDLES:
-        return L"句柄数";
+        return (PWSTR)PhTranslateTextZ(L"句柄数");
     case ID_STATUS_NUMBEROFVISIBLEITEMS:
-        return L"可见项数";
+        return (PWSTR)PhTranslateTextZ(L"可见项数");
     case ID_STATUS_NUMBEROFSELECTEDITEMS:
-        return L"选中项数";
+        return (PWSTR)PhTranslateTextZ(L"选中项数");
     case ID_STATUS_INTERVALSTATUS:
-        return L"刷新间隔状态";
+        return (PWSTR)PhTranslateTextZ(L"刷新间隔状态");
     case ID_STATUS_IO_RO:
-        return L"I/O 读取+其他";
+        return (PWSTR)PhTranslateTextZ(L"I/O 读取+其他");
     case ID_STATUS_IO_W:
-        return L"I/O 写入";
+        return (PWSTR)PhTranslateTextZ(L"I/O 写入");
     case ID_STATUS_MAX_CPU_PROCESS:
-        return L"最高 CPU 进程";
+        return (PWSTR)PhTranslateTextZ(L"最高 CPU 进程");
     case ID_STATUS_MAX_IO_PROCESS:
-        return L"最高 I/O 进程";
+        return (PWSTR)PhTranslateTextZ(L"最高 I/O 进程");
     case ID_STATUS_SELECTEDWORKINGSET:
-        return L"选中进程工作集";
+        return (PWSTR)PhTranslateTextZ(L"选中进程工作集");
     case ID_STATUS_SELECTEDPRIVATEBYTES:
-        return L"选中进程私有字节";
+        return (PWSTR)PhTranslateTextZ(L"选中进程私有字节");
     case ID_STATUS_KSICOUNTER:
-        return L"KSI 状态";
+        return (PWSTR)PhTranslateTextZ(L"KSI 状态");
     }
 
-    return L"错误";
+    return (PWSTR)PhTranslateTextZ(L"错误");
 }
 
 VOID StatusBarShowMenu(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -60,7 +60,7 @@ NTSTATUS EtpModuleServicesDialogThreadStart(
 
     if (serviceList->Count == 0)
     {
-        PhShowInformation2(context->ParentWindowHandle, L"无法查询模块引用。", L"%s", L"此模块未被任何服务引用。");
+        PhShowInformation2(context->ParentWindowHandle, L"无法查询模块引用。", L"%s", PhTranslateTextZ(L"此模块未被任何服务引用。")); // 语言切换
         PhDereferenceObject(serviceList);
         PhFree(context);
         return STATUS_SUCCESS;
@@ -220,7 +220,7 @@ INT_PTR CALLBACK EtpModuleServicesDlgProc(
                 if (processItem = PhReferenceProcessItem(context->ProcessId))
                 {
                     message = PhFormatString(
-                        L"在 %s (%lu) 中引用 %s 的服务：",
+                        PhTranslateTextZ(L"在 %s (%lu) 中引用 %s 的服务："), // 语言切换
                         PhGetStringOrEmpty(processItem->ProcessName),
                         HandleToUlong(processItem->ProcessId),
                         PhGetString(context->ModuleName)
@@ -230,7 +230,7 @@ INT_PTR CALLBACK EtpModuleServicesDlgProc(
                 else
                 {
                     message = PhFormatString(
-                        L"引用 %s 的服务：",
+                        PhTranslateTextZ(L"引用 %s 的服务："), // 语言切换
                         PhGetString(context->ModuleName)
                         );
                 }

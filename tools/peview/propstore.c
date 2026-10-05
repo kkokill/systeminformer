@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -105,7 +105,7 @@ VOID PvpPeEnumerateFilePropStore(
                         if (SUCCEEDED(PSStringFromPropertyKey(&propkey, propKeyString, RTL_NUMBER_OF(propKeyString))))
                             PhSetListViewSubItem(ListViewHandle, lvItemIndex, 1, propKeyString);
                         else
-                            PhSetListViewSubItem(ListViewHandle, lvItemIndex, 1, L"未知");
+                            PhSetListViewSubItem(ListViewHandle, lvItemIndex, 1, PhTranslateTextZ(L"未知"));
                     }
 
                     PropVariantInit(&propKeyVariant);

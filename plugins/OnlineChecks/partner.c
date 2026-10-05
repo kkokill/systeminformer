@@ -202,7 +202,7 @@ static VOID OnlineChecksShowPartnerOptions(
     )
 {
     OnlineChecksPreEnableUi = TRUE;
-    SystemInformer_ShowOptions(L"OnlineChecks");
+    SystemInformer_ShowOptions(L"在线检查"); // 与 ShowOptionsCallback 注册的节名（源串）保持一致
 }
 
 static VOID OnlineChecksRestartForPartner(

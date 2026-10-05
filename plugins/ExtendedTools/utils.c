@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -821,6 +821,9 @@ PPH_STRING EtGetNodeEngineTypeString(
     _In_ D3DKMT_NODEMETADATA* NodeMetaData
     )
 {
+    // 语言切换：此处结果会缓存进适配器 NodeNameList（进程启动后只创建一次），
+    // 不能在此翻译，否则热切换后节点名停留在旧语言；统一在绘制/工具提示
+    // 等显示点用 PhTranslateTextZ 翻译（缓存恒为中文原文）。
     switch (NodeMetaData->NodeData.EngineType)
     {
     case DXGK_ENGINE_TYPE_OTHER:

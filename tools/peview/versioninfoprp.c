@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -174,7 +174,7 @@ static PCWSTR PvVersionInfoFileOSHostToString(
     case 3:  return L"32-bit OS/2";
     case 4:  return L"Windows NT";
     case 5:  return L"Windows CE";
-    default: return L"未知";
+    default: return PhTranslateTextZ(L"未知");
     }
 }
 
@@ -189,7 +189,7 @@ static PCWSTR PvVersionInfoFileOSGuestToString(
     case 2:  return L"16-bit Presentation Manager";
     case 3:  return L"32-bit Presentation Manager";
     case 4:  return L"32-bit Windows";
-    default: return L"未知";
+    default: return PhTranslateTextZ(L"未知");
     }
 }
 

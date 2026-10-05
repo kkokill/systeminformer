@@ -117,6 +117,7 @@
 #define IDC_SETTINGS                    1399
 #define IDC_RESTYPE                     1400
 #define IDC_TEXT                        1401
+#define IDC_LANGUAGE                    1402
 
 // Next default values for new objects
 //

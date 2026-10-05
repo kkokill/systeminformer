@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -467,7 +467,7 @@ VOID EtpGpuIconUpdateCallback(
     else
         maxGpuProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"GPU 使用率: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 使用率: ")); // 语言切换
     PhInitFormatFD(&format[1], EtGpuNodeUsage * 100, EtMaxPrecisionUnit);
     PhInitFormatC(&format[2], '%');
 
@@ -608,7 +608,7 @@ VOID EtpNpuIconUpdateCallback(
     else
         maxNpuProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"NPU 使用率: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"NPU 使用率: ")); // 语言切换
     PhInitFormatF(&format[1], EtNpuNodeUsage * 100, EtMaxPrecisionUnit);
     PhInitFormatC(&format[2], '%');
 
@@ -747,7 +747,7 @@ VOID EtpDiskIconUpdateCallback(
     else
         maxDiskProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"磁盘\nR: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"磁盘\nR: ")); // 语言切换
     PhInitFormatSize(&format[1], EtDiskReadDelta.Delta);
     PhInitFormatS(&format[2], L"\nW: ");
     PhInitFormatSize(&format[3], EtDiskWriteDelta.Delta);
@@ -902,7 +902,7 @@ VOID EtpNetworkIconUpdateCallback(
     else
         maxNetworkProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"网络\nR: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"网络\nR: ")); // 语言切换
     PhInitFormatSize(&format[1], EtNetworkReceiveDelta.Delta);
     PhInitFormatS(&format[2], L"\nS: ");
     PhInitFormatSize(&format[3], EtNetworkSendDelta.Delta);
@@ -1008,7 +1008,7 @@ VOID EtpGpuTextIconUpdateCallback(
     else
         maxGpuProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"GPU 使用率: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 使用率: ")); // 语言切换
     PhInitFormatFD(&format[1], EtGpuNodeUsage * 100, EtMaxPrecisionUnit);
     PhInitFormatC(&format[2], '%');
 
@@ -1094,7 +1094,7 @@ VOID EtpDiskTextIconUpdateCallback(
     else
         maxDiskProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"磁盘\nR: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"磁盘\nR: ")); // 语言切换
     PhInitFormatSize(&format[1], EtDiskReadDelta.Delta);
     PhInitFormatS(&format[2], L"\nW: ");
     PhInitFormatSize(&format[3], EtDiskWriteDelta.Delta);
@@ -1178,7 +1178,7 @@ VOID EtpNetworkTextIconUpdateCallback(
     else
         maxNetworkProcessItem = NULL;
 
-    PhInitFormatS(&format[0], L"网络\nR: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"网络\nR: ")); // 语言切换
     PhInitFormatSize(&format[1], EtNetworkReceiveDelta.Delta);
     PhInitFormatS(&format[2], L"\nS: ");
     PhInitFormatSize(&format[3], EtNetworkSendDelta.Delta);
@@ -1267,7 +1267,7 @@ VOID EtpGpuMemoryIconUpdateCallback(
 
     // Text
 
-    PhInitFormatS(&format[0], L"GPU 内存使用: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 内存使用: ")); // 语言切换
     PhInitFormatSize(&format[1], EtGpuDedicatedUsage);
 
     *NewText = PhFormat(format, 2, 0);
@@ -1328,7 +1328,7 @@ VOID EtpGpuMemoryTextIconUpdateCallback(
 
     // Text
 
-    PhInitFormatS(&format[0], L"GPU 内存使用: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 内存使用: ")); // 语言切换
     PhInitFormatSize(&format[1], EtGpuDedicatedUsage);
 
     *NewText = PhFormat(format, 2, 0);
@@ -1405,7 +1405,7 @@ VOID EtpGpuTemperatureIconUpdateCallback(
 
     // Text
 
-    PhInitFormatS(&format[0], L"GPU 温度: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 温度: ")); // 语言切换
     if (EtGpuFahrenheitEnabled)
     {
         PhInitFormatF(&format[1], (EtGpuTemperature * 1.8f + 32), 1);
@@ -1478,7 +1478,7 @@ VOID EtpGpuTemperatureTextIconUpdateCallback(
 
     // Text
 
-    PhInitFormatS(&format[0], L"GPU 温度: ");
+    PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 温度: ")); // 语言切换
     if (EtGpuFahrenheitEnabled)
     {
         PhInitFormatF(&format[1], (EtGpuTemperature * 1.8f + 32), 1);

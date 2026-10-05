@@ -729,8 +729,12 @@ BOOLEAN NTAPI WtcWaitTreeNewCallback(
 
                     if (text = WaitChainObjectTypeToString(node->ObjectType))
                     {
-                        getCellText->Text.Buffer = text->Buffer;
-                        getCellText->Text.Length = text->Length;
+                        PCWSTR translated = PhTranslateTextZ(text->Buffer); // 语言切换
+
+                        if (translated != text->Buffer)
+                            PhInitializeStringRefLongHint(&getCellText->Text, translated);
+                        else
+                            getCellText->Text = *text;
                     }
                     else
                     {
@@ -744,8 +748,12 @@ BOOLEAN NTAPI WtcWaitTreeNewCallback(
 
                     if (text = WaitChainObjectStatusToString(node->ObjectStatus))
                     {
-                        getCellText->Text.Buffer = text->Buffer;
-                        getCellText->Text.Length = text->Length;
+                        PCWSTR translated = PhTranslateTextZ(text->Buffer); // 语言切换
+
+                        if (translated != text->Buffer)
+                            PhInitializeStringRefLongHint(&getCellText->Text, translated);
+                        else
+                            getCellText->Text = *text;
                     }
                     else
                     {

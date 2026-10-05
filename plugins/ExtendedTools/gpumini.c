@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -155,7 +155,7 @@ BOOLEAN EtpGpuMemoryListSectionCallback(
             FLOAT memUsagePercent = EtGpuDedicatedLimit ? ((FLOAT)EtGpuDedicatedUsage / (FLOAT)EtGpuDedicatedLimit * 100.0f) : 0.0f;
 
             // GPU Memory    XX.X%  X.XX GB / Y.YY GB
-            PhInitFormatS(&format[0], L"GPU 内存    ");
+            PhInitFormatS(&format[0], PhTranslateTextZ(L"GPU 内存    ")); // 语言切换
             PhInitFormatF(&format[1], memUsagePercent, 1);
             PhInitFormatC(&format[2], L'%');
             PhInitFormatS(&format[3], L"  ");

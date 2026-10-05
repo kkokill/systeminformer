@@ -54,7 +54,7 @@ VOID EtUpdateBigPoolTable(
                 Context->ListViewHandle,
                 itemIndex,
                 2,
-                L"是"
+                PhTranslateTextZ(L"是") // 语言切换
                 );
         }
         else
@@ -63,7 +63,7 @@ VOID EtUpdateBigPoolTable(
                 Context->ListViewHandle,
                 itemIndex,
                 2,
-                L"否"
+                PhTranslateTextZ(L"否") // 语言切换
                 );
         }
     }

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -164,10 +164,26 @@ PPH_STRING GetTabIndexBannerText(
 
     if ((tabInfo = FindTabInfo(TabIndex)) && tabInfo->BannerText)
     {
+        PCWSTR translated = PhTranslateTextZ(tabInfo->BannerText->Buffer); // 语言切换
+
         if (AppendString)
-            return PhConcatStringRef2(tabInfo->BannerText, AppendString);
+        {
+            PH_STRINGREF translatedRef;
+
+            if (translated != tabInfo->BannerText->Buffer)
+                PhInitializeStringRefLongHint(&translatedRef, translated);
+            else
+                translatedRef = *tabInfo->BannerText;
+
+            return PhConcatStringRef2(&translatedRef, AppendString);
+        }
         else
+        {
+            if (translated != tabInfo->BannerText->Buffer)
+                return PhCreateStringZ(translated);
+
             return PhCreateString2(tabInfo->BannerText);
+        }
     }
 
     return NULL;

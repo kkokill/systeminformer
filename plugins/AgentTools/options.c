@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -81,7 +81,7 @@ PCWSTR AtpAccessText(
     _In_ PCAT_TOOL Tool
     )
 {
-    return PhGetIntegerSetting(Tool->AccessSetting) == AT_ACCESS_ALLOWED ? L"允许" : L"拒绝";
+    return PhGetIntegerSetting(Tool->AccessSetting) == AT_ACCESS_ALLOWED ? PhTranslateTextZ(L"允许") : PhTranslateTextZ(L"拒绝");
 }
 
 PCWSTR AtpAuthorizationText(
@@ -91,11 +91,11 @@ PCWSTR AtpAuthorizationText(
     switch (PhGetIntegerSetting(Tool->ConfirmSetting))
     {
     case AT_CONFIRM_ALWAYS:
-        return L"始终询问";
+        return PhTranslateTextZ(L"始终询问");
     case AT_CONFIRM_DELEGATE:
-        return L"委托给客户端";
+        return PhTranslateTextZ(L"委托给客户端");
     default:
-        return L"无需授权";
+        return PhTranslateTextZ(L"无需授权");
     }
 }
 
@@ -111,25 +111,25 @@ VOID AtpUpdateStatus(
     {
     case AtServerRunning:
         text = PhFormatString(
-            L"服务器运行中。管道: %s%s%u",
+            PhTranslateTextZ(L"服务器运行中。管道: %s%s%u"),
             elevated ? SIMCP_PIPE_PROTECTED_PREFIX : L"",
             SIMCP_PIPE_NAME_PREFIX,
             NtCurrentPeb()->SessionId
             );
         break;
     case AtServerFailedPipeExists:
-        text = PhCreateString(L"未启动：管道已存在（此会话中的另一个实例）。");
+        text = PhCreateString(PhTranslateTextZ(L"未启动：管道已存在（此会话中的另一个实例）。"));
         break;
     case AtServerFailed:
         {
             PPH_STRING message = PhGetStatusMessage(status, 0);
 
-            text = PhFormatString(L"未启动：%s", PhGetStringOrDefault(message, L"未知错误"));
+            text = PhFormatString(PhTranslateTextZ(L"未启动：%s"), PhGetStringOrDefault(message, PhTranslateTextZ(L"未知错误")));
             PhClearReference(&message);
         }
         break;
     default:
-        text = PhCreateString(L"服务器已停止。");
+        text = PhCreateString(PhTranslateTextZ(L"服务器已停止。"));
         break;
     }
 
@@ -263,9 +263,9 @@ VOID AtpApplyMenuChoice(
             BOOLEAN proceed;
 
             if (gated == 1)
-                object = PhCreateString(L"此工具的授权");
+                object = PhCreateString(PhTranslateTextZ(L"此工具的授权"));
             else
-                object = PhFormatString(L"%u 个工具的授权", gated);
+                object = PhFormatString(PhTranslateTextZ(L"%u 个工具的授权"), gated); // 语言切换：含数字整串查表不命中，格式串层翻译
 
             proceed = PhShowConfirmMessage(
                 Context->WindowHandle,
@@ -626,7 +626,7 @@ INT_PTR CALLBACK AtOptionsDlgProc(
             PhAddTreeNewFilter(&context->FilterSupport, AtpToolsFilterCallback, context);
             TreeNew_NodesStructured(treeNew);
 
-            PhCreateSearchControl(WindowHandle, context->SearchHandle, L"搜索工具", AtpToolsSearchControlCallback, context);
+            PhCreateSearchControl(WindowHandle, context->SearchHandle, PhTranslateTextZ(L"搜索工具"), AtpToolsSearchControlCallback, context);
 
             PhInitializeLayoutManager(&context->LayoutManager, WindowHandle);
             PhAddLayoutItem(&context->LayoutManager, GetDlgItem(WindowHandle, IDC_STATUS), NULL, PH_ANCHOR_LEFT | PH_ANCHOR_TOP | PH_ANCHOR_RIGHT);
@@ -770,17 +770,17 @@ PAT_AGENT_NODE AtpCreateAgentNode(
     if (Connection->UserName)
         node->UserText = PhReferenceObject(Connection->UserName);
     else
-        node->UserText = PhCreateString(L"未知");
+        node->UserText = PhCreateString(PhTranslateTextZ(L"未知")); // 语言切换：节点（重）建时按当前语言填充
 
     if (Connection->ClientName)
         node->ClientText = PhFormatString(L"%s %s", PhGetString(Connection->ClientName), PhGetStringOrEmpty(Connection->ClientVersion));
     else
-        node->ClientText = PhCreateString(L"（未识别）");
+        node->ClientText = PhCreateString(PhTranslateTextZ(L"（未识别）"));
 
     if (Connection->LauncherImageName)
         node->LauncherText = PhReferenceObject(Connection->LauncherImageName);
     else
-        node->LauncherText = PhCreateString(L"未知");
+        node->LauncherText = PhCreateString(PhTranslateTextZ(L"未知"));
 
     PhLargeIntegerToLocalSystemTime(&systemTime, &Connection->ConnectTime);
     node->ConnectedText = PhFormatDateTime(&systemTime);
@@ -788,10 +788,10 @@ PAT_AGENT_NODE AtpCreateAgentNode(
     switch (ReadAcquire((PLONG)&Connection->Approval))
     {
     case AtApprovalPending:
-        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L"（等待批准）"));
+        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), PhTranslateTextZ(L"（等待批准）")));
         break;
     case AtApprovalDenied:
-        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), L"（已拒绝）"));
+        PhMoveReference(&node->ConnectedText, PhConcatStrings2(PhGetString(node->ConnectedText), PhTranslateTextZ(L"（已拒绝）")));
         break;
     }
 
@@ -814,7 +814,7 @@ PAT_AGENT_NODE AtpCreateAgentNode(
             PhAppendStringBuilder2(&grants, AtActionInfo[i].AuditName);
 
             if (Connection->SessionPolicy[i] == AtSessionDelegate)
-                PhAppendStringBuilder2(&grants, L"（客户端）");
+                PhAppendStringBuilder2(&grants, PhTranslateTextZ(L"（客户端）"));
         }
     }
 
@@ -825,15 +825,15 @@ PAT_AGENT_NODE AtpCreateAgentNode(
             if (grants.String->Length)
                 PhAppendStringBuilder2(&grants, L", ");
 
-            PhAppendStringBuilder2(&grants, (PWSTR)AtConsentClassDescription(i));
+            PhAppendStringBuilder2(&grants, PhTranslateTextZ(AtConsentClassDescription(i)));
 
             if (Connection->ClassPolicy[i] == AtSessionDelegate)
-                PhAppendStringBuilder2(&grants, L"（客户端）");
+                PhAppendStringBuilder2(&grants, PhTranslateTextZ(L"（客户端）"));
         }
     }
 
     if (grants.String->Length == 0)
-        PhAppendStringBuilder2(&grants, L"无");
+        PhAppendStringBuilder2(&grants, PhTranslateTextZ(L"无"));
 
     node->GrantsText = PhFinalStringBuilderString(&grants);
 

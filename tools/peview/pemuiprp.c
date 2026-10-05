@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -59,7 +59,7 @@ VOID PvAddMuiInfoItem(
     _In_ HWND ListViewHandle,
     _Inout_ PULONG Count,
     _In_ INT GroupId,
-    _In_ PWSTR Name,
+    _In_ PCWSTR Name,
     _In_ PWSTR Value
     )
 {
@@ -82,29 +82,29 @@ VOID PvAddMuiResourceInfo(
     if (Manifest->Signature != MUI_SIGNATURE)
         return;
 
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"签名", PhaFormatString(L"0x%lx", Manifest->Signature)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"长度", PhaFormatString(L"%lu (%s)", Manifest->Length, PhaFormatSize(Manifest->Length, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"RC 配置版本", PhaFormatString(L"0x%lx", Manifest->RCConfigVersion)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"路径类型", PhaFormatString(L"%lu", Manifest->PathType)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"文件类型", PhaFormatString(L"%lu", Manifest->FileType)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"系统属性", PhaFormatString(L"%lu", Manifest->SystemAttributes)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"最终回退位置", PhaFormatString(L"%lu", Manifest->FallbackLocation)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"主名称类型偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->MainNameTypesOffset, Manifest->MainNameTypesOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"主名称类型长度", PhaFormatString(L"%lu (%s)", Manifest->MainNameTypesLength, PhaFormatSize(Manifest->MainNameTypesLength, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"主 ID 类型偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->MainIDTypesOffset, Manifest->MainIDTypesOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"主 ID 类型长度", PhaFormatString(L"%lu (%s)", Manifest->MainIDTypesLength, PhaFormatSize(Manifest->MainIDTypesLength, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"MUI 名称类型偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->MuiNameTypesOffset, Manifest->MuiNameTypesOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"MUI 名称类型长度", PhaFormatString(L"%lu (%s)", Manifest->MuiNameTypesLength, PhaFormatSize(Manifest->MuiNameTypesLength, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"MUI ID 类型偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->MuiIDTypesOffset, Manifest->MuiIDTypesOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"MUI ID 类型长度", PhaFormatString(L"%lu (%s)", Manifest->MuiIDTypesLength, PhaFormatSize(Manifest->MuiIDTypesLength, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"语言偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->LanguageOffset, Manifest->LanguageOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"语言长度", PhaFormatString(L"%lu (0x%lx)", Manifest->LanguageLength, Manifest->LanguageLength)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"回退语言偏移", PhaFormatString(L"%lu (0x%lx)", Manifest->UltimateFallbackLanguageOffset, Manifest->UltimateFallbackLanguageOffset)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"回退语言长度", PhaFormatString(L"%lu (%s)", Manifest->UltimateFallbackLanguageLength, PhaFormatSize(Manifest->UltimateFallbackLanguageLength, ULONG_MAX)->Buffer)->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 0, L"最终回退语言", Manifest->UltimateFallbackLanguageOffset ? PTR_ADD_OFFSET(Manifest, Manifest->UltimateFallbackLanguageOffset) : L"");
-    PvAddMuiInfoItem(ListViewHandle, &count, 1, L"服务校验和", PH_AUTO_T(PH_STRING, PhBufferToHexString(Manifest->ServiceChecksum, sizeof(Manifest->ServiceChecksum)))->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"签名"), PhaFormatString(L"0x%lx", Manifest->Signature)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"长度"), PhaFormatString(L"%lu (%s)", Manifest->Length, PhaFormatSize(Manifest->Length, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"RC 配置版本"), PhaFormatString(L"0x%lx", Manifest->RCConfigVersion)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"路径类型"), PhaFormatString(L"%lu", Manifest->PathType)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"文件类型"), PhaFormatString(L"%lu", Manifest->FileType)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"系统属性"), PhaFormatString(L"%lu", Manifest->SystemAttributes)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"最终回退位置"), PhaFormatString(L"%lu", Manifest->FallbackLocation)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"主名称类型偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->MainNameTypesOffset, Manifest->MainNameTypesOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"主名称类型长度"), PhaFormatString(L"%lu (%s)", Manifest->MainNameTypesLength, PhaFormatSize(Manifest->MainNameTypesLength, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"主 ID 类型偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->MainIDTypesOffset, Manifest->MainIDTypesOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"主 ID 类型长度"), PhaFormatString(L"%lu (%s)", Manifest->MainIDTypesLength, PhaFormatSize(Manifest->MainIDTypesLength, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"MUI 名称类型偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->MuiNameTypesOffset, Manifest->MuiNameTypesOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"MUI 名称类型长度"), PhaFormatString(L"%lu (%s)", Manifest->MuiNameTypesLength, PhaFormatSize(Manifest->MuiNameTypesLength, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"MUI ID 类型偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->MuiIDTypesOffset, Manifest->MuiIDTypesOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"MUI ID 类型长度"), PhaFormatString(L"%lu (%s)", Manifest->MuiIDTypesLength, PhaFormatSize(Manifest->MuiIDTypesLength, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"语言偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->LanguageOffset, Manifest->LanguageOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"语言长度"), PhaFormatString(L"%lu (0x%lx)", Manifest->LanguageLength, Manifest->LanguageLength)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"回退语言偏移"), PhaFormatString(L"%lu (0x%lx)", Manifest->UltimateFallbackLanguageOffset, Manifest->UltimateFallbackLanguageOffset)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"回退语言长度"), PhaFormatString(L"%lu (%s)", Manifest->UltimateFallbackLanguageLength, PhaFormatSize(Manifest->UltimateFallbackLanguageLength, ULONG_MAX)->Buffer)->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 0, PhTranslateTextZ(L"最终回退语言"), Manifest->UltimateFallbackLanguageOffset ? PTR_ADD_OFFSET(Manifest, Manifest->UltimateFallbackLanguageOffset) : L"");
+    PvAddMuiInfoItem(ListViewHandle, &count, 1, PhTranslateTextZ(L"服务校验和"), PH_AUTO_T(PH_STRING, PhBufferToHexString(Manifest->ServiceChecksum, sizeof(Manifest->ServiceChecksum)))->Buffer);
     //PvAddMuiInfoItem(ListViewHandle, &count, 1, L"MUIFilePath", PH_AUTO_T(PH_STRING, PhBufferToHexString(Manifest->MUIFilePath, sizeof(Block->MUIFilePath)))->Buffer);
-    PvAddMuiInfoItem(ListViewHandle, &count, 1, L"校验和", PH_AUTO_T(PH_STRING, PhBufferToHexString(Manifest->Checksum, sizeof(Manifest->Checksum)))->Buffer);
+    PvAddMuiInfoItem(ListViewHandle, &count, 1, PhTranslateTextZ(L"校验和"), PH_AUTO_T(PH_STRING, PhBufferToHexString(Manifest->Checksum, sizeof(Manifest->Checksum)))->Buffer);
 
     {
         const PVOID nameTypesList = PTR_ADD_OFFSET(Manifest, Manifest->MainNameTypesOffset);
@@ -117,7 +117,7 @@ VOID PvAddMuiResourceInfo(
             PhAppendFormatStringBuilder(&stringBuilder, L"%s, ", name);
         if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
             PhRemoveEndStringBuilder(&stringBuilder, 2);
-        PvAddMuiInfoItem(ListViewHandle, &count, 2, L"名称", PhGetString(PhFinalStringBuilderString(&stringBuilder)));
+        PvAddMuiInfoItem(ListViewHandle, &count, 2, PhTranslateTextZ(L"名称"), PhGetString(PhFinalStringBuilderString(&stringBuilder)));
         PhDeleteStringBuilder(&stringBuilder);
 
         PhInitializeStringBuilder(&stringBuilder, 10);
@@ -125,7 +125,7 @@ VOID PvAddMuiResourceInfo(
             PhAppendFormatStringBuilder(&stringBuilder, L"%s, ", PhaFormatUInt64(identifierTypesList[i], TRUE)->Buffer);
         if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
             PhRemoveEndStringBuilder(&stringBuilder, 2);
-        PvAddMuiInfoItem(ListViewHandle, &count, 3, L"类型", PhGetString(PhFinalStringBuilderString(&stringBuilder)));
+        PvAddMuiInfoItem(ListViewHandle, &count, 3, PhTranslateTextZ(L"类型"), PhGetString(PhFinalStringBuilderString(&stringBuilder)));
         PhDeleteStringBuilder(&stringBuilder);
     }
 
@@ -140,7 +140,7 @@ VOID PvAddMuiResourceInfo(
             PhAppendFormatStringBuilder(&stringBuilder, L"%s, ", name);
         if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
             PhRemoveEndStringBuilder(&stringBuilder, 2);
-        PvAddMuiInfoItem(ListViewHandle, &count, 4, L"名称", PhGetString(PhFinalStringBuilderString(&stringBuilder)));
+        PvAddMuiInfoItem(ListViewHandle, &count, 4, PhTranslateTextZ(L"名称"), PhGetString(PhFinalStringBuilderString(&stringBuilder)));
         PhDeleteStringBuilder(&stringBuilder);
 
         PhInitializeStringBuilder(&stringBuilder, 10);
@@ -148,7 +148,7 @@ VOID PvAddMuiResourceInfo(
             PhAppendFormatStringBuilder(&stringBuilder, L"%s, ", PhaFormatUInt64(identifierTypesList[i], TRUE)->Buffer);
         if (PhEndsWithString2(stringBuilder.String, L", ", FALSE))
             PhRemoveEndStringBuilder(&stringBuilder, 2);
-        PvAddMuiInfoItem(ListViewHandle, &count, 5, L"类型", PhGetString(PhFinalStringBuilderString(&stringBuilder)));
+        PvAddMuiInfoItem(ListViewHandle, &count, 5, PhTranslateTextZ(L"类型"), PhGetString(PhFinalStringBuilderString(&stringBuilder)));
         PhDeleteStringBuilder(&stringBuilder);
     }
 }
@@ -164,11 +164,11 @@ VOID PvPeGetMuiInfo(
     ListView_DeleteAllItems(ListViewHandle);
     ListView_EnableGroupView(ListViewHandle, TRUE);
     PhAddListViewGroup(ListViewHandle, 0, L"MUI");
-    PhAddListViewGroup(ListViewHandle, 1, L"校验和");
-    PhAddListViewGroup(ListViewHandle, 2, L"主名称类型");
-    PhAddListViewGroup(ListViewHandle, 3, L"主类型 ID");
-    PhAddListViewGroup(ListViewHandle, 4, L"类型名称");
-    PhAddListViewGroup(ListViewHandle, 5, L"类型 ID");
+    PhAddListViewGroup(ListViewHandle, 1, PhTranslateTextZ(L"校验和"));
+    PhAddListViewGroup(ListViewHandle, 2, PhTranslateTextZ(L"主名称类型"));
+    PhAddListViewGroup(ListViewHandle, 3, PhTranslateTextZ(L"主类型 ID"));
+    PhAddListViewGroup(ListViewHandle, 4, PhTranslateTextZ(L"类型名称"));
+    PhAddListViewGroup(ListViewHandle, 5, PhTranslateTextZ(L"类型 ID"));
 
     if (NT_SUCCESS(PhLoadResource(
         PvMappedImage.ViewBase,
@@ -328,7 +328,7 @@ INT_PTR CALLBACK PvpPeMuiResourceDlgProc(
                 if (PhGetSelectedListViewItemParams(context->ListViewHandle, &listviewItems, &numberOfItems))
                 {
                     menu = PhCreateEMenu();
-                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, L"复制(&C)", NULL, NULL), ULONG_MAX);
+                    PhInsertEMenuItem(menu, PhCreateEMenuItem(0, USHRT_MAX, PhTranslateTextZ(L"复制(&C)"), NULL, NULL), ULONG_MAX);
                     PvInsertCopyListViewEMenuItem(menu, USHRT_MAX, context->ListViewHandle);
 
                     item = PhShowEMenu(

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -349,8 +349,11 @@ VOID CustomizeLoadToolbarSettings(
     HWND toolbarCombo = GetDlgItem(Context->WindowHandle, IDC_TEXTOPTIONS);
     HWND searchboxCombo = GetDlgItem(Context->WindowHandle, IDC_SEARCHOPTIONS);
 
-    PhAddComboBoxStrings(toolbarCombo, (PCWSTR*)CustomizeTextOptionsStrings, RTL_NUMBER_OF(CustomizeTextOptionsStrings));
-    PhAddComboBoxStrings(searchboxCombo, (PCWSTR*)CustomizeSearchDisplayStrings, RTL_NUMBER_OF(CustomizeSearchDisplayStrings));
+    // PhAddComboBoxStrings 不查表，填充处逐项翻译（对话框每次打开重建，重开即新语言）
+    for (ULONG i = 0; i < RTL_NUMBER_OF(CustomizeTextOptionsStrings); i++)
+        ComboBox_AddString(toolbarCombo, PhTranslateTextZ(CustomizeTextOptionsStrings[i]));
+    for (ULONG i = 0; i < RTL_NUMBER_OF(CustomizeSearchDisplayStrings); i++)
+        ComboBox_AddString(searchboxCombo, PhTranslateTextZ(CustomizeSearchDisplayStrings[i]));
 
     ComboBox_SetCurSel(toolbarCombo, PhGetIntegerSetting(SETTING_NAME_TOOLBARDISPLAYSTYLE));
     ComboBox_SetCurSel(searchboxCombo, PhGetIntegerSetting(SETTING_NAME_SEARCHBOXDISPLAYMODE));
@@ -915,10 +918,12 @@ INT_PTR CALLBACK CustomizeToolbarDialogProc(
                 }
                 else
                 {
+                    PCWSTR separatorText = PhTranslateTextZ(L"分隔符"); // 语言切换：绘制点翻译=天然热切换
+
                     DrawText(
                         bufferDc,
-                        L"分隔符",
-                        sizeof(L"分隔符") / sizeof(WCHAR),
+                        separatorText,
+                        (LONG)PhCountStringZ(separatorText),
                         &bufferRect,
                         DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOCLIP
                         );

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -124,6 +124,91 @@ BOOLEAN PvShellExecuteRestart(
     return NT_SUCCESS(status);
 }
 
+// === 语言热切换（复用 phlib 双语引擎） ===
+
+static BOOL CALLBACK PvEnumChildTreeNewProc(
+    _In_ HWND hwnd,
+    _In_ LPARAM lParam
+    )
+{
+    WCHAR className[64];
+
+    if (GetClassNameW(hwnd, className, RTL_NUMBER_OF(className)) > 0 &&
+        wcscmp(className, PH_TREENEW_CLASSNAME) == 0)
+    {
+        TreeNew_TranslateColumns(hwnd);
+    }
+
+    return TRUE;
+}
+
+static BOOL CALLBACK PvEnumTopTreeNewProc(
+    _In_ HWND hwnd,
+    _In_ LPARAM lParam
+    )
+{
+    DWORD pid;
+
+    GetWindowThreadProcessId(hwnd, &pid);
+
+    if (pid == GetCurrentProcessId())
+    {
+        WCHAR className[64];
+
+        if (GetClassNameW(hwnd, className, RTL_NUMBER_OF(className)) > 0 &&
+            wcscmp(className, PH_TREENEW_CLASSNAME) == 0)
+        {
+            TreeNew_TranslateColumns(hwnd);
+        }
+
+        EnumChildWindows(hwnd, PvEnumChildTreeNewProc, 0);
+    }
+
+    return TRUE;
+}
+
+VOID PvLoadGeneralPage(
+    _In_ PPVP_PE_OPTIONS_CONTEXT Context
+    );
+
+static BOOL CALLBACK PvEnumLanguageButtonProc(
+    _In_ HWND hwnd,
+    _In_ LPARAM lParam
+    )
+{
+    // 属性窗口底排的语言切换按钮：显示目标语言；须在窗口重翻之后设置，避免被查表覆盖
+    if (GetDlgItem(hwnd, IDC_LANGUAGE))
+        PhSetDialogItemText(hwnd, IDC_LANGUAGE, PhTranslateIsEnglishEnabled() ? L"中文" : L"English");
+
+    return TRUE;
+}
+
+/**
+ * 运行时切换语言（中/英），立即生效无需重启。
+ *
+ * \param English TRUE 切英文，FALSE 切中文。
+ */
+VOID PvApplyApplicationLanguage(
+    _In_ BOOLEAN English
+    )
+{
+    PhSetIntegerSetting(L"Language", English ? 1 : 0);
+    PhSetApplicationLanguage(English); // guisup.c: 线程 UI 语言 + 查表方向
+
+    // 全部窗口兜底重翻（含主窗口节树、打开中的属性页 Button/Static/Edit）
+    PhRetranslateAllWindows();
+
+    // 列头刷新：ListView（含原始文本记录）+ TreeNew（TNM_TRANSLATECOLUMNS）
+    PhRefreshAllListViewColumnsLanguage();
+    EnumWindows(PvEnumTopTreeNewProc, 0);
+
+    // 刷新所有属性窗口的语言切换按钮文字
+    EnumWindows(PvEnumLanguageButtonProc, 0);
+
+    // 窗口标题为拼接串（"%s 属性"），无法字面查表，按新语言重设
+    PvUpdatePropertiesWindowTitle();
+}
+
 VOID PvLoadGeneralPage(
     _In_ PPVP_PE_OPTIONS_CONTEXT Context
     )
@@ -186,8 +271,8 @@ VOID PvGeneralPageSave(
             Context->WindowHandle,
             TD_YES_BUTTON | TD_NO_BUTTON,
             TD_INFORMATION_ICON,
-            L"您更改的一个或多个选项需要重新启动 PE Viewer。",
-            L"是否要立即重新启动 PE Viewer？"
+            PhTranslateTextZ(L"您更改的一个或多个选项需要重新启动 PE Viewer。"),
+            PhTranslateTextZ(L"是否要立即重新启动 PE Viewer？")
             ) == IDYES)
         {
             if (PvShellExecuteRestart(Context->WindowHandle))
@@ -294,7 +379,7 @@ INT_PTR CALLBACK PvOptionsWndProc(
                         hwndDlg,
                         TD_YES_BUTTON | TD_NO_BUTTON,
                         TD_WARNING_ICON,
-                        L"是否要重置所有设置并重新启动 PE Viewer？",
+                        PhTranslateTextZ(L"是否要重置所有设置并重新启动 PE Viewer？"),
                         L""
                         ) == IDYES)
                     {
@@ -315,7 +400,7 @@ INT_PTR CALLBACK PvOptionsWndProc(
                         hwndDlg,
                         TD_YES_BUTTON | TD_NO_BUTTON,
                         TD_INFORMATION_ICON,
-                        L"是否要清理未使用的设置？",
+                        PhTranslateTextZ(L"是否要清理未使用的设置？"),
                         L""
                         ) == IDYES)
                     {

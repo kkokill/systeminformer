@@ -637,7 +637,7 @@ INT_PTR CALLBACK EtpWsWatchDlgProc(
                                 SETTING_PROGRAM_INSPECT_EXECUTABLES,
                                 PhGetString(fileNameWin32),
                                 FALSE,
-                                L"请确保 PE 查看器可执行文件存在。"
+                                PhTranslateTextZ(L"请确保 PE 查看器可执行文件存在。") // 语言切换
                                 );
                             }
                         }
@@ -723,7 +723,7 @@ INT_PTR CALLBACK EtpWsWatchDlgProc(
                                 SETTING_PROGRAM_INSPECT_EXECUTABLES,
                                 PhGetString(fileNameWin32),
                                 FALSE,
-                                L"请确保 PE 查看器可执行文件存在。"
+                                PhTranslateTextZ(L"请确保 PE 查看器可执行文件存在。") // 语言切换
                                 );
                         }
                         break;
@@ -734,7 +734,7 @@ INT_PTR CALLBACK EtpWsWatchDlgProc(
                                 SETTING_FILE_BROWSE_EXECUTABLE,
                                 PhGetString(fileNameWin32),
                                 FALSE,
-                                L"请确保 Explorer 可执行文件存在。"
+                                PhTranslateTextZ(L"请确保 Explorer 可执行文件存在。") // 语言切换
                                 );
                         }
                         break;

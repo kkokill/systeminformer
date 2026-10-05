@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022 Winsider Seminars & Solutions, Inc.  All rights reserved.
  *
  * This file is part of System Informer.
@@ -82,6 +82,11 @@ VOID PvPeProperties(
     );
 
 VOID PvShowPePropertiesWindow(
+    VOID
+    );
+
+// 语言切换后重设属性窗口标题（拼接串 "%s 属性" 无法字面查表重翻）
+VOID PvUpdatePropertiesWindowTitle(
     VOID
     );
 
@@ -201,6 +206,10 @@ VOID PvSaveSettings(
 
 VOID PvUpdateCachedSettings(
     VOID
+    );
+
+VOID PvApplyApplicationLanguage(
+    _In_ BOOLEAN English
     );
 
 VOID PvShowOptionsWindow(
